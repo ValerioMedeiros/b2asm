@@ -1,0 +1,44 @@
+THEORY BalanceX IS
+  move3,4,0,0,4,0,0,0;
+  Initialisation,0,0,0,0,0,0,0;
+  move12,0,0,0,0,0,0,0;
+  move13,0,0,0,0,0,0,0;
+  move21,0,0,0,0,0,0,0;
+  move23,0,0,0,0,0,0,0;
+  move31,0,0,0,0,0,0,0;
+  move32,0,0,0,0,0,0,0;
+  clr1,0,0,0,0,0,0,0;
+  clr2,0,0,0,0,0,0,0;
+  clr3,0,0,0,0,0,0,0;
+  clr,2,0,0,2,0,0,0;
+  move,2,0,0,2,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  pr;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p19.bbt")(CLT == "V3.7.6")
+END

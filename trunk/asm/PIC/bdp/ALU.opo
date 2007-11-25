@@ -1,0 +1,54 @@
+THEORY OPOBalanceX IS
+  ALU,13;
+  AssertionLemmas,12;
+  Initialisation,1
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & AssertionLemmas.12,(_of(25) => _of(26));
+  _f(1) & _f(2) & AssertionLemmas.11,(_of(23) => _of(24));
+  _f(1) & _f(2) & AssertionLemmas.10,(_of(21) => _of(22));
+  _f(1) & _f(2) & AssertionLemmas.9,(_of(19) => _of(20));
+  _f(1) & _f(2) & AssertionLemmas.8,(_of(17) => _of(18));
+  _f(1) & _f(2) & AssertionLemmas.7,(_of(15) => _of(16));
+  _f(1) & _f(2) & AssertionLemmas.6,(_of(13) => _of(14));
+  _f(1) & _f(2) & AssertionLemmas.5,(_of(11) => _of(12));
+  _f(1) & _f(2) & AssertionLemmas.4,(_of(9) => _of(10));
+  _f(1) & _f(2) & AssertionLemmas.3,(_of(7) => _of(8));
+  _f(1) & _f(2) & AssertionLemmas.2,(_of(5) => _of(6));
+  _f(1) & _f(2) & AssertionLemmas.1,(_of(3) => _of(4));
+  _f(1) & _f(2) & Initialisation.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the invariant (btrue) is established by the initialisation - ref 3.3'";
+  (btrue);
+  "`Check assertion (dom(rotateright) = WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(rotateright) = WORD);
+  "`Check assertion (dom(rotateleft) = WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(rotateleft) = WORD);
+  "`Check assertion (dom(swap) = WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(swap) = WORD);
+  "`Check assertion (dom(complement) = WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(complement) = WORD);
+  "`Check assertion (dom(bitget) = WORD*WORD_POSITION) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(bitget) = WORD*WORD_POSITION);
+  "`Check assertion (dom(bitset) = WORD*WORD_POSITION) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(bitset) = WORD*WORD_POSITION);
+  "`Check assertion (dom(bitclear) = WORD*WORD_POSITION) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(bitclear) = WORD*WORD_POSITION);
+  "`Check assertion (dom(xor) = WORD*WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(xor) = WORD*WORD);
+  "`Check assertion (dom(ior) = WORD*WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(ior) = WORD*WORD);
+  "`Check assertion (dom(and) = WORD*WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(and) = WORD*WORD);
+  "`Check assertion (dom(substract) = WORD*WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(substract) = WORD*WORD);
+  "`Check assertion (dom(add) = WORD*WORD) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(add) = WORD*WORD)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

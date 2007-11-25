@@ -1,0 +1,18 @@
+IMPLEMENTATION swap2i
+REFINES swap2r
+IMPORTS up.move3
+INVARIANT ar = up.reg ( 1 ) & br = up.reg ( 2 )
+INITIALISATION
+  BEGIN
+    up.clr ( 1 ) ;
+    up.clr ( 2 )
+  END
+OPERATIONS
+  swap =
+    BEGIN
+      up.move ( 1 , 3 ) ;
+      up.move ( 2 , 1 ) ;
+      up.move ( 3 , 2 )
+    END
+
+END

@@ -1,0 +1,51 @@
+THEORY BalanceX IS
+  swap2i,9,7,0,0,0,0,0;
+  ValuesLemmas,0,0,0,0,0,0,0;
+  InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
+  Initialisation,4,4,0,0,0,0,0;
+  swap,5,3,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Unproved;
+  Unproved;
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util)
+END
+&
+THEORY MethodList IS
+  ?;
+  ?;
+  cl & xp & pr;
+  cl & xp & pr;
+  cl & xp & pr;
+  cl & xp & pr;
+  cl & xp & pp(rp.0);
+  cl & xp & pr;
+  cl & xp & pr
+END
+&
+THEORY PassList IS
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p19.bbt")(CLT == "V3.7.6")
+END

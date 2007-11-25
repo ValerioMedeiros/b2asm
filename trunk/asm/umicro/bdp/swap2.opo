@@ -1,0 +1,39 @@
+THEORY OPOBalanceX IS
+  swap2,10;
+  Initialisation,3;
+  swap,7
+END
+&
+THEORY OPOProofList IS
+  _f(1) & swap.7,(_of(11) => _of(14));
+  _f(1) & swap.6,(_of(11) => _of(13));
+  _f(1) & swap.5,(_of(11) => _of(12));
+  _f(1) & swap.4,(_of(7) => _of(10));
+  _f(1) & swap.3,(_of(7) => _of(9));
+  _f(1) & swap.2,(_of(7) => _of(8));
+  _f(1) & swap.1,(_of(5) => _of(6));
+  Initialisation.3,(_of(1) => _of(4));
+  Initialisation.2,(_of(1) => _of(3));
+  Initialisation.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the invariant (a : INT) is established by the initialisation - ref 3.3'" & "`Check that the invariant (b : INT) is established by the initialisation - ref 3.3'";
+  (0 : INTEGER);
+  (0<=2147483647);
+  (-2147483647<=0);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue);
+  "`Check that the invariant (a : INT) is preserved by the operation - ref 3.4'";
+  (b : INTEGER);
+  (b<=2147483647);
+  (-2147483647<=b);
+  "`Check that the invariant (b : INT) is preserved by the operation - ref 3.4'";
+  (a : INTEGER);
+  (a<=2147483647);
+  (-2147483647<=a)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

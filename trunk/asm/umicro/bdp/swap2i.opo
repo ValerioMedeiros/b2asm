@@ -1,0 +1,28 @@
+THEORY OPOBalanceX IS
+  swap2i,5;
+  ValuesLemmas,1;
+  InstanciatedConstraintsLemmas,0;
+  Initialisation,1;
+  swap,3
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(11) & swap.3,(_f(14) & _of(6) => _of(2));
+  _f(1) & _f(11) & swap.2,(_of(5) => _of(2));
+  _f(1) & _f(11) & swap.1,(_of(4) => _of(2));
+  _f(1) & Initialisation.1,(_f(6) & _of(3) => _of(2));
+  ValuesLemmas.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the property (btrue) is preserved by the valuations - ref 5.2'";
+  (btrue);
+  "`Check that the invariant (br = upreg(2)) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  "`Check precondition (btrue) deduction'";
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  "`Check that the invariant (br = upreg(2)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'"
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

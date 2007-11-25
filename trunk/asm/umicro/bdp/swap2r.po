@@ -1,0 +1,13 @@
+THEORY ProofList
+END
+&
+THEORY Formulas IS
+  ("`Previous components invariants'" & a : INTEGER & a<=2147483647 & -2147483647<=a & b : INTEGER & b<=2147483647 & -2147483647<=b & "`Component invariant'" & ar$1 : INTEGER & ar$1<=2147483647 & -2147483647<=ar$1 & br$1 : INTEGER & br$1<=2147483647 & -2147483647<=br$1 & ar$1 = a & br$1 = b)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
