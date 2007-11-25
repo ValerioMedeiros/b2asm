@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<db_xml>
+    <atelierb version="3_7_ubuntu-cvs" />
+    <project decomp_dir="/home/david/B/umicro/bdp/expand_src" old_decomp_dir="/home/david/B/umicro/bdp/src">
+        <!-- Definition directory list -->
+        <!-- Component file list -->
+        <component_file path="/home/david/B/umicro/sources" name="move3" suffix="mch" user="david">
+            <component name="move3" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/umicro/sources" name="swap2" suffix="mch" user="david">
+            <component name="swap2" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/umicro/sources" name="swap2i" suffix="imp" user="david">
+            <component name="swap2i" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/umicro/sources" name="swap2r" suffix="ref" user="david">
+            <component name="swap2r" type="refinement" />
+        </component_file>
+    </project>
+</db_xml>

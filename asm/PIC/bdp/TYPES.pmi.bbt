@@ -1,0 +1,7 @@
+THEORY BBTTE IS
+  cmd(0 | cl) & gol(0 | NB_WORDS = 256) & cmd(1 | xp) & cmd(1 | eh(NB_WORDS,2**8,Goal)) & gol(1 | 2**8 = 256) & cmd(2 | as) & gol(0 | NO_SUCCESS);
+  cmd(0 | cl) & gol(0 | 0<=n) & cmd(1 | xp) & cmd(1 | pr) & gol(0 | SUCCESS);
+  cmd(0 | cl) & gol(0 | n<=255) & cmd(1 | xp) & cmd(1 | eh(WORD,0..NB_WORDS-1,Goal)) & cmd(1 | eh(NB_WORDS,2**8,Goal)) & cmd(1 | ah(2**8 = 256)) & gol(1 | 2**8 = 256) & cmd(2 | as) & cmd(1 | eh(2**8,256,Goal)) & cmd(1 | pr) & gol(0 | NO_SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr)
+END

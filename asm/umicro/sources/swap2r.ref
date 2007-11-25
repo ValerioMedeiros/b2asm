@@ -1,0 +1,20 @@
+REFINEMENT
+   swap2r
+REFINES swap2
+VARIABLES
+  ar, br
+INVARIANT
+  ar : INT & br : INT & ar = a & br = b
+INITIALISATION
+  BEGIN
+    ar := 0;
+    br := 0
+  END
+OPERATIONS
+  swap =
+    VAR tmp IN
+      tmp := ar;
+      ar := br;
+      br := tmp
+    END
+END

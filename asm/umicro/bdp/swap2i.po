@@ -1,0 +1,41 @@
+THEORY ProofList IS
+  _f(1) & _f(11) & swap.5,(_f(14) & _f(17) => _f(18));
+  _f(1) & _f(11) & swap.4,(_f(14) & _f(15) => _f(16));
+  _f(1) & _f(11) & swap.3,(_f(12) => _f(5));
+  _f(1) & _f(11) & swap.2,(_f(12) => _f(13));
+  _f(1) & _f(11) & swap.1,(_f(12) => _f(4));
+  _f(1) & Initialisation.4,(_f(6) & _f(9) => _f(10));
+  _f(1) & Initialisation.3,(_f(6) & _f(7) => _f(8));
+  _f(1) & Initialisation.2,(_f(2) & _f(3) => _f(5));
+  _f(1) & Initialisation.1,(_f(2) & _f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Included,imported and extended machines invariants'" & upreg$1 : 1..3 +-> NAT & dom(upreg$1) = 1..3);
+  ("`Local hypotheses'" & reg$0 : 1..3 +-> NAT & dom(reg$0) = 1..3);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (1 : 1..3);
+  (2 : 1..3);
+  ("`Local hypotheses'" & reg$0 : 1..3 +-> NAT & dom(reg$0) = 1..3 & reg$0<+{1|->0}<+{2|->0} : 1..3 +-> NAT & dom(reg$0<+{1|->0}<+{2|->0}) = 1..3);
+  "`Check that the invariant (ar = upreg(1)) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  ((reg$0<+{1|->0}<+{2|->0})(1) = 0);
+  "`Check that the invariant (br = upreg(2)) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  ((reg$0<+{1|->0}<+{2|->0})(2) = 0);
+  ("`Previous components invariants'" & ar : INTEGER & ar<=2147483647 & -2147483647<=ar & br : INTEGER & br<=2147483647 & -2147483647<=br & ar = a & br = b & a : INTEGER & a<=2147483647 & -2147483647<=a & b : INTEGER & b<=2147483647 & -2147483647<=b & "`Component invariant'" & ar = upreg$1(1) & br = upreg$1(2));
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (3 : 1..3);
+  ("`Local hypotheses'" & upreg$1<+{3|->upreg$1(1)}<+{1|->(upreg$1<+{3|->upreg$1(1)})(2)}<+{2|->(upreg$1<+{3|->upreg$1(1)}<+{1|->(upreg$1<+{3|->upreg$1(1)})(2)})(3)} : 1..3 +-> NAT & dom(upreg$1<+{3|->upreg$1(1)}<+{1|->(upreg$1<+{3|->upreg$1(1)})(2)}<+{2|->(upreg$1<+{3|->upreg$1(1)}<+{1|->(upreg$1<+{3|->upreg$1(1)})(2)})(3)}) = 1..3);
+  "`Check that the invariant (ar = upreg(1)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  ((upreg$1<+{3|->upreg$1(1)}<+{1|->(upreg$1<+{3|->upreg$1(1)})(2)}<+{2|->(upreg$1<+{3|->upreg$1(1)}<+{1|->(upreg$1<+{3|->upreg$1(1)})(2)})(3)})(1) = br);
+  "`Check that the invariant (br = upreg(2)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  ((upreg$1<+{3|->upreg$1(1)}<+{1|->(upreg$1<+{3|->upreg$1(1)})(2)}<+{2|->(upreg$1<+{3|->upreg$1(1)}<+{1|->(upreg$1<+{3|->upreg$1(1)})(2)})(3)})(2) = ar);
+  ("`Variables conservation'" & upreg = upreg$1);
+  ("`Included,imported and extended machines invariants'" & upreg : 1..3 +-> NAT & dom(upreg) = 1..3)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

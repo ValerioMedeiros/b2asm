@@ -1,0 +1,51 @@
+THEORY OPOBalanceX IS
+  swap2r,15;
+  Initialisation,5;
+  swap,10
+END
+&
+THEORY OPOProofList IS
+  _f(1) & swap.10,(_of(18) => _of(21));
+  _f(1) & swap.9,(_of(18) => _of(20));
+  _f(1) & swap.8,(_of(18) => _of(19));
+  _f(1) & swap.7,(_of(14) => _of(17));
+  _f(1) & swap.6,(_of(14) => _of(16));
+  _f(1) & swap.5,(_of(14) => _of(15));
+  _f(1) & swap.4,(_of(12) => _of(13));
+  _f(1) & swap.3,(_of(10) => _of(11));
+  _f(1) & swap.2,(_of(1) => _of(2));
+  _f(1) & swap.1,(_of(9) => _of(2));
+  Initialisation.5,(_of(5) => _of(8));
+  Initialisation.4,(_of(5) => _of(7));
+  Initialisation.3,(_of(5) => _of(6));
+  Initialisation.2,(_of(3) => _of(4));
+  Initialisation.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue);
+  "`Check that the invariant (ar = a) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'" & "`Check that the invariant (br = b) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  (0 = 0);
+  "`Check that the invariant (ar : INT) is established by the initialisation - ref 4.3, 5.4'" & "`Check that the invariant (br : INT) is established by the initialisation - ref 4.3, 5.4'";
+  (0 : INTEGER);
+  (0<=2147483647);
+  (-2147483647<=0);
+  "`Check precondition (btrue) deduction'";
+  "`Check that the invariant (ar = a) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  (br$1 = b);
+  "`Check that the invariant (br = b) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  (ar$1 = a);
+  "`Check that the invariant (ar : INT) is preserved by the operation - ref 4.4, 5.5'";
+  (br$1 : INTEGER);
+  (br$1<=2147483647);
+  (-2147483647<=br$1);
+  "`Check that the invariant (br : INT) is preserved by the operation - ref 4.4, 5.5'";
+  (ar$1 : INTEGER);
+  (ar$1<=2147483647);
+  (-2147483647<=ar$1)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
