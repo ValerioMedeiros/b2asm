@@ -1,0 +1,13 @@
+You will find described here an agenda of this research.
+
+
+= Introduction =
+
+The goal of the b2asm project is to develop a model-based approach that will provide assembly level code generation. Using the well-established *B method*, we will be able to proved a 100% guarantee that the generated code is faithful to the initial model. The b2asm project is therefore aiming to develop a _verifying compiler_, and to contribute fulfilling one of the grand challenges of computer science, stated by Tony Hoare.
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
