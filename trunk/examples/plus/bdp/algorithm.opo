@@ -1,0 +1,48 @@
+THEORY OPOBalanceX IS
+  algorithm,12;
+  ValuesLemmas,1;
+  InstanciatedConstraintsLemmas,0;
+  Initialisation,3;
+  run,8
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & run.8,(_f(28) & _of(18) => _of(19));
+  _f(1) & _f(2) & run.7,(_f(28) & _of(16) => _of(17));
+  _f(1) & _f(2) & run.6,(_f(9) & _of(11) => _of(15));
+  _f(1) & _f(2) & run.5,(_f(9) & _of(13) => _of(14));
+  _f(1) & _f(2) & run.4,(_of(11) => _of(12));
+  _f(1) & _f(2) & run.3,(_of(11) => _of(5));
+  _f(1) & _f(2) & run.2,(_of(11) => _of(2));
+  _f(1) & _f(2) & run.1,(_of(10) => _of(2));
+  _f(1) & Initialisation.3,(_of(6) & _of(9) => _of(2));
+  _f(1) & Initialisation.2,(_of(6) & _of(7) => _of(8));
+  _f(1) & Initialisation.1,(_of(3) & _of(4) => _of(5));
+  ValuesLemmas.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the property (btrue) is preserved by the valuations - ref 5.2'";
+  (btrue);
+  ("`Local hypotheses'" & value$0 : INTEGER & value$1 : INTEGER & value$2 : INTEGER);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (0 : INTEGER);
+  ("`Local hypotheses'" & value$0 : INTEGER & value$1 : INTEGER & value$2 : INTEGER & 0 : INTEGER);
+  "`Check that the invariant (arvalue = a) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'" & "`Check that the invariant (brvalue = b) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'" & "`Check that the invariant (srvalue = s) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  (0 = 0);
+  "`Check that the invariant (srvalue = s) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  "`Check precondition (btrue) deduction'";
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (0<=0);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (1 : INT);
+  (v$0 : INTEGER);
+  "`Check that the invariant (arvalue = a) is preserved by the operation - ref 4.4, 5.5'";
+  (arvalue$1 = a);
+  "`Check that the invariant (brvalue = b) is preserved by the operation - ref 4.4, 5.5'";
+  (brvalue$1 = b)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

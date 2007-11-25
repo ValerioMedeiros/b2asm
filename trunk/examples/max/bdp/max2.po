@@ -1,0 +1,30 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & run.6,(_f(11) => _f(12));
+  _f(1) & _f(2) & run.5,(_f(9) => _f(10));
+  _f(1) & _f(2) & run.4,(_f(7) => _f(8));
+  _f(1) & _f(2) & run.3,(_f(3) => _f(6));
+  _f(1) & _f(2) & run.2,(_f(3) => _f(5));
+  _f(1) & _f(2) & run.1,(_f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Component invariant'" & a : INTEGER & a<=2147483647 & -2147483647<=a & b : INTEGER & b<=2147483647 & -2147483647<=b & m : INTEGER & m<=2147483647 & -2147483647<=m & (m = a or m = b) & a<=m & b<=m);
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v);
+  "`Check that the invariant (m : INT) is preserved by the operation - ref 3.4'";
+  (max({a}\/{v}) : INTEGER);
+  (max({a}\/{v})<=2147483647);
+  (-2147483647<=max({a}\/{v}));
+  "`Check that the invariant (m = a or m = b) is preserved by the operation - ref 3.4'";
+  (max({a}\/{v}) = v or max({a}\/{v}) = a);
+  "`Check that the invariant (m>=a) is preserved by the operation - ref 3.4'";
+  (v<=max({a}\/{v}));
+  "`Check that the invariant (m>=b) is preserved by the operation - ref 3.4'";
+  (a<=max({a}\/{v}))
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

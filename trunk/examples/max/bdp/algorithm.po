@@ -1,0 +1,25 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & _f(3) & run.2,(_f(7) & _f(8) => _f(9));
+  _f(1) & _f(2) & _f(3) & run.1,(_f(4) & _f(5) => _f(6))
+END
+&
+THEORY Formulas IS
+  ("`Included,imported and extended machines invariants'" & aivalue$1 : INTEGER & bivalue$1 : INTEGER & mivalue$1 : INTEGER);
+  ("`Previous components invariants'" & a : INTEGER & a<=2147483647 & -2147483647<=a & b : INTEGER & b<=2147483647 & -2147483647<=b & m : INTEGER & m<=2147483647 & -2147483647<=m & (m = a or m = b) & a<=m & b<=m & "`Component invariant'" & a = aivalue$1 & b = bivalue$1 & m = mivalue$1);
+  ("`run preconditions in previous components'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v);
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v & "`Local hypotheses'" & aivalue$1+1<=v);
+  "`Check that the invariant (m = mivalue) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  (v = max({a}\/{v}));
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v & "`Local hypotheses'" & not(aivalue$1+1<=v));
+  "`Check that the invariant (m = mivalue) is preserved by the operation - ref 4.4, 5.5'";
+  (aivalue$1 = max({a}\/{v}));
+  ("`Variables conservation'" & aivalue = aivalue$1 & bivalue = bivalue$1 & mivalue = mivalue$1);
+  ("`Included,imported and extended machines invariants'" & aivalue : INTEGER & bivalue : INTEGER & mivalue : INTEGER)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

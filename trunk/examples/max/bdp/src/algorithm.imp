@@ -1,0 +1,29 @@
+IMPLEMENTATION
+   algorithm
+REFINES max2
+IMPORTS
+  (ai.int) , (bi.int) , (mi.int)
+INVARIANT
+  a = (ai.value) & b = (bi.value) & m = (mi.value)
+INITIALISATION
+  BEGIN
+    (ai.set) ( 0 ) ;
+    (bi.set) ( 0 ) ;
+    (mi.set) ( 0 )
+  END
+OPERATIONS
+  run ( v ) =
+  BEGIN
+    VAR av , bv
+    IN
+      av <-- (ai.get) ;
+      (bi.set) ( av ) ;
+      (ai.set) ( v ) ;
+      av <-- (ai.get) ;
+      bv <-- (bi.get) ;
+      IF av > bv THEN (mi.set) ( av )
+      ELSE (mi.set) ( bv )
+      END
+    END
+  END
+ END

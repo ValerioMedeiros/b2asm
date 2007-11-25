@@ -1,0 +1,105 @@
+THEORY OPOBalanceX IS
+  assembly,51;
+  ValuesLemmas,1;
+  InstanciatedConstraintsLemmas,0;
+  Initialisation,6;
+  run,44
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(14) & _f(15) & run.44,(_f(23) & _of(37) => _of(2));
+  _f(1) & _f(14) & _f(15) & run.43,(_of(31) & _of(34) => _of(36));
+  _f(1) & _f(14) & _f(15) & run.42,(_of(30) & _of(34) => _of(35));
+  _f(1) & _f(14) & _f(15) & run.41,(_f(16) & _of(33) => _of(2));
+  _f(1) & _f(14) & _f(15) & run.40,(_of(29) & _of(6) => _of(9));
+  _f(1) & _f(14) & _f(15) & run.39,(_of(29) & _of(6) => _of(32));
+  _f(1) & _f(14) & _f(15) & run.38,(_of(29) & _of(6) => _of(8));
+  _f(1) & _f(14) & _f(15) & run.37,(_of(29) & _of(6) => _of(7));
+  _f(1) & _f(14) & _f(15) & run.36,(_of(31) & _of(6) => _of(9));
+  _f(1) & _f(14) & _f(15) & run.35,(_of(31) & _of(6) => _of(32));
+  _f(1) & _f(14) & _f(15) & run.34,(_of(31) & _of(6) => _of(8));
+  _f(1) & _f(14) & _f(15) & run.33,(_of(31) & _of(6) => _of(5));
+  _f(1) & _f(14) & _f(15) & run.32,(_of(30) & _of(6) => _of(27));
+  _f(1) & _f(14) & _f(15) & run.31,(_of(30) & _of(6) => _of(28));
+  _f(1) & _f(14) & _f(15) & run.30,(_of(30) & _of(6) => _of(8));
+  _f(1) & _f(14) & _f(15) & run.29,(_of(30) & _of(6) => _of(7));
+  _f(1) & _f(14) & _f(15) & run.28,(_of(24) & _of(6) => _of(27));
+  _f(1) & _f(14) & _f(15) & run.27,(_of(24) & _of(6) => _of(28));
+  _f(1) & _f(14) & _f(15) & run.26,(_of(24) & _of(6) => _of(8));
+  _f(1) & _f(14) & _f(15) & run.25,(_of(24) & _of(6) => _of(5));
+  _f(1) & _f(14) & _f(15) & run.24,(_of(29) & _of(6) => _of(7));
+  _f(1) & _f(14) & _f(15) & run.23,(_of(24) & _of(6) => _of(7));
+  _f(1) & _f(14) & _f(15) & run.22,(_of(29) & _of(6) => _of(5));
+  _f(1) & _f(14) & _f(15) & run.21,(_of(24) & _of(6) => _of(5));
+  _f(1) & _f(14) & _f(15) & run.20,(_of(26) & _of(6) => _of(28));
+  _f(1) & _f(14) & _f(15) & run.19,(_of(26) & _of(6) => _of(27));
+  _f(1) & _f(14) & _f(15) & run.18,(_of(24) & _of(6) => _of(25));
+  _f(1) & _f(14) & _f(15) & run.17,(_of(24) & _of(6) => _of(15));
+  _f(1) & _f(14) & _f(15) & run.16,(_of(13) & _of(6) => _of(23));
+  _f(1) & _f(14) & _f(15) & run.15,(_of(13) & _of(6) => _of(22));
+  _f(1) & _f(14) & _f(15) & run.14,(_of(13) & _of(6) => _of(8));
+  _f(1) & _f(14) & _f(15) & run.13,(_of(13) & _of(6) => _of(21));
+  _f(1) & _f(14) & _f(15) & run.12,(_of(13) & _of(14) => _of(7));
+  _f(1) & _f(14) & _f(15) & run.11,(_of(13) & _of(6) => _of(20));
+  _f(1) & _f(14) & _f(15) & run.10,(_of(13) & _of(6) => _of(19));
+  _f(1) & _f(14) & _f(15) & run.9,(_of(13) & _of(6) => _of(18));
+  _f(1) & _f(14) & _f(15) & run.8,(_of(13) & _of(6) => _of(17));
+  _f(1) & _f(14) & _f(15) & run.7,(_of(13) & _of(6) => _of(16));
+  _f(1) & _f(14) & _f(15) & run.6,(_of(13) & _of(14) => _of(15));
+  _f(1) & _f(14) & _f(15) & run.5,(_of(13) & _of(6) => _of(10));
+  _f(1) & _f(14) & _f(15) & run.4,(_of(13) & _of(6) => _of(9));
+  _f(1) & _f(14) & _f(15) & run.3,(_of(13) & _of(4) => _of(5));
+  _f(1) & _f(14) & _f(15) & run.2,(_of(13) & _of(6) => _of(2));
+  _f(1) & _f(14) & _f(15) & run.1,(_of(12) => _of(2));
+  _f(1) & Initialisation.6,(_f(7) & _of(11) => _of(2));
+  _f(1) & Initialisation.5,(_f(2) & _of(6) => _of(10));
+  _f(1) & Initialisation.4,(_f(2) & _of(6) => _of(9));
+  _f(1) & Initialisation.3,(_f(2) & _of(6) => _of(8));
+  _f(1) & Initialisation.2,(_f(2) & _of(6) => _of(7));
+  _f(1) & Initialisation.1,(_of(3) & _of(4) => _of(5));
+  ValuesLemmas.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the property (btrue) is preserved by the valuations - ref 5.2'";
+  (btrue);
+  ("`Local hypotheses'" & memory_data$0 : NATURAL +-> NATURAL & dom(memory_data$0) = NATURAL);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (0 : NATURAL);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (1 : NATURAL);
+  (2 : NATURAL);
+  (6 : NATURAL);
+  (0<=6);
+  "`Check that the invariant (m = ucmemory_data(2)) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  "`Check precondition (btrue) deduction'";
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (4 : NATURAL);
+  (v : INTEGER);
+  (0<=v);
+  (1 : INTEGER);
+  (0<=1);
+  (1<=6);
+  (2<=6);
+  (3<=6);
+  (3 : NATURAL);
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v & "`Local hypotheses'" & (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0));
+  (4<=6);
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v & "`Local hypotheses'" & (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1));
+  (5 : NATURAL);
+  (5<=6);
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v & "`Local hypotheses'" & not((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)));
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v & "`Local hypotheses'" & (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0) & not((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)));
+  ("`run preconditions in this component'" & v : INTEGER & v<=2147483647 & -2147483647<=v & 0<=v & "`Local hypotheses'" & not((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)) & (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0));
+  (6<=6);
+  "`Check that the invariant (m = ucmemory_data(2)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  "`Check that the invariant (a = ucmemory_data(0) & b = ucmemory_data(1) & m = ucmemory_data(2)) is preserved by the operation - ref 4.4, 5.5'";
+  (not(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)} : NATURAL +-> NATURAL & dom(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)}) = NATURAL & ucw$1 : INTEGER & 0<=ucw$1 & 6 : INTEGER & 0<=6 & 6 : INTEGER & 0<=6 & 6<=6 & !(a$7777,b$7777,m$7777).(a$7777 = v & b$7777 = a & m$7777 = max({a,v}) => not(a$7777 = (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)})(0) & b$7777 = (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)})(1) & m$7777 = (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)})(2)))));
+  (not(btrue & ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)} : NATURAL +-> NATURAL & dom(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)}) = NATURAL & ucw$1 : INTEGER & 0<=ucw$1 & 5 : INTEGER & 0<=5 & 6 : INTEGER & 0<=6 & 5<=6 & btrue & btrue & btrue & !(a$7777,b$7777,m$7777).(a$7777 = v & b$7777 = a & m$7777 = max({a,v}) => not(a$7777 = (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)})(0) & b$7777 = (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)})(1) & m$7777 = (ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)})(2) & btrue))));
+  "`Check that the invariant (m = ucmemory_data(2)) is preserved by the operation - ref 4.4, 5.5'"
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

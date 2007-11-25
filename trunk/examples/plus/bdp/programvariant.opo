@@ -1,0 +1,17 @@
+THEORY OPOBalanceX IS
+  programvariant,1;
+  Initialisation,1
+END
+&
+THEORY OPOProofList IS
+  _f(1) & Initialisation.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the invariant (btrue) is established by the initialisation - ref 3.3'";
+  (btrue)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

@@ -1,0 +1,13 @@
+THEORY ProofList
+END
+&
+THEORY Formulas IS
+  ("`Component properties'" & pgsize : INTEGER & 0<=pgsize & loopaddr : INTEGER & 0<=loopaddr & loopsize : INTEGER & 0<=loopsize & pgvar : NATURAL*NATURAL*NATURAL +-> NATURAL & pgsize = 8 & loopsize = 5 & loopaddr = 2 & !(pc,loopmax,loopvar).(pc : INTEGER & 0<=pc & (loopmax : INTEGER & 0<=loopmax) & (loopvar : INTEGER & 0<=loopvar) => (pc = 7 => pgvar(pc,loopmax,loopvar) = pgsize-pc) & (pc = 8 => pgvar(pc,loopmax,loopvar) = pgsize-pc) & ((pc = 0 => pgvar(pc,loopmax,loopvar) = pgsize-pc+loopsize*loopmax) & (pc = 1 => pgvar(pc,loopmax,loopvar) = pgsize-pc+loopsize*loopmax)) & ((pc = 2 => pgvar(pc,loopmax,loopvar) = pgsize-loopaddr+loopsize*(loopmax-loopvar)-(pc-loopaddr)) & (pc = 3 => pgvar(pc,loopmax,loopvar) = pgsize-loopaddr+loopsize*(loopmax-loopvar)-(pc-loopaddr)) & (pc = 4 => pgvar(pc,loopmax,loopvar) = pgsize-loopaddr+loopsize*(loopmax-loopvar)-(pc-loopaddr)) & (pc = 5 => pgvar(pc,loopmax,loopvar) = pgsize-loopaddr+loopsize*(loopmax-loopvar)-(pc-loopaddr)) & (pc = 6 => pgvar(pc,loopmax,loopvar) = pgsize-loopaddr+loopsize*(loopmax-loopvar)-(pc-loopaddr)))))
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

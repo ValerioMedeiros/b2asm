@@ -1,0 +1,46 @@
+IMPLEMENTATION
+   assembly
+REFINES addition
+IMPORTS
+  uc.microcontroller
+INVARIANT
+  a = uc.memory_data ( 0 ) & b = uc.memory_data ( 1 ) &
+  s = uc.memory_data ( 2 )
+INITIALISATION
+  BEGIN
+    uc.init_data ( 0 , 0 ) ;
+    uc.init_data ( 1 , 0 ) ;
+    uc.init_data ( 2 , 0 ) ;
+    uc.set_end ( 6 )
+  END
+OPERATIONS
+  run =
+    VAR vv , vbv IN
+    BEGIN
+      uc.init ( 0 , 10 ) ;
+      /* uc.pc = 0 */
+      uc.move ( 0 , 2 ) ;
+      /* uc.pc = 1 */
+      uc.set_data ( 3 , 0 ) ;
+      /* uc.pc = 2 */
+      vv <-- uc.get_data ( 3 ) ;
+      vbv <-- uc.get_data ( 1 ) ;
+      WHILE vbv > vv DO
+        uc.inc ( 2 ) ;
+      /* uc.pc = 3 */
+        uc.inc ( 3 ) ;
+      /* uc.pc = 4 */
+        uc.goto ( 2 ) ;
+        vv <-- uc.get_data ( 3 )
+      INVARIANT
+        vbv : INTEGER & vbv = b &
+        vv : INTEGER & 0 <= vv & vv <= vbv &
+        a = uc.memory_data ( 0 ) & b = uc.memory_data ( 1 ) &
+        vbv = uc.memory_data ( 1 ) & vv = uc.memory_data ( 3 ) &
+        uc.memory_data ( 2 ) = uc.memory_data ( 0 ) + uc.memory_data ( 3 ) &
+        uc.pc = 2 & uc.memory_data : ( NATURAL --> NATURAL )
+      VARIANT ( vbv - vv )
+      END
+    END
+  END
+END

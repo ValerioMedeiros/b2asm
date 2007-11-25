@@ -1,0 +1,23 @@
+THEORY BBTTE IS
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(memory_data<+{address|->value}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | eh(dom(memory_data),NATURAL,Goal)) & gol(1 | NATURAL\/{address} = NATURAL) & cmd(2 | ss) & cmd(2 | pr) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(memory_data<+{address|->0}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | eh(dom(memory_data),NATURAL,Goal)) & gol(1 | NATURAL\/{address} = NATURAL) & cmd(2 | ss) & cmd(2 | pr) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(memory_data<+{address|->w}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | eh(dom(memory_data),NATURAL,Goal)) & gol(1 | NATURAL\/{address} = NATURAL) & cmd(2 | ah(0<=address)) & cmd(2 | ah(address : INTEGER)) & cmd(2 | ss) & cmd(2 | pr) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(memory_data<+{address_t|->memory_data(address_s)}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | eh(dom(memory_data),NATURAL,Goal)) & gol(1 | NATURAL\/{address_t} = NATURAL) & cmd(2 | ah(0<=address_t)) & cmd(2 | ah(address_t : INTEGER)) & cmd(2 | ss) & cmd(2 | pr) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | pc+2<=end) & cmd(1 | nv(pc<=end)) & cmd(1 | xp) & cmd(1 | rn(not(memory_data(address2)+1<=memory_data(address1)))) & cmd(1 | pp(rp.0)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  ?;
+  cmd(0 | pr);
+  cmd(0 | pr)
+END

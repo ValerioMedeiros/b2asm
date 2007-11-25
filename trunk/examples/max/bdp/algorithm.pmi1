@@ -1,0 +1,30 @@
+THEORY BalanceX IS
+  algorithm,2,2,0,0,0,0,0;
+  ValuesLemmas,0,0,0,0,0,0,0;
+  InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
+  Initialisation,0,0,0,0,0,0,0;
+  run,2,2,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(Util)
+END
+&
+THEORY MethodList IS
+  cl & xp & ah(a = aivalue$1) & ah(a = aivalue$1) & pp(rp.0);
+  cl & xp & ah(a = aivalue$1) & ds(v<=2147483647) & ds(-2147483647<=v) & ah(a = aivalue$1) & ds(v : INTEGER) & ds(0<=v) & pp(rp.0)
+END
+&
+THEORY PassList IS
+  Force(0),(?;0;1);
+  Force(0),(?;0;1)
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END

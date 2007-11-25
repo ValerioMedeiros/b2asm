@@ -1,0 +1,60 @@
+THEORY BalanceX IS
+  assembly,12,11,0,1,0,0,0;
+  ValuesLemmas,0,0,0,0,0,0,0;
+  InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
+  Initialisation,6,5,0,1,0,0,0;
+  run,6,6,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util)
+END
+&
+THEORY MethodList IS
+  cl & xp & ov & ov & ov & ov & eh(a,ucmemory_data$1(0),Goal) & ov(not((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0))) & ov(not((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4))) & ov(not((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v})(4))) & ov(not((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=v)) & ov(not((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(1)+1<=v)) & ov(not((ucmemory_data$1<+{4|->v})(0)+1<=v)) & eh(ucmemory_data$1(0),a,Goal) & rn(not(a+1<=v)) & ds(not(4 = 1)) & ds(not(1 = 0)) & ds(dom(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)}) = NATURAL) & ds(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)} : NATURAL +-> NATURAL) & ds(6 : INTEGER) & ds(0<=v) & ds(-2147483647<=v) & ds(v<=2147483647) & ds(v : INTEGER) & ds(not(1 = 0)) & ds(not(0 = 4)) & pr;
+  cl & xp & ov & ov & ov & ov & eh(a,ucmemory_data$1(0),Goal);
+  cl & xp & ov & ov & ov & ov;
+  cl & xp & ov & ov & ov & ov & ov((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)) & ov((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)) & ov((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=(ucmemory_data$1<+{4|->v})(4)) & ov((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(1)+1<=v) & ov((ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(1)+1<=v) & ov((ucmemory_data$1<+{4|->v})(0)+1<=v) & eh(ucmemory_data$1(0),a,Goal) & ds(not(0 = 4)) & ds(not(4 = 1)) & ds(v : INTEGER) & ds(v<=2147483647) & ds(-2147483647<=v) & ds(0<=v) & ds(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)} : NATURAL +-> NATURAL) & ds(dom(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)}<+{2|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)}<+{0|->(ucmemory_data$1<+{4|->v}<+{1|->(ucmemory_data$1<+{4|->v})(0)})(4)})(0)}) = NATURAL) & ds(5 : INTEGER) & ds(6 : INTEGER) & ds(not(4 = 1)) & ds(not(1 = 0)) & pr;
+  cl & xp & ov & ov & ov & ov & eh(a,ucmemory_data$1(0),Goal);
+  cl & xp & ov & ov & ov & ov;
+  pr;
+  cl & xp & ov & ov;
+  cl & xp & ov & ss & ov & pp(rp.0) & ss & pp(rp.0);
+  cl & xp & ss & pp(rp.0);
+  cl & xp & ss & pp(rp.0);
+  cl & xp & ss & pp(rp.0)
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END
