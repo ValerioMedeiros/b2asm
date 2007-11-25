@@ -1,0 +1,75 @@
+THEORY ProofList IS
+  _f(1) & _f(40) & dec.1,(_f(3) => _f(41));
+  _f(1) & _f(38) & inc.1,(_f(3) => _f(39));
+  _f(1) & _f(36) & set_data.2,(_f(3) => _f(37));
+  _f(1) & _f(36) & set_data.1,(_f(3) => _f(4));
+  _f(1) & _f(33) & reset.2,(_f(3) => _f(35));
+  _f(1) & _f(33) & reset.1,(_f(3) => _f(34));
+  _f(1) & _f(29) & move_m_w.2,(_f(30) => _f(32));
+  _f(1) & _f(29) & move_m_w.1,(_f(30) => _f(31));
+  _f(1) & _f(26) & move_w_m.2,(_f(3) => _f(28));
+  _f(1) & _f(26) & move_w_m.1,(_f(3) => _f(27));
+  _f(1) & _f(23) & move.2,(_f(3) => _f(25));
+  _f(1) & _f(23) & move.1,(_f(3) => _f(24));
+  _f(1) & _f(17) & testgt.3,(_f(18) & _f(21) => _f(22));
+  _f(1) & _f(17) & testgt.2,(_f(18) & _f(9) => _f(20));
+  _f(1) & _f(17) & testgt.1,(_f(18) & _f(9) => _f(19));
+  _f(1) & _f(8) & nop.2,(_f(9) => _f(11));
+  _f(1) & _f(8) & nop.1,(_f(9) => _f(10));
+  _f(1) & _f(2) & init_data.1,(_f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Component invariant'" & memory_data : NATURAL +-> NATURAL & dom(memory_data) = NATURAL & w : INTEGER & 0<=w & pc : INTEGER & 0<=pc & end : INTEGER & 0<=end & pc<=end);
+  ("`init_data preconditions in this component'" & address : INTEGER & 0<=address & value : INTEGER & 0<=value & dom(memory_data<+{address|->value}) = NATURAL);
+  "`Check that the invariant (memory_data : NATURAL --> NATURAL) is preserved by the operation - ref 3.4'";
+  (memory_data<+{address|->value} : NATURAL +-> NATURAL);
+  ("`init preconditions in this component'" & pc_ : INTEGER & 0<=pc_ & end_ : INTEGER & 0<=end_ & pc_<=end_);
+  ("`get_data preconditions in this component'" & address : INTEGER & 0<=address);
+  ("`set_end preconditions in this component'" & value : INTEGER & 0<=value & pc<=value);
+  ("`nop preconditions in this component'" & pc+1<=end);
+  "`Check that the invariant (pc : NATURAL) is preserved by the operation - ref 3.4'";
+  (pc+1 : INTEGER);
+  (0<=pc+1);
+  ("`set_w preconditions in this component'" & value : INTEGER & 0<=value);
+  ("`goto preconditions in this component'" & value : INTEGER & 0<=value & value<=end);
+  ("`iszero preconditions in this component'" & address : INTEGER & 0<=address & (memory_data(address) = 0 => pc+1 : INTEGER & 0<=pc+1 & pc+1<=end) & (not(memory_data(address) = 0) => pc+2 : INTEGER & 0<=pc+2 & pc+2<=end));
+  ("`isnotzero_simple preconditions in this component'" & address : INTEGER & 0<=address & (memory_data(address) = 0 => pc+3 : INTEGER & 0<=pc+3 & pc+3<=end) & (not(memory_data(address) = 0) => pc+1 : INTEGER & 0<=pc+1 & pc+1<=end));
+  ("`testeq preconditions in this component'" & address1 : INTEGER & 0<=address1 & address2 : INTEGER & 0<=address2 & (memory_data(address1) = memory_data(address2) => pc+1 : INTEGER & 0<=pc+1 & pc+1<=end) & (not(memory_data(address1) = memory_data(address2)) => pc+2 : INTEGER & 0<=pc+2 & pc+2<=end));
+  ("`testgt preconditions in this component'" & address1 : INTEGER & 0<=address1 & address2 : INTEGER & 0<=address2 & (memory_data(address2)+1<=memory_data(address1) => pc+1 : INTEGER & 0<=pc+1 & pc+1<=end) & (memory_data(address1)<=memory_data(address2) => pc+2 : INTEGER & 0<=pc+2 & pc+2<=end));
+  ("`Local hypotheses'" & not(memory_data(address2)+1<=memory_data(address1)));
+  (pc+2 : INTEGER);
+  (0<=pc+2);
+  "`Check that the invariant (pc<=end) is preserved by the operation - ref 3.4'";
+  (pc+2<=end);
+  ("`move preconditions in this component'" & address_s : INTEGER & 0<=address_s & address_t : INTEGER & 0<=address_t & pc+1<=end & pc+1 : INTEGER & 0<=pc+1);
+  (memory_data<+{address_t|->memory_data(address_s)} : NATURAL +-> NATURAL);
+  (dom(memory_data<+{address_t|->memory_data(address_s)}) = NATURAL);
+  ("`move_w_m preconditions in this component'" & address : INTEGER & 0<=address & pc+1<=end & pc+1 : INTEGER & 0<=pc+1);
+  (memory_data<+{address|->w} : NATURAL +-> NATURAL);
+  (dom(memory_data<+{address|->w}) = NATURAL);
+  ("`move_m_w preconditions in this component'" & address : INTEGER & 0<=address & pc+1<=end & pc+1 : INTEGER & 0<=pc+1);
+  "`Check that the invariant (w : NATURAL) is preserved by the operation - ref 3.4'";
+  (memory_data(address) : INTEGER);
+  (0<=memory_data(address));
+  ("`reset preconditions in this component'" & address : INTEGER & 0<=address & memory_data(address) : INTEGER & 0<=memory_data(address) & pc+1<=end & pc+1 : INTEGER & 0<=pc+1);
+  (memory_data<+{address|->0} : NATURAL +-> NATURAL);
+  (dom(memory_data<+{address|->0}) = NATURAL);
+  ("`set_data preconditions in this component'" & address : INTEGER & 0<=address & value : INTEGER & 0<=value & pc+1 : INTEGER & 0<=pc+1 & pc+1<=end);
+  (dom(memory_data<+{address|->value}) = NATURAL);
+  ("`inc preconditions in this component'" & address : INTEGER & 0<=address & memory_data(address)+1 : INTEGER & 0<=memory_data(address)+1 & pc+1 : INTEGER & 0<=pc+1 & pc+1<=end & dom(memory_data<+{address|->memory_data(address)+1}) = NATURAL);
+  (memory_data<+{address|->memory_data(address)+1} : NATURAL +-> NATURAL);
+  ("`dec preconditions in this component'" & address : INTEGER & 0<=address & memory_data(address)-1 : INTEGER & 0<=memory_data(address)-1 & pc+1 : INTEGER & 0<=pc+1 & pc+1<=end & dom(memory_data<+{address|->memory_data(address)-1}) = NATURAL);
+  (memory_data<+{address|->memory_data(address)-1} : NATURAL +-> NATURAL);
+  ("`add preconditions in this component'" & address1 : INTEGER & 0<=address1 & address2 : INTEGER & 0<=address2 & memory_data(address1)+memory_data(address2) : INTEGER & 0<=memory_data(address1)+memory_data(address2));
+  ("`sub preconditions in this component'" & address1 : INTEGER & 0<=address1 & address2 : INTEGER & 0<=address2 & memory_data(address1)-memory_data(address2) : INTEGER & 0<=memory_data(address1)-memory_data(address2));
+  ("`mul preconditions in this component'" & address1 : INTEGER & 0<=address1 & address2 : INTEGER & 0<=address2 & memory_data(address1)*memory_data(address2) : INTEGER & 0<=memory_data(address1)*memory_data(address2));
+  ("`div preconditions in this component'" & address1 : INTEGER & 0<=address1 & address2 : INTEGER & 0<=address2 & memory_data(address1)/memory_data(address2) : INTEGER & 0<=memory_data(address1)/memory_data(address2))
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

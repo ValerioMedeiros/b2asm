@@ -1,0 +1,56 @@
+IMPLEMENTATION
+   assembly2
+REFINES max2
+IMPORTS
+  uc.microcontroller
+INVARIANT
+  a = uc.memory_data(0) & b = uc.memory_data(1) & m = uc.memory_data(2)
+INITIALISATION
+  BEGIN
+    uc.init_data(0, 0);
+    uc.init_data(1, 0);
+    uc.init_data(2, 0);
+    uc.set_end(0)
+  END
+OPERATIONS
+  run(v) =
+  VAR pc, end IN
+    pc := 0;
+    end := 10;
+    uc.init(pc,end);
+    WHILE pc < end DO
+    BEGIN
+      CASE pc OF
+        EITHER 0 THEN uc.set_data(3,v)
+        OR 1 THEN uc.move(0,1)
+        OR 2 THEN uc.move(3,0)
+        OR 3 THEN uc.testgt(0,1)
+        OR 4 THEN uc.goto(6)
+        OR 5 THEN uc.goto(8)
+        OR 6 THEN uc.move(0,2)
+        OR 7 THEN uc.goto(9)
+        OR 8 THEN uc.move(1,2)
+        OR 9 THEN uc.nop
+        END
+      END;
+      pc <-- uc.get_pc
+    END
+    INVARIANT 
+      pc >= 0 & pc <= end &
+      pc = uc.pc &
+      end = uc.end &
+      (pc = 0 => (uc.memory_data(0) = a & uc.memory_data(1) = b & uc.memory_data(2) = m)) &
+      (pc = 1 => (uc.memory_data(0) = a & uc.memory_data(1) = b & uc.memory_data(2) = m & uc.memory_data(3) = v)) &
+      (pc = 2 => (uc.memory_data(0) = a & uc.memory_data(1) = a & uc.memory_data(2) = m & uc.memory_data(3) = v)) &
+      (pc = 3 => (uc.memory_data(0) = v & uc.memory_data(1) = a & uc.memory_data(2) = m & uc.memory_data(3) = v)) &
+      (pc = 4 => (uc.memory_data(0) = v & uc.memory_data(1) = a & uc.memory_data(2) = m & uc.memory_data(3) = v & v > a)) &
+      (pc = 5 => (uc.memory_data(0) = v & uc.memory_data(1) = a & uc.memory_data(2) = m & uc.memory_data(3) = v & v <= a)) &
+      (pc = 6 => (uc.memory_data(0) = v & uc.memory_data(1) = a & uc.memory_data(2) = m & uc.memory_data(3) = v & v > a)) &
+      (pc = 7 => (uc.memory_data(0) = v & uc.memory_data(1) = a & uc.memory_data(2) = v & uc.memory_data(3) = v & v > a)) &
+      (pc = 8 => (uc.memory_data(0) = v & uc.memory_data(1) = a & uc.memory_data(2) = m & uc.memory_data(3) = v & v <= a)) &
+      (pc = 9 => (uc.memory_data(0) = v & uc.memory_data(1) = a & uc.memory_data(2) = max({a,v})) & uc.memory_data(3) = v) &
+      (pc = 10 => (uc.memory_data(0) = v & uc.memory_data(1) = a & uc.memory_data(2) = max({a,v})) & uc.memory_data(3) = v)
+    VARIANT (end - pc)
+    END
+  END
+END

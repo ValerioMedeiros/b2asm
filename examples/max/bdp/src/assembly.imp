@@ -1,0 +1,34 @@
+IMPLEMENTATION
+   assembly
+REFINES max2
+IMPORTS
+  (uc.microcontroller)
+INVARIANT
+  a = (uc.memory_data) ( 0 ) & b = (uc.memory_data) ( 1 ) &
+  m = (uc.memory_data) ( 2 )
+INITIALISATION
+  BEGIN
+    (uc.init_data) ( 0 , 0 ) ;
+    (uc.init_data) ( 1 , 0 ) ;
+    (uc.init_data) ( 2 , 0 ) ;
+    (uc.set_end) ( 6 )
+  END
+OPERATIONS
+  run ( v ) =
+    VAR v0 , v1 IN
+    BEGIN
+      (uc.init) ( 0 , 6 ) ;
+      (uc.set_data) ( 4 , v ) ;
+      (uc.move) ( 0 , 1 ) ;
+      (uc.move) ( 4 , 0 ) ;
+      (uc.testgt) ( 0 , 1 ) ;
+      v0 <-- (uc.get_data) ( 0 ) ;
+      v1 <-- (uc.get_data) ( 1 ) ;
+      IF v0 > v1 THEN
+        (uc.move) ( 0 , 2 )
+      ELSE
+        (uc.move) ( 1 , 2 )
+      END
+    END
+  END
+END

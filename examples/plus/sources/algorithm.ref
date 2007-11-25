@@ -1,0 +1,30 @@
+REFINEMENT
+   algorithm
+REFINES
+   addition
+VARIABLES
+   ar, br, sr
+INVARIANT
+   ar : NATURAL & br : NATURAL & sr : NATURAL &
+   ar = a & br = b & sr = s
+INITIALISATION
+   BEGIN
+      ar := 0;
+      br := 0;
+      sr := 0
+   END
+OPERATIONS
+   run =
+     VAR v IN
+     BEGIN
+        sr := 0;
+        v := 0;
+        WHILE v /= br DO
+           sr := sr + ar;
+           v := v + 1
+        INVARIANT sr = ar * v
+        VARIANT br - v
+        DONE
+     END
+END
+END

@@ -1,0 +1,34 @@
+IMPLEMENTATION
+   algorithm
+REFINES
+   addition
+IMPORTS
+   ar.int, br.int, sr.int
+INVARIANT
+   ar.value = a & br.value = b & sr.value = s
+INITIALISATION
+   BEGIN
+      ar.set(0);
+      br.set(0);
+      sr.set(0)
+   END
+OPERATIONS
+   run =
+     VAR sv, av, bv, v IN
+     BEGIN
+        av <-- ar.get;
+        bv <-- br.get;
+        sv := av;
+        v := 0;
+        WHILE v /= bv DO
+        BEGIN
+           sv := sv + 1;
+           v := v + 1
+        END
+        INVARIANT v : INTEGER & 0 <= v & v <= bv & sv = av + v
+        VARIANT (bv - v)
+        END;
+        sr.set(sv)
+     END
+   END
+END

@@ -1,0 +1,65 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & run.21,(_f(28) & _f(29) => _f(30));
+  _f(1) & _f(2) & run.20,(_f(26) & _f(3) => _f(27));
+  _f(1) & _f(2) & run.19,(_f(9) & _f(3) => _f(25));
+  _f(1) & _f(2) & run.18,(_f(9) & _f(3) => _f(24));
+  _f(1) & _f(2) & run.17,(_f(9) & _f(3) => _f(23));
+  _f(1) & _f(2) & run.16,(_f(9) & _f(3) => _f(22));
+  _f(1) & _f(2) & run.15,(_f(9) & _f(3) => _f(21));
+  _f(1) & _f(2) & run.14,(_f(9) & _f(3) => _f(20));
+  _f(1) & _f(2) & run.13,(_f(9) & _f(3) => _f(19));
+  _f(1) & _f(2) & run.12,(_f(9) & _f(3) => _f(18));
+  _f(1) & _f(2) & run.11,(_f(9) & _f(16) => _f(17));
+  _f(1) & _f(2) & run.10,(_f(9) & _f(3) => _f(15));
+  _f(1) & _f(2) & run.9,(_f(9) & _f(3) => _f(14));
+  _f(1) & _f(2) & run.8,(_f(9) & _f(3) => _f(13));
+  _f(1) & _f(2) & run.7,(_f(9) & _f(3) => _f(12));
+  _f(1) & _f(2) & run.6,(_f(9) & _f(3) => _f(11));
+  _f(1) & _f(2) & run.5,(_f(9) & _f(3) => _f(10));
+  _f(1) & _f(2) & run.4,(_f(6) & _f(3) => _f(8));
+  _f(1) & _f(2) & run.3,(_f(6) & _f(3) => _f(7));
+  _f(1) & _f(2) & run.2,(_f(3) => _f(5));
+  _f(1) & _f(2) & run.1,(_f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Included,imported and extended machines invariants'" & arvalue$1 : INTEGER & brvalue$1 : INTEGER & srvalue$1 : INTEGER);
+  ("`Previous components invariants'" & a : INTEGER & 0<=a & b : INTEGER & 0<=b & s : INTEGER & 0<=s & a+b<=2147483647 & s = a+b & "`Component invariant'" & arvalue$1 = a & brvalue$1 = b & srvalue$1 = s);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (0<=brvalue$1);
+  (arvalue$1 = arvalue$1+0);
+  ("`Local hypotheses'" & v$0 : INTEGER & 0<=v$0 & v$0<=brvalue$1 & sv$0 = arvalue$1+v$0);
+  (brvalue$1-v$0 : INTEGER);
+  (0<=brvalue$1-v$0);
+  ("`Local hypotheses'" & v$0 : INTEGER & 0<=v$0 & v$0<=brvalue$1 & sv$0 = arvalue$1+v$0 & not(v$0 = brvalue$1));
+  (sv$0+1 : INTEGER);
+  (sv$0+1<=2147483647);
+  (-2147483647<=sv$0+1);
+  (sv$0 : INTEGER);
+  (sv$0<=2147483647);
+  (-2147483647<=sv$0);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (v$0+1 : INTEGER);
+  (v$0+1<=2147483647);
+  (-2147483647<=v$0+1);
+  (v$0<=2147483647);
+  (-2147483647<=v$0);
+  (brvalue$1-(v$0+1)+1<=brvalue$1-v$0);
+  (0<=v$0+1);
+  (v$0+1<=brvalue$1);
+  (sv$0+1 = arvalue$1+(v$0+1));
+  ("`Local hypotheses'" & v$7777 = brvalue$1 & v$7777 : INTEGER & 0<=v$7777 & v$7777<=brvalue$1);
+  (arvalue$1+v$7777 : INTEGER);
+  ("`Local hypotheses'" & v$7777 = brvalue$1 & v$7777 : INTEGER & 0<=v$7777 & v$7777<=brvalue$1 & arvalue$1+v$7777 : INTEGER);
+  "`Check that the invariant (srvalue = s) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  (arvalue$1+v$7777 = a+b);
+  ("`Variables conservation'" & arvalue = arvalue$1 & brvalue = brvalue$1 & srvalue = srvalue$1);
+  ("`Included,imported and extended machines invariants'" & arvalue : INTEGER & brvalue : INTEGER & srvalue : INTEGER)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
