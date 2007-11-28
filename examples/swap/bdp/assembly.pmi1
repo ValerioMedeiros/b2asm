@@ -1,0 +1,42 @@
+THEORY BalanceX IS
+  assembly,6,4,0,1,1,0,0;
+  ValuesLemmas,0,0,0,0,0,0,0;
+  InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
+  Initialisation,4,2,0,1,1,0,0;
+  run,2,2,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(1);
+  Proved(Util);
+  Proved(Util)
+END
+&
+THEORY MethodList IS
+  cl & xp & ov & ov & ov & ss & pp(rp.1);
+  cl & xp & ov & ov & ov & ss & pp(rp.1);
+  pr;
+  pr;
+  cl & xp & ss & pp(rp.0);
+  cl & xp & ss & pp(rp.0)
+END
+&
+THEORY PassList IS
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(1),(?;0);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1)
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END

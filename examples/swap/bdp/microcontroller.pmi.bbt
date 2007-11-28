@@ -1,0 +1,20 @@
+THEORY BBTTE IS
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(mem<+{address|->value}) = NATURAL) & cmd(1 | xp) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(mem<+{address_t|->mem(address_s)}) = NATURAL) & cmd(1 | xp) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | pc+2<=end) & cmd(1 | nv(pc<=end)) & cmd(1 | xp) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | pc+2<=end) & cmd(1 | nv(pc<=end)) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | rn(not(0<= -1+mem(address1)-mem(address2)))) & gol(1 | 2+pc<=end) & cmd(2 | ah(pc<=end)) & cmd(2 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr)
+END
