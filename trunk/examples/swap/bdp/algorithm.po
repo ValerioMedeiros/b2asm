@@ -1,0 +1,16 @@
+THEORY ProofList
+END
+&
+THEORY Formulas IS
+  ("`Included,imported and extended machines invariants'" & aivalue$1 : INTEGER & bivalue$1 : INTEGER);
+  ("`Previous components invariants'" & a : INTEGER & b : INTEGER & a = b);
+  ("`Variables conservation'" & aivalue = aivalue$1 & bivalue = bivalue$1);
+  ("`Included,imported and extended machines invariants'" & aivalue : INTEGER & bivalue : INTEGER)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

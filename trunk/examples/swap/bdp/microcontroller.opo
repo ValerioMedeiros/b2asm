@@ -1,0 +1,157 @@
+THEORY OPOBalanceX IS
+  microcontroller,95;
+  Initialisation,4;
+  init_data,7;
+  init,8;
+  get_data,8;
+  set_end,8;
+  nop,6;
+  goto,8;
+  testgt,12;
+  testeq,15;
+  move,6;
+  set_data,6;
+  inc,7
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(25) & inc.7,(_of(19) => _of(31));
+  _f(1) & _f(25) & inc.6,(_of(16) => _of(18));
+  _f(1) & _f(25) & inc.5,(_of(16) => _of(17));
+  _f(1) & _f(25) & inc.4,(_of(13) => _f(11));
+  _f(1) & _f(25) & inc.3,(_of(13) => _f(10));
+  _f(1) & _f(25) & inc.2,(_of(11) => _of(37));
+  _f(1) & _f(25) & inc.1,(_of(9) => _of(10));
+  _f(1) & _f(23) & set_data.6,(_of(19) => _of(31));
+  _f(1) & _f(23) & set_data.5,(_of(16) => _of(18));
+  _f(1) & _f(23) & set_data.4,(_of(16) => _of(17));
+  _f(1) & _f(23) & set_data.3,(_of(13) => _f(11));
+  _f(1) & _f(23) & set_data.2,(_of(13) => _f(10));
+  _f(1) & _f(23) & set_data.1,(_of(9) => _of(10));
+  _f(1) & _f(20) & move.6,(_of(19) => _of(31));
+  _f(1) & _f(20) & move.5,(_of(16) => _of(18));
+  _f(1) & _f(20) & move.4,(_of(16) => _of(17));
+  _f(1) & _f(20) & move.3,(_of(13) => _f(11));
+  _f(1) & _f(20) & move.2,(_of(13) => _f(10));
+  _f(1) & _f(20) & move.1,(_of(9) => _of(10));
+  _f(1) & _f(19) & testeq.15,(_of(36) & _of(19) => _f(18));
+  _f(1) & _f(19) & testeq.14,(_of(36) & _of(16) => _of(18));
+  _f(1) & _f(19) & testeq.13,(_of(36) & _of(16) => _of(17));
+  _f(1) & _f(19) & testeq.12,(_of(36) & _of(13) => _f(16));
+  _f(1) & _f(19) & testeq.11,(_of(36) & _of(13) => _f(15));
+  _f(1) & _f(19) & testeq.10,(_of(36) & _of(11) => _of(22));
+  _f(1) & _f(19) & testeq.9,(_of(36) & _of(11) => _of(21));
+  _f(1) & _f(19) & testeq.8,(_of(35) & _of(19) => _of(31));
+  _f(1) & _f(19) & testeq.7,(_of(35) & _of(16) => _of(18));
+  _f(1) & _f(19) & testeq.6,(_of(35) & _of(16) => _of(17));
+  _f(1) & _f(19) & testeq.5,(_of(35) & _of(13) => _f(11));
+  _f(1) & _f(19) & testeq.4,(_of(35) & _of(13) => _f(10));
+  _f(1) & _f(19) & testeq.3,(_of(35) & _of(11) => _of(22));
+  _f(1) & _f(19) & testeq.2,(_of(35) & _of(11) => _of(21));
+  _f(1) & _f(19) & testeq.1,(_of(9) => _of(10));
+  _f(1) & _f(13) & testgt.12,(_f(14) & _of(16) => _of(18));
+  _f(1) & _f(13) & testgt.11,(_f(14) & _of(16) => _of(17));
+  _f(1) & _f(13) & testgt.10,(_of(34) & _of(11) => _of(22));
+  _f(1) & _f(13) & testgt.9,(_of(34) & _of(11) => _of(21));
+  _f(1) & _f(13) & testgt.8,(_of(33) & _of(19) => _of(31));
+  _f(1) & _f(13) & testgt.7,(_of(33) & _of(16) => _of(18));
+  _f(1) & _f(13) & testgt.6,(_of(33) & _of(16) => _of(17));
+  _f(1) & _f(13) & testgt.5,(_of(33) & _of(13) => _f(11));
+  _f(1) & _f(13) & testgt.4,(_of(33) & _of(13) => _f(10));
+  _f(1) & _f(13) & testgt.3,(_of(33) & _of(11) => _of(22));
+  _f(1) & _f(13) & testgt.2,(_of(33) & _of(11) => _of(21));
+  _f(1) & _f(13) & testgt.1,(_of(9) => _of(10));
+  _f(1) & _f(12) & goto.8,(_of(19) => _of(32));
+  _f(1) & _f(12) & goto.7,(_of(16) => _of(18));
+  _f(1) & _f(12) & goto.6,(_of(16) => _of(17));
+  _f(1) & _f(12) & goto.5,(_of(13) => _of(29));
+  _f(1) & _f(12) & goto.4,(_of(13) => _of(28));
+  _f(1) & _f(12) & goto.3,(_of(11) => _of(22));
+  _f(1) & _f(12) & goto.2,(_of(11) => _of(21));
+  _f(1) & _f(12) & goto.1,(_of(9) => _of(10));
+  _f(1) & _f(8) & nop.6,(_of(19) => _of(31));
+  _f(1) & _f(8) & nop.5,(_of(16) => _of(18));
+  _f(1) & _f(8) & nop.4,(_of(16) => _of(17));
+  _f(1) & _f(8) & nop.3,(_of(11) => _of(22));
+  _f(1) & _f(8) & nop.2,(_of(11) => _of(21));
+  _f(1) & _f(8) & nop.1,(_of(9) => _of(10));
+  _f(1) & _f(7) & set_end.8,(_of(19) => _of(30));
+  _f(1) & _f(7) & set_end.7,(_of(16) => _of(29));
+  _f(1) & _f(7) & set_end.6,(_of(16) => _of(28));
+  _f(1) & _f(7) & set_end.5,(_of(13) => _of(15));
+  _f(1) & _f(7) & set_end.4,(_of(13) => _of(14));
+  _f(1) & _f(7) & set_end.3,(_of(11) => _of(22));
+  _f(1) & _f(7) & set_end.2,(_of(11) => _of(21));
+  _f(1) & _f(7) & set_end.1,(_of(9) => _of(10));
+  _f(1) & _f(6) & get_data.8,(_of(19) => _of(20));
+  _f(1) & _f(6) & get_data.7,(_of(16) => _of(18));
+  _f(1) & _f(6) & get_data.6,(_of(16) => _of(17));
+  _f(1) & _f(6) & get_data.5,(_of(13) => _of(15));
+  _f(1) & _f(6) & get_data.4,(_of(13) => _of(14));
+  _f(1) & _f(6) & get_data.3,(_of(11) => _of(22));
+  _f(1) & _f(6) & get_data.2,(_of(11) => _of(21));
+  _f(1) & _f(6) & get_data.1,(_of(9) => _of(10));
+  _f(1) & _f(5) & init.8,(_of(19) => _of(27));
+  _f(1) & _f(5) & init.7,(_of(16) => _of(26));
+  _f(1) & _f(5) & init.6,(_of(16) => _of(25));
+  _f(1) & _f(5) & init.5,(_of(13) => _of(24));
+  _f(1) & _f(5) & init.4,(_of(13) => _of(23));
+  _f(1) & _f(5) & init.3,(_of(11) => _of(22));
+  _f(1) & _f(5) & init.2,(_of(11) => _of(21));
+  _f(1) & _f(5) & init.1,(_of(9) => _of(10));
+  _f(1) & _f(2) & init_data.7,(_of(19) => _of(20));
+  _f(1) & _f(2) & init_data.6,(_of(16) => _of(18));
+  _f(1) & _f(2) & init_data.5,(_of(16) => _of(17));
+  _f(1) & _f(2) & init_data.4,(_of(13) => _of(15));
+  _f(1) & _f(2) & init_data.3,(_of(13) => _of(14));
+  _f(1) & _f(2) & init_data.2,(_of(11) => _of(12));
+  _f(1) & _f(2) & init_data.1,(_of(9) => _of(10));
+  Initialisation.4,(_of(1) & _of(7) => _of(8));
+  Initialisation.3,(_of(1) & _of(5) => _of(6));
+  Initialisation.2,(_of(1) & _of(2) => _of(4));
+  Initialisation.1,(_of(1) & _of(2) => _of(3))
+END
+&
+THEORY OPOFormulas IS
+  ("`Local hypotheses'" & mem$0 : NATURAL +-> NATURAL & dom(mem$0) = NATURAL);
+  "`Check that the invariant (mem : NATURAL --> NATURAL) is established by the initialisation - ref 3.3'";
+  (mem$0 : NATURAL +-> NATURAL);
+  (dom(mem$0) = NATURAL);
+  "`Check that the invariant (pc : NATURAL) is established by the initialisation - ref 3.3'" & "`Check that the invariant (end : NATURAL) is established by the initialisation - ref 3.3'";
+  (0 : INTEGER);
+  "`Check that the invariant (pc : NATURAL) is established by the initialisation - ref 3.3'" & "`Check that the invariant (end : NATURAL) is established by the initialisation - ref 3.3'" & "`Check that the invariant (pc<=end) is established by the initialisation - ref 3.3'";
+  (0<=0);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue);
+  "`Check that the invariant (mem : NATURAL --> NATURAL) is preserved by the operation - ref 3.4'";
+  (dom(mem<+{address|->value}) = NATURAL);
+  "`Check that the invariant (pc : NATURAL) is preserved by the operation - ref 3.4'";
+  (pc : INTEGER);
+  (0<=pc);
+  "`Check that the invariant (end : NATURAL) is preserved by the operation - ref 3.4'";
+  (end : INTEGER);
+  (0<=end);
+  "`Check that the invariant (pc<=end) is preserved by the operation - ref 3.4'";
+  (pc<=end);
+  (mem : NATURAL +-> NATURAL);
+  (dom(mem) = NATURAL);
+  (pc_ : INTEGER);
+  (0<=pc_);
+  (end_ : INTEGER);
+  (0<=end_);
+  (pc_<=end_);
+  (value : INTEGER);
+  (0<=value);
+  (pc<=value);
+  (pc+1<=end);
+  (value<=end);
+  ("`Local hypotheses'" & mem(address2)+1<=mem(address1));
+  ("`Local hypotheses'" & not(mem(address2)+1<=mem(address1)));
+  ("`Local hypotheses'" & mem(address1) = mem(address2));
+  ("`Local hypotheses'" & not(mem(address1) = mem(address2)));
+  (dom(mem<+{address|->mem(address)+1}) = NATURAL)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

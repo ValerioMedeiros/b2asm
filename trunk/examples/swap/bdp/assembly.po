@@ -1,0 +1,36 @@
+THEORY ProofList IS
+  _f(1) & _f(11) & run.2,(_f(12) & _f(15) => _f(16));
+  _f(1) & _f(11) & run.1,(_f(12) & _f(13) => _f(14));
+  _f(1) & Initialisation.4,(_f(6) & _f(9) => _f(10));
+  _f(1) & Initialisation.3,(_f(6) & _f(7) => _f(8));
+  _f(1) & Initialisation.2,(_f(2) & _f(3) => _f(5));
+  _f(1) & Initialisation.1,(_f(2) & _f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Included,imported and extended machines invariants'" & ucmem$1 : NATURAL +-> NATURAL & dom(ucmem$1) = NATURAL & ucpc$1 : INTEGER & 0<=ucpc$1 & ucend$1 : INTEGER & 0<=ucend$1 & ucpc$1<=ucend$1);
+  ("`Local hypotheses'" & mem$0 : NATURAL +-> NATURAL & dom(mem$0) = NATURAL);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (dom(mem$0<+{0|->0}) = NATURAL);
+  (dom(mem$0<+{0|->0}<+{1|->0}) = NATURAL);
+  ("`Local hypotheses'" & mem$0 : NATURAL +-> NATURAL & dom(mem$0) = NATURAL & mem$0<+{0|->0}<+{1|->0} : NATURAL +-> NATURAL & dom(mem$0<+{0|->0}<+{1|->0}) = NATURAL & 0 : INTEGER);
+  "`Check that the invariant (a = ucmem(0)) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  ((mem$0<+{0|->0}<+{1|->0})(0) = 0);
+  "`Check that the invariant (b = ucmem(1)) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  ((mem$0<+{0|->0}<+{1|->0})(1) = 0);
+  ("`Previous components invariants'" & a : INTEGER & b : INTEGER & a = b & "`Component invariant'" & a = ucmem$1(0) & b = ucmem$1(1));
+  ("`Local hypotheses'" & ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)} : NATURAL +-> NATURAL & dom(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)}) = NATURAL & 3 : INTEGER & 4 : INTEGER);
+  "`Check that the invariant (a = ucmem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  ((ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)})(0) = b);
+  "`Check that the invariant (b = ucmem(1)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  ((ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)})(1) = a);
+  ("`Variables conservation'" & ucend = ucend$1 & ucpc = ucpc$1 & ucmem = ucmem$1);
+  ("`Included,imported and extended machines invariants'" & ucmem : NATURAL +-> NATURAL & dom(ucmem) = NATURAL & ucpc : INTEGER & 0<=ucpc & ucend : INTEGER & 0<=ucend & ucpc<=ucend)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

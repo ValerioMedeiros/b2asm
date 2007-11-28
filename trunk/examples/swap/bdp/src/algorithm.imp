@@ -1,0 +1,15 @@
+IMPLEMENTATION
+   algorithm
+REFINES
+   swap
+IMPORTS
+   (ai.int) , (bi.int)
+OPERATIONS
+   run =
+   VAR va , vb IN
+      va <-- (ai.get) ;
+      vb <-- (bi.get) ;
+      (ai.set) ( vb ) ;
+      (bi.set) ( va )
+   END
+END
