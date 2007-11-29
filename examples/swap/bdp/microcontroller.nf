@@ -132,31 +132,31 @@ THEORY ListHeaderX IS
 END
 &
 THEORY ListPreconditionX IS
-  List_Precondition(Machine(microcontroller),init_data)==(address : NATURAL & value : NATURAL & dom(mem<+{address|->value}) = NATURAL);
+  List_Precondition(Machine(microcontroller),init_data)==(address : NATURAL & value : NATURAL);
   List_Precondition(Machine(microcontroller),init)==(pc_ : NATURAL & end_ : NATURAL & pc_<=end_);
   List_Precondition(Machine(microcontroller),get_data)==(address : NATURAL);
   List_Precondition(Machine(microcontroller),set_end)==(value : NATURAL & pc<=value);
   List_Precondition(Machine(microcontroller),nop)==(pc<end);
   List_Precondition(Machine(microcontroller),goto)==(value : NATURAL & value<=end);
-  List_Precondition(Machine(microcontroller),testgt)==(address1 : NATURAL & address2 : NATURAL & (mem(address1)>mem(address2) => pc+1 : NATURAL & pc+1<=end) & (mem(address1)<=mem(address2) => pc+2 : NATURAL & pc+2<=end));
-  List_Precondition(Machine(microcontroller),testeq)==(address1 : NATURAL & address2 : NATURAL & (mem(address1) = mem(address2) => pc+1 : NATURAL & pc+1<=end) & (mem(address1)/=mem(address2) => pc+2 : NATURAL & pc+2<=end));
-  List_Precondition(Machine(microcontroller),move)==(address_s : NATURAL & address_t : NATURAL & pc+1<=end & pc+1 : NATURAL);
-  List_Precondition(Machine(microcontroller),set_data)==(address : NATURAL & value : NATURAL & pc+1 : NATURAL & pc+1<=end);
-  List_Precondition(Machine(microcontroller),inc)==(address : NATURAL & mem(address)+1 : NATURAL & pc+1 : NATURAL & pc+1<=end & dom(mem<+{address|->mem(address)+1}) = NATURAL)
+  List_Precondition(Machine(microcontroller),testgt)==(address1 : NATURAL & address2 : NATURAL & (mem(address1)>mem(address2) => pc+1<=end) & (mem(address1)<=mem(address2) => pc+2<=end));
+  List_Precondition(Machine(microcontroller),testeq)==(address1 : NATURAL & address2 : NATURAL & (mem(address1) = mem(address2) => pc+1<=end) & (mem(address1)/=mem(address2) => pc+2<=end));
+  List_Precondition(Machine(microcontroller),move)==(address_s : NATURAL & address_t : NATURAL & pc+1<=end);
+  List_Precondition(Machine(microcontroller),set_data)==(address : NATURAL & value : NATURAL & pc+1<=end);
+  List_Precondition(Machine(microcontroller),inc)==(address : NATURAL & pc+1<=end)
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Machine(microcontroller),inc)==(address : NATURAL & mem(address)+1 : NATURAL & pc+1 : NATURAL & pc+1<=end & dom(mem<+{address|->mem(address)+1}) = NATURAL | mem,pc:=mem<+{address|->mem(address)+1},pc+1);
-  Expanded_List_Substitution(Machine(microcontroller),set_data)==(address : NATURAL & value : NATURAL & pc+1 : NATURAL & pc+1<=end | mem,pc:=mem<+{address|->value},pc+1);
-  Expanded_List_Substitution(Machine(microcontroller),move)==(address_s : NATURAL & address_t : NATURAL & pc+1<=end & pc+1 : NATURAL | mem,pc:=mem<+{address_t|->mem(address_s)},pc+1);
-  Expanded_List_Substitution(Machine(microcontroller),testeq)==(address1 : NATURAL & address2 : NATURAL & (mem(address1) = mem(address2) => pc+1 : NATURAL & pc+1<=end) & (mem(address1)/=mem(address2) => pc+2 : NATURAL & pc+2<=end) | mem(address1) = mem(address2) ==> pc:=pc+1 [] not(mem(address1) = mem(address2)) ==> pc:=pc+2);
-  Expanded_List_Substitution(Machine(microcontroller),testgt)==(address1 : NATURAL & address2 : NATURAL & (mem(address1)>mem(address2) => pc+1 : NATURAL & pc+1<=end) & (mem(address1)<=mem(address2) => pc+2 : NATURAL & pc+2<=end) | mem(address1)>mem(address2) ==> pc:=pc+1 [] not(mem(address1)>mem(address2)) ==> pc:=pc+2);
+  Expanded_List_Substitution(Machine(microcontroller),inc)==(address : NATURAL & pc+1<=end | mem,pc:=mem<+{address|->mem(address)+1},pc+1);
+  Expanded_List_Substitution(Machine(microcontroller),set_data)==(address : NATURAL & value : NATURAL & pc+1<=end | mem,pc:=mem<+{address|->value},pc+1);
+  Expanded_List_Substitution(Machine(microcontroller),move)==(address_s : NATURAL & address_t : NATURAL & pc+1<=end | mem,pc:=mem<+{address_t|->mem(address_s)},pc+1);
+  Expanded_List_Substitution(Machine(microcontroller),testeq)==(address1 : NATURAL & address2 : NATURAL & (mem(address1) = mem(address2) => pc+1<=end) & (mem(address1)/=mem(address2) => pc+2<=end) | mem(address1) = mem(address2) ==> pc:=pc+1 [] not(mem(address1) = mem(address2)) ==> pc:=pc+2);
+  Expanded_List_Substitution(Machine(microcontroller),testgt)==(address1 : NATURAL & address2 : NATURAL & (mem(address1)>mem(address2) => pc+1<=end) & (mem(address1)<=mem(address2) => pc+2<=end) | mem(address1)>mem(address2) ==> pc:=pc+1 [] not(mem(address1)>mem(address2)) ==> pc:=pc+2);
   Expanded_List_Substitution(Machine(microcontroller),goto)==(value : NATURAL & value<=end | pc:=value);
   Expanded_List_Substitution(Machine(microcontroller),nop)==(pc<end | pc:=pc+1);
   Expanded_List_Substitution(Machine(microcontroller),set_end)==(value : NATURAL & pc<=value | end:=value);
   Expanded_List_Substitution(Machine(microcontroller),get_data)==(address : NATURAL | res:=mem(address));
   Expanded_List_Substitution(Machine(microcontroller),init)==(pc_ : NATURAL & end_ : NATURAL & pc_<=end_ | pc,end:=pc_,end_);
-  Expanded_List_Substitution(Machine(microcontroller),init_data)==(address : NATURAL & value : NATURAL & dom(mem<+{address|->value}) = NATURAL | mem:=mem<+{address|->value});
+  Expanded_List_Substitution(Machine(microcontroller),init_data)==(address : NATURAL & value : NATURAL | mem:=mem<+{address|->value});
   List_Substitution(Machine(microcontroller),init_data)==(mem(address):=value);
   List_Substitution(Machine(microcontroller),init)==(pc:=pc_ || end:=end_);
   List_Substitution(Machine(microcontroller),get_data)==(res:=mem(address));
