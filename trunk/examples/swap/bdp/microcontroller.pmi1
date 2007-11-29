@@ -1,48 +1,78 @@
 THEORY BalanceX IS
-  microcontroller,11,3,0,8,0,0,0;
+  microcontroller,21,5,0,16,0,0,0;
   Initialisation,0,0,0,0,0,0,0;
-  init_data,1,0,0,1,0,0,0;
+  init_data,2,1,0,1,0,0,0;
   init,0,0,0,0,0,0,0;
   get_data,0,0,0,0,0,0,0;
   set_end,0,0,0,0,0,0,0;
   nop,2,0,0,2,0,0,0;
   goto,0,0,0,0,0,0,0;
-  testgt,3,1,0,2,0,0,0;
+  testgt,5,1,0,4,0,0,0;
   testeq,0,0,0,0,0,0,0;
-  move,2,1,0,1,0,0,0;
-  set_data,2,1,0,1,0,0,0;
-  inc,1,0,0,1,0,0,0
+  move,4,1,0,3,0,0,0;
+  set_data,4,1,0,3,0,0,0;
+  inc,4,1,0,3,0,0,0
 END
 &
 THEORY ProofState IS
   Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
   Proved(Util);
   Proved(0);
   Proved(Util);
   Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
   Proved(Util);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
   Proved(0)
 END
 &
 THEORY MethodList IS
   pr;
+  pr;
   cl & xp & ss & pp(rp.1);
   pr;
-  cl & xp & pp(rp.1);
-  pr;
-  cl & nv(pc<=end) & xp & ss & rn(not(0<= -1+mem(address1)-mem(address2))) & ah(pc<=end) & pp(rp.1);
   pr;
   pr;
+  cl & xp & ss & pp(rp.1);
   pr;
   pr;
+  pr;
+  cl & xp & ss & pp(rp.1);
+  pr;
+  cl & nv(pc<=end) & xp & rn(not(mem(address2)+1<=mem(address1))) & ss & pp(rp.0);
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & pp(rp.1);
   pr
 END
 &
 THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;

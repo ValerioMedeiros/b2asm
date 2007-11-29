@@ -64,7 +64,7 @@ THEORY ListAssertionsX IS
 END
 &
 THEORY ListInitialisationX IS
-  Expanded_List_Initialisation(Implementation(assembly))==(@(mem$0).(mem$0 : NATURAL --> NATURAL ==> ucmem:=mem$0) || ucpc:=0 || ucend:=0;(0 : NATURAL & 0 : NATURAL & dom(ucmem<+{0|->0}) = NATURAL | ucmem:=ucmem<+{0|->0});(1 : NATURAL & 0 : NATURAL & dom(ucmem<+{1|->0}) = NATURAL | ucmem:=ucmem<+{1|->0}));
+  Expanded_List_Initialisation(Implementation(assembly))==(@(mem$0).(mem$0 : NATURAL --> NATURAL ==> ucmem:=mem$0) || ucpc:=0 || ucend:=0;(0 : NATURAL & 0 : NATURAL | ucmem:=ucmem<+{0|->0});(1 : NATURAL & 0 : NATURAL | ucmem:=ucmem<+{1|->0}));
   Context_List_Initialisation(Implementation(assembly))==(skip);
   List_Initialisation(Implementation(assembly))==(BEGIN (uc.init_data)(0,0);(uc.init_data)(1,0) END)
 END
@@ -106,7 +106,7 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Implementation(assembly),run)==(btrue | (0 : NATURAL & 4 : NATURAL & 0<=4 | ucpc,ucend:=0,4);(0 : NATURAL & 2 : NATURAL & ucpc+1<=ucend & ucpc+1 : NATURAL | ucmem,ucpc:=ucmem<+{2|->ucmem(0)},ucpc+1);(1 : NATURAL & 3 : NATURAL & ucpc+1<=ucend & ucpc+1 : NATURAL | ucmem,ucpc:=ucmem<+{3|->ucmem(1)},ucpc+1);(3 : NATURAL & 0 : NATURAL & ucpc+1<=ucend & ucpc+1 : NATURAL | ucmem,ucpc:=ucmem<+{0|->ucmem(3)},ucpc+1));
+  Expanded_List_Substitution(Implementation(assembly),run)==(btrue | (0 : NATURAL & 4 : NATURAL & 0<=4 | ucpc,ucend:=0,4);(0 : NATURAL & 2 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{2|->ucmem(0)},ucpc+1);(1 : NATURAL & 3 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{3|->ucmem(1)},ucpc+1);(3 : NATURAL & 0 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{0|->ucmem(3)},ucpc+1));
   List_Substitution(Implementation(assembly),run)==((uc.init)(0,4);(uc.move)(0,2);(uc.move)(1,3);(uc.move)(3,0))
 END
 &

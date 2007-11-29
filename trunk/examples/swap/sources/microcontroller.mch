@@ -54,7 +54,7 @@ OPERATIONS
 	/* USED */
   init_data(address,value)= 
   PRE
-   address : NATURAL & value : NATURAL & dom(mem<+{address|->value}) = NATURAL 
+    address : NATURAL & value : NATURAL
   THEN
     mem(address):=value
   END;
@@ -62,7 +62,7 @@ OPERATIONS
 	/* USED */
   init(pc_,end_)=
   PRE
-  pc_ : NATURAL & end_ : NATURAL & pc_ <= end_
+    pc_ : NATURAL & end_ : NATURAL & pc_ <= end_
   THEN
   pc := pc_ || end := end_
   END;
@@ -77,7 +77,7 @@ OPERATIONS
 	/* USED */
   set_end(value)=
   PRE
-  value : NATURAL & pc <= value 
+    value : NATURAL & pc <= value 
   THEN
   end:= value
   END;
@@ -102,8 +102,8 @@ OPERATIONS
   testgt(address1, address2) =
   PRE
     address1 : NATURAL & address2 : NATURAL &
-    (mem(address1) > mem(address2) => ((pc + 1) : NATURAL & (pc + 1) <= end)) &
-    (mem(address1) <= mem(address2) => ((pc + 2) : NATURAL & (pc + 2) <= end))
+    (mem(address1) > mem(address2) => (pc + 1 <= end)) &
+    (mem(address1) <= mem(address2) => (pc + 2 <= end))
   THEN
     IF  mem(address1) > mem(address2)
     THEN  pc := pc +1
@@ -115,8 +115,8 @@ OPERATIONS
   testeq(address1, address2) =
   PRE
     address1 : NATURAL & address2 : NATURAL &
-    (mem(address1) = mem(address2) => ((pc + 1) : NATURAL & (pc + 1) <= end)) &
-    (mem(address1) /= mem(address2) => ((pc + 2) : NATURAL & (pc + 2) <= end))
+    (mem(address1) = mem(address2) => (pc + 1 <= end)) &
+    (mem(address1) /= mem(address2) => (pc + 2 <= end))
   THEN
     IF  mem(address1) = mem(address2)
     THEN  pc := pc +1
@@ -126,8 +126,8 @@ OPERATIONS
 
 	/* USED */
   move(address_s,address_t) =
-   PRE
-    address_s : NATURAL & address_t : NATURAL & (pc + 1) <= end & (pc+1) : NATURAL  
+  PRE
+    address_s : NATURAL & address_t : NATURAL & pc+1 <= end
   THEN
     mem(address_t):= mem(address_s)|| pc:=pc+1
   END;
@@ -135,7 +135,7 @@ OPERATIONS
 	/* USED */
   set_data(address,value)=
   PRE
-    address : NATURAL & value : NATURAL & pc + 1 : NATURAL & pc +1 <= end
+    address : NATURAL & value : NATURAL & pc +1 <= end
   THEN
     mem(address):=value || pc := pc +1 
   END;
@@ -144,8 +144,8 @@ OPERATIONS
 	/* USED */
   inc(address)=
   PRE
-    address : NATURAL & (mem(address)+1 ) : NATURAL & (pc + 1) : NATURAL & pc + 1 <= end &
-     dom(mem<+{address|->mem(address)+1}) = NATURAL 
+    address : NATURAL & /* (mem(address)+1 ) : NATURAL & */
+    pc + 1 <= end
   THEN
     mem(address):= mem(address) + 1 ||
     pc := pc +1
