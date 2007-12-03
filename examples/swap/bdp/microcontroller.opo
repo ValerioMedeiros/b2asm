@@ -15,29 +15,29 @@ THEORY OPOBalanceX IS
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(29) & inc.4,(_of(17) => _of(30));
-  _f(1) & _f(29) & inc.3,(_of(14) => _of(16));
-  _f(1) & _f(29) & inc.2,(_of(14) => _of(15));
-  _f(1) & _f(29) & inc.1,(_of(9) => _of(10));
-  _f(1) & _f(28) & set_data.4,(_of(17) => _of(30));
-  _f(1) & _f(28) & set_data.3,(_of(14) => _of(16));
-  _f(1) & _f(28) & set_data.2,(_of(14) => _of(15));
-  _f(1) & _f(28) & set_data.1,(_of(9) => _of(10));
-  _f(1) & _f(25) & move.4,(_of(17) => _of(30));
-  _f(1) & _f(25) & move.3,(_of(14) => _of(16));
-  _f(1) & _f(25) & move.2,(_of(14) => _of(15));
-  _f(1) & _f(25) & move.1,(_of(9) => _of(10));
-  _f(1) & _f(21) & testeq.11,(_f(24) & _of(38) => _f(20));
-  _f(1) & _f(21) & testeq.10,(_f(24) & _of(37) => _of(16));
-  _f(1) & _f(21) & testeq.9,(_f(24) & _of(37) => _of(15));
-  _f(1) & _f(21) & testeq.8,(_of(39) & _of(36) => _of(21));
-  _f(1) & _f(21) & testeq.7,(_of(39) & _of(36) => _of(20));
-  _f(1) & _f(21) & testeq.6,(_f(22) & _of(38) => _of(30));
-  _f(1) & _f(21) & testeq.5,(_f(22) & _of(37) => _of(16));
-  _f(1) & _f(21) & testeq.4,(_f(22) & _of(37) => _of(15));
-  _f(1) & _f(21) & testeq.3,(_of(35) & _of(36) => _of(21));
-  _f(1) & _f(21) & testeq.2,(_of(35) & _of(36) => _of(20));
-  _f(1) & _f(21) & testeq.1,(_of(34) => _of(10));
+  _f(1) & _f(28) & inc.4,(_of(17) => _of(30));
+  _f(1) & _f(28) & inc.3,(_of(14) => _of(16));
+  _f(1) & _f(28) & inc.2,(_of(14) => _of(15));
+  _f(1) & _f(28) & inc.1,(_of(9) => _of(10));
+  _f(1) & _f(27) & set_data.4,(_of(17) => _of(30));
+  _f(1) & _f(27) & set_data.3,(_of(14) => _of(16));
+  _f(1) & _f(27) & set_data.2,(_of(14) => _of(15));
+  _f(1) & _f(27) & set_data.1,(_of(9) => _of(10));
+  _f(1) & _f(24) & move.4,(_of(17) => _of(30));
+  _f(1) & _f(24) & move.3,(_of(14) => _of(16));
+  _f(1) & _f(24) & move.2,(_of(14) => _of(15));
+  _f(1) & _f(24) & move.1,(_of(9) => _of(10));
+  _f(1) & _f(21) & testeq.11,(_f(23) & _of(17) => _f(20));
+  _f(1) & _f(21) & testeq.10,(_f(23) & _of(14) => _of(16));
+  _f(1) & _f(21) & testeq.9,(_f(23) & _of(14) => _of(15));
+  _f(1) & _f(21) & testeq.8,(_of(35) & _of(19) => _of(21));
+  _f(1) & _f(21) & testeq.7,(_of(35) & _of(19) => _of(20));
+  _f(1) & _f(21) & testeq.6,(_f(22) & _of(17) => _of(30));
+  _f(1) & _f(21) & testeq.5,(_f(22) & _of(14) => _of(16));
+  _f(1) & _f(21) & testeq.4,(_f(22) & _of(14) => _of(15));
+  _f(1) & _f(21) & testeq.3,(_of(34) & _of(19) => _of(21));
+  _f(1) & _f(21) & testeq.2,(_of(34) & _of(19) => _of(20));
+  _f(1) & _f(21) & testeq.1,(_of(9) => _of(10));
   _f(1) & _f(14) & testgt.10,(_f(16) & _of(14) => _of(16));
   _f(1) & _f(14) & testgt.9,(_f(16) & _of(14) => _of(15));
   _f(1) & _f(14) & testgt.8,(_of(33) & _of(19) => _of(21));
@@ -132,11 +132,7 @@ THEORY OPOFormulas IS
   (value<=end);
   ("`Local hypotheses'" & mem(address2)+1<=mem(address1));
   ("`Local hypotheses'" & not(mem(address2)+1<=mem(address1)));
-  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   ("`Local hypotheses'" & mem(address1) = mem(address2));
-  "`Check that the invariant (mem : NATURAL --> NATURAL) is preserved by the operation - ref 3.4'";
-  "`Check that the invariant (end : NATURAL) is preserved by the operation - ref 3.4'";
-  "`Check that the invariant (pc<=end) is preserved by the operation - ref 3.4'";
   ("`Local hypotheses'" & not(mem(address1) = mem(address2)))
 END
 &
