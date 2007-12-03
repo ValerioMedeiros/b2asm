@@ -13,7 +13,7 @@ THEORY Formulas IS
   "`Check that the invariant (b = ucmem(1)) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
   ((mem$0<+{0|->0}<+{1|->0})(1) = 0);
   ("`Previous components invariants'" & a : INTEGER & b : INTEGER & a = b & "`Component invariant'" & a = ucmem$1(0) & b = ucmem$1(1));
-  ("`Local hypotheses'" & ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)} : NATURAL +-> NATURAL & dom(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)}) = NATURAL & 3 : INTEGER & 4 : INTEGER);
+  ("`Local hypotheses'" & ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)} : NATURAL +-> NATURAL & dom(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)}) = NATURAL & 3 : INTEGER);
   "`Check that the invariant (a = ucmem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
   ((ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)})(0) = b);
   "`Check that the invariant (b = ucmem(1)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";

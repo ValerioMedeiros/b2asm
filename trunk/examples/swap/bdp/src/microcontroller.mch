@@ -54,7 +54,7 @@ OPERATIONS
         /* USED */
   init_data ( address , value ) =
   PRE
-   address : NATURAL & value : NATURAL
+    address : NATURAL & value : NATURAL
   THEN
     mem ( address ) := value
   END ;
@@ -62,7 +62,7 @@ OPERATIONS
         /* USED */
   init ( pc_ , end_ ) =
   PRE
-  pc_ : NATURAL & end_ : NATURAL & pc_ <= end_
+    pc_ : NATURAL & end_ : NATURAL & pc_ <= end_
   THEN
   pc := pc_ || end := end_
   END ;
@@ -77,7 +77,7 @@ OPERATIONS
         /* USED */
   set_end ( value ) =
   PRE
-  value : NATURAL & pc <= value
+    value : NATURAL & pc <= value
   THEN
   end := value
   END ;
@@ -126,7 +126,7 @@ OPERATIONS
 
         /* USED */
   move ( address_s , address_t ) =
-   PRE
+  PRE
     address_s : NATURAL & address_t : NATURAL & pc + 1 <= end
   THEN
     mem ( address_t ) := mem ( address_s ) || pc := pc + 1
