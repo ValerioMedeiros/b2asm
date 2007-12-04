@@ -140,7 +140,7 @@ END
 &
 THEORY ListPropertiesX IS
   Abstract_List_Properties(Machine(sequence))==(btrue);
-  Context_List_Properties(Machine(sequence))==(uint32 : POW(INTEGER) & uint32 = 0..MAXINT);
+  Context_List_Properties(Machine(sequence))==(uint32 : POW(INTEGER) & uint32 = 0..MAXINT & uint16 : POW(INTEGER) & uint16 = 0..65535);
   Inherited_List_Properties(Machine(sequence))==(btrue);
   List_Properties(Machine(sequence))==(btrue)
 END
@@ -162,9 +162,9 @@ THEORY ListOfIdsX IS
   List_Of_VisibleCst_Ids(Machine(sequence)) == (?);
   List_Of_VisibleVar_Ids(Machine(sequence)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(sequence)) == (? : ?);
-  List_Of_Ids(Machine(types)) == (uint32 | ? | ? | ? | ? | ? | ? | ? | types);
+  List_Of_Ids(Machine(types)) == (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | types);
   List_Of_HiddenCst_Ids(Machine(types)) == (? | ?);
-  List_Of_VisibleCst_Ids(Machine(types)) == (uint32);
+  List_Of_VisibleCst_Ids(Machine(types)) == (uint32,uint16);
   List_Of_VisibleVar_Ids(Machine(types)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(types)) == (? : ?)
 END

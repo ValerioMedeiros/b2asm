@@ -22,6 +22,18 @@
         <component_file path="/home/david/B/abz2008/sources" name="conditionalasmw" suffix="imp" user="david">
             <component name="conditionalasmw" type="implementation" />
         </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="iteration" suffix="mch" user="david">
+            <component name="iteration" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="iterationalg" suffix="imp" user="david">
+            <component name="iterationalg" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="iterationasmvariant" suffix="mch" user="david">
+            <component name="iterationasmvariant" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="iterationasmw" suffix="imp" user="david">
+            <component name="iterationasmw" type="implementation" />
+        </component_file>
         <component_file path="/home/david/B/abz2008/sources" name="nat" suffix="mch" user="david">
             <component name="nat" type="specification" />
         </component_file>

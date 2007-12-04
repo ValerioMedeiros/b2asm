@@ -15,7 +15,7 @@ THEORY ProofList IS
 END
 &
 THEORY Formulas IS
-  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647);
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647 & uint16 : POW(INTEGER) & uint16 = 0..65535);
   ("`Included,imported and extended machines invariants'" & ucmem$1 : NATURAL +-> uint32 & dom(ucmem$1) = NATURAL & ucpc$1 : INTEGER & 0<=ucpc$1 & ucend$1 : INTEGER & 0<=ucend$1 & ucpc$1<=ucend$1);
   ("`Local hypotheses'" & mem$0 : NATURAL +-> uint32 & dom(mem$0) = NATURAL & end$0 : INTEGER & 0<=end$0 & 0 : INTEGER);
   "`Check initialisation refinement - ref 4.3, 5.4'";

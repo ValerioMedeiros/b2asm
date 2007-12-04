@@ -140,7 +140,7 @@ END
 &
 THEORY ListPropertiesX IS
   Abstract_List_Properties(Implementation(assignmentasm))==(btrue);
-  Context_List_Properties(Implementation(assignmentasm))==(uint32 : POW(INTEGER) & uint32 = 0..MAXINT);
+  Context_List_Properties(Implementation(assignmentasm))==(uint32 : POW(INTEGER) & uint32 = 0..MAXINT & uint16 : POW(INTEGER) & uint16 = 0..65535);
   Inherited_List_Properties(Implementation(assignmentasm))==(btrue);
   List_Properties(Implementation(assignmentasm))==(btrue)
 END
@@ -170,8 +170,8 @@ THEORY InheritedEnvX IS
 END
 &
 THEORY ListVisibleStaticX IS
-  List_Constants(Implementation(assignmentasm),Machine(types))==(uint32);
-  List_Constants_Env(Implementation(assignmentasm),Machine(types))==(Type(uint32) == Cst(SetOf(btype(INTEGER,"[uint32","]uint32"))))
+  List_Constants(Implementation(assignmentasm),Machine(types))==(uint32,uint16);
+  List_Constants_Env(Implementation(assignmentasm),Machine(types))==(Type(uint32) == Cst(SetOf(btype(INTEGER,"[uint32","]uint32")));Type(uint16) == Cst(SetOf(btype(INTEGER,"[uint16","]uint16"))))
 END
 &
 THEORY ListOfIdsX IS
@@ -179,15 +179,15 @@ THEORY ListOfIdsX IS
   List_Of_HiddenCst_Ids(Implementation(assignmentasm)) == (? | ?);
   List_Of_VisibleCst_Ids(Implementation(assignmentasm)) == (?);
   List_Of_VisibleVar_Ids(Implementation(assignmentasm)) == (? | ?);
-  List_Of_Ids_SeenBNU(Implementation(assignmentasm)) == (seen(Machine(types)) : (uint32 | ? | ? | ? | ? | ? | ? | ? | ?));
+  List_Of_Ids_SeenBNU(Implementation(assignmentasm)) == (seen(Machine(types)) : (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | ?));
   List_Of_Ids(Machine(ram)) == (? | ? | end,pc,mem | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
   List_Of_HiddenCst_Ids(Machine(ram)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(ram)) == (?);
   List_Of_VisibleVar_Ids(Machine(ram)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(ram)) == (? : ?);
-  List_Of_Ids(Machine(types)) == (uint32 | ? | ? | ? | ? | ? | ? | ? | types);
+  List_Of_Ids(Machine(types)) == (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | types);
   List_Of_HiddenCst_Ids(Machine(types)) == (? | ?);
-  List_Of_VisibleCst_Ids(Machine(types)) == (uint32);
+  List_Of_VisibleCst_Ids(Machine(types)) == (uint32,uint16);
   List_Of_VisibleVar_Ids(Machine(types)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(types)) == (? : ?)
 END
