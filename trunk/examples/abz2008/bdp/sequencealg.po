@@ -2,7 +2,7 @@ THEORY ProofList
 END
 &
 THEORY Formulas IS
-  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647);
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647 & uint16 : POW(INTEGER) & uint16 = 0..65535);
   ("`Included,imported and extended machines invariants'" & aivalue$1 : uint32 & bivalue$1 : uint32);
   ("`Previous components invariants'" & a : uint32 & b : uint32 & "`Component invariant'" & a = aivalue$1 & b = bivalue$1);
   ("`Variables conservation'" & aivalue = aivalue$1 & bivalue = bivalue$1);

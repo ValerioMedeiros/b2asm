@@ -23,7 +23,7 @@ THEORY ProofList IS
 END
 &
 THEORY Formulas IS
-  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647);
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647 & uint16 : POW(INTEGER) & uint16 = 0..65535);
   ("`Component invariant'" & mem : NATURAL +-> uint32 & dom(mem) = NATURAL & pc : INTEGER & 0<=pc & end : INTEGER & 0<=end & pc<=end);
   ("`init preconditions in this component'" & sz : INTEGER & 0<=sz);
   ("`nop preconditions in this component'" & pc+1<=end);

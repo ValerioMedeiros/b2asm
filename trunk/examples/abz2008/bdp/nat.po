@@ -2,7 +2,7 @@ THEORY ProofList
 END
 &
 THEORY Formulas IS
-  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647);
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647 & uint16 : POW(INTEGER) & uint16 = 0..65535);
   ("`Component invariant'" & value : uint32);
   ("`set preconditions in this component'" & v : uint32)
 END

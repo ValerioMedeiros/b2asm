@@ -2,27 +2,28 @@ THEORY BalanceX IS
   assignmentasmw,13,2,0,11,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  Initialisation,2,1,0,1,0,0,0;
-  run,11,1,0,10,0,0,0
+  Initialisation,1,0,0,1,0,0,0;
+  run,12,2,0,10,0,0,0
 END
 &
 THEORY ProofState IS
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
   Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
   Proved(Util);
   Proved(0)
 END
 &
 THEORY MethodList IS
+  cl & xp & ss & rn(not(ucpcz$7777<=0)) & ds(dom(ucmemz$7777) = NATURAL) & ds(ucpcz$7777 = 1 => ucmemz$7777(0) = 0) & ds(ucmemz$7777 : NATURAL +-> 0..2147483647) & ds(0+1<=ucpcz$7777) & ah(ucpcz$7777 = 1 => ucmemz$7777(0) = 0) & ah(1<=ucpcz$7777) & pp(rp.1);
   pr;
   pr;
   pr;
@@ -34,7 +35,6 @@ THEORY MethodList IS
   pr;
   pr;
   cl & xp & ss & ct;
-  cl & xp & ds(0 : INTEGER) & ds(0<=end$0) & ds(end$0 : INTEGER) & ds(mem$0 : NATURAL +-> NATURAL) & pp(rp.1);
   pr
 END
 &

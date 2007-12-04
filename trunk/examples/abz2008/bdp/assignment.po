@@ -3,7 +3,7 @@ THEORY ProofList IS
 END
 &
 THEORY Formulas IS
-  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647);
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647 & uint16 : POW(INTEGER) & uint16 = 0..65535);
   ("`Component invariant'" & v : uint32);
   "`Check that the invariant (v : uint32) is preserved by the operation - ref 3.4'";
   (0 : uint32)
