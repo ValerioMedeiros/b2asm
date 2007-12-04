@@ -1,0 +1,54 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & _f(6) & run.12,(_f(25) & _f(26) => _f(27));
+  _f(1) & _f(2) & _f(6) & run.11,(_f(23) & _f(8) => _f(24));
+  _f(1) & _f(2) & _f(6) & run.10,(_f(19) & _f(8) => _f(22));
+  _f(1) & _f(2) & _f(6) & run.9,(_f(19) & _f(8) => _f(21));
+  _f(1) & _f(2) & _f(6) & run.8,(_f(19) & _f(8) => _f(20));
+  _f(1) & _f(2) & _f(6) & run.7,(_f(17) & _f(8) => _f(18));
+  _f(1) & _f(2) & _f(6) & run.6,(_f(11) & _f(8) => _f(16));
+  _f(1) & _f(2) & _f(6) & run.5,(_f(11) & _f(8) => _f(15));
+  _f(1) & _f(2) & _f(6) & run.4,(_f(11) & _f(13) => _f(14));
+  _f(1) & _f(2) & _f(6) & run.3,(_f(11) & _f(8) => _f(12));
+  _f(1) & _f(2) & _f(6) & run.2,(_f(7) & _f(8) => _f(10));
+  _f(1) & _f(2) & _f(6) & run.1,(_f(7) & _f(8) => _f(9));
+  _f(1) & _f(2) & Initialisation.1,(_f(3) & _f(4) => _f(5))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647);
+  ("`Included,imported and extended machines invariants'" & ucmem$1 : NATURAL +-> uint32 & dom(ucmem$1) = NATURAL & ucpc$1 : INTEGER & 0<=ucpc$1 & ucend$1 : INTEGER & 0<=ucend$1 & ucpc$1<=ucend$1);
+  ("`Local hypotheses'" & mem$0 : NATURAL +-> uint32 & dom(mem$0) = NATURAL & end$0 : INTEGER & 0<=end$0 & 0 : INTEGER);
+  "`Check initialisation refinement - ref 4.3, 5.4'";
+  (mem$0(0) : uint32);
+  ("`Previous components invariants'" & v : uint32 & "`Component invariant'" & v = ucmem$1(0));
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=1 & (pc$0 = 1 => ucmem$2(0) = 0) & pc$0 = ucpc$2);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (1-pc$0 : INTEGER);
+  (0<=1-pc$0);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=1 & (pc$0 = 1 => ucmem$2(0) = 0) & pc$0 = ucpc$2 & pc$0+1<=1 & pc$0 = 0);
+  (0 : uint32);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (ucpc$2+1<=1);
+  (1-(ucpc$2+1)+1<=1-pc$0);
+  (0<=ucpc$2+1);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=1 & (pc$0 = 1 => ucmem$2(0) = 0) & pc$0 = ucpc$2 & pc$0+1<=1 & pc$0 = 0 & ucpc$2+1 = 1);
+  ((ucmem$2<+{0|->0})(0) = 0);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=1 & (pc$0 = 1 => ucmem$2(0) = 0) & pc$0 = ucpc$2 & pc$0+1<=1 & not(pc$0 = 0));
+  (1-ucpc$2+1<=1-pc$0);
+  (0<=ucpc$2);
+  (ucpc$2<=1);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=1 & (pc$0 = 1 => ucmem$2(0) = 0) & pc$0 = ucpc$2 & pc$0+1<=1 & not(pc$0 = 0) & ucpc$2 = 1);
+  (ucmem$2(0) = 0);
+  ("`Local hypotheses'" & not(ucpcz$7777+1<=1) & 0<=ucpcz$7777 & ucpcz$7777<=1 & (ucpcz$7777 = 1 => ucmemz$7777(0) = 0) & ucmemz$7777 : NATURAL +-> uint32 & dom(ucmemz$7777) = NATURAL & ucpcz$7777 : INTEGER & 1 : INTEGER);
+  "`Check that the invariant (v = ucmem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  (ucmemz$7777(0) = 0);
+  ("`Variables conservation'" & ucend = ucend$1 & ucpc = ucpc$1 & ucmem = ucmem$1);
+  ("`Included,imported and extended machines invariants'" & ucmem : NATURAL +-> uint32 & dom(ucmem) = NATURAL & ucpc : INTEGER & 0<=ucpc & ucend : INTEGER & 0<=ucend & ucpc<=ucend)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

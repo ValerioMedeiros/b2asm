@@ -1,0 +1,22 @@
+THEORY OPOBalanceX IS
+  assignment,2;
+  Initialisation,1;
+  run,1
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & run.1,(_of(4) => _of(5));
+  _f(1) & Initialisation.1,(_of(1) & _of(2) => _of(3))
+END
+&
+THEORY OPOFormulas IS
+  ("`Local hypotheses'" & v$0 : uint32);
+  "`Check that the invariant (v : uint32) is established by the initialisation - ref 3.3'";
+  (btrue => v$0 : uint32);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

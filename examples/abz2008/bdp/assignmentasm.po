@@ -1,0 +1,28 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & _f(6) & run.2,(_f(9) & _f(10) => _f(11));
+  _f(1) & _f(2) & _f(6) & run.1,(_f(7) => _f(8));
+  _f(1) & _f(2) & Initialisation.1,(_f(3) & _f(4) => _f(5))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647);
+  ("`Included,imported and extended machines invariants'" & ucmem$1 : NATURAL +-> uint32 & dom(ucmem$1) = NATURAL & ucpc$1 : INTEGER & 0<=ucpc$1 & ucend$1 : INTEGER & 0<=ucend$1 & ucpc$1<=ucend$1);
+  ("`Local hypotheses'" & mem$0 : NATURAL +-> uint32 & dom(mem$0) = NATURAL & end$0 : INTEGER & 0<=end$0 & 0 : INTEGER);
+  "`Check initialisation refinement - ref 4.3, 5.4'";
+  (mem$0(0) : uint32);
+  ("`Previous components invariants'" & v : uint32 & "`Component invariant'" & v = ucmem$1(0));
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (0 : uint32);
+  ("`Local hypotheses'" & ucmem$1<+{0|->0} : NATURAL +-> uint32 & dom(ucmem$1<+{0|->0}) = NATURAL & 1 : INTEGER);
+  "`Check that the invariant (v = ucmem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  ((ucmem$1<+{0|->0})(0) = 0);
+  ("`Variables conservation'" & ucend = ucend$1 & ucpc = ucpc$1 & ucmem = ucmem$1);
+  ("`Included,imported and extended machines invariants'" & ucmem : NATURAL +-> uint32 & dom(ucmem) = NATURAL & ucpc : INTEGER & 0<=ucpc & ucend : INTEGER & 0<=ucend & ucpc<=ucend)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

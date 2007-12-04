@@ -1,0 +1,30 @@
+IMPLEMENTATION assignmentasmw
+REFINES assignment
+SEES types
+IMPORTS (uc.ram)
+INVARIANT
+  v = (uc.mem) ( 0 )
+INITIALISATION
+  (uc.init) ( 0 )
+OPERATIONS
+  run =
+  VAR pc , end IN
+    pc := 0 ;
+    end := 1 ;
+    (uc.init) ( end ) ;
+    WHILE pc < end DO
+    BEGIN
+      CASE pc OF
+        EITHER 0 THEN (uc.set) ( 0 , 0 )
+        END
+      END ;
+      pc <-- (uc.get_pc)
+    END
+    INVARIANT
+      0 <= pc & pc <= end &
+      pc = (uc.pc) & end = (uc.end) &
+      ( pc = 1 => (uc.mem) ( 0 ) = 0 )
+    VARIANT end - pc
+    END
+  END
+END

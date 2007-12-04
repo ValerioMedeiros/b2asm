@@ -1,0 +1,3 @@
+MODEL
+   int
+END

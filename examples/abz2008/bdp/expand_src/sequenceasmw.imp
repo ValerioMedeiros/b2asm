@@ -1,0 +1,37 @@
+IMPLEMENTATION sequenceasmw
+REFINES sequence
+SEES types
+IMPORTS uc.ram
+INVARIANT
+  a = uc.mem ( 0 ) & b = uc.mem ( 1 )
+INITIALISATION
+  skip
+OPERATIONS
+  run =
+  VAR pc , end IN
+    pc := 0 ;
+    end := 4 ;
+    uc.init ( end ) ;
+    WHILE pc < end DO
+    BEGIN
+      CASE pc OF
+        EITHER 0 THEN uc.move ( 0 , 2 )
+        OR 1 THEN uc.move ( 1 , 3 )
+        OR 2 THEN uc.move ( 3 , 0 )
+        OR 3 THEN uc.move ( 2 , 1 )
+        END
+      END ;
+      pc <-- uc.get_pc
+    END
+    INVARIANT
+      pc >= 0 & pc <= end &
+      pc = uc.pc & end = uc.end &
+      ( pc = 0 => uc.mem ( 0 ) = a & uc.mem ( 1 ) = b ) &
+      ( pc = 1 => uc.mem ( 0 ) = a & uc.mem ( 1 ) = b & uc.mem ( 2 ) = a ) &
+      ( pc = 2 => uc.mem ( 0 ) = a & uc.mem ( 1 ) = b & uc.mem ( 2 ) = a & uc.mem ( 3 ) = b ) &
+      ( pc = 3 => uc.mem ( 0 ) = b & uc.mem ( 1 ) = b & uc.mem ( 2 ) = a ) &
+      ( pc = 4 => uc.mem ( 0 ) = b & uc.mem ( 1 ) = a )
+    VARIANT end - pc
+    END
+  END
+END

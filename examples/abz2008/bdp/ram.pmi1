@@ -1,0 +1,94 @@
+THEORY BalanceX IS
+  ram,21,4,0,16,0,0,0;
+  Initialisation,0,0,0,0,0,0,0;
+  init,0,0,0,0,0,0,0;
+  nop,2,0,0,2,0,0,0;
+  set,4,1,0,3,0,0,0;
+  inc,2,1,0,0,0,0,0;
+  move,4,1,0,3,0,0,0;
+  testgt,5,1,0,4,0,0,0;
+  testeq,4,0,0,4,0,0,0;
+  goto,0,0,0,0,0,0,0;
+  get_data,0,0,0,0,0,0,0;
+  get_pc,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & nv(pc<=end) & xp & ss & rn(not(0<= -1+mem(addr1)-mem(addr2))) & ss & pp(rp.1);
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & eh(dom(mem),NATURAL,Goal) & ss & ct;
+  pr;
+  cl & xp & ss & eh(dom(mem),NATURAL,Goal) & ss & ct;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & eh(dom(mem),NATURAL,Goal) & pr;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END

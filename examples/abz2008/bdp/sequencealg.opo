@@ -1,0 +1,43 @@
+THEORY OPOBalanceX IS
+  sequencealg,12;
+  ValuesLemmas,1;
+  InstanciatedConstraintsLemmas,0;
+  Initialisation,4;
+  run,7
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & _f(3) & run.7,(_of(13) => _of(2));
+  _f(1) & _f(2) & _f(3) & run.6,(_of(13) => _of(14));
+  _f(1) & _f(2) & _f(3) & run.5,(_of(11) => _of(12));
+  _f(1) & _f(2) & _f(3) & run.4,(_of(3) => _of(10));
+  _f(1) & _f(2) & _f(3) & run.3,(_of(3) => _of(9));
+  _f(1) & _f(2) & _f(3) & run.2,(_of(3) => _of(2));
+  _f(1) & _f(2) & _f(3) & run.1,(_of(8) => _of(2));
+  _f(1) & _f(2) & Initialisation.4,(_of(4) & _of(5) => _of(2));
+  _f(1) & _f(2) & Initialisation.3,(_of(4) & _of(5) => _of(7));
+  _f(1) & _f(2) & Initialisation.2,(_of(4) & _of(5) => _of(6));
+  _f(1) & _f(2) & Initialisation.1,(_of(3) => _of(2));
+  _f(1) & ValuesLemmas.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the property (btrue) is preserved by the valuations - ref 5.2'";
+  (btrue);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  ("`Local hypotheses'" & value$0 : uint32 & value$1 : uint32);
+  "`Check initialisation refinement - ref 4.3, 5.4'";
+  (value$0 : uint32);
+  (value$1 : uint32);
+  "`Check precondition (btrue) deduction'";
+  (btrue => bivalue$1 : uint32);
+  (btrue => aivalue$1 : uint32);
+  "`Check that the invariant (a = aivalue) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  (bivalue$1 = b);
+  "`Check that the invariant (b = bivalue) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  (aivalue$1 = a)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
