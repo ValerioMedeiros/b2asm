@@ -1,0 +1,48 @@
+THEORY OPOBalanceX IS
+  sequenceasm,15;
+  ValuesLemmas,1;
+  InstanciatedConstraintsLemmas,0;
+  Initialisation,2;
+  run,12
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & _f(7) & run.12,(_f(8) & _of(16) => _of(2));
+  _f(1) & _f(2) & _f(7) & run.11,(_of(3) => _of(15));
+  _f(1) & _f(2) & _f(7) & run.10,(_of(3) => _of(14));
+  _f(1) & _f(2) & _f(7) & run.9,(_of(3) => _of(13));
+  _f(1) & _f(2) & _f(7) & run.8,(_of(7) => _of(12));
+  _f(1) & _f(2) & _f(7) & run.7,(_of(7) => _of(11));
+  _f(1) & _f(2) & _f(7) & run.6,(_of(3) => _of(10));
+  _f(1) & _f(2) & _f(7) & run.5,(_of(7) => _of(9));
+  _f(1) & _f(2) & _f(7) & run.4,(_of(7) => _of(8));
+  _f(1) & _f(2) & _f(7) & run.3,(_of(3) => _of(6));
+  _f(1) & _f(2) & _f(7) & run.2,(_of(3) => _of(2));
+  _f(1) & _f(2) & _f(7) & run.1,(_of(5) => _of(2));
+  _f(1) & _f(2) & Initialisation.2,(_f(3) & _of(4) => _of(2));
+  _f(1) & _f(2) & Initialisation.1,(_of(3) => _of(2));
+  _f(1) & ValuesLemmas.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the property (btrue) is preserved by the valuations - ref 5.2'";
+  (btrue);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  "`Check initialisation refinement - ref 4.3, 5.4'";
+  "`Check precondition (btrue) deduction'";
+  (4 : NATURAL);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (0 : NATURAL);
+  (2 : NATURAL);
+  (1<=4);
+  (1 : NATURAL);
+  (3 : NATURAL);
+  (2<=4);
+  (3<=4);
+  (4<=4);
+  "`Check that the invariant (b = ucmem(1)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'"
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

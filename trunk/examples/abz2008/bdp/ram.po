@@ -1,0 +1,62 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & _f(25) & testeq.4,(_f(27) & _f(5) => _f(22));
+  _f(1) & _f(2) & _f(25) & testeq.3,(_f(27) & _f(5) => _f(21));
+  _f(1) & _f(2) & _f(25) & testeq.2,(_f(26) & _f(5) => _f(7));
+  _f(1) & _f(2) & _f(25) & testeq.1,(_f(26) & _f(5) => _f(6));
+  _f(1) & _f(2) & _f(18) & testgt.5,(_f(20) & _f(23) => _f(24));
+  _f(1) & _f(2) & _f(18) & testgt.4,(_f(20) & _f(5) => _f(22));
+  _f(1) & _f(2) & _f(18) & testgt.3,(_f(20) & _f(5) => _f(21));
+  _f(1) & _f(2) & _f(18) & testgt.2,(_f(19) & _f(5) => _f(7));
+  _f(1) & _f(2) & _f(18) & testgt.1,(_f(19) & _f(5) => _f(6));
+  _f(1) & _f(2) & _f(15) & move.4,(_f(5) => _f(7));
+  _f(1) & _f(2) & _f(15) & move.3,(_f(5) => _f(6));
+  _f(1) & _f(2) & _f(15) & move.2,(_f(9) => _f(17));
+  _f(1) & _f(2) & _f(15) & move.1,(_f(9) => _f(16));
+  _f(1) & _f(2) & _f(12) & inc.2,(_f(9) => _f(14));
+  _f(1) & _f(2) & _f(12) & inc.1,(_f(9) => _f(13));
+  _f(1) & _f(2) & _f(8) & set.4,(_f(5) => _f(7));
+  _f(1) & _f(2) & _f(8) & set.3,(_f(5) => _f(6));
+  _f(1) & _f(2) & _f(8) & set.2,(_f(9) => _f(11));
+  _f(1) & _f(2) & _f(8) & set.1,(_f(9) => _f(10));
+  _f(1) & _f(2) & _f(4) & nop.2,(_f(5) => _f(7));
+  _f(1) & _f(2) & _f(4) & nop.1,(_f(5) => _f(6))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647);
+  ("`Component invariant'" & mem : NATURAL +-> uint32 & dom(mem) = NATURAL & pc : INTEGER & 0<=pc & end : INTEGER & 0<=end & pc<=end);
+  ("`init preconditions in this component'" & sz : INTEGER & 0<=sz);
+  ("`nop preconditions in this component'" & pc+1<=end);
+  "`Check that the invariant (pc : NATURAL) is preserved by the operation - ref 3.4'";
+  (pc+1 : INTEGER);
+  (0<=pc+1);
+  ("`set preconditions in this component'" & addr : INTEGER & 0<=addr & val : uint32 & pc+1<=end);
+  "`Check that the invariant (mem : NATURAL --> uint32) is preserved by the operation - ref 3.4'";
+  (mem<+{addr|->val} : NATURAL +-> uint32);
+  (dom(mem<+{addr|->val}) = NATURAL);
+  ("`inc preconditions in this component'" & addr : INTEGER & 0<=addr & pc+1<=end & mem(addr)+1<=2147483647);
+  (mem<+{addr|->mem(addr)+1} : NATURAL +-> uint32);
+  (dom(mem<+{addr|->mem(addr)+1}) = NATURAL);
+  ("`move preconditions in this component'" & src : INTEGER & 0<=src & dest : INTEGER & 0<=dest & pc+1<=end);
+  (mem<+{dest|->mem(src)} : NATURAL +-> uint32);
+  (dom(mem<+{dest|->mem(src)}) = NATURAL);
+  ("`testgt preconditions in this component'" & addr1 : INTEGER & 0<=addr1 & addr2 : INTEGER & 0<=addr2 & (mem(addr2)+1<=mem(addr1) => pc+1<=end) & (mem(addr1)<=mem(addr2) => pc+2<=end));
+  ("`Local hypotheses'" & mem(addr2)+1<=mem(addr1));
+  ("`Local hypotheses'" & not(mem(addr2)+1<=mem(addr1)));
+  (pc+2 : INTEGER);
+  (0<=pc+2);
+  "`Check that the invariant (pc<=end) is preserved by the operation - ref 3.4'";
+  (pc+2<=end);
+  ("`testeq preconditions in this component'" & addr1 : INTEGER & 0<=addr1 & addr2 : INTEGER & 0<=addr2 & (mem(addr1) = mem(addr2) => pc+1<=end) & (not(mem(addr1) = mem(addr2)) => pc+2<=end));
+  ("`Local hypotheses'" & mem(addr1) = mem(addr2));
+  ("`Local hypotheses'" & not(mem(addr1) = mem(addr2)));
+  ("`goto preconditions in this component'" & dest : INTEGER & 0<=dest & dest<=end);
+  ("`get_data preconditions in this component'" & addr : INTEGER & 0<=addr)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

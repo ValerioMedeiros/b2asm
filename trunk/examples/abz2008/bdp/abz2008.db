@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<db_xml>
+    <atelierb version="3_7_ubuntu-cvs" />
+    <project decomp_dir="/home/david/B/abz2008/bdp/expand_src" old_decomp_dir="/home/david/B/abz2008/bdp/src">
+        <!-- Definition directory list -->
+        <!-- Component file list -->
+        <component_file path="/home/david/B/abz2008/sources" name="assignment" suffix="mch" user="david">
+            <component name="assignment" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="assignmentasm" suffix="imp" user="david">
+            <component name="assignmentasm" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="assignmentasmw" suffix="imp" user="david">
+            <component name="assignmentasmw" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="conditional" suffix="mch" user="david">
+            <component name="conditional" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="conditionalalg" suffix="imp" user="david">
+            <component name="conditionalalg" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="conditionalasmw" suffix="imp" user="david">
+            <component name="conditionalasmw" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="nat" suffix="mch" user="david">
+            <component name="nat" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="ram" suffix="mch" user="david">
+            <component name="ram" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="sequence" suffix="mch" user="david">
+            <component name="sequence" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="sequencealg" suffix="imp" user="david">
+            <component name="sequencealg" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="sequenceasm" suffix="imp" user="david">
+            <component name="sequenceasm" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="sequenceasmw" suffix="imp" user="david">
+            <component name="sequenceasmw" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/abz2008/sources" name="types" suffix="mch" user="david">
+            <component name="types" type="specification" />
+        </component_file>
+    </project>
+</db_xml>

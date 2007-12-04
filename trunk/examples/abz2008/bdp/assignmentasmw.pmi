@@ -1,0 +1,63 @@
+THEORY BalanceX IS
+  assignmentasmw,13,2,0,11,0,0,0;
+  ValuesLemmas,0,0,0,0,0,0,0;
+  InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
+  Initialisation,1,0,0,1,0,0,0;
+  run,12,2,0,10,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  cl & xp & ss & rn(not(ucpcz$7777<=0)) & ds(dom(ucmemz$7777) = NATURAL) & ds(ucpcz$7777 = 1 => ucmemz$7777(0) = 0) & ds(ucmemz$7777 : NATURAL +-> 0..2147483647) & ds(0+1<=ucpcz$7777) & ah(ucpcz$7777 = 1 => ucmemz$7777(0) = 0) & ah(1<=ucpcz$7777) & pp(rp.1);
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & ct;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END

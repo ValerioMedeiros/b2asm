@@ -1,0 +1,84 @@
+THEORY OPOBalanceX IS
+  sequenceasmw,37;
+  ValuesLemmas,1;
+  InstanciatedConstraintsLemmas,0;
+  Initialisation,2;
+  run,34
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & _f(7) & run.34,(_f(79) & _of(30) => _of(2));
+  _f(1) & _f(2) & _f(7) & run.33,(_f(64) & _of(3) => _of(10));
+  _f(1) & _f(2) & _f(7) & run.32,(_f(64) & _of(3) => _of(29));
+  _f(1) & _f(2) & _f(7) & run.31,(_f(17) & _of(3) => _of(10));
+  _f(1) & _f(2) & _f(7) & run.30,(_f(17) & _of(3) => _of(28));
+  _f(1) & _f(2) & _f(7) & run.29,(_f(16) & _of(3) => _of(10));
+  _f(1) & _f(2) & _f(7) & run.28,(_f(16) & _of(3) => _of(28));
+  _f(1) & _f(2) & _f(7) & run.27,(_f(15) & _of(3) => _of(10));
+  _f(1) & _f(2) & _f(7) & run.26,(_f(15) & _of(3) => _of(28));
+  _f(1) & _f(2) & _f(7) & run.25,(_f(12) & _of(3) => _of(10));
+  _f(1) & _f(2) & _f(7) & run.24,(_f(12) & _of(3) => _of(28));
+  _f(1) & _f(2) & _f(7) & run.23,(_of(27) & _of(3) => _of(24));
+  _f(1) & _f(2) & _f(7) & run.22,(_of(27) & _of(3) => _of(22));
+  _f(1) & _f(2) & _f(7) & run.21,(_of(26) & _of(3) => _of(21));
+  _f(1) & _f(2) & _f(7) & run.20,(_of(26) & _of(3) => _of(25));
+  _f(1) & _f(2) & _f(7) & run.19,(_of(23) & _of(3) => _of(25));
+  _f(1) & _f(2) & _f(7) & run.18,(_of(23) & _of(3) => _of(24));
+  _f(1) & _f(2) & _f(7) & run.17,(_of(20) & _of(3) => _of(22));
+  _f(1) & _f(2) & _f(7) & run.16,(_of(20) & _of(3) => _of(21));
+  _f(1) & _f(2) & _f(7) & run.15,(_of(13) & _of(3) => _of(19));
+  _f(1) & _f(2) & _f(7) & run.14,(_of(13) & _of(14) => _of(18));
+  _f(1) & _f(2) & _f(7) & run.13,(_of(13) & _of(3) => _of(17));
+  _f(1) & _f(2) & _f(7) & run.12,(_of(13) & _of(15) => _of(16));
+  _f(1) & _f(2) & _f(7) & run.11,(_of(13) & _of(15) => _of(12));
+  _f(1) & _f(2) & _f(7) & run.10,(_of(13) & _of(14) => _of(11));
+  _f(1) & _f(2) & _f(7) & run.9,(_of(3) => _of(12));
+  _f(1) & _f(2) & _f(7) & run.8,(_of(3) => _of(11));
+  _f(1) & _f(2) & _f(7) & run.7,(_of(3) => _of(10));
+  _f(1) & _f(2) & _f(7) & run.6,(_of(3) => _of(9));
+  _f(1) & _f(2) & _f(7) & run.5,(_of(3) => _of(8));
+  _f(1) & _f(2) & _f(7) & run.4,(_of(3) => _of(7));
+  _f(1) & _f(2) & _f(7) & run.3,(_of(3) => _of(6));
+  _f(1) & _f(2) & _f(7) & run.2,(_of(3) => _of(2));
+  _f(1) & _f(2) & _f(7) & run.1,(_of(5) => _of(2));
+  _f(1) & _f(2) & Initialisation.2,(_f(3) & _of(4) => _of(2));
+  _f(1) & _f(2) & Initialisation.1,(_of(3) => _of(2));
+  _f(1) & ValuesLemmas.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the property (btrue) is preserved by the valuations - ref 5.2'";
+  (btrue);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  "`Check initialisation refinement - ref 4.3, 5.4'";
+  "`Check precondition (btrue) deduction'";
+  (4 : NATURAL);
+  (0>=0);
+  (0<=4);
+  (0 = 0);
+  (4 = 4);
+  (ucmem$1(0) = a);
+  (ucmem$1(1) = b);
+  ("`Local hypotheses'" & bfalse);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (ucmem$1(2) = a);
+  (ucmem$1(3) = b);
+  (ucmem$1(0) = b);
+  (ucmem$1(1) = a);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (pc$0 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (pc$0 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (pc$0 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 3) & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0);
+  (0 : NATURAL);
+  (2 : NATURAL);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (pc$0 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (pc$0 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (pc$0 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 3) & not(pc$0 = 2) & pc$0 = 1);
+  (1 : NATURAL);
+  (3 : NATURAL);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (pc$0 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (pc$0 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (pc$0 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 3) & pc$0 = 2);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (pc$0 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (pc$0 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (pc$0 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2) & pc$0 = 3);
+  (ucpc$2+1 = ucpc$2+1);
+  (ucpc$2 = ucpc$2);
+  "`Check that the invariant (b = ucmem(1)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'"
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

@@ -1,0 +1,18 @@
+IMPLEMENTATION
+   sequencealg
+REFINES
+   sequence
+SEES types
+IMPORTS
+   (ai.nat) , (bi.nat)
+INVARIANT
+   a = (ai.value) & b = (bi.value)
+OPERATIONS
+   run =
+   VAR va , vb IN
+      va <-- (ai.get) ;
+      vb <-- (bi.get) ;
+      (ai.set) ( vb ) ;
+      (bi.set) ( va )
+   END
+END

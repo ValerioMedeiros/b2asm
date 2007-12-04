@@ -1,0 +1,15 @@
+IMPLEMENTATION assignmentasm
+REFINES assignment
+SEES types
+IMPORTS uc.ram
+INVARIANT
+  v = uc.mem ( 0 )
+INITIALISATION
+  uc.init ( 0 )
+OPERATIONS
+  run =
+    BEGIN
+      uc.init ( 1 ) ;
+      uc.set ( 0 , 0 )
+    END
+END

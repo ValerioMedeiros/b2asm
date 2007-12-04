@@ -1,0 +1,29 @@
+THEORY OPOBalanceX IS
+  nat,5;
+  Initialisation,1;
+  get,2;
+  set,2
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & _f(3) & set.2,(_of(6) => _of(8));
+  _f(1) & _f(2) & _f(3) & set.1,(_of(4) => _of(5));
+  _f(1) & _f(2) & get.2,(_of(6) => _of(7));
+  _f(1) & _f(2) & get.1,(_of(4) => _of(5));
+  _f(1) & Initialisation.1,(_of(1) & _of(2) => _of(3))
+END
+&
+THEORY OPOFormulas IS
+  ("`Local hypotheses'" & value$0 : uint32);
+  "`Check that the invariant (value : uint32) is established by the initialisation - ref 3.3'";
+  (btrue => value$0 : uint32);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue);
+  "`Check that the invariant (value : uint32) is preserved by the operation - ref 3.4'";
+  (btrue => value : uint32);
+  (btrue => v : uint32)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
