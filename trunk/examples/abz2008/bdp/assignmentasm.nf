@@ -18,8 +18,8 @@ THEORY ListSeesX IS
 END
 &
 THEORY ListIncludesX IS
-  List_Includes(Implementation(assignmentasm))==(uc.ram);
-  Inherited_List_Includes(Implementation(assignmentasm))==(uc.ram)
+  List_Includes(Implementation(assignmentasm))==(ram);
+  Inherited_List_Includes(Implementation(assignmentasm))==(ram)
 END
 &
 THEORY ListPromotesX IS
@@ -35,8 +35,8 @@ THEORY ListVariablesX IS
   Context_List_Variables(Implementation(assignmentasm))==(?);
   Abstract_List_Variables(Implementation(assignmentasm))==(v);
   Local_List_Variables(Implementation(assignmentasm))==(?);
-  List_Variables(Implementation(assignmentasm))==(ucend,ucpc,ucmem);
-  External_List_Variables(Implementation(assignmentasm))==(uc.end,uc.pc,uc.mem)
+  List_Variables(Implementation(assignmentasm))==(end,pc,mem);
+  External_List_Variables(Implementation(assignmentasm))==(end,pc,mem)
 END
 &
 THEORY ListVisibleVariablesX IS
@@ -51,9 +51,9 @@ END
 THEORY ListInvariantX IS
   Gluing_Seen_List_Invariant(Implementation(assignmentasm))==(btrue);
   Abstract_List_Invariant(Implementation(assignmentasm))==(v : uint32);
-  Expanded_List_Invariant(Implementation(assignmentasm))==(ucmem : NATURAL --> uint32 & ucpc : NATURAL & ucend : NATURAL & ucpc<=ucend);
+  Expanded_List_Invariant(Implementation(assignmentasm))==(mem : NATURAL --> uint32 & pc : NATURAL & end : NATURAL & pc<=end);
   Context_List_Invariant(Implementation(assignmentasm))==(btrue);
-  List_Invariant(Implementation(assignmentasm))==(v = ucmem(0))
+  List_Invariant(Implementation(assignmentasm))==(v = mem(0))
 END
 &
 THEORY ListAssertionsX IS
@@ -64,9 +64,9 @@ THEORY ListAssertionsX IS
 END
 &
 THEORY ListInitialisationX IS
-  Expanded_List_Initialisation(Implementation(assignmentasm))==(@(mem$0).(mem$0 : NATURAL --> uint32 ==> ucmem:=mem$0) || ucpc:=0 || @(end$0).(end$0 : NATURAL ==> ucend:=end$0);(0 : NATURAL | ucpc,ucend:=0,0));
+  Expanded_List_Initialisation(Implementation(assignmentasm))==(@(mem$0).(mem$0 : NATURAL --> uint32 ==> mem:=mem$0) || pc:=0 || @(end$0).(end$0 : NATURAL ==> end:=end$0);(0 : NATURAL | pc,end:=0,0));
   Context_List_Initialisation(Implementation(assignmentasm))==(skip);
-  List_Initialisation(Implementation(assignmentasm))==((uc.init)(0))
+  List_Initialisation(Implementation(assignmentasm))==(init(0))
 END
 &
 THEORY ListParametersX IS
@@ -74,12 +74,12 @@ THEORY ListParametersX IS
 END
 &
 THEORY ListInstanciatedParametersX IS
-  List_Instanciated_Parameters(Implementation(assignmentasm),Machine(uc.ram))==(?);
+  List_Instanciated_Parameters(Implementation(assignmentasm),Machine(ram))==(?);
   List_Instanciated_Parameters(Implementation(assignmentasm),Machine(types))==(?)
 END
 &
 THEORY ListConstraintsX IS
-  List_Constraints(Implementation(assignmentasm),Machine(uc.ram))==(btrue);
+  List_Constraints(Implementation(assignmentasm),Machine(ram))==(btrue);
   List_Constraints(Implementation(assignmentasm))==(btrue);
   List_Context_Constraints(Implementation(assignmentasm))==(btrue)
 END
@@ -107,8 +107,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Implementation(assignmentasm),run)==(btrue | (1 : NATURAL | ucpc,ucend:=0,1);(0 : NATURAL & 0 : uint32 & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{0|->0},ucpc+1));
-  List_Substitution(Implementation(assignmentasm),run)==((uc.init)(1);(uc.set)(0,0))
+  Expanded_List_Substitution(Implementation(assignmentasm),run)==(btrue | (1 : NATURAL | pc,end:=0,1);(0 : NATURAL & 0 : uint32 & pc+1<=end | mem,pc:=mem<+{0|->0},pc+1));
+  List_Substitution(Implementation(assignmentasm),run)==(init(1);set(0,0))
 END
 &
 THEORY ListConstantsX IS
@@ -175,7 +175,7 @@ THEORY ListVisibleStaticX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Implementation(assignmentasm)) == (? | ? | ? | ucmem,ucpc,ucend | run | ? | seen(Machine(types)),imported(Machine(uc.ram)) | ? | assignmentasm);
+  List_Of_Ids(Implementation(assignmentasm)) == (? | ? | ? | end,pc,mem | run | ? | seen(Machine(types)),imported(Machine(ram)) | ? | assignmentasm);
   List_Of_HiddenCst_Ids(Implementation(assignmentasm)) == (? | ?);
   List_Of_VisibleCst_Ids(Implementation(assignmentasm)) == (?);
   List_Of_VisibleVar_Ids(Implementation(assignmentasm)) == (? | ?);
@@ -219,8 +219,8 @@ THEORY TypingPredicateX IS
 END
 &
 THEORY ImportedVariablesListX IS
-  ImportedVariablesList(Implementation(assignmentasm),Machine(uc.ram))==(uc.mem,uc.pc,uc.end);
-  ImportedVisVariablesList(Implementation(assignmentasm),Machine(uc.ram))==(?)
+  ImportedVariablesList(Implementation(assignmentasm),Machine(ram))==(end,pc,mem);
+  ImportedVisVariablesList(Implementation(assignmentasm),Machine(ram))==(?)
 END
 &
 THEORY ListLocalOpInvariantX END

@@ -28,7 +28,7 @@ THEORY OPOFormulas IS
   "`Check precondition (btrue) deduction'";
   (1 : NATURAL);
   (1<=1);
-  "`Check that the invariant (v = ucmem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'"
+  "`Check that the invariant (v = mem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'"
 END
 &
 THEORY Version IS

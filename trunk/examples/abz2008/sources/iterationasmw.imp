@@ -27,8 +27,7 @@ SEES types, iterationasmvariant
 IMPORTS
   uc.ram
 INVARIANT
-  a = uc.mem(0) & b = uc.mem(1) & 
-  s = uc.mem(2)
+  a = uc.mem(0) & b = uc.mem(1) & s = uc.mem(2)
 INITIALISATION
   BEGIN
     uc.init(3);
@@ -40,7 +39,7 @@ OPERATIONS
   run =
   VAR pc, end, loopvar IN
     pc := 0;
-    end := 8;
+    end := 7;
     uc.init(end);
     loopvar := 0;
     WHILE pc < end DO
@@ -57,27 +56,25 @@ OPERATIONS
              uc.goto(2);
              loopvar := loopvar + 1
           END
-        OR 7 THEN uc.nop
         END
       END;
       pc <-- uc.get_pc
     END
     INVARIANT 
       0 <= pc & pc <= end &
-      pc = uc.pc & end = uc.end & end = 8 &
+      pc = uc.pc & end = uc.end & end = 7 &
       loopvar : NATURAL & 
       uc.mem : (NATURAL --> NATURAL) &
       uc.mem(0) = a & uc.mem(1) = b &
-      (pc = 0 => loopvar = 0 & uc.mem(2) = s) &
-      (pc = 1 => loopvar = 0 & uc.mem(2) = a) &
-      (pc = 2 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar <= b)) &
-      (pc = 3 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar = b)) &
-      (pc = 4 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar < b)) &
-      (pc = 5 => (uc.mem(2) = a + uc.mem(3)+1 & uc.mem(3) = loopvar & loopvar < b)) &
-      (pc = 6 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar + 1 & loopvar < b)) &
-      (pc = 7 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar = b)) &
-      (pc = 8 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar = b))
-    VARIANT pgvar(pc, uc.mem(1), loopvar)
+      (uc.pc = 0 => loopvar = 0 & uc.mem(2) = s) &
+      (uc.pc = 1 => loopvar = 0 & uc.mem(2) = a) &
+      (uc.pc = 2 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar <= b)) &
+      (uc.pc = 3 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar = b)) &
+      (uc.pc = 4 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar < b)) &
+      (uc.pc = 5 => (uc.mem(2) = a + uc.mem(3)+1 & uc.mem(3) = loopvar & loopvar < b)) &
+      (uc.pc = 6 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar + 1 & loopvar < b)) &
+      (uc.pc = 7 => (uc.mem(2) = a + uc.mem(3) & uc.mem(3) = loopvar & loopvar = b))
+    VARIANT pgvar(uc.pc, uc.mem(1), loopvar)
     END
   END
 END

@@ -1,5 +1,4 @@
 THEORY BBTTE IS
-  cmd(0 | cl) & gol(0 | ucmemz$7777(0) = 0) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | rn(not(ucpcz$7777<=0))) & cmd(1 | ds(dom(ucmemz$7777) = NATURAL)) & cmd(1 | ds(ucpcz$7777 = 1 => ucmemz$7777(0) = 0)) & cmd(1 | ds(ucmemz$7777 : NATURAL +-> 0..2147483647)) & cmd(1 | ds(0+1<=ucpcz$7777)) & cmd(1 | ah(ucpcz$7777 = 1 => ucmemz$7777(0) = 0)) & cmd(1 | ah(1<=ucpcz$7777)) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
@@ -10,7 +9,8 @@ THEORY BBTTE IS
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
-  cmd(0 | cl) & gol(0 | 1-pc$0 : INTEGER) & cmd(1 | xp) & gol(1 | 1-ucpc$2 : INTEGER) & cmd(2 | ss) & cmd(2 | ct) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | 1-pc$0 : INTEGER) & cmd(1 | xp) & gol(1 | 1-ucpc$2 : INTEGER) & cmd(2 | ds(ucpc$2 = 1 => ucmem$2(0) = 0)) & cmd(2 | ss) & cmd(2 | ct) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | cl) & gol(0 | 1-pc$0 : INTEGER) & cmd(1 | xp) & gol(1 | 1-ucpc$2 : INTEGER) & cmd(2 | ss) & cmd(2 | ct) & gol(0 | SUCCESS);
   ?;
