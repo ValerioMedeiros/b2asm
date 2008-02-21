@@ -9,8 +9,7 @@ INITIALISATION
 OPERATIONS
   run =
   VAR pc , end IN
-    pc := 0 ;
-    end := 1 ;
+    pc := 0 ; end := 1 ;
     (uc.init) ( end ) ;
     WHILE pc < end DO
     BEGIN
@@ -21,8 +20,7 @@ OPERATIONS
       pc <-- (uc.get_pc)
     END
     INVARIANT
-      0 <= pc & pc <= end &
-      pc = (uc.pc) & end = (uc.end) &
+      0 <= pc & pc <= end & pc = (uc.pc) & end = (uc.end) &
       ( pc = 1 => (uc.mem) ( 0 ) = 0 )
     VARIANT end - pc
     END

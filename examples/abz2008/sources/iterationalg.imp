@@ -28,11 +28,7 @@ IMPORTS ar.nat, br.nat, sr.nat
 INVARIANT
    ar.value = a & br.value = b & sr.value = s
 INITIALISATION
-   BEGIN
-      ar.set(0);
-      br.set(0);
-      sr.set(0)
-   END
+   BEGIN ar.set(0); br.set(0); sr.set(0) END
 OPERATIONS
    run =
      VAR sv, av, bv, v IN

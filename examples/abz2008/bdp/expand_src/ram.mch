@@ -19,7 +19,7 @@ OPERATIONS
     END ;
   inc ( addr ) =
     PRE addr : NATURAL & pc + 1 <= end & mem ( addr ) < MAXINT THEN
-      mem ( addr ) := mem ( addr ) + 1
+      mem ( addr ) := mem ( addr ) + 1 || pc := pc + 1
     END ;
   move ( src , dest ) =
     PRE src : NATURAL & dest : NATURAL & pc + 1 <= end THEN

@@ -6,18 +6,18 @@ END
 &
 THEORY Formulas IS
   ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647 & uint16 : POW(INTEGER) & uint16 = 0..65535);
-  ("`Included,imported and extended machines invariants'" & ucmem$1 : NATURAL +-> uint32 & dom(ucmem$1) = NATURAL & ucpc$1 : INTEGER & 0<=ucpc$1 & ucend$1 : INTEGER & 0<=ucend$1 & ucpc$1<=ucend$1);
+  ("`Included,imported and extended machines invariants'" & mem$1 : NATURAL +-> uint32 & dom(mem$1) = NATURAL & pc$1 : INTEGER & 0<=pc$1 & end$1 : INTEGER & 0<=end$1 & pc$1<=end$1);
   ("`Local hypotheses'" & mem$0 : NATURAL +-> uint32 & dom(mem$0) = NATURAL & end$0 : INTEGER & 0<=end$0 & 0 : INTEGER);
   "`Check initialisation refinement - ref 4.3, 5.4'";
   (mem$0(0) : uint32);
-  ("`Previous components invariants'" & v : uint32 & "`Component invariant'" & v = ucmem$1(0));
+  ("`Previous components invariants'" & v : uint32 & "`Component invariant'" & v = mem$1(0));
   "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   (0 : uint32);
-  ("`Local hypotheses'" & ucmem$1<+{0|->0} : NATURAL +-> uint32 & dom(ucmem$1<+{0|->0}) = NATURAL & 1 : INTEGER);
-  "`Check that the invariant (v = ucmem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
-  ((ucmem$1<+{0|->0})(0) = 0);
-  ("`Variables conservation'" & ucend = ucend$1 & ucpc = ucpc$1 & ucmem = ucmem$1);
-  ("`Included,imported and extended machines invariants'" & ucmem : NATURAL +-> uint32 & dom(ucmem) = NATURAL & ucpc : INTEGER & 0<=ucpc & ucend : INTEGER & 0<=ucend & ucpc<=ucend)
+  ("`Local hypotheses'" & mem$1<+{0|->0} : NATURAL +-> uint32 & dom(mem$1<+{0|->0}) = NATURAL & 1 : INTEGER);
+  "`Check that the invariant (v = mem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  ((mem$1<+{0|->0})(0) = 0);
+  ("`Variables conservation'" & mem = mem$1 & pc = pc$1 & end = end$1);
+  ("`Included,imported and extended machines invariants'" & mem : NATURAL +-> uint32 & dom(mem) = NATURAL & pc : INTEGER & 0<=pc & end : INTEGER & 0<=end & pc<=end)
 END
 &
 THEORY EnumerateX 

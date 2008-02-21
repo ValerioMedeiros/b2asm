@@ -150,14 +150,14 @@ THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(ram),testeq)==(addr1 : NATURAL & addr2 : NATURAL & (mem(addr1) = mem(addr2) => pc+1<=end) & (mem(addr1)/=mem(addr2) => pc+2<=end) | mem(addr1) = mem(addr2) ==> pc:=pc+1 [] not(mem(addr1) = mem(addr2)) ==> pc:=pc+2);
   Expanded_List_Substitution(Machine(ram),testgt)==(addr1 : NATURAL & addr2 : NATURAL & (mem(addr1)>mem(addr2) => pc+1<=end) & (mem(addr1)<=mem(addr2) => pc+2<=end) | mem(addr1)>mem(addr2) ==> pc:=pc+1 [] not(mem(addr1)>mem(addr2)) ==> pc:=pc+2);
   Expanded_List_Substitution(Machine(ram),move)==(src : NATURAL & dest : NATURAL & pc+1<=end | mem,pc:=mem<+{dest|->mem(src)},pc+1);
-  Expanded_List_Substitution(Machine(ram),inc)==(addr : NATURAL & pc+1<=end & mem(addr)<MAXINT | mem:=mem<+{addr|->mem(addr)+1});
+  Expanded_List_Substitution(Machine(ram),inc)==(addr : NATURAL & pc+1<=end & mem(addr)<MAXINT | mem,pc:=mem<+{addr|->mem(addr)+1},pc+1);
   Expanded_List_Substitution(Machine(ram),set)==(addr : NATURAL & val : uint32 & pc+1<=end | mem,pc:=mem<+{addr|->val},pc+1);
   Expanded_List_Substitution(Machine(ram),nop)==(pc+1<=end | pc:=pc+1);
   Expanded_List_Substitution(Machine(ram),init)==(sz : NATURAL | pc,end:=0,sz);
   List_Substitution(Machine(ram),init)==(pc:=0 || end:=sz);
   List_Substitution(Machine(ram),nop)==(pc:=pc+1);
   List_Substitution(Machine(ram),set)==(mem(addr):=val || pc:=pc+1);
-  List_Substitution(Machine(ram),inc)==(mem(addr):=mem(addr)+1);
+  List_Substitution(Machine(ram),inc)==(mem(addr):=mem(addr)+1 || pc:=pc+1);
   List_Substitution(Machine(ram),move)==(mem(dest):=mem(src) || pc:=pc+1);
   List_Substitution(Machine(ram),testgt)==(IF mem(addr1)>mem(addr2) THEN pc:=pc+1 ELSE pc:=pc+2 END);
   List_Substitution(Machine(ram),testeq)==(IF mem(addr1) = mem(addr2) THEN pc:=pc+1 ELSE pc:=pc+2 END);

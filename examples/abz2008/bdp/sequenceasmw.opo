@@ -1,13 +1,18 @@
 THEORY OPOBalanceX IS
-  sequenceasmw,37;
+  sequenceasmw,42;
   ValuesLemmas,1;
   InstanciatedConstraintsLemmas,0;
   Initialisation,2;
-  run,34
+  run,39
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & _f(7) & run.34,(_f(79) & _of(30) => _of(2));
+  _f(1) & _f(2) & _f(7) & run.39,(_f(68) & _of(35) => _of(2));
+  _f(1) & _f(2) & _f(7) & run.38,(_f(64) & _of(3) => _of(34));
+  _f(1) & _f(2) & _f(7) & run.37,(_f(64) & _of(3) => _of(33));
+  _f(1) & _f(2) & _f(7) & run.36,(_f(64) & _of(3) => _of(32));
+  _f(1) & _f(2) & _f(7) & run.35,(_f(64) & _of(3) => _of(31));
+  _f(1) & _f(2) & _f(7) & run.34,(_f(64) & _of(3) => _of(30));
   _f(1) & _f(2) & _f(7) & run.33,(_f(64) & _of(3) => _of(10));
   _f(1) & _f(2) & _f(7) & run.32,(_f(64) & _of(3) => _of(29));
   _f(1) & _f(2) & _f(7) & run.31,(_f(17) & _of(3) => _of(10));
@@ -66,16 +71,21 @@ THEORY OPOFormulas IS
   (ucmem$1(3) = b);
   (ucmem$1(0) = b);
   (ucmem$1(1) = a);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (pc$0 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (pc$0 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (pc$0 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 3) & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 3) & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0);
   (0 : NATURAL);
   (2 : NATURAL);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (pc$0 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (pc$0 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (pc$0 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 3) & not(pc$0 = 2) & pc$0 = 1);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 3) & not(pc$0 = 2) & pc$0 = 1);
   (1 : NATURAL);
   (3 : NATURAL);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (pc$0 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (pc$0 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (pc$0 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 3) & pc$0 = 2);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (pc$0 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (pc$0 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (pc$0 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (pc$0 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2) & pc$0 = 3);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 3) & pc$0 = 2);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2) & pc$0 = 3);
   (ucpc$2+1 = ucpc$2+1);
   (ucpc$2 = ucpc$2);
+  (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b);
+  (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a);
+  (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b);
+  (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a);
+  (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a);
   "`Check that the invariant (b = ucmem(1)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'"
 END
 &
