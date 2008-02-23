@@ -1,0 +1,115 @@
+THEORY ProofList IS
+  _f(1) & _f(8) & advance.39,(_f(58) & _f(59) => _f(60));
+  _f(1) & _f(8) & advance.38,(_f(57) & _f(3) => _f(35));
+  _f(1) & _f(8) & advance.37,(_f(56) & _f(3) => _f(55));
+  _f(1) & _f(8) & advance.36,(_f(54) & _f(3) => _f(55));
+  _f(1) & _f(8) & advance.35,(_f(53) & _f(3) => _f(33));
+  _f(1) & _f(8) & advance.34,(_f(49) & _f(3) => _f(52));
+  _f(1) & _f(8) & advance.33,(_f(49) & _f(3) => _f(51));
+  _f(1) & _f(8) & advance.32,(_f(49) & _f(3) => _f(50));
+  _f(1) & _f(8) & advance.31,(_f(47) & _f(3) => _f(48));
+  _f(1) & _f(8) & advance.30,(_f(46) & _f(3) => _f(45));
+  _f(1) & _f(8) & advance.29,(_f(44) & _f(3) => _f(45));
+  _f(1) & _f(8) & advance.28,(_f(42) & _f(3) => _f(43));
+  _f(1) & _f(8) & advance.27,(_f(22) & _f(3) => _f(17));
+  _f(1) & _f(8) & advance.26,(_f(22) & _f(3) => _f(23));
+  _f(1) & _f(8) & advance.25,(_f(41) & _f(3) => _f(35));
+  _f(1) & _f(8) & advance.24,(_f(40) & _f(3) => _f(33));
+  _f(1) & _f(8) & advance.23,(_f(36) & _f(3) => _f(39));
+  _f(1) & _f(8) & advance.22,(_f(36) & _f(3) => _f(38));
+  _f(1) & _f(8) & advance.21,(_f(36) & _f(3) => _f(37));
+  _f(1) & _f(8) & advance.20,(_f(34) & _f(3) => _f(35));
+  _f(1) & _f(8) & advance.19,(_f(32) & _f(3) => _f(33));
+  _f(1) & _f(8) & advance.18,(_f(31) & _f(3) => _f(18));
+  _f(1) & _f(8) & advance.17,(_f(31) & _f(3) => _f(17));
+  _f(1) & _f(8) & advance.16,(_f(31) & _f(3) => _f(23));
+  _f(1) & _f(8) & advance.15,(_f(29) & _f(3) => _f(30));
+  _f(1) & _f(8) & advance.14,(_f(28) & _f(3) => _f(27));
+  _f(1) & _f(8) & advance.13,(_f(26) & _f(3) => _f(27));
+  _f(1) & _f(8) & advance.12,(_f(24) & _f(3) => _f(25));
+  _f(1) & _f(8) & advance.11,(_f(12) & _f(3) => _f(23));
+  _f(1) & _f(8) & advance.10,(_f(22) & _f(16) => _f(18));
+  _f(1) & _f(8) & advance.9,(_f(20) & _f(3) => _f(21));
+  _f(1) & _f(8) & advance.8,(_f(12) & _f(3) => _f(19));
+  _f(1) & _f(8) & advance.7,(_f(12) & _f(16) => _f(18));
+  _f(1) & _f(8) & advance.6,(_f(12) & _f(16) => _f(17));
+  _f(1) & _f(8) & advance.5,(_f(12) & _f(3) => _f(15));
+  _f(1) & _f(8) & advance.4,(_f(12) & _f(3) => _f(14));
+  _f(1) & _f(8) & advance.3,(_f(12) & _f(3) => _f(13));
+  _f(1) & _f(8) & advance.2,(_f(9) & _f(3) => _f(11));
+  _f(1) & _f(8) & advance.1,(_f(9) & _f(3) => _f(10));
+  _f(1) & Initialisation.2,(_f(5) & _f(6) => _f(7));
+  _f(1) & Initialisation.1,(_f(2) & _f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Included,imported and extended machines invariants'" & ucmemory_data$1 : NATURAL +-> NATURAL & dom(ucmemory_data$1) = NATURAL & ucstack$1 : 1..8 +-> NATURAL & card(ucstack$1)<=8 & ucw$1 : INTEGER & 0<=ucw$1 & ucpc$1 : INTEGER & 0<=ucpc$1 & ucend$1 : INTEGER & 0<=ucend$1 & ucpc$1<=ucend$1);
+  ("`Local hypotheses'" & memory_data$0 : NATURAL +-> NATURAL & dom(memory_data$0) = NATURAL);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (dom(memory_data$0<+{0|->0}) = NATURAL);
+  ("`Local hypotheses'" & memory_data$0 : NATURAL +-> NATURAL & dom(memory_data$0) = NATURAL & memory_data$0<+{0|->0} : NATURAL +-> NATURAL & dom(memory_data$0<+{0|->0}) = NATURAL & {1|->0}\/{2|->0}\/{3|->0}\/{4|->0}\/{5|->0}\/{6|->0}\/{7|->0}\/{8|->0} : 1..8 +-> NATURAL & card({1|->0}\/{2|->0}\/{3|->0}\/{4|->0}\/{5|->0}\/{6|->0}\/{7|->0}\/{8|->0})<=8 & 0 : INTEGER);
+  "`Check that the invariant (ucmemory_data(0) = state) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  ((memory_data$0<+{0|->0})(0) = 0);
+  ("`Previous components invariants'" & state : 0..2 & "`Component invariant'" & ucmemory_data$1(0) = state);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2);
+  (3-pc$0 : INTEGER);
+  (0<=3-pc$0);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0);
+  (ucmemory_data$2(0)+1 : INTEGER);
+  (0<=ucmemory_data$2(0)+1);
+  (ucpc$2+1 : INTEGER);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (0<=ucpc$2+1);
+  (ucpc$2+1<=3);
+  (dom(ucmemory_data$2<+{0|->ucmemory_data$2(0)+1}) = NATURAL);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 2) & pc$0 = 1);
+  (ucpc$2+2+1<=3);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & pc$0 = 2);
+  (3-(ucpc$2+1)+1<=3-pc$0);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0 & ucpc$2+1 = 0);
+  ((ucmemory_data$2<+{0|->ucmemory_data$2(0)+1})(0) = state);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0 & ucpc$2+1 = 1);
+  ((ucmemory_data$2<+{0|->ucmemory_data$2(0)+1})(0) = state+1);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0 & ucpc$2+1 = 2);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0 & ucpc$2+1 = 3);
+  ((ucmemory_data$2<+{0|->ucmemory_data$2(0)+1})(0) = (state+1) mod 20);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 2) & ucmemory_data$2(0) = 3 & pc$0 = 1);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 2) & ucmemory_data$2(0) = 3 & pc$0 = 1 & ucpc$2+1 = 0);
+  (ucmemory_data$2(0) = state);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 2) & ucmemory_data$2(0) = 3 & pc$0 = 1 & ucpc$2+1 = 3);
+  (ucmemory_data$2(0) = (state+1) mod 20);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 2) & not(ucmemory_data$2(0) = 3) & pc$0 = 1);
+  (3-(ucpc$2+2)+1<=3-pc$0);
+  (0<=ucpc$2+2);
+  (ucpc$2+2<=3);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 2) & not(ucmemory_data$2(0) = 3) & pc$0 = 1 & ucpc$2+2 = 0);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 2) & not(ucmemory_data$2(0) = 3) & pc$0 = 1 & ucpc$2+2 = 3);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & pc$0 = 2 & ucpc$2+1 = 0);
+  ((ucmemory_data$2<+{0|->0})(0) = state);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & pc$0 = 2 & ucpc$2+1 = 1);
+  ((ucmemory_data$2<+{0|->0})(0) = state+1);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & pc$0 = 2 & ucpc$2+1 = 2);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & pc$0 = 2 & ucpc$2+1 = 3);
+  ((ucmemory_data$2<+{0|->0})(0) = (state+1) mod 20);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2));
+  (3-ucpc$2+1<=3-pc$0);
+  (0<=ucpc$2);
+  (ucpc$2<=3);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2) & ucpc$2 = 0);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2) & ucpc$2 = 1);
+  (ucmemory_data$2(0) = state+1);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2) & ucpc$2 = 2);
+  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=3 & (pc$0 = 0 => ucmemory_data$2(0) = state) & (pc$0 = 1 => ucmemory_data$2(0) = state+1) & (pc$0 = 2 => ucmemory_data$2(0) = state+1) & (pc$0 = 3 => ucmemory_data$2(0) = (state+1) mod 20) & pc$0 = ucpc$2 & pc$0+1<=3 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2) & ucpc$2 = 3);
+  ("`Local hypotheses'" & not(ucpcz$7777+1<=3) & 0<=ucpcz$7777 & ucpcz$7777<=3 & (ucpcz$7777 = 0 => ucmemory_dataz$7777(0) = state) & (ucpcz$7777 = 1 => ucmemory_dataz$7777(0) = state+1) & (ucpcz$7777 = 2 => ucmemory_dataz$7777(0) = state+1) & (ucpcz$7777 = 3 => ucmemory_dataz$7777(0) = (state+1) mod 20) & ucmemory_dataz$7777 : NATURAL +-> NATURAL & dom(ucmemory_dataz$7777) = NATURAL & ucpcz$7777 : INTEGER & 3 : INTEGER);
+  "`Check that the invariant (ucmemory_data(0) = state) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  (ucmemory_dataz$7777(0) = (state+1) mod 3);
+  ("`Variables conservation'" & ucend = ucend$1 & ucpc = ucpc$1 & ucw = ucw$1 & ucstack = ucstack$1 & ucmemory_data = ucmemory_data$1);
+  ("`Included,imported and extended machines invariants'" & ucmemory_data : NATURAL +-> NATURAL & dom(ucmemory_data) = NATURAL & ucstack : 1..8 +-> NATURAL & card(ucstack)<=8 & ucw : INTEGER & 0<=ucw & ucpc : INTEGER & 0<=ucpc & ucend : INTEGER & 0<=ucend & ucpc<=ucend)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

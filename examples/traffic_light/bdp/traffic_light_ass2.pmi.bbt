@@ -1,0 +1,43 @@
+THEORY BBTTE IS
+  ?;
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  ?;
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  ?;
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  ?;
+  ?;
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | 3-pc$0 : INTEGER) & cmd(1 | xp) & gol(1 | 3-ucpc$2 : INTEGER) & cmd(2 | ss) & cmd(2 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(memory_data$0<+{0|->0}) = NATURAL) & cmd(1 | xp) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS)
+END

@@ -1,0 +1,12 @@
+THEORY BBTTE IS
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | (statevalue$1+1) mod 3 : INTEGER) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr)
+END

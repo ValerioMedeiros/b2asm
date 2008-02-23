@@ -1,0 +1,39 @@
+THEORY ProofList IS
+  _f(1) & _f(8) & advance.5,(_f(16) & _f(17) => _f(18));
+  _f(1) & _f(8) & advance.4,(_f(13) & _f(14) => _f(15));
+  _f(1) & _f(8) & advance.3,(_f(9) => _f(12));
+  _f(1) & _f(8) & advance.2,(_f(9) => _f(11));
+  _f(1) & _f(8) & advance.1,(_f(9) => _f(10));
+  _f(1) & Initialisation.2,(_f(5) & _f(6) => _f(7));
+  _f(1) & Initialisation.1,(_f(2) & _f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Included,imported and extended machines invariants'" & micromemory_data$1 : NATURAL +-> NATURAL & dom(micromemory_data$1) = NATURAL & microstack$1 : 1..8 +-> NATURAL & card(microstack$1)<=8 & microw$1 : INTEGER & 0<=microw$1 & micropc$1 : INTEGER & 0<=micropc$1 & microend$1 : INTEGER & 0<=microend$1 & micropc$1<=microend$1);
+  ("`Local hypotheses'" & memory_data$0 : NATURAL +-> NATURAL & dom(memory_data$0) = NATURAL);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (dom(memory_data$0<+{0|->0}) = NATURAL);
+  ("`Local hypotheses'" & memory_data$0 : NATURAL +-> NATURAL & dom(memory_data$0) = NATURAL & memory_data$0<+{0|->0} : NATURAL +-> NATURAL & dom(memory_data$0<+{0|->0}) = NATURAL & {1|->0}\/{2|->0}\/{3|->0}\/{4|->0}\/{5|->0}\/{6|->0}\/{7|->0}\/{8|->0} : 1..8 +-> NATURAL & card({1|->0}\/{2|->0}\/{3|->0}\/{4|->0}\/{5|->0}\/{6|->0}\/{7|->0}\/{8|->0})<=8 & 0 : INTEGER);
+  "`Check that the invariant (micromemory_data(0) = state) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  ((memory_data$0<+{0|->0})(0) = 0);
+  ("`Previous components invariants'" & state : 0..2 & "`Component invariant'" & micromemory_data$1(0) = state);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (micromemory_data$1(0)+1 : INTEGER);
+  (0<=micromemory_data$1(0)+1);
+  (dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}) = NATURAL);
+  ("`Local hypotheses'" & (micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = 3 & micromemory_data$1<+{0|->micromemory_data$1(0)+1}<+{0|->0} : NATURAL +-> NATURAL & dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}<+{0|->0}) = NATURAL & 3 : INTEGER & 4 : INTEGER);
+  "`Check that the invariant (micromemory_data(0) = state) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  ((micromemory_data$1<+{0|->micromemory_data$1(0)+1}<+{0|->0})(0) = (state+1) mod 3);
+  ("`Local hypotheses'" & not((micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = 3) & micromemory_data$1<+{0|->micromemory_data$1(0)+1} : NATURAL +-> NATURAL & dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}) = NATURAL & 3 : INTEGER & 4 : INTEGER);
+  "`Check that the invariant (micromemory_data(0) = state) is preserved by the operation - ref 4.4, 5.5'";
+  ((micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = (state+1) mod 3);
+  ("`Variables conservation'" & microend = microend$1 & micropc = micropc$1 & microw = microw$1 & microstack = microstack$1 & micromemory_data = micromemory_data$1);
+  ("`Included,imported and extended machines invariants'" & micromemory_data : NATURAL +-> NATURAL & dom(micromemory_data) = NATURAL & microstack : 1..8 +-> NATURAL & card(microstack)<=8 & microw : INTEGER & 0<=microw & micropc : INTEGER & 0<=micropc & microend : INTEGER & 0<=microend & micropc<=microend)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
