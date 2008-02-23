@@ -1,0 +1,22 @@
+IMPLEMENTATION
+   traffic_light_alg
+REFINES
+   traffic_light
+IMPORTS
+   state.VarNatural
+INVARIANT
+   state.value = state/*{red,green,yellow} */
+
+INITIALISATION
+   state.set(0)
+
+OPERATIONS
+
+advance = 
+VAR tmp IN
+  tmp <-- state.get;
+  state.set(( tmp + 1)mod 3)
+END
+
+
+END

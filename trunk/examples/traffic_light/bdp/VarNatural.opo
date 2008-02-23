@@ -1,0 +1,34 @@
+THEORY OPOBalanceX IS
+  VarNatural,8;
+  Initialisation,2;
+  set,3;
+  get,3
+END
+&
+THEORY OPOProofList IS
+  _f(1) & get.3,(_of(6) => _of(10));
+  _f(1) & get.2,(_of(6) => _of(9));
+  _f(1) & get.1,(_of(4) => _of(5));
+  _f(1) & _f(2) & set.3,(_of(6) => _of(8));
+  _f(1) & _f(2) & set.2,(_of(6) => _of(7));
+  _f(1) & _f(2) & set.1,(_of(4) => _of(5));
+  Initialisation.2,(_of(1) => _of(3));
+  Initialisation.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the invariant (value : NATURAL) is established by the initialisation - ref 3.3'";
+  (0 : INTEGER);
+  (0<=0);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue);
+  "`Check that the invariant (value : NATURAL) is preserved by the operation - ref 3.4'";
+  (new_value : INTEGER);
+  (0<=new_value);
+  (value : INTEGER);
+  (0<=value)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

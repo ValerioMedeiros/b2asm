@@ -1,0 +1,18 @@
+THEORY OPOBalanceX IS
+  traffic_light,1;
+  Initialisation,0;
+  advance,1
+END
+&
+THEORY OPOProofList IS
+  _f(3) & advance.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

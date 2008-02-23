@@ -1,0 +1,19 @@
+THEORY ProofList IS
+  _f(3) & advance.1,(_f(4) => _f(5));
+  Initialisation.1,(_f(1) => _f(2))
+END
+&
+THEORY Formulas IS
+  "`Check that the invariant (state : 0..2) is established by the initialisation - ref 3.3'";
+  (0 : 0..2);
+  ("`Component invariant'" & state : 0..2);
+  "`Check that the invariant (state : 0..2) is preserved by the operation - ref 3.4'";
+  ((state+1) mod 3 : 0..2)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

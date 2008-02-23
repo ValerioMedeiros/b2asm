@@ -1,0 +1,62 @@
+THEORY OPOBalanceX IS
+  traffic_light_ass,20;
+  ValuesLemmas,1;
+  InstanciatedConstraintsLemmas,0;
+  Initialisation,2;
+  advance,17
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(8) & advance.17,(_f(16) & _of(23) => _of(2));
+  _f(1) & _f(8) & advance.16,(_of(22) & _of(23) => _of(25));
+  _f(1) & _f(8) & advance.15,(_of(22) & _of(23) => _of(24));
+  _f(1) & _f(8) & advance.14,(_f(13) & _of(21) => _of(2));
+  _f(1) & _f(8) & advance.13,(_of(19) & _of(8) => _of(20));
+  _f(1) & _f(8) & advance.12,(_of(19) & _of(17) => _of(5));
+  _f(1) & _f(8) & advance.11,(_of(16) & _of(8) => _of(18));
+  _f(1) & _f(8) & advance.10,(_of(16) & _of(17) => _of(5));
+  _f(1) & _f(8) & advance.9,(_of(8) => _of(15));
+  _f(1) & _f(8) & advance.8,(_of(8) => _of(14));
+  _f(1) & _f(8) & advance.7,(_of(8) => _of(13));
+  _f(1) & _f(8) & advance.6,(_of(8) => _of(12));
+  _f(1) & _f(8) & advance.5,(_of(8) => _of(11));
+  _f(1) & _f(8) & advance.4,(_of(8) => _of(10));
+  _f(1) & _f(8) & advance.3,(_of(9) => _of(5));
+  _f(1) & _f(8) & advance.2,(_of(8) => _of(2));
+  _f(1) & _f(8) & advance.1,(_of(7) => _of(2));
+  _f(1) & Initialisation.2,(_f(5) & _of(6) => _of(2));
+  _f(1) & Initialisation.1,(_of(3) & _of(4) => _of(5));
+  ValuesLemmas.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the property (btrue) is preserved by the valuations - ref 5.2'";
+  (btrue);
+  ("`Local hypotheses'" & memory_data$0 : NATURAL +-> NATURAL & dom(memory_data$0) = NATURAL);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (0 : NATURAL);
+  "`Check that the invariant (micromemory_data(0) = state) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
+  "`Check precondition (btrue) deduction'";
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (4 : NATURAL);
+  (0<=4);
+  (1 : NATURAL);
+  (1<=4);
+  (3 : NATURAL);
+  (3<4);
+  ("`Local hypotheses'" & (micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = 3);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (3<=4);
+  ("`Local hypotheses'" & not((micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = 3) & bfalse);
+  (4<=4);
+  "`Check that the invariant (micromemory_data(0) = state) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
+  ("`Local hypotheses'" & bfalse);
+  "`Check that the invariant (micromemory_data(0) = state) is preserved by the operation - ref 4.4, 5.5'";
+  (not(micromemory_data$1<+{0|->micromemory_data$1(0)+1}<+{0|->0} : NATURAL +-> NATURAL & dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}<+{0|->0}) = NATURAL & microstack$1 : 1..8 +-> NATURAL & card(microstack$1)<=8 & microw$1 : INTEGER & 0<=microw$1 & 3 : INTEGER & 0<=3 & 4 : INTEGER & 0<=4 & 3<=4 & !(state$7777).(state$7777 = (state+1) mod 3 => not((micromemory_data$1<+{0|->micromemory_data$1(0)+1}<+{0|->0})(0) = state$7777))));
+  (not(btrue & micromemory_data$1<+{0|->micromemory_data$1(0)+1} : NATURAL +-> NATURAL & dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}) = NATURAL & microstack$1 : 1..8 +-> NATURAL & card(microstack$1)<=8 & microw$1 : INTEGER & 0<=microw$1 & 2 : INTEGER & 0<=2 & 4 : INTEGER & 0<=4 & 2<=4 & btrue & btrue & btrue & !(state$7777).(state$7777 = (state+1) mod 3 => not((micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = state$7777 & btrue))))
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
