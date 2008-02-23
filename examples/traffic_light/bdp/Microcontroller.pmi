@@ -76,7 +76,7 @@ THEORY MethodList IS
   pr;
   cl & xp & pp(rp.1);
   pr;
-  cl & xp & pp(rp.1);
+  cl & xp & ss & pp(rp.1);
   pr;
   pr;
   pr;
@@ -94,13 +94,21 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  cl & xp & pp(rp.1)
+  cl & xp & ss & pp(rp.1)
 END
 &
 THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
@@ -111,6 +119,7 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
+  Force(1),(?;0);
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -119,16 +128,7 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(1),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?
+  Force(0),(?;0;1)
 END
 &
 THEORY ManForms 

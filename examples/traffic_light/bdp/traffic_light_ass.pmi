@@ -17,23 +17,23 @@ THEORY ProofState IS
 END
 &
 THEORY MethodList IS
-  cl & xp & ss & eh(micromemory_data$1(0),state,Goal) & pp(rp.1);
+  cl & xp & eh(dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}),NATURAL,Goal) & ov & eh(micromemory_data$1(0),state,Goal) & ah(state : 0..2) & ds(micromemory_data$1<+{0|->state+1} : NATURAL +-> NATURAL) & ds(not((micromemory_data$1<+{0|->state+1})(0) = 3)) & ds(4 : INTEGER) & ds(3 : INTEGER) & ah(micromemory_data$1(0) = state) & ds(micromemory_data$1(0) = state) & pp(rp.1);
   pr;
-  cl & xp & pp(rp.1);
+  cl & xp & ss & pp(rp.1);
   pr;
   pr;
   pr;
-  cl & xp & pp(rp.1)
+  cl & xp & ss & eh(dom(memory_data$0),NATURAL,Goal) & ss & pp(rp.1)
 END
 &
 THEORY PassList IS
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?
+  Force(0),(?;0;1)
 END
 &
 THEORY ManForms 

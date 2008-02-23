@@ -7,14 +7,14 @@ THEORY OPOBalanceX IS
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(8) & advance.17,(_f(16) & _of(23) => _of(2));
-  _f(1) & _f(8) & advance.16,(_of(22) & _of(23) => _of(25));
-  _f(1) & _f(8) & advance.15,(_of(22) & _of(23) => _of(24));
-  _f(1) & _f(8) & advance.14,(_f(13) & _of(21) => _of(2));
-  _f(1) & _f(8) & advance.13,(_of(19) & _of(8) => _of(20));
-  _f(1) & _f(8) & advance.12,(_of(19) & _of(17) => _of(5));
-  _f(1) & _f(8) & advance.11,(_of(16) & _of(8) => _of(18));
-  _f(1) & _f(8) & advance.10,(_of(16) & _of(17) => _of(5));
+  _f(1) & _f(8) & advance.17,(_f(15) & _of(22) => _of(2));
+  _f(1) & _f(8) & advance.16,(_of(21) & _of(22) => _of(24));
+  _f(1) & _f(8) & advance.15,(_of(21) & _of(22) => _of(23));
+  _f(1) & _f(8) & advance.14,(_f(12) & _of(20) => _of(2));
+  _f(1) & _f(8) & advance.13,(_of(18) & _of(8) => _of(19));
+  _f(1) & _f(8) & advance.12,(_of(18) & _of(4) => _of(5));
+  _f(1) & _f(8) & advance.11,(_of(16) & _of(8) => _of(17));
+  _f(1) & _f(8) & advance.10,(_of(16) & _of(4) => _of(5));
   _f(1) & _f(8) & advance.9,(_of(8) => _of(15));
   _f(1) & _f(8) & advance.8,(_of(8) => _of(14));
   _f(1) & _f(8) & advance.7,(_of(8) => _of(13));
@@ -46,7 +46,6 @@ THEORY OPOFormulas IS
   (3 : NATURAL);
   (3<4);
   ("`Local hypotheses'" & (micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = 3);
-  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   (3<=4);
   ("`Local hypotheses'" & not((micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = 3) & bfalse);
   (4<=4);
