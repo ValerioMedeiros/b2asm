@@ -7,11 +7,11 @@ THEORY OPOBalanceX IS
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & advance.6,(_f(14) & _of(13) => _of(2));
-  _f(1) & _f(2) & advance.5,(_of(9) => _of(12));
-  _f(1) & _f(2) & advance.4,(_of(9) => _of(11));
-  _f(1) & _f(2) & advance.3,(_of(9) => _of(10));
-  _f(1) & _f(2) & advance.2,(_of(9) => _of(2));
+  _f(1) & _f(2) & advance.6,(_f(14) & _of(12) => _of(2));
+  _f(1) & _f(2) & advance.5,(_of(3) => _of(11));
+  _f(1) & _f(2) & advance.4,(_of(3) => _of(10));
+  _f(1) & _f(2) & advance.3,(_of(3) => _of(9));
+  _f(1) & _f(2) & advance.2,(_of(3) => _of(2));
   _f(1) & _f(2) & advance.1,(_of(8) => _of(2));
   _f(1) & Initialisation.3,(_of(5) & _of(6) => _of(2));
   _f(1) & Initialisation.2,(_of(5) & _of(6) => _of(7));
@@ -28,7 +28,6 @@ THEORY OPOFormulas IS
   "`Check that the invariant (statevalue = state) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
   (0 = 0);
   "`Check precondition (btrue) deduction'";
-  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   (statevalue$1 : INTEGER);
   (1 : INT);
   (3 : NAT1);

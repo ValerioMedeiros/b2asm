@@ -1,9 +1,9 @@
 THEORY ProofList IS
-  _f(1) & _f(8) & advance.5,(_f(16) & _f(17) => _f(18));
-  _f(1) & _f(8) & advance.4,(_f(13) & _f(14) => _f(15));
-  _f(1) & _f(8) & advance.3,(_f(9) => _f(12));
-  _f(1) & _f(8) & advance.2,(_f(9) => _f(11));
-  _f(1) & _f(8) & advance.1,(_f(9) => _f(10));
+  _f(1) & _f(8) & advance.5,(_f(15) & _f(16) => _f(17));
+  _f(1) & _f(8) & advance.4,(_f(12) & _f(13) => _f(14));
+  _f(1) & _f(8) & advance.3,(_f(3) => _f(11));
+  _f(1) & _f(8) & advance.2,(_f(3) => _f(10));
+  _f(1) & _f(8) & advance.1,(_f(3) => _f(9));
   _f(1) & Initialisation.2,(_f(5) & _f(6) => _f(7));
   _f(1) & Initialisation.1,(_f(2) & _f(3) => _f(4))
 END
@@ -17,7 +17,6 @@ THEORY Formulas IS
   "`Check that the invariant (micromemory_data(0) = state) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
   ((memory_data$0<+{0|->0})(0) = 0);
   ("`Previous components invariants'" & state : 0..2 & "`Component invariant'" & micromemory_data$1(0) = state);
-  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   (micromemory_data$1(0)+1 : INTEGER);
   (0<=micromemory_data$1(0)+1);
   (dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}) = NATURAL);
