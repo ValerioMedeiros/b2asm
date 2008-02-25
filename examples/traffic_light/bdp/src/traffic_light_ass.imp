@@ -1,0 +1,66 @@
+IMPLEMENTATION
+   traffic_light_ass
+REFINES
+   traffic_light
+
+IMPORTS
+   (micro.Microcontroller)
+
+INVARIANT
+  (micro.memory_data) ( 0 ) = state
+
+INITIALISATION
+
+   (micro.init_data) ( 0 , 0 )
+
+OPERATIONS
+
+advance =
+
+
+ VAR  local_pc  IN
+
+
+              (micro.init) ( 0 , 4 ) ;
+
+              (micro.inc) ( 0 ) ;
+
+              (micro.isequal) ( 0 , 3 ) ; local_pc <-- (micro.get_pc) ;
+
+/* pc = 2 */  IF local_pc = 2 THEN  (micro.set_data) ( 0 , 0 ) END
+
+/* pc = 3 */
+
+ END
+
+END
+
+/*
+  run =
+  VAR pc, end IN
+    pc := 0;
+    end := 3;
+    uc.init(pc,end);
+    WHILE pc < end DO
+    BEGIN
+      CASE pc OF
+        EITHER 0 THEN uc.move(0,2)
+        OR 1 THEN uc.move(1,0)
+        OR 2 THEN uc.move(2,1)
+        END
+      END;
+      pc <-- uc.get_pc
+    END
+    INVARIANT 
+      pc >= 0 & pc <= 3 &
+      pc = uc.pc &
+      end = uc.end &
+      (pc = 0 => (uc.memory_data(0) = a & uc.memory_data(1) = b)) &
+      (pc = 1 => (uc.memory_data(0) = a & uc.memory_data(1) = b & uc.memory_data(2) = a)) &
+      (pc = 2 => (uc.memory_data(0) = b & uc.memory_data(1) = b & uc.memory_data(2) = a)) &
+      (pc = 3 => (uc.memory_data(0) = b & uc.memory_data(1) = a))
+    VARIANT (end - pc)
+    END
+  END
+END
+*/
