@@ -1,0 +1,46 @@
+IMPLEMENTATION
+   traffic_light_ass2
+REFINES
+   traffic_light
+
+IMPORTS
+   (uc.Microcontroller)
+
+INVARIANT
+   (uc.memory_data) ( 0 ) = state
+
+INITIALISATION
+   (uc.init_data) ( 0 , 0 )
+
+OPERATIONS
+
+advance =
+
+  VAR pc , end IN
+    pc := 0 ;
+    end := 3 ;
+    (uc.init) ( pc , end ) ;
+
+   WHILE pc < end DO
+    BEGIN
+      CASE pc OF
+        EITHER 0 THEN (uc.inc) ( 0 )
+        OR 1 THEN (uc.isequal) ( 0 , 3 )
+        OR 2 THEN (uc.set_data) ( 0 , 0 )
+        END
+      END ;
+      pc <-- (uc.get_pc)
+    END
+    INVARIANT
+      pc >= 0 & pc <= 3 &
+      pc = (uc.pc) &
+      end = (uc.end) &
+      ( pc = 0 => ( (uc.memory_data) ( 0 ) = state ) ) &
+      ( pc = 1 => ( (uc.memory_data) ( 0 ) = ( state + 1 ) ) ) &
+      ( pc = 2 => ( (uc.memory_data) ( 0 ) = ( state + 1 ) ) ) &
+      ( pc = 3 => ( (uc.memory_data) ( 0 ) = ( state + 1 ) mod 20 ) )
+    VARIANT ( end - pc )
+   END
+  END
+
+ END
