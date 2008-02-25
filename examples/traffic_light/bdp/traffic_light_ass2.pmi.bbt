@@ -1,24 +1,16 @@
 THEORY BBTTE IS
-  ?;
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | (ucmemory_data$2<+{0|->0})(0) = (state+1) mod 3) & cmd(1 | xp) & cmd(1 | ov) & gol(1 | 0 = 0 => 0 = (state+1) mod 3) & gol(2 | 0 = (state+1) mod 3) & cmd(3 | eh(state+1,ucmemory_data$2(0),Goal)) & gol(3 | 0 = ucmemory_data$2(0) mod 3) & cmd(4 | eh(ucmemory_data$2(0),3,Goal)) & gol(4 | 0 = 3 mod 3) & cmd(5 | ss) & cmd(5 | pp(rp.1)) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(ucmemory_data$2<+{0|->0}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
-  ?;
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  ?;
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | ucmemory_data$2(0) = (state+1) mod 3) & cmd(1 | xp) & cmd(1 | eh(ucmemory_data$2(0),state+1,Goal)) & gol(1 | state+1 = (state+1) mod 3) & cmd(2 | pp(rp.1)) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
@@ -29,15 +21,25 @@ THEORY BBTTE IS
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
-  ?;
-  ?;
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
-  ?;
   cmd(0 | pr);
-  ?
+  cmd(0 | cl) & gol(0 | dom(ucmemory_data$2<+{0|->ucmemory_data$2(0)+1}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | 3-ucpc$2 : INTEGER) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | 3-pc$0 : INTEGER) & cmd(1 | xp) & gol(1 | 3-ucpc$2 : INTEGER) & cmd(2 | ss) & cmd(2 | pp(rp.1)) & gol(0 | SUCCESS)
 END
