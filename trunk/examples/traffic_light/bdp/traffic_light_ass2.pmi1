@@ -1,27 +1,29 @@
 THEORY BalanceX IS
-  traffic_light_ass2,41,2,0,34,0,0,0;
+  traffic_light_ass2,38,6,0,30,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
   Initialisation,2,1,0,1,0,0,0;
-  advance,39,1,0,33,0,0,0
+  advance,36,5,0,29,0,0,0
 END
 &
 THEORY ProofState IS
   Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
   Unproved;
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
-  Unproved;
   Proved(0);
   Proved(0);
   Proved(0);
@@ -34,12 +36,7 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Unproved;
-  Unproved;
-  Proved(0);
+  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -51,21 +48,18 @@ THEORY ProofState IS
 END
 &
 THEORY MethodList IS
-  ?;
+  cl & xp & rn(not(ucpcz$7777+1<=4));
+  pr;
+  cl & xp & ov & eh(state+1,ucmemory_data$2(0),Goal) & eh(ucmemory_data$2(0),3,Goal) & ss & pp(rp.1);
   pr;
   pr;
   pr;
   pr;
+  cl & xp & ss & pp(rp.1);
   pr;
   pr;
   pr;
-  ?;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  ?;
+  cl & xp & eh(ucmemory_data$2(0),state+1,Goal) & pp(rp.1);
   pr;
   pr;
   pr;
@@ -77,12 +71,6 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  ?;
-  ?;
   pr;
   pr;
   pr;
@@ -91,11 +79,38 @@ THEORY MethodList IS
   pr;
   cl & xp & ss & pp(rp.1);
   pr;
-  cl & xp & pp(rp.1)
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & pp(rp.1);
+  pr;
+  cl & xp & ss & pp(rp.1)
 END
 &
 THEORY PassList IS
   Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -111,31 +126,7 @@ THEORY PassList IS
   Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),(?;0;1)
+  Force(0),?
 END
 &
 THEORY ManForms 

@@ -1,30 +1,48 @@
 THEORY BalanceX IS
-  traffic_light_alg,4,0,0,2,1,0,0;
+  traffic_light_alg,10,1,0,9,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
   Initialisation,0,0,0,0,0,0,0;
-  advance,4,0,0,2,1,0,0
+  advance,10,1,0,9,0,0,0
 END
 &
 THEORY ProofState IS
-  Unproved;
   Proved(0);
   Proved(0);
-  Proved(1)
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0)
 END
 &
 THEORY MethodList IS
-  ?;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & pp(rp.1);
+  pr;
+  pr;
   pr;
   pr;
   pr
 END
 &
 THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
-  Force(1),(?;0)
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
 END
 &
 THEORY ManForms 
