@@ -85,8 +85,8 @@ THEORY ListConstraintsX IS
 END
 &
 THEORY ListOperationsX IS
-  Internal_List_Operations(Machine(Microcontroller))==(init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div);
-  List_Operations(Machine(Microcontroller))==(init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div)
+  Internal_List_Operations(Machine(Microcontroller))==(init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div);
+  List_Operations(Machine(Microcontroller))==(init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div)
 END
 &
 THEORY ListInputX IS
@@ -101,6 +101,7 @@ THEORY ListInputX IS
   List_Input(Machine(Microcontroller),get_end)==(?);
   List_Input(Machine(Microcontroller),set_w)==(value);
   List_Input(Machine(Microcontroller),get_w)==(?);
+  List_Input(Machine(Microcontroller),nop)==(?);
   List_Input(Machine(Microcontroller),goto)==(value);
   List_Input(Machine(Microcontroller),iszero)==(address);
   List_Input(Machine(Microcontroller),isequal)==(address_1,value);
@@ -130,6 +131,7 @@ THEORY ListOutputX IS
   List_Output(Machine(Microcontroller),get_end)==(res);
   List_Output(Machine(Microcontroller),set_w)==(?);
   List_Output(Machine(Microcontroller),get_w)==(res);
+  List_Output(Machine(Microcontroller),nop)==(?);
   List_Output(Machine(Microcontroller),goto)==(?);
   List_Output(Machine(Microcontroller),iszero)==(?);
   List_Output(Machine(Microcontroller),isequal)==(?);
@@ -159,6 +161,7 @@ THEORY ListHeaderX IS
   List_Header(Machine(Microcontroller),get_end)==(res <-- get_end);
   List_Header(Machine(Microcontroller),set_w)==(set_w(value));
   List_Header(Machine(Microcontroller),get_w)==(res <-- get_w);
+  List_Header(Machine(Microcontroller),nop)==(nop);
   List_Header(Machine(Microcontroller),goto)==(goto(value));
   List_Header(Machine(Microcontroller),iszero)==(iszero(address));
   List_Header(Machine(Microcontroller),isequal)==(isequal(address_1,value));
@@ -188,6 +191,7 @@ THEORY ListPreconditionX IS
   List_Precondition(Machine(Microcontroller),get_end)==(btrue);
   List_Precondition(Machine(Microcontroller),set_w)==(value : NATURAL);
   List_Precondition(Machine(Microcontroller),get_w)==(btrue);
+  List_Precondition(Machine(Microcontroller),nop)==(pc<end);
   List_Precondition(Machine(Microcontroller),goto)==(value : NATURAL & value<=end);
   List_Precondition(Machine(Microcontroller),iszero)==(address : NATURAL & (memory_data(address) = 0 => pc+1 : NATURAL & pc+1<=end) & (memory_data(address)/=0 => pc+2 : NATURAL & pc+2<=end));
   List_Precondition(Machine(Microcontroller),isequal)==(address_1 : NATURAL & value : NATURAL & pc+2<end);
@@ -221,6 +225,7 @@ THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(Microcontroller),isequal)==(address_1 : NATURAL & value : NATURAL & pc+2<end | memory_data(address_1) = value ==> pc:=pc+1 [] not(memory_data(address_1) = value) ==> pc:=pc+2);
   Expanded_List_Substitution(Machine(Microcontroller),iszero)==(address : NATURAL & (memory_data(address) = 0 => pc+1 : NATURAL & pc+1<=end) & (memory_data(address)/=0 => pc+2 : NATURAL & pc+2<=end) | memory_data(address) = 0 ==> pc:=pc+1 [] not(memory_data(address) = 0) ==> pc:=pc+2);
   Expanded_List_Substitution(Machine(Microcontroller),goto)==(value : NATURAL & value<=end | pc:=value);
+  Expanded_List_Substitution(Machine(Microcontroller),nop)==(pc<end | pc:=pc+1);
   Expanded_List_Substitution(Machine(Microcontroller),get_w)==(btrue | res:=w);
   Expanded_List_Substitution(Machine(Microcontroller),set_w)==(value : NATURAL | w:=value);
   Expanded_List_Substitution(Machine(Microcontroller),get_end)==(btrue | res:=end);
@@ -243,6 +248,7 @@ THEORY ListSubstitutionX IS
   List_Substitution(Machine(Microcontroller),get_end)==(res:=end);
   List_Substitution(Machine(Microcontroller),set_w)==(w:=value);
   List_Substitution(Machine(Microcontroller),get_w)==(res:=w);
+  List_Substitution(Machine(Microcontroller),nop)==(pc:=pc+1);
   List_Substitution(Machine(Microcontroller),goto)==(pc:=value);
   List_Substitution(Machine(Microcontroller),iszero)==(IF memory_data(address) = 0 THEN pc:=pc+1 ELSE pc:=pc+2 END);
   List_Substitution(Machine(Microcontroller),isequal)==(IF memory_data(address_1) = value THEN pc:=pc+1 ELSE pc:=pc+2 END);
@@ -296,7 +302,7 @@ END
 THEORY ListSeenInfoX END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(Microcontroller)) == (? | ? | end,pc,w,stack,memory_data | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
+  List_Of_Ids(Machine(Microcontroller)) == (? | ? | end,pc,w,stack,memory_data | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
   List_Of_HiddenCst_Ids(Machine(Microcontroller)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(Microcontroller)) == (?);
   List_Of_VisibleVar_Ids(Machine(Microcontroller)) == (? | ?);
@@ -308,7 +314,7 @@ THEORY VariablesEnvX IS
 END
 &
 THEORY OperationsEnvX IS
-  Operations(Machine(Microcontroller)) == (Type(div) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(mul) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(sub) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(add) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(dec) == Cst(No_type,btype(INTEGER,?,?));Type(inc) == Cst(No_type,btype(INTEGER,?,?));Type(set_data) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(reset_w) == Cst(No_type,No_type);Type(reset) == Cst(No_type,btype(INTEGER,?,?));Type(move_m_w) == Cst(No_type,btype(INTEGER,?,?));Type(move_w_m) == Cst(No_type,btype(INTEGER,?,?));Type(move) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(isequal) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(iszero) == Cst(No_type,btype(INTEGER,?,?));Type(goto) == Cst(No_type,btype(INTEGER,?,?));Type(get_w) == Cst(btype(INTEGER,?,?),No_type);Type(set_w) == Cst(No_type,btype(INTEGER,?,?));Type(get_end) == Cst(btype(INTEGER,?,?),No_type);Type(set_end) == Cst(No_type,btype(INTEGER,?,?));Type(get_pc) == Cst(btype(INTEGER,?,?),No_type);Type(get_data) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?));Type(pop_2) == Cst(No_type,No_type);Type(pop_1) == Cst(No_type,No_type);Type(push) == Cst(No_type,No_type);Type(init) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(init_data) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?)));
+  Operations(Machine(Microcontroller)) == (Type(div) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(mul) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(sub) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(add) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(dec) == Cst(No_type,btype(INTEGER,?,?));Type(inc) == Cst(No_type,btype(INTEGER,?,?));Type(set_data) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(reset_w) == Cst(No_type,No_type);Type(reset) == Cst(No_type,btype(INTEGER,?,?));Type(move_m_w) == Cst(No_type,btype(INTEGER,?,?));Type(move_w_m) == Cst(No_type,btype(INTEGER,?,?));Type(move) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(isequal) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(iszero) == Cst(No_type,btype(INTEGER,?,?));Type(goto) == Cst(No_type,btype(INTEGER,?,?));Type(nop) == Cst(No_type,No_type);Type(get_w) == Cst(btype(INTEGER,?,?),No_type);Type(set_w) == Cst(No_type,btype(INTEGER,?,?));Type(get_end) == Cst(btype(INTEGER,?,?),No_type);Type(set_end) == Cst(No_type,btype(INTEGER,?,?));Type(get_pc) == Cst(btype(INTEGER,?,?),No_type);Type(get_data) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?));Type(pop_2) == Cst(No_type,No_type);Type(pop_1) == Cst(No_type,No_type);Type(push) == Cst(No_type,No_type);Type(init) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(init_data) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?)));
   Observers(Machine(Microcontroller)) == (Type(get_w) == Cst(btype(INTEGER,?,?),No_type);Type(get_end) == Cst(btype(INTEGER,?,?),No_type);Type(get_pc) == Cst(btype(INTEGER,?,?),No_type);Type(get_data) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?)))
 END
 &

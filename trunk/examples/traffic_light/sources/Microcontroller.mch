@@ -121,6 +121,14 @@ OPERATIONS
   BEGIN
   res := w
   END;
+
+  nop = 
+  PRE
+    pc < end
+  THEN
+    pc := pc + 1
+  END;
+
   
 
   goto(value) = 
