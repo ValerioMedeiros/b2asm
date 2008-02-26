@@ -1,5 +1,5 @@
 THEORY BalanceX IS
-  Microcontroller,27,5,0,21,1,0,0;
+  Microcontroller,29,5,0,23,1,0,0;
   Initialisation,2,1,0,1,0,0,0;
   init_data,1,0,0,1,0,0,0;
   init,0,0,0,0,0,0,0;
@@ -14,7 +14,7 @@ THEORY BalanceX IS
   get_w,0,0,0,0,0,0,0;
   goto,0,0,0,0,0,0,0;
   iszero,0,0,0,0,0,0,0;
-  isequal,4,0,0,4,0,0,0;
+  isequal,6,0,0,6,0,0,0;
   move,2,1,0,1,0,0,0;
   move_w_m,2,1,0,1,0,0,0;
   move_m_w,2,0,0,2,0,0,0;
@@ -41,6 +41,8 @@ THEORY ProofState IS
   Proved(Util);
   Proved(0);
   Proved(Util);
+  Proved(0);
+  Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -86,10 +88,14 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
+  pr;
+  pr;
   cl & xp & pp(rp.1)
 END
 &
 THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;

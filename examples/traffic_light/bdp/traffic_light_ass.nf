@@ -152,7 +152,7 @@ END
 THEORY ListSeenInfoX END
 &
 THEORY ListIncludedOperationsX IS
-  List_Included_Operations(Implementation(traffic_light_ass),Machine(Microcontroller))==(init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div)
+  List_Included_Operations(Implementation(traffic_light_ass),Machine(Microcontroller))==(init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div)
 END
 &
 THEORY InheritedEnvX IS
@@ -167,7 +167,7 @@ THEORY ListOfIdsX IS
   List_Of_VisibleCst_Ids(Implementation(traffic_light_ass)) == (?);
   List_Of_VisibleVar_Ids(Implementation(traffic_light_ass)) == (? | ?);
   List_Of_Ids_SeenBNU(Implementation(traffic_light_ass)) == (? : ?);
-  List_Of_Ids(Machine(Microcontroller)) == (? | ? | end,pc,w,stack,memory_data | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
+  List_Of_Ids(Machine(Microcontroller)) == (? | ? | end,pc,w,stack,memory_data | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
   List_Of_HiddenCst_Ids(Machine(Microcontroller)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(Microcontroller)) == (?);
   List_Of_VisibleVar_Ids(Machine(Microcontroller)) == (? | ?);

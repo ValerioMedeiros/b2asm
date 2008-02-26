@@ -1,5 +1,5 @@
 THEORY BalanceX IS
-  Microcontroller,29,5,0,23,1,0,0;
+  Microcontroller,31,5,0,25,1,0,0;
   Initialisation,2,1,0,1,0,0,0;
   init_data,1,0,0,1,0,0,0;
   init,0,0,0,0,0,0,0;
@@ -20,7 +20,7 @@ THEORY BalanceX IS
   move_m_w,2,0,0,2,0,0,0;
   reset,2,1,0,1,0,0,0;
   reset_w,0,0,0,0,0,0,0;
-  set_data,2,1,0,1,0,0,0;
+  set_data,4,1,0,3,0,0,0;
   inc,1,0,0,1,0,0,0;
   dec,1,0,0,1,0,0,0;
   add,0,0,0,0,0,0,0;
@@ -30,6 +30,8 @@ THEORY BalanceX IS
 END
 &
 THEORY ProofState IS
+  Proved(0);
+  Proved(0);
   Proved(0);
   Proved(0);
   Proved(Util);
@@ -64,10 +66,6 @@ END
 THEORY MethodList IS
   pr;
   pr;
-  cl & xp & pp(rp.1);
-  pr;
-  cl & xp & pp(rp.1);
-  pr;
   pr;
   pr;
   cl & xp & pp(rp.1);
@@ -76,6 +74,9 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
+  cl & xp & pp(rp.1);
+  pr;
+  cl & xp & ss & pp(rp.1);
   pr;
   pr;
   pr;
@@ -90,7 +91,10 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  cl & xp & pp(rp.1)
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & pp(rp.1)
 END
 &
 THEORY PassList IS
@@ -98,6 +102,15 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -106,14 +119,7 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(1),?;
+  Force(1),(?;0);
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -122,7 +128,7 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),?
+  Force(0),(?;0;1)
 END
 &
 THEORY ManForms 

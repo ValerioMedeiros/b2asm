@@ -106,8 +106,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Implementation(traffic_light_ass2),advance)==(btrue | @(pc,end).(pc:=0;end:=3;(pc : NATURAL & end : NATURAL & pc<=end | ucpc,ucend:=pc,end);WHILE pc<end DO not(pc = 2) & not(pc = 1) & pc = 0 ==> (0 : NATURAL & ucmemory_data(0)+1 : NATURAL & ucpc+1 : NATURAL & ucpc+1<=ucend & dom(ucmemory_data<+{0|->ucmemory_data(0)+1}) = NATURAL | ucmemory_data,ucpc:=ucmemory_data<+{0|->ucmemory_data(0)+1},ucpc+1) [] not(pc = 0) & not(pc = 2) & pc = 1 ==> (0 : NATURAL & 3 : NATURAL & ucpc+2<ucend | ucmemory_data(0) = 3 ==> ucpc:=ucpc+1 [] not(ucmemory_data(0) = 3) ==> ucpc:=ucpc+2) [] not(pc = 0) & not(pc = 1) & pc = 2 ==> (0 : NATURAL & 0 : NATURAL & ucpc+1<=ucend | ucmemory_data,ucpc:=ucmemory_data<+{0|->0},ucpc+1) [] not(pc = 0) & not(pc = 1) & not(pc = 2) ==> skip;(btrue | pc:=ucpc) INVARIANT pc>=0 & pc<=3 & pc = ucpc & end = ucend & ucmemory_data : NATURAL --> NATURAL & (pc = 0 => ucmemory_data(0) = state) & (pc = 1 => ucmemory_data(0) = state+1) & (pc = 2 => ucmemory_data(0) = state+1 & ucmemory_data(0) = 3) & (pc = 3 => ucmemory_data(0) = (state+1) mod 3) VARIANT end-pc END));
-  List_Substitution(Implementation(traffic_light_ass2),advance)==(VAR pc,end IN pc:=0;end:=3;(uc.init)(pc,end);WHILE pc<end DO BEGIN CASE pc OF EITHER 0 THEN (uc.inc)(0) OR 1 THEN (uc.isequal)(0,3) OR 2 THEN (uc.set_data)(0,0) END END;pc <-- uc.get_pc END INVARIANT pc>=0 & pc<=3 & pc = uc.pc & end = uc.end & uc.memory_data : NATURAL --> NATURAL & (pc = 0 => (uc.memory_data)(0) = state) & (pc = 1 => (uc.memory_data)(0) = state+1) & (pc = 2 => (uc.memory_data)(0) = state+1 & (uc.memory_data)(0) = 3) & (pc = 3 => (uc.memory_data)(0) = (state+1) mod 3) VARIANT end-pc END END)
+  Expanded_List_Substitution(Implementation(traffic_light_ass2),advance)==(btrue | @(pc,end).(pc:=0;end:=4;(pc : NATURAL & end : NATURAL & pc<=end | ucpc,ucend:=pc,end);WHILE pc<end DO not(pc = 3) & not(pc = 2) & not(pc = 1) & pc = 0 ==> (0 : NATURAL & ucmemory_data(0)+1 : NATURAL & ucpc+1 : NATURAL & ucpc+1<=ucend & dom(ucmemory_data<+{0|->ucmemory_data(0)+1}) = NATURAL | ucmemory_data,ucpc:=ucmemory_data<+{0|->ucmemory_data(0)+1},ucpc+1) [] not(pc = 0) & not(pc = 3) & not(pc = 2) & pc = 1 ==> (0 : NATURAL & 3 : NATURAL & ucpc+2<ucend | ucmemory_data(0) = 3 ==> ucpc:=ucpc+1 [] not(ucmemory_data(0) = 3) ==> ucpc:=ucpc+2) [] not(pc = 0) & not(pc = 1) & not(pc = 3) & pc = 2 ==> (0 : NATURAL & 0 : NATURAL & ucpc+1<=ucend | ucmemory_data,ucpc:=ucmemory_data<+{0|->0},ucpc+1) [] not(pc = 0) & not(pc = 1) & not(pc = 2) & pc = 3 ==> (ucpc<ucend | ucpc:=ucpc+1) [] not(pc = 0) & not(pc = 1) & not(pc = 2) & not(pc = 3) ==> skip;(btrue | pc:=ucpc) INVARIANT pc>=0 & pc<=4 & pc = ucpc & end = ucend & ucmemory_data : NATURAL --> NATURAL & (pc = 0 => ucmemory_data(0) = state) & (pc = 1 => ucmemory_data(0) = state+1) & (pc = 2 => ucmemory_data(0) = state+1 & ucmemory_data(0) = 3) & (pc = 3 => ucmemory_data(0) = (state+1) mod 3) & (pc = 4 => ucmemory_data(0) = (state+1) mod 3) VARIANT end-pc END));
+  List_Substitution(Implementation(traffic_light_ass2),advance)==(VAR pc,end IN pc:=0;end:=4;(uc.init)(pc,end);WHILE pc<end DO BEGIN CASE pc OF EITHER 0 THEN (uc.inc)(0) OR 1 THEN (uc.isequal)(0,3) OR 2 THEN (uc.set_data)(0,0) OR 3 THEN uc.nop END END;pc <-- uc.get_pc END INVARIANT pc>=0 & pc<=4 & pc = uc.pc & end = uc.end & uc.memory_data : NATURAL --> NATURAL & (pc = 0 => (uc.memory_data)(0) = state) & (pc = 1 => (uc.memory_data)(0) = state+1) & (pc = 2 => (uc.memory_data)(0) = state+1 & (uc.memory_data)(0) = 3) & (pc = 3 => (uc.memory_data)(0) = (state+1) mod 3) & (pc = 4 => (uc.memory_data)(0) = (state+1) mod 3) VARIANT end-pc END END)
 END
 &
 THEORY ListConstantsX IS
@@ -152,7 +152,7 @@ END
 THEORY ListSeenInfoX END
 &
 THEORY ListIncludedOperationsX IS
-  List_Included_Operations(Implementation(traffic_light_ass2),Machine(Microcontroller))==(init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div)
+  List_Included_Operations(Implementation(traffic_light_ass2),Machine(Microcontroller))==(init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div)
 END
 &
 THEORY InheritedEnvX IS
@@ -167,7 +167,7 @@ THEORY ListOfIdsX IS
   List_Of_VisibleCst_Ids(Implementation(traffic_light_ass2)) == (?);
   List_Of_VisibleVar_Ids(Implementation(traffic_light_ass2)) == (? | ?);
   List_Of_Ids_SeenBNU(Implementation(traffic_light_ass2)) == (? : ?);
-  List_Of_Ids(Machine(Microcontroller)) == (? | ? | end,pc,w,stack,memory_data | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
+  List_Of_Ids(Machine(Microcontroller)) == (? | ? | end,pc,w,stack,memory_data | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
   List_Of_HiddenCst_Ids(Machine(Microcontroller)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(Microcontroller)) == (?);
   List_Of_VisibleVar_Ids(Machine(Microcontroller)) == (? | ?);
