@@ -37,9 +37,9 @@ THEORY ListVariablesX IS
   External_Context_List_Variables(Machine(nat))==(?);
   Context_List_Variables(Machine(nat))==(?);
   Abstract_List_Variables(Machine(nat))==(?);
-  Local_List_Variables(Machine(nat))==(value);
-  List_Variables(Machine(nat))==(value);
-  External_List_Variables(Machine(nat))==(value)
+  Local_List_Variables(Machine(nat))==(?);
+  List_Variables(Machine(nat))==(?);
+  External_List_Variables(Machine(nat))==(?)
 END
 &
 THEORY ListVisibleVariablesX IS
@@ -47,8 +47,8 @@ THEORY ListVisibleVariablesX IS
   Abstract_List_VisibleVariables(Machine(nat))==(?);
   External_List_VisibleVariables(Machine(nat))==(?);
   Expanded_List_VisibleVariables(Machine(nat))==(?);
-  List_VisibleVariables(Machine(nat))==(?);
-  Internal_List_VisibleVariables(Machine(nat))==(?)
+  List_VisibleVariables(Machine(nat))==(value);
+  Internal_List_VisibleVariables(Machine(nat))==(value)
 END
 &
 THEORY ListInvariantX IS
@@ -163,10 +163,10 @@ THEORY ListSeenInfoX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(nat)) == (? | ? | value | ? | get,set | ? | seen(Machine(types)) | ? | nat);
+  List_Of_Ids(Machine(nat)) == (? | ? | ? | ? | get,set | ? | seen(Machine(types)) | ? | nat);
   List_Of_HiddenCst_Ids(Machine(nat)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(nat)) == (?);
-  List_Of_VisibleVar_Ids(Machine(nat)) == (? | ?);
+  List_Of_VisibleVar_Ids(Machine(nat)) == (value | ?);
   List_Of_Ids_SeenBNU(Machine(nat)) == (? : ?);
   List_Of_Ids(Machine(types)) == (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | types);
   List_Of_HiddenCst_Ids(Machine(types)) == (? | ?);
@@ -175,8 +175,8 @@ THEORY ListOfIdsX IS
   List_Of_Ids_SeenBNU(Machine(types)) == (? : ?)
 END
 &
-THEORY VariablesEnvX IS
-  Variables(Machine(nat)) == (Type(value) == Mvl(btype(INTEGER,?,?)))
+THEORY VisibleVariablesEnvX IS
+  VisibleVariables(Machine(nat)) == (Type(value) == Mvv(btype(INTEGER,?,?)))
 END
 &
 THEORY OperationsEnvX IS

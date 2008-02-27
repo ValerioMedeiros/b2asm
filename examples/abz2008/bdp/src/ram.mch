@@ -2,7 +2,7 @@ MACHINE
   ram
 SEES
   types
-ABSTRACT_VARIABLES
+CONCRETE_VARIABLES
   mem , pc , end
 INVARIANT
   mem : ( NATURAL --> uint32 ) & pc : NATURAL & end : NATURAL & pc <= end

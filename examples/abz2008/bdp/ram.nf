@@ -37,9 +37,9 @@ THEORY ListVariablesX IS
   External_Context_List_Variables(Machine(ram))==(?);
   Context_List_Variables(Machine(ram))==(?);
   Abstract_List_Variables(Machine(ram))==(?);
-  Local_List_Variables(Machine(ram))==(end,pc,mem);
-  List_Variables(Machine(ram))==(end,pc,mem);
-  External_List_Variables(Machine(ram))==(end,pc,mem)
+  Local_List_Variables(Machine(ram))==(?);
+  List_Variables(Machine(ram))==(?);
+  External_List_Variables(Machine(ram))==(?)
 END
 &
 THEORY ListVisibleVariablesX IS
@@ -47,8 +47,8 @@ THEORY ListVisibleVariablesX IS
   Abstract_List_VisibleVariables(Machine(ram))==(?);
   External_List_VisibleVariables(Machine(ram))==(?);
   Expanded_List_VisibleVariables(Machine(ram))==(?);
-  List_VisibleVariables(Machine(ram))==(?);
-  Internal_List_VisibleVariables(Machine(ram))==(?)
+  List_VisibleVariables(Machine(ram))==(end,pc,mem);
+  Internal_List_VisibleVariables(Machine(ram))==(end,pc,mem)
 END
 &
 THEORY ListInvariantX IS
@@ -211,10 +211,10 @@ THEORY ListSeenInfoX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(ram)) == (? | ? | end,pc,mem | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
+  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
   List_Of_HiddenCst_Ids(Machine(ram)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(ram)) == (?);
-  List_Of_VisibleVar_Ids(Machine(ram)) == (? | ?);
+  List_Of_VisibleVar_Ids(Machine(ram)) == (end,pc,mem | ?);
   List_Of_Ids_SeenBNU(Machine(ram)) == (? : ?);
   List_Of_Ids(Machine(types)) == (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | types);
   List_Of_HiddenCst_Ids(Machine(types)) == (? | ?);
@@ -223,8 +223,8 @@ THEORY ListOfIdsX IS
   List_Of_Ids_SeenBNU(Machine(types)) == (? : ?)
 END
 &
-THEORY VariablesEnvX IS
-  Variables(Machine(ram)) == (Type(end) == Mvl(btype(INTEGER,?,?));Type(pc) == Mvl(btype(INTEGER,?,?));Type(mem) == Mvl(SetOf(btype(INTEGER,?,?)*btype(INTEGER,"[uint32","]uint32"))))
+THEORY VisibleVariablesEnvX IS
+  VisibleVariables(Machine(ram)) == (Type(end) == Mvv(btype(INTEGER,?,?));Type(pc) == Mvv(btype(INTEGER,?,?));Type(mem) == Mvv(SetOf(btype(INTEGER,?,?)*btype(INTEGER,"[uint32","]uint32"))))
 END
 &
 THEORY OperationsEnvX IS

@@ -24,28 +24,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 IMPLEMENTATION iterationalg
 REFINES iteration
 SEES types
-IMPORTS ar.nat, br.nat, sr.nat
+IMPORTS ai.nat, bi.nat, si.nat
 INVARIANT
-   ar.value = a & br.value = b & sr.value = s
+   ai.value = a & bi.value = b & si.value = s
 INITIALISATION
-   BEGIN ar.set(0); br.set(0); sr.set(0) END
+   BEGIN ai.set(0); bi.set(0); si.set(0) END
 OPERATIONS
    run =
-     VAR sv, av, bv, v IN
-     BEGIN
-        av <-- ar.get;
-        bv <-- br.get;
-        sv := av;
-        v := 0;
-        WHILE v /= bv DO
-        BEGIN
-           sv := sv + 1;
-           v := v + 1
-        END
-        INVARIANT v : uint32 & v <= bv & sv = av + v
-        VARIANT (bv - v)
-        END;
-        sr.set(sv)
+     VAR sv, v IN
+      sv := ai.value;
+      v := 0;
+      WHILE v /= bi.value DO
+      BEGIN
+         sv := sv + 1;
+         v := v + 1
+      END
+      INVARIANT v : uint32 & v <= bi.value & sv = ai.value + v
+      VARIANT (bi.value - v)
+      END;
+      si.set(sv)
      END
-   END
 END

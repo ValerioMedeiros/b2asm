@@ -30,27 +30,23 @@ INITIALISATION
   skip
 OPERATIONS
   run =
-  VAR pc, end IN
-    pc, end := 0, 4;
-    uc.init(end);
-    WHILE pc < end DO
+  BEGIN
+    uc.init(3);
+    WHILE uc.pc < uc.end DO
     BEGIN
-      CASE pc OF
-        EITHER 0 THEN uc.move(0,2)
-        OR 1 THEN uc.move(1,3)
-        OR 2 THEN uc.move(3,0)
-        OR 3 THEN uc.move(2,1)
+      CASE uc.pc OF
+        EITHER 0 THEN uc.move(1,2)
+        OR 1 THEN uc.move(0,1)
+        OR 2 THEN uc.move(2,0)
         END
-      END;
-      pc <-- uc.get_pc
+      END
     END
     INVARIANT 
-      pc >= 0 & pc <= end & pc = uc.pc & end = uc.end &
+      uc.pc >= 0 & uc.pc <= uc.end & 
       (uc.pc = 0 => uc.mem(0) = a & uc.mem(1) = b) &
-      (uc.pc = 1 => uc.mem(0) = a & uc.mem(1) = b & uc.mem(2) = a) &
-      (uc.pc = 2 => uc.mem(0) = a & uc.mem(1) = b & uc.mem(2) = a & uc.mem(3) = b) &
-      (uc.pc = 3 => uc.mem(0) = b & uc.mem(1) = b & uc.mem(2) = a) &
-      (uc.pc = 4 => uc.mem(0) = b & uc.mem(1) = a)
+      (uc.pc = 1 => uc.mem(0) = a & uc.mem(1) = b & uc.mem(2) = b) &
+      (uc.pc = 2 => uc.mem(0) = a & uc.mem(1) = a & uc.mem(2) = b) &
+      (uc.pc = 3 => uc.mem(0) = b & uc.mem(1) = a)
     VARIANT uc.end - uc.pc
     END
   END

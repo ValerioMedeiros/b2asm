@@ -1,16 +1,12 @@
 THEORY BalanceX IS
-  assignmentasmw,13,1,0,12,0,0,0;
+  assignmentasmw,9,1,0,8,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
   Initialisation,1,0,0,1,0,0,0;
-  run,12,1,0,11,0,0,0
+  run,8,1,0,7,0,0,0
 END
 &
 THEORY ProofState IS
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -30,19 +26,11 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  pr;
-  pr;
-  pr;
-  pr;
   cl & xp & ds(ucpc$2 = 1 => ucmem$2(0) = 0) & ss & ct;
   pr
 END
 &
 THEORY PassList IS
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;

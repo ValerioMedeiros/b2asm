@@ -1,9 +1,9 @@
 THEORY BalanceX IS
-  traffic_light_alg,10,1,0,9,0,0,0;
+  traffic_light_alg,13,0,0,9,4,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  Initialisation,0,0,0,0,0,0,0;
-  advance,10,1,0,9,0,0,0
+  Initialisation,1,0,0,1,0,0,0;
+  advance,12,0,0,8,4,0,0
 END
 &
 THEORY ProofState IS
@@ -11,8 +11,11 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(0);
-  Proved(Util);
   Proved(0);
+  Proved(1);
+  Proved(1);
+  Proved(1);
+  Proved(1);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -24,7 +27,10 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  cl & xp & ss & pp(rp.1);
+  pr;
+  pr;
+  pr;
+  pr;
   pr;
   pr;
   pr;
@@ -38,7 +44,10 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),?;
+  Force(1),(?;0);
+  Force(1),(?;0);
+  Force(1),(?;0);
+  Force(1),(?;0);
   Force(0),?;
   Force(0),?;
   Force(0),?;

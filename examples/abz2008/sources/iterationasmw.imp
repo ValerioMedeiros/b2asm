@@ -37,14 +37,12 @@ INITIALISATION
   END
 OPERATIONS
   run =
-  VAR pc, end, loopvar IN
-    pc := 0;
-    end := 7;
-    uc.init(end);
+  VAR loopvar IN
+    uc.init(7);
     loopvar := 0;
-    WHILE pc < end DO
+    WHILE uc.pc < uc.end DO
     BEGIN
-      CASE pc OF
+      CASE uc.pc OF
         EITHER 0 THEN uc.move(0,2)
         OR 1 THEN uc.set(3,0)
         OR 2 THEN uc.testeq(1,3)
@@ -57,12 +55,10 @@ OPERATIONS
              loopvar := loopvar + 1
           END
         END
-      END;
-      pc <-- uc.get_pc
+      END
     END
     INVARIANT 
-      0 <= pc & pc <= end &
-      pc = uc.pc & end = uc.end & end = 7 &
+      0 <= uc.pc & uc.pc <= uc.end &
       loopvar : NATURAL & 
       uc.mem : (NATURAL --> NATURAL) &
       uc.mem(0) = a & uc.mem(1) = b &

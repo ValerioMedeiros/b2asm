@@ -1,25 +1,23 @@
 THEORY OPOBalanceX IS
-  assignmentasmw,17;
+  assignmentasmw,15;
   ValuesLemmas,1;
   InstanciatedConstraintsLemmas,0;
   Initialisation,2;
-  run,14
+  run,12
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & _f(6) & run.14,(_f(25) & _of(18) => _of(2));
-  _f(1) & _f(2) & _f(6) & run.13,(_f(19) & _of(4) => _of(12));
-  _f(1) & _f(2) & _f(6) & run.12,(_f(19) & _of(4) => _of(17));
-  _f(1) & _f(2) & _f(6) & run.11,(_f(11) & _of(4) => _of(12));
-  _f(1) & _f(2) & _f(6) & run.10,(_f(11) & _of(4) => _of(16));
-  _f(1) & _f(2) & _f(6) & run.9,(_of(15) & _of(4) => _of(5));
-  _f(1) & _f(2) & _f(6) & run.8,(_of(13) & _of(4) => _of(14));
-  _f(1) & _f(2) & _f(6) & run.7,(_of(4) => _of(12));
-  _f(1) & _f(2) & _f(6) & run.6,(_of(4) => _of(11));
-  _f(1) & _f(2) & _f(6) & run.5,(_of(4) => _of(10));
-  _f(1) & _f(2) & _f(6) & run.4,(_of(4) => _of(9));
-  _f(1) & _f(2) & _f(6) & run.3,(_of(4) => _of(8));
-  _f(1) & _f(2) & _f(6) & run.2,(_of(4) => _of(2));
+  _f(1) & _f(2) & _f(6) & run.12,(_f(19) & _of(20) => _of(2));
+  _f(1) & _f(2) & _f(6) & run.11,(_f(17) & _of(8) => _of(19));
+  _f(1) & _f(2) & _f(6) & run.10,(_f(17) & _of(8) => _of(18));
+  _f(1) & _f(2) & _f(6) & run.9,(_f(17) & _of(8) => _of(17));
+  _f(1) & _f(2) & _f(6) & run.8,(_f(11) & _of(15) => _of(16));
+  _f(1) & _f(2) & _f(6) & run.7,(_of(14) & _of(8) => _of(5));
+  _f(1) & _f(2) & _f(6) & run.6,(_of(12) & _of(8) => _of(13));
+  _f(1) & _f(2) & _f(6) & run.5,(_of(8) => _of(11));
+  _f(1) & _f(2) & _f(6) & run.4,(_of(8) => _of(10));
+  _f(1) & _f(2) & _f(6) & run.3,(_of(8) => _of(9));
+  _f(1) & _f(2) & _f(6) & run.2,(_of(8) => _of(2));
   _f(1) & _f(2) & _f(6) & run.1,(_of(7) => _of(2));
   _f(1) & _f(2) & Initialisation.2,(_f(3) & _of(6) => _of(2));
   _f(1) & _f(2) & Initialisation.1,(_of(3) & _of(4) => _of(5));
@@ -34,16 +32,18 @@ THEORY OPOFormulas IS
   (0 : NATURAL);
   "`Check initialisation refinement - ref 4.3, 5.4'";
   "`Check precondition (btrue) deduction'";
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   (1 : NATURAL);
   (0<=0);
   (0<=1);
-  (0 = 0);
-  (1 = 1);
   ("`Local hypotheses'" & bfalse);
   (ucmem$1(0) = 0);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=1 & (pc$0 = 1 => ucmem$2(0) = 0) & pc$0 = ucpc$2 & pc$0+1<=1 & pc$0 = 0);
-  (ucpc$2+1 = ucpc$2+1);
-  (ucpc$2 = ucpc$2);
+  ("`Local hypotheses'" & 0<=ucpc$2 & ucpc$2<=1 & (ucpc$2 = 1 => ucmem$2(0) = 0) & ucpc$2+1<=1 & ucpc$2 = 0);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (ucpc$2+1<=1);
+  (0<=ucpc$2);
+  (ucpc$2<=1);
+  (ucpc$2 = 1 => ucmem$2(0) = 0);
   "`Check that the invariant (v = ucmem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'"
 END
 &

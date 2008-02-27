@@ -35,15 +35,15 @@ THEORY ListVariablesX IS
   Context_List_Variables(Implementation(sequencealg))==(?);
   Abstract_List_Variables(Implementation(sequencealg))==(b,a);
   Local_List_Variables(Implementation(sequencealg))==(?);
-  List_Variables(Implementation(sequencealg))==(aivalue,bivalue);
-  External_List_Variables(Implementation(sequencealg))==(ai.value,bi.value)
+  List_Variables(Implementation(sequencealg))==(?);
+  External_List_Variables(Implementation(sequencealg))==(?)
 END
 &
 THEORY ListVisibleVariablesX IS
   Inherited_List_VisibleVariables(Implementation(sequencealg))==(?);
   Abstract_List_VisibleVariables(Implementation(sequencealg))==(?);
-  External_List_VisibleVariables(Implementation(sequencealg))==(?);
-  Expanded_List_VisibleVariables(Implementation(sequencealg))==(?);
+  External_List_VisibleVariables(Implementation(sequencealg))==(ai.value,bi.value);
+  Expanded_List_VisibleVariables(Implementation(sequencealg))==(aivalue,bivalue);
   List_VisibleVariables(Implementation(sequencealg))==(?);
   Internal_List_VisibleVariables(Implementation(sequencealg))==(?)
 END
@@ -109,8 +109,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Implementation(sequencealg),run)==(btrue | @(va,vb).((btrue | va:=aivalue);(btrue | vb:=bivalue);(vb : uint32 | aivalue:=vb);(va : uint32 | bivalue:=va)));
-  List_Substitution(Implementation(sequencealg),run)==(VAR va,vb IN va <-- ai.get;vb <-- bi.get;(ai.set)(vb);(bi.set)(va) END)
+  Expanded_List_Substitution(Implementation(sequencealg),run)==(btrue | @tmp.(tmp:=bivalue;(aivalue : uint32 | bivalue:=aivalue);(tmp : uint32 | aivalue:=tmp)));
+  List_Substitution(Implementation(sequencealg),run)==(VAR tmp IN tmp:=bi.value;(bi.set)(ai.value);(ai.set)(tmp) END)
 END
 &
 THEORY ListConstantsX IS
@@ -177,15 +177,15 @@ THEORY ListVisibleStaticX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Implementation(sequencealg)) == (? | ? | ? | bivalue,aivalue | run | ? | seen(Machine(types)),imported(Machine(ai.nat)),imported(Machine(bi.nat)) | ? | sequencealg);
+  List_Of_Ids(Implementation(sequencealg)) == (? | ? | ? | ? | run | ? | seen(Machine(types)),imported(Machine(ai.nat)),imported(Machine(bi.nat)) | ? | sequencealg);
   List_Of_HiddenCst_Ids(Implementation(sequencealg)) == (? | ?);
   List_Of_VisibleCst_Ids(Implementation(sequencealg)) == (?);
-  List_Of_VisibleVar_Ids(Implementation(sequencealg)) == (? | ?);
+  List_Of_VisibleVar_Ids(Implementation(sequencealg)) == (? | bivalue,aivalue);
   List_Of_Ids_SeenBNU(Implementation(sequencealg)) == (seen(Machine(types)) : (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | ?));
-  List_Of_Ids(Machine(nat)) == (? | ? | value | ? | get,set | ? | seen(Machine(types)) | ? | nat);
+  List_Of_Ids(Machine(nat)) == (? | ? | ? | ? | get,set | ? | seen(Machine(types)) | ? | nat);
   List_Of_HiddenCst_Ids(Machine(nat)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(nat)) == (?);
-  List_Of_VisibleVar_Ids(Machine(nat)) == (? | ?);
+  List_Of_VisibleVar_Ids(Machine(nat)) == (value | ?);
   List_Of_Ids_SeenBNU(Machine(nat)) == (? : ?);
   List_Of_Ids(Machine(types)) == (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | types);
   List_Of_HiddenCst_Ids(Machine(types)) == (? | ?);
@@ -195,7 +195,7 @@ THEORY ListOfIdsX IS
 END
 &
 THEORY VariablesLocEnvX IS
-  Variables_Loc(Implementation(sequencealg),run, 1) == (Type(va) == Lvl(btype(INTEGER,?,?));Type(vb) == Lvl(btype(INTEGER,?,?)))
+  Variables_Loc(Implementation(sequencealg),run, 1) == (Type(tmp) == Lvl(btype(INTEGER,?,?)))
 END
 &
 THEORY TCIntRdX IS
@@ -225,10 +225,10 @@ THEORY TypingPredicateX IS
 END
 &
 THEORY ImportedVariablesListX IS
-  ImportedVariablesList(Implementation(sequencealg),Machine(ai.nat))==(ai.value);
-  ImportedVisVariablesList(Implementation(sequencealg),Machine(ai.nat))==(?);
-  ImportedVariablesList(Implementation(sequencealg),Machine(bi.nat))==(bi.value);
-  ImportedVisVariablesList(Implementation(sequencealg),Machine(bi.nat))==(?)
+  ImportedVariablesList(Implementation(sequencealg),Machine(ai.nat))==(?);
+  ImportedVisVariablesList(Implementation(sequencealg),Machine(ai.nat))==(ai.value);
+  ImportedVariablesList(Implementation(sequencealg),Machine(bi.nat))==(?);
+  ImportedVisVariablesList(Implementation(sequencealg),Machine(bi.nat))==(bi.value)
 END
 &
 THEORY ListLocalOpInvariantX END

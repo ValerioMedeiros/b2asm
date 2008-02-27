@@ -35,10 +35,9 @@ INITIALISATION
 OPERATIONS
   run =
   BEGIN
-    uc.init ( 4 ) ;
-    uc.move ( 0 , 2 ) ;
-    uc.move ( 1 , 3 ) ;
-    uc.move ( 3 , 0 ) ;
-    uc.move ( 2 , 1 )
+    uc.init ( 3 ) ;
+    uc.move ( 1 , 2 ) ;
+    uc.move ( 0 , 1 ) ;
+    uc.move ( 2 , 0 )
   END
 END

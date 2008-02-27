@@ -8,21 +8,19 @@ INITIALISATION
   uc.init(0)
 OPERATIONS
   run =
-  VAR pc, end IN
-    pc := 0; end := 1;
-    uc.init(end);
-    WHILE pc < end DO
+  BEGIN
+    uc.init(1);
+    WHILE uc.pc < uc.end DO
     BEGIN
-      CASE pc OF
+      CASE uc.pc OF
         EITHER 0 THEN uc.set(0,0)
         END
-      END;
-      pc <-- uc.get_pc
+      END
     END
-    INVARIANT 
-      0 <= pc & pc <= end & pc = uc.pc & end = uc.end &
-      (pc = 1 => uc.mem(0) = 0)
-    VARIANT end - pc
+    INVARIANT
+      0 <= uc.pc & uc.pc <= uc.end &
+      (uc.pc = 1 => uc.mem(0) = 0)
+    VARIANT uc.end - uc.pc
     END
   END
 END

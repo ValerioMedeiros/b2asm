@@ -1,5 +1,5 @@
 /*************************************************************************
-Copyright (c) 2007 David Deharbe, Valerio Medeiros Jr
+Copyright (c) 2008 David Deharbe, Valerio Medeiros Jr
 
 All rights reserved.
 
@@ -24,19 +24,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 MACHINE
    traffic_light
 ABSTRACT_VARIABLES
-   state
+   color
+SETS
+   COLOR = { GREEN , YELLOW , RED }
 INVARIANT
-   state :  0 .. 2 /*{red,green,yellow} */
+   color : COLOR
 
 INITIALISATION
-   state := 0
+   color :: COLOR
 
 OPERATIONS
 
 advance =
-BEGIN
-  state := ( state + 1 ) mod 3
-END
+  BEGIN
+    CASE color OF
+      EITHER GREEN THEN color := YELLOW
+      OR YELLOW THEN color := RED
+      OR RED THEN color := GREEN
+      END
+    END
+  END
 
 
 END

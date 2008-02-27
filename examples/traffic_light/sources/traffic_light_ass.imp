@@ -29,7 +29,10 @@ IMPORTS
    micro.Microcontroller
 
 INVARIANT
-  micro.memory_data(0) = state
+   (micro.memory_data(0) = 0) <=> (color = GREEN) &
+   (micro.memory_data(0) = 1) <=> (color = YELLOW) &
+   (micro.memory_data(0) = 2) <=> (color = RED) &
+   micro.memory_data(0) : 0..2
 
 INITIALISATION 
 
@@ -43,7 +46,7 @@ advance =
  VAR  local_pc  IN
 
 
-              micro.init(0,4);      /*local_pc <-- micro.get_pc; local_end <-- micro.get_end;*/
+              micro.init(0,3);      /*local_pc <-- micro.get_pc; local_end <-- micro.get_end;*/
 
 /* pc = 0 */  micro.inc(0);         /* nao necessita do get */
 

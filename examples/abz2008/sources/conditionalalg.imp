@@ -10,14 +10,13 @@ INITIALISATION
   END
 OPERATIONS
   add (v) =
-    VAR m IN
-      m <-- mi.get;
-      IF m < v THEN
+    BEGIN
+      IF mi.value < v THEN
         mi.set(v)
       END
     END;
   res <-- largest =
     BEGIN
-      res <-- mi.get
+      res := mi.value
     END
 END
