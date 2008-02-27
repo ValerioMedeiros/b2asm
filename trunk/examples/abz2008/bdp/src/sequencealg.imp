@@ -9,10 +9,9 @@ INVARIANT
    a = (ai.value) & b = (bi.value)
 OPERATIONS
    run =
-   VAR va , vb IN
-      va <-- (ai.get) ;
-      vb <-- (bi.get) ;
-      (ai.set) ( vb ) ;
-      (bi.set) ( va )
+   VAR tmp IN
+      tmp := (bi.value) ;
+      (bi.set) ( (ai.value) ) ;
+      (ai.set) ( tmp )
    END
 END

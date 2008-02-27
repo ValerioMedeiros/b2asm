@@ -35,15 +35,15 @@ THEORY ListVariablesX IS
   Context_List_Variables(Implementation(sequenceasm))==(?);
   Abstract_List_Variables(Implementation(sequenceasm))==(b,a);
   Local_List_Variables(Implementation(sequenceasm))==(?);
-  List_Variables(Implementation(sequenceasm))==(ucend,ucpc,ucmem);
-  External_List_Variables(Implementation(sequenceasm))==(uc.end,uc.pc,uc.mem)
+  List_Variables(Implementation(sequenceasm))==(?);
+  External_List_Variables(Implementation(sequenceasm))==(?)
 END
 &
 THEORY ListVisibleVariablesX IS
   Inherited_List_VisibleVariables(Implementation(sequenceasm))==(?);
   Abstract_List_VisibleVariables(Implementation(sequenceasm))==(?);
-  External_List_VisibleVariables(Implementation(sequenceasm))==(?);
-  Expanded_List_VisibleVariables(Implementation(sequenceasm))==(?);
+  External_List_VisibleVariables(Implementation(sequenceasm))==(uc.end,uc.pc,uc.mem);
+  Expanded_List_VisibleVariables(Implementation(sequenceasm))==(ucend,ucpc,ucmem);
   List_VisibleVariables(Implementation(sequenceasm))==(?);
   Internal_List_VisibleVariables(Implementation(sequenceasm))==(?)
 END
@@ -107,8 +107,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Implementation(sequenceasm),run)==(btrue | (4 : NATURAL | ucpc,ucend:=0,4);(0 : NATURAL & 2 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{2|->ucmem(0)},ucpc+1);(1 : NATURAL & 3 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{3|->ucmem(1)},ucpc+1);(3 : NATURAL & 0 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{0|->ucmem(3)},ucpc+1);(2 : NATURAL & 1 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{1|->ucmem(2)},ucpc+1));
-  List_Substitution(Implementation(sequenceasm),run)==((uc.init)(4);(uc.move)(0,2);(uc.move)(1,3);(uc.move)(3,0);(uc.move)(2,1))
+  Expanded_List_Substitution(Implementation(sequenceasm),run)==(btrue | (3 : NATURAL | ucpc,ucend:=0,3);(1 : NATURAL & 2 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{2|->ucmem(1)},ucpc+1);(0 : NATURAL & 1 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{1|->ucmem(0)},ucpc+1);(2 : NATURAL & 0 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{0|->ucmem(2)},ucpc+1));
+  List_Substitution(Implementation(sequenceasm),run)==((uc.init)(3);(uc.move)(1,2);(uc.move)(0,1);(uc.move)(2,0))
 END
 &
 THEORY ListConstantsX IS
@@ -175,15 +175,15 @@ THEORY ListVisibleStaticX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Implementation(sequenceasm)) == (? | ? | ? | ucmem,ucpc,ucend | run | ? | seen(Machine(types)),imported(Machine(uc.ram)) | ? | sequenceasm);
+  List_Of_Ids(Implementation(sequenceasm)) == (? | ? | ? | ? | run | ? | seen(Machine(types)),imported(Machine(uc.ram)) | ? | sequenceasm);
   List_Of_HiddenCst_Ids(Implementation(sequenceasm)) == (? | ?);
   List_Of_VisibleCst_Ids(Implementation(sequenceasm)) == (?);
-  List_Of_VisibleVar_Ids(Implementation(sequenceasm)) == (? | ?);
+  List_Of_VisibleVar_Ids(Implementation(sequenceasm)) == (? | ucmem,ucpc,ucend);
   List_Of_Ids_SeenBNU(Implementation(sequenceasm)) == (seen(Machine(types)) : (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | ?));
-  List_Of_Ids(Machine(ram)) == (? | ? | end,pc,mem | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
+  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
   List_Of_HiddenCst_Ids(Machine(ram)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(ram)) == (?);
-  List_Of_VisibleVar_Ids(Machine(ram)) == (? | ?);
+  List_Of_VisibleVar_Ids(Machine(ram)) == (end,pc,mem | ?);
   List_Of_Ids_SeenBNU(Machine(ram)) == (? : ?);
   List_Of_Ids(Machine(types)) == (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | types);
   List_Of_HiddenCst_Ids(Machine(types)) == (? | ?);
@@ -219,8 +219,8 @@ THEORY TypingPredicateX IS
 END
 &
 THEORY ImportedVariablesListX IS
-  ImportedVariablesList(Implementation(sequenceasm),Machine(uc.ram))==(uc.mem,uc.pc,uc.end);
-  ImportedVisVariablesList(Implementation(sequenceasm),Machine(uc.ram))==(?)
+  ImportedVariablesList(Implementation(sequenceasm),Machine(uc.ram))==(?);
+  ImportedVisVariablesList(Implementation(sequenceasm),Machine(uc.ram))==(uc.mem,uc.pc,uc.end)
 END
 &
 THEORY ListLocalOpInvariantX END

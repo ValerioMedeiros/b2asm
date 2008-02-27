@@ -13,11 +13,11 @@ THEORY Formulas IS
   (mem$0(0) : uint32);
   (mem$0(1) : uint32);
   ("`Previous components invariants'" & a : uint32 & b : uint32 & "`Component invariant'" & a = ucmem$1(0) & b = ucmem$1(1));
-  ("`Local hypotheses'" & ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)}<+{1|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)})(2)} : NATURAL +-> uint32 & dom(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)}<+{1|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)})(2)}) = NATURAL & 4 : INTEGER);
+  ("`Local hypotheses'" & ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0)}<+{0|->(ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0)})(2)} : NATURAL +-> uint32 & dom(ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0)}<+{0|->(ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0)})(2)}) = NATURAL & 3 : INTEGER);
   "`Check that the invariant (a = ucmem(0)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
-  ((ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)}<+{1|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)})(2)})(0) = b);
+  ((ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0)}<+{0|->(ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0)})(2)})(0) = b);
   "`Check that the invariant (b = ucmem(1)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
-  ((ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)}<+{1|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)}<+{0|->(ucmem$1<+{2|->ucmem$1(0)}<+{3|->(ucmem$1<+{2|->ucmem$1(0)})(1)})(3)})(2)})(1) = a);
+  ((ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0)}<+{0|->(ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0)})(2)})(1) = a);
   ("`Variables conservation'" & ucend = ucend$1 & ucpc = ucpc$1 & ucmem = ucmem$1);
   ("`Included,imported and extended machines invariants'" & ucmem : NATURAL +-> uint32 & dom(ucmem) = NATURAL & ucpc : INTEGER & 0<=ucpc & ucend : INTEGER & 0<=ucend & ucpc<=ucend)
 END

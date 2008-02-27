@@ -25,7 +25,7 @@ MACHINE
   nat
 SEES
   types
-VARIABLES
+CONCRETE_VARIABLES
   value
 INVARIANT
   value : uint32

@@ -35,15 +35,15 @@ THEORY ListVariablesX IS
   Context_List_Variables(Implementation(assignmentasm))==(?);
   Abstract_List_Variables(Implementation(assignmentasm))==(v);
   Local_List_Variables(Implementation(assignmentasm))==(?);
-  List_Variables(Implementation(assignmentasm))==(end,pc,mem);
-  External_List_Variables(Implementation(assignmentasm))==(end,pc,mem)
+  List_Variables(Implementation(assignmentasm))==(?);
+  External_List_Variables(Implementation(assignmentasm))==(?)
 END
 &
 THEORY ListVisibleVariablesX IS
   Inherited_List_VisibleVariables(Implementation(assignmentasm))==(?);
   Abstract_List_VisibleVariables(Implementation(assignmentasm))==(?);
-  External_List_VisibleVariables(Implementation(assignmentasm))==(?);
-  Expanded_List_VisibleVariables(Implementation(assignmentasm))==(?);
+  External_List_VisibleVariables(Implementation(assignmentasm))==(end,pc,mem);
+  Expanded_List_VisibleVariables(Implementation(assignmentasm))==(end,pc,mem);
   List_VisibleVariables(Implementation(assignmentasm))==(?);
   Internal_List_VisibleVariables(Implementation(assignmentasm))==(?)
 END
@@ -175,15 +175,15 @@ THEORY ListVisibleStaticX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Implementation(assignmentasm)) == (? | ? | ? | end,pc,mem | run | ? | seen(Machine(types)),imported(Machine(ram)) | ? | assignmentasm);
+  List_Of_Ids(Implementation(assignmentasm)) == (? | ? | ? | ? | run | ? | seen(Machine(types)),imported(Machine(ram)) | ? | assignmentasm);
   List_Of_HiddenCst_Ids(Implementation(assignmentasm)) == (? | ?);
   List_Of_VisibleCst_Ids(Implementation(assignmentasm)) == (?);
-  List_Of_VisibleVar_Ids(Implementation(assignmentasm)) == (? | ?);
+  List_Of_VisibleVar_Ids(Implementation(assignmentasm)) == (? | end,pc,mem);
   List_Of_Ids_SeenBNU(Implementation(assignmentasm)) == (seen(Machine(types)) : (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | ?));
-  List_Of_Ids(Machine(ram)) == (? | ? | end,pc,mem | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
+  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
   List_Of_HiddenCst_Ids(Machine(ram)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(ram)) == (?);
-  List_Of_VisibleVar_Ids(Machine(ram)) == (? | ?);
+  List_Of_VisibleVar_Ids(Machine(ram)) == (end,pc,mem | ?);
   List_Of_Ids_SeenBNU(Machine(ram)) == (? : ?);
   List_Of_Ids(Machine(types)) == (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | types);
   List_Of_HiddenCst_Ids(Machine(types)) == (? | ?);
@@ -219,8 +219,8 @@ THEORY TypingPredicateX IS
 END
 &
 THEORY ImportedVariablesListX IS
-  ImportedVariablesList(Implementation(assignmentasm),Machine(ram))==(end,pc,mem);
-  ImportedVisVariablesList(Implementation(assignmentasm),Machine(ram))==(?)
+  ImportedVariablesList(Implementation(assignmentasm),Machine(ram))==(?);
+  ImportedVisVariablesList(Implementation(assignmentasm),Machine(ram))==(end,pc,mem)
 END
 &
 THEORY ListLocalOpInvariantX END

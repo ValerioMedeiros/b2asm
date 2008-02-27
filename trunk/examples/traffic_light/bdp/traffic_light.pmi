@@ -1,22 +1,16 @@
 THEORY BalanceX IS
-  traffic_light,2,0,0,2,0,0,0;
-  Initialisation,1,0,0,1,0,0,0;
-  advance,1,0,0,1,0,0,0
+  traffic_light,0,0,0,0,0,0,0;
+  Initialisation,0,0,0,0,0,0,0;
+  advance,0,0,0,0,0,0,0
 END
 &
-THEORY ProofState IS
-  Proved(0);
-  Proved(0)
+THEORY ProofState
 END
 &
-THEORY MethodList IS
-  pr;
-  pr
+THEORY MethodList
 END
 &
-THEORY PassList IS
-  Force(0),?;
-  Force(0),?
+THEORY PassList
 END
 &
 THEORY ManForms 

@@ -14,15 +14,15 @@ THEORY ProofState IS
 END
 &
 THEORY MethodList IS
-  cl & xp & ov & ov & ov & ov & ah(a = ucmem$1(0));
-  cl & xp & ah(b = ucmem$1(1)) & ov & ov & ov & ov;
+  cl & xp & ov & ov & ov & eh(ucmem$1(0),a,Goal);
+  cl & xp & ov & ov & ov & ss & ov(ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0),0|->(ucmem$1<+{2|->ucmem$1(1),1|->(ucmem$1<+{2|->ucmem$1(1)})(0)})(2)} : NATURAL +-> 0..2147483647) & ov(ucmem$1<+{2|->ucmem$1(1)}<+{1|->(ucmem$1<+{2|->ucmem$1(1)})(0),0|->(ucmem$1<+{2|->ucmem$1(1),1|->ucmem$1(0)})(2)} : NATURAL +-> 0..2147483647) & eh(ucmem$1(1),b,Goal);
   pr;
   pr
 END
 &
 THEORY PassList IS
-  Force(0),?;
-  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?
 END

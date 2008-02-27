@@ -1,44 +1,33 @@
 THEORY OPOBalanceX IS
-  sequenceasmw,42;
+  sequenceasmw,31;
   ValuesLemmas,1;
   InstanciatedConstraintsLemmas,0;
   Initialisation,2;
-  run,39
+  run,28
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & _f(7) & run.39,(_f(68) & _of(35) => _of(2));
-  _f(1) & _f(2) & _f(7) & run.38,(_f(64) & _of(3) => _of(34));
-  _f(1) & _f(2) & _f(7) & run.37,(_f(64) & _of(3) => _of(33));
-  _f(1) & _f(2) & _f(7) & run.36,(_f(64) & _of(3) => _of(32));
-  _f(1) & _f(2) & _f(7) & run.35,(_f(64) & _of(3) => _of(31));
-  _f(1) & _f(2) & _f(7) & run.34,(_f(64) & _of(3) => _of(30));
-  _f(1) & _f(2) & _f(7) & run.33,(_f(64) & _of(3) => _of(10));
-  _f(1) & _f(2) & _f(7) & run.32,(_f(64) & _of(3) => _of(29));
-  _f(1) & _f(2) & _f(7) & run.31,(_f(17) & _of(3) => _of(10));
-  _f(1) & _f(2) & _f(7) & run.30,(_f(17) & _of(3) => _of(28));
-  _f(1) & _f(2) & _f(7) & run.29,(_f(16) & _of(3) => _of(10));
-  _f(1) & _f(2) & _f(7) & run.28,(_f(16) & _of(3) => _of(28));
-  _f(1) & _f(2) & _f(7) & run.27,(_f(15) & _of(3) => _of(10));
-  _f(1) & _f(2) & _f(7) & run.26,(_f(15) & _of(3) => _of(28));
-  _f(1) & _f(2) & _f(7) & run.25,(_f(12) & _of(3) => _of(10));
-  _f(1) & _f(2) & _f(7) & run.24,(_f(12) & _of(3) => _of(28));
-  _f(1) & _f(2) & _f(7) & run.23,(_of(27) & _of(3) => _of(24));
-  _f(1) & _f(2) & _f(7) & run.22,(_of(27) & _of(3) => _of(22));
-  _f(1) & _f(2) & _f(7) & run.21,(_of(26) & _of(3) => _of(21));
-  _f(1) & _f(2) & _f(7) & run.20,(_of(26) & _of(3) => _of(25));
-  _f(1) & _f(2) & _f(7) & run.19,(_of(23) & _of(3) => _of(25));
-  _f(1) & _f(2) & _f(7) & run.18,(_of(23) & _of(3) => _of(24));
-  _f(1) & _f(2) & _f(7) & run.17,(_of(20) & _of(3) => _of(22));
+  _f(1) & _f(2) & _f(7) & run.28,(_f(46) & _of(29) => _of(2));
+  _f(1) & _f(2) & _f(7) & run.27,(_f(44) & _of(3) => _of(28));
+  _f(1) & _f(2) & _f(7) & run.26,(_f(44) & _of(3) => _of(27));
+  _f(1) & _f(2) & _f(7) & run.25,(_f(44) & _of(3) => _of(26));
+  _f(1) & _f(2) & _f(7) & run.24,(_f(44) & _of(3) => _of(25));
+  _f(1) & _f(2) & _f(7) & run.23,(_f(44) & _of(3) => _of(24));
+  _f(1) & _f(2) & _f(7) & run.22,(_f(44) & _of(3) => _of(23));
+  _f(1) & _f(2) & _f(7) & run.21,(_of(22) & _of(12) => _of(19));
+  _f(1) & _f(2) & _f(7) & run.20,(_of(22) & _of(3) => _of(21));
+  _f(1) & _f(2) & _f(7) & run.19,(_of(22) & _of(3) => _of(18));
+  _f(1) & _f(2) & _f(7) & run.18,(_of(20) & _of(12) => _of(19));
+  _f(1) & _f(2) & _f(7) & run.17,(_of(20) & _of(3) => _of(17));
   _f(1) & _f(2) & _f(7) & run.16,(_of(20) & _of(3) => _of(21));
-  _f(1) & _f(2) & _f(7) & run.15,(_of(13) & _of(3) => _of(19));
-  _f(1) & _f(2) & _f(7) & run.14,(_of(13) & _of(14) => _of(18));
-  _f(1) & _f(2) & _f(7) & run.13,(_of(13) & _of(3) => _of(17));
-  _f(1) & _f(2) & _f(7) & run.12,(_of(13) & _of(15) => _of(16));
-  _f(1) & _f(2) & _f(7) & run.11,(_of(13) & _of(15) => _of(12));
-  _f(1) & _f(2) & _f(7) & run.10,(_of(13) & _of(14) => _of(11));
-  _f(1) & _f(2) & _f(7) & run.9,(_of(3) => _of(12));
-  _f(1) & _f(2) & _f(7) & run.8,(_of(3) => _of(11));
+  _f(1) & _f(2) & _f(7) & run.15,(_of(16) & _of(12) => _of(19));
+  _f(1) & _f(2) & _f(7) & run.14,(_of(16) & _of(3) => _of(18));
+  _f(1) & _f(2) & _f(7) & run.13,(_of(16) & _of(3) => _of(17));
+  _f(1) & _f(2) & _f(7) & run.12,(_of(11) & _of(3) => _of(15));
+  _f(1) & _f(2) & _f(7) & run.11,(_of(11) & _of(12) => _of(14));
+  _f(1) & _f(2) & _f(7) & run.10,(_of(11) & _of(12) => _of(13));
+  _f(1) & _f(2) & _f(7) & run.9,(_of(11) & _of(3) => _of(10));
+  _f(1) & _f(2) & _f(7) & run.8,(_of(11) & _of(12) => _of(9));
   _f(1) & _f(2) & _f(7) & run.7,(_of(3) => _of(10));
   _f(1) & _f(2) & _f(7) & run.6,(_of(3) => _of(9));
   _f(1) & _f(2) & _f(7) & run.5,(_of(3) => _of(8));
@@ -57,35 +46,29 @@ THEORY OPOFormulas IS
   "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   "`Check initialisation refinement - ref 4.3, 5.4'";
   "`Check precondition (btrue) deduction'";
-  (4 : NATURAL);
+  (3 : NATURAL);
   (0>=0);
-  (0<=4);
-  (0 = 0);
-  (4 = 4);
+  (0<=3);
   (ucmem$1(0) = a);
   (ucmem$1(1) = b);
   ("`Local hypotheses'" & bfalse);
   "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
-  "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'" & "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
-  (ucmem$1(2) = a);
-  (ucmem$1(3) = b);
-  (ucmem$1(0) = b);
+  (ucmem$1(2) = b);
   (ucmem$1(1) = a);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 3) & not(pc$0 = 2) & not(pc$0 = 1) & pc$0 = 0);
-  (0 : NATURAL);
-  (2 : NATURAL);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 3) & not(pc$0 = 2) & pc$0 = 1);
+  (ucmem$1(0) = b);
+  ("`Local hypotheses'" & 0<=ucpc$2 & ucpc$2<=3 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = b) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = a & ucmem$2(2) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = a) & ucpc$2+1<=3 & not(ucpc$2 = 2) & not(ucpc$2 = 1) & ucpc$2 = 0);
   (1 : NATURAL);
-  (3 : NATURAL);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 3) & pc$0 = 2);
-  ("`Local hypotheses'" & 0<=pc$0 & pc$0<=4 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a) & (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a) & pc$0 = ucpc$2 & pc$0+1<=4 & not(pc$0 = 0) & not(pc$0 = 1) & not(pc$0 = 2) & pc$0 = 3);
-  (ucpc$2+1 = ucpc$2+1);
-  (ucpc$2 = ucpc$2);
+  (2 : NATURAL);
+  (ucpc$2+1<=3);
+  ("`Local hypotheses'" & 0<=ucpc$2 & ucpc$2<=3 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = b) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = a & ucmem$2(2) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = a) & ucpc$2+1<=3 & not(ucpc$2 = 0) & not(ucpc$2 = 2) & ucpc$2 = 1);
+  (0 : NATURAL);
+  ("`Local hypotheses'" & 0<=ucpc$2 & ucpc$2<=3 & (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b) & (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = b) & (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = a & ucmem$2(2) = b) & (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = a) & ucpc$2+1<=3 & not(ucpc$2 = 0) & not(ucpc$2 = 1) & ucpc$2 = 2);
+  (0<=ucpc$2);
+  (ucpc$2<=3);
   (ucpc$2 = 0 => ucmem$2(0) = a & ucmem$2(1) = b);
-  (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a);
-  (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = a & ucmem$2(3) = b);
-  (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = b & ucmem$2(2) = a);
-  (ucpc$2 = 4 => ucmem$2(0) = b & ucmem$2(1) = a);
+  (ucpc$2 = 1 => ucmem$2(0) = a & ucmem$2(1) = b & ucmem$2(2) = b);
+  (ucpc$2 = 2 => ucmem$2(0) = a & ucmem$2(1) = a & ucmem$2(2) = b);
+  (ucpc$2 = 3 => ucmem$2(0) = b & ucmem$2(1) = a);
   "`Check that the invariant (b = ucmem(1)) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'"
 END
 &

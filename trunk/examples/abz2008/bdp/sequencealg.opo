@@ -30,8 +30,8 @@ THEORY OPOFormulas IS
   (value$0 : uint32);
   (value$1 : uint32);
   "`Check precondition (btrue) deduction'";
+  (tmp$7777 = bivalue$1 => aivalue$1 : uint32);
   (btrue => bivalue$1 : uint32);
-  (btrue => aivalue$1 : uint32);
   "`Check that the invariant (a = aivalue) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";
   (bivalue$1 = b);
   "`Check that the invariant (b = bivalue) is preserved by the operation - ref 4.4, 5.5'" & "`Check operation refinement - ref 4.4, 5.5'";

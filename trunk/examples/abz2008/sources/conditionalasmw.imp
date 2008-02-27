@@ -11,32 +11,27 @@ INITIALISATION
   END
 OPERATIONS
   add (v) =
-  VAR pc, end IN
-    pc, end := 0, 4;
-    uc.init(end);
-    WHILE pc < end DO
+  BEGIN
+    uc.init(3);
+    WHILE uc.pc < uc.end DO
     BEGIN
-      CASE pc OF
+      CASE uc.pc OF
         EITHER 0 THEN uc.set(1,v)
         OR 1 THEN uc.testgt(1,0)
         OR 2 THEN uc.move(1,0)
-        OR 3 THEN uc.nop
         END
-      END;
-      pc <-- uc.get_pc
-    END
+      END    END
     INVARIANT 
-      pc >= 0 & pc <= end & pc = uc.pc & end = uc.end &
+      0 <= uc.pc & uc.pc <= uc.end &
       (uc.pc = 0 => uc.mem(0) = max(st)) &
       (uc.pc = 1 => uc.mem(0) = max(st) & uc.mem(1) = v) &
       (uc.pc = 2 => uc.mem(0) = max(st) & uc.mem(1) = v & max(st) < v) &
-      (uc.pc = 3 => uc.mem(0) = max({v,max(st)})) &
-      (uc.pc = 4 => uc.mem(0) = max({v,max(st)}))
-    VARIANT end - pc
+      (uc.pc = 3 => uc.mem(0) = max({v,max(st)}))
+    VARIANT uc.end - uc.pc
     END
   END;
   res <-- largest =
     BEGIN
-      res <-- uc.get_data(0)
+      res := uc.mem(0)
     END
 END
