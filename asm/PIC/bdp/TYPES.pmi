@@ -1,28 +1,28 @@
 THEORY BalanceX IS
-  TYPES,4,0,0,0,0,0,0;
+  TYPES,4,0,0,2,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  AssertionLemmas,4,0,0,0,0,0,0;
+  AssertionLemmas,4,0,0,2,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
   Unproved;
+  Proved(0);
   Unproved;
-  Unproved;
-  Unproved
+  Proved(0)
 END
 &
 THEORY MethodList IS
   cl & xp & eh(NB_WORDS,2**8,Goal) & as;
-  cl & xp & pr;
+  pr;
   cl & xp & eh(WORD,0..NB_WORDS-1,Goal) & eh(NB_WORDS,2**8,Goal) & ah(2**8 = 256) & as & eh(2**8,256,Goal) & pr;
   pr
 END
 &
 THEORY PassList IS
+  Force(0),(?;0);
   Force(0),?;
-  Force(0),?;
-  Force(0),?;
+  Force(0),(?;0);
   Force(0),?
 END
 &
@@ -31,5 +31,6 @@ END
 &
 THEORY Version IS
   POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
-  PRVersion("V3.3.3.p19.bbt")(CLT == "V3.7.6")
+  PRVersion("V3.3.3.p19.bbt")(CLT == "V3.7.6");
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
 END

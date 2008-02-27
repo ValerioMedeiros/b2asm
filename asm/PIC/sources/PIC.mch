@@ -98,6 +98,7 @@ OPERATIONS
    ADDWF (f, d) =
       PRE f : REGISTER & d : BIT THEN
          ANY result, carry, zero WHERE 
+            result : WORD & carry : BOOL & zero : BOOL &
             result, carry, zero = add(mem(f), w)
          THEN
             IF d = 0 THEN
@@ -125,6 +126,7 @@ OPERATIONS
    SUBWF (f, d) =
       PRE f : REGISTER & d : BIT THEN
          ANY result, borrow, zero WHERE 
+            result : WORD & borrow : BOOL & zero : BOOL &
             result, borrow, zero = substract(mem(f), w)
          THEN
             IF d = 0 THEN
@@ -277,6 +279,7 @@ OPERATIONS
    DECF (f, d) =
       PRE f : REGISTER & d : BIT THEN
          ANY result, borrow, zero WHERE 
+            result : WORD & borrow : BOOL & zero : BOOL &
             result, borrow, zero = substract(mem(f), 1)
          THEN
             IF d = 0 THEN
@@ -292,6 +295,7 @@ OPERATIONS
    DECFSZ (f, d) =
       PRE f : REGISTER & d : BIT THEN
          ANY result, borrow, zero WHERE 
+            result : WORD & borrow : BOOL & zero : BOOL &
             result, borrow, zero = substract(mem(f), 1)
          THEN
             IF d = 0 THEN
@@ -376,7 +380,9 @@ OPERATIONS
    ;
    ROLF (f, d) =
       PRE f : REGISTER & d : BIT THEN
-         ANY result, carry WHERE result, carry = rotateleft(mem(f))
+         ANY result, carry WHERE 
+            result : WORD & carry : BOOL & 
+	    result, carry = rotateleft(mem(f))
          THEN
             IF d = 0 THEN
 	       w := result
@@ -390,7 +396,9 @@ OPERATIONS
    ;
    RORF (f, d) =
       PRE f : REGISTER & d : BIT THEN
-         ANY result, carry WHERE result, carry = rotateright(mem(f))
+         ANY result, carry WHERE 
+            result : WORD & carry : BOOL & 
+	    result, carry = rotateright(mem(f))
          THEN
             IF d = 0 THEN
 	       w := result

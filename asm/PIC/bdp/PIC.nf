@@ -234,8 +234,8 @@ END
 &
 THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(PIC),SWAP)==(f : REGISTER & d : BIT | @result.(result = swap(mem(f)) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result})) || pc:=INSTRUCTION_NEXT(pc));
-  Expanded_List_Substitution(Machine(PIC),RORF)==(f : REGISTER & d : BIT | @(result,carry).(result,carry = rotateright(mem(f)) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=carry)) || pc:=INSTRUCTION_NEXT(pc));
-  Expanded_List_Substitution(Machine(PIC),ROLF)==(f : REGISTER & d : BIT | @(result,carry).(result,carry = rotateleft(mem(f)) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=carry)) || pc:=INSTRUCTION_NEXT(pc));
+  Expanded_List_Substitution(Machine(PIC),RORF)==(f : REGISTER & d : BIT | @(result,carry).(result : WORD & carry : BOOL & result,carry = rotateright(mem(f)) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=carry)) || pc:=INSTRUCTION_NEXT(pc));
+  Expanded_List_Substitution(Machine(PIC),ROLF)==(f : REGISTER & d : BIT | @(result,carry).(result : WORD & carry : BOOL & result,carry = rotateleft(mem(f)) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=carry)) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),NOP)==(btrue | pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),MOVWF)==(f : REGISTER | mem,pc:=mem<+{f|->w},INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),MOVF)==(f : REGISTER & d : BIT | d = 0 ==> w:=mem(f) [] not(d = 0) ==> skip || z:=bool(mem(f) = 0) || pc:=INSTRUCTION_NEXT(pc));
@@ -243,8 +243,8 @@ THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(PIC),INCFSZ)==(f : REGISTER & d : BIT | @(result,carry,zero).(result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || (result = 0 ==> pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) [] not(result = 0) ==> pc:=INSTRUCTION_NEXT(pc)))));
   Expanded_List_Substitution(Machine(PIC),INCF)==(f : REGISTER & d : BIT | @(result,carry,zero).(result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=bool(result = 0))) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),GOTO)==(k : INSTRUCTION | pc:=k);
-  Expanded_List_Substitution(Machine(PIC),DECFSZ)==(f : REGISTER & d : BIT | @(result,borrow,zero).(result,borrow,zero = substract(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=zero || (result = 0 ==> pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) [] not(result = 0) ==> pc:=INSTRUCTION_NEXT(pc)))));
-  Expanded_List_Substitution(Machine(PIC),DECF)==(f : REGISTER & d : BIT | @(result,borrow,zero).(result,borrow,zero = substract(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=zero)) || pc:=INSTRUCTION_NEXT(pc));
+  Expanded_List_Substitution(Machine(PIC),DECFSZ)==(f : REGISTER & d : BIT | @(result,borrow,zero).(result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=zero || (result = 0 ==> pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) [] not(result = 0) ==> pc:=INSTRUCTION_NEXT(pc)))));
+  Expanded_List_Substitution(Machine(PIC),DECF)==(f : REGISTER & d : BIT | @(result,borrow,zero).(result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=zero)) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),COMF)==(f : REGISTER & d : BIT | @result.(result = complement(mem(f)) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=bool(result = 0))) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),CLRW)==(btrue | w,z,pc:=0,TRUE,INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),CLRF)==(f : REGISTER | mem,z,pc:=mem<+{f|->0},TRUE,INSTRUCTION_NEXT(pc));
@@ -258,9 +258,9 @@ THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(PIC),IORLW)==(k : WORD | @(result,zero).(result : WORD & zero : BOOL & result,zero = ior(k,w) ==> w,z:=result,zero) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),ANDLWF)==(f : REGISTER & d : BIT | @(result,zero).(result : WORD & zero : BOOL & result,zero = and(mem(f),w) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result})) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),ANDLW)==(k : WORD | @(result,zero).(result : WORD & zero : BOOL & result,zero = and(k,w) ==> w,z:=result,zero) || pc:=INSTRUCTION_NEXT(pc));
-  Expanded_List_Substitution(Machine(PIC),SUBWF)==(f : REGISTER & d : BIT | @(result,borrow,zero).(result,borrow,zero = substract(mem(f),w) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=borrow || z:=zero)) || pc:=INSTRUCTION_NEXT(pc));
+  Expanded_List_Substitution(Machine(PIC),SUBWF)==(f : REGISTER & d : BIT | @(result,borrow,zero).(result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),w) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=borrow || z:=zero)) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),SUBLW)==(k : WORD | @(result,borrow,zero).(result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(k,w) ==> w,c,z:=result,borrow,zero) || pc:=INSTRUCTION_NEXT(pc));
-  Expanded_List_Substitution(Machine(PIC),ADDWF)==(f : REGISTER & d : BIT | @(result,carry,zero).(result,carry,zero = add(mem(f),w) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=carry || z:=zero)) || pc:=INSTRUCTION_NEXT(pc));
+  Expanded_List_Substitution(Machine(PIC),ADDWF)==(f : REGISTER & d : BIT | @(result,carry,zero).(result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),w) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=carry || z:=zero)) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),ADDLW)==(k : WORD | @(result,carry,zero).(result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(k,w) ==> w,c,z:=result,carry,zero) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),RETLW)==(k : WORD & sp>0 | pc,w:=stack(sp-1),k);
   Expanded_List_Substitution(Machine(PIC),RETURN)==(sp>0 | stack,pc,sp:={sp-1}<<|stack,stack(sp-1),sp-1);
@@ -269,9 +269,9 @@ THEORY ListSubstitutionX IS
   List_Substitution(Machine(PIC),RETURN)==(stack:={sp-1}<<|stack || pc:=stack(sp-1) || sp:=sp-1);
   List_Substitution(Machine(PIC),RETLW)==(pc:=stack(sp-1) || w:=k);
   List_Substitution(Machine(PIC),ADDLW)==(ANY result,carry,zero WHERE result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(k,w) THEN w,c,z:=result,carry,zero END || pc:=INSTRUCTION_NEXT(pc));
-  List_Substitution(Machine(PIC),ADDWF)==(ANY result,carry,zero WHERE result,carry,zero = add(mem(f),w) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=carry || z:=zero END || pc:=INSTRUCTION_NEXT(pc));
+  List_Substitution(Machine(PIC),ADDWF)==(ANY result,carry,zero WHERE result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),w) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=carry || z:=zero END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),SUBLW)==(ANY result,borrow,zero WHERE result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(k,w) THEN w,c,z:=result,borrow,zero END || pc:=INSTRUCTION_NEXT(pc));
-  List_Substitution(Machine(PIC),SUBWF)==(ANY result,borrow,zero WHERE result,borrow,zero = substract(mem(f),w) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=borrow || z:=zero END || pc:=INSTRUCTION_NEXT(pc));
+  List_Substitution(Machine(PIC),SUBWF)==(ANY result,borrow,zero WHERE result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),w) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=borrow || z:=zero END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),ANDLW)==(ANY result,zero WHERE result : WORD & zero : BOOL & result,zero = and(k,w) THEN w,z:=result,zero END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),ANDLWF)==(ANY result,zero WHERE result : WORD & zero : BOOL & result,zero = and(mem(f),w) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),IORLW)==(ANY result,zero WHERE result : WORD & zero : BOOL & result,zero = ior(k,w) THEN w,z:=result,zero END || pc:=INSTRUCTION_NEXT(pc));
@@ -285,8 +285,8 @@ THEORY ListSubstitutionX IS
   List_Substitution(Machine(PIC),CLRF)==(mem(f):=0 || z:=TRUE || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),CLRW)==(w:=0 || z:=TRUE || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),COMF)==(ANY result WHERE result = complement(mem(f)) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=bool(result = 0) END || pc:=INSTRUCTION_NEXT(pc));
-  List_Substitution(Machine(PIC),DECF)==(ANY result,borrow,zero WHERE result,borrow,zero = substract(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=zero END || pc:=INSTRUCTION_NEXT(pc));
-  List_Substitution(Machine(PIC),DECFSZ)==(ANY result,borrow,zero WHERE result,borrow,zero = substract(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=zero || IF result = 0 THEN pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) ELSE pc:=INSTRUCTION_NEXT(pc) END END);
+  List_Substitution(Machine(PIC),DECF)==(ANY result,borrow,zero WHERE result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=zero END || pc:=INSTRUCTION_NEXT(pc));
+  List_Substitution(Machine(PIC),DECFSZ)==(ANY result,borrow,zero WHERE result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=zero || IF result = 0 THEN pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) ELSE pc:=INSTRUCTION_NEXT(pc) END END);
   List_Substitution(Machine(PIC),GOTO)==(pc:=k);
   List_Substitution(Machine(PIC),INCF)==(ANY result,carry,zero WHERE result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=bool(result = 0) END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),INCFSZ)==(ANY result,carry,zero WHERE result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || IF result = 0 THEN pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) ELSE pc:=INSTRUCTION_NEXT(pc) END END);
@@ -294,8 +294,8 @@ THEORY ListSubstitutionX IS
   List_Substitution(Machine(PIC),MOVF)==(IF d = 0 THEN w:=mem(f) ELSE skip END || z:=bool(mem(f) = 0) || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),MOVWF)==(mem(f):=w || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),NOP)==(pc:=INSTRUCTION_NEXT(pc));
-  List_Substitution(Machine(PIC),ROLF)==(ANY result,carry WHERE result,carry = rotateleft(mem(f)) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=carry END || pc:=INSTRUCTION_NEXT(pc));
-  List_Substitution(Machine(PIC),RORF)==(ANY result,carry WHERE result,carry = rotateright(mem(f)) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=carry END || pc:=INSTRUCTION_NEXT(pc));
+  List_Substitution(Machine(PIC),ROLF)==(ANY result,carry WHERE result : WORD & carry : BOOL & result,carry = rotateleft(mem(f)) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=carry END || pc:=INSTRUCTION_NEXT(pc));
+  List_Substitution(Machine(PIC),RORF)==(ANY result,carry WHERE result : WORD & carry : BOOL & result,carry = rotateright(mem(f)) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=carry END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),SWAP)==(ANY result WHERE result = swap(mem(f)) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END END || pc:=INSTRUCTION_NEXT(pc))
 END
 &
