@@ -1,5 +1,5 @@
 /*************************************************************************
-Copyright (c) 2007 David Deharbe, Valerio Medeiros Jr
+Copyright (c) 2008 David Deharbe, Valerio Medeiros Jr
 
 All rights reserved.
 
@@ -22,7 +22,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *************************************************************************/
 MACHINE
    VarNatural
-ABSTRACT_VARIABLES
+CONCRETE_VARIABLES
    value
 INVARIANT
    value : NATURAL

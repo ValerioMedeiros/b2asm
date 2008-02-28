@@ -35,15 +35,15 @@ THEORY ListVariablesX IS
   Context_List_Variables(Implementation(traffic_light_alg))==(?);
   Abstract_List_Variables(Implementation(traffic_light_alg))==(color);
   Local_List_Variables(Implementation(traffic_light_alg))==(?);
-  List_Variables(Implementation(traffic_light_alg))==(statevalue);
-  External_List_Variables(Implementation(traffic_light_alg))==(state.value)
+  List_Variables(Implementation(traffic_light_alg))==(?);
+  External_List_Variables(Implementation(traffic_light_alg))==(?)
 END
 &
 THEORY ListVisibleVariablesX IS
   Inherited_List_VisibleVariables(Implementation(traffic_light_alg))==(?);
   Abstract_List_VisibleVariables(Implementation(traffic_light_alg))==(?);
-  External_List_VisibleVariables(Implementation(traffic_light_alg))==(?);
-  Expanded_List_VisibleVariables(Implementation(traffic_light_alg))==(?);
+  External_List_VisibleVariables(Implementation(traffic_light_alg))==(state.value);
+  Expanded_List_VisibleVariables(Implementation(traffic_light_alg))==(statevalue);
   List_VisibleVariables(Implementation(traffic_light_alg))==(?);
   Internal_List_VisibleVariables(Implementation(traffic_light_alg))==(?)
 END
@@ -53,7 +53,7 @@ THEORY ListInvariantX IS
   Abstract_List_Invariant(Implementation(traffic_light_alg))==(color : COLOR);
   Expanded_List_Invariant(Implementation(traffic_light_alg))==(statevalue : NATURAL);
   Context_List_Invariant(Implementation(traffic_light_alg))==(btrue);
-  List_Invariant(Implementation(traffic_light_alg))==(statevalue = 0 <=> (color = GREEN) & statevalue = 1 <=> (color = YELLOW) & statevalue = 2 <=> (color = RED) & statevalue : 0..2)
+  List_Invariant(Implementation(traffic_light_alg))==(0<=statevalue & statevalue<=2 & statevalue = 0 <=> (color = green) & statevalue = 1 <=> (color = yellow) & statevalue = 2 <=> (color = red))
 END
 &
 THEORY ListAssertionsX IS
@@ -106,8 +106,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Implementation(traffic_light_alg),advance)==(btrue | @tmp.((btrue | tmp:=statevalue);(tmp = 0 ==> (1 : NATURAL | statevalue:=1) [] not(tmp = 0) ==> (tmp = 1 ==> (2 : NATURAL | statevalue:=2) [] not(tmp = 1) ==> (0 : NATURAL | statevalue:=0)))));
-  List_Substitution(Implementation(traffic_light_alg),advance)==(VAR tmp IN tmp <-- state.get;IF tmp = 0 THEN (state.set)(1) ELSIF tmp = 1 THEN (state.set)(2) ELSE (state.set)(0) END END)
+  Expanded_List_Substitution(Implementation(traffic_light_alg),advance)==(btrue | statevalue = 0 ==> (1 : NATURAL | statevalue:=1) [] not(statevalue = 0) ==> (statevalue = 1 ==> (2 : NATURAL | statevalue:=2) [] not(statevalue = 1) ==> (0 : NATURAL | statevalue:=0)));
+  List_Substitution(Implementation(traffic_light_alg),advance)==(IF state.value = 0 THEN (state.set)(1) ELSIF state.value = 1 THEN (state.set)(2) ELSE (state.set)(0) END)
 END
 &
 THEORY ListConstantsX IS
@@ -117,7 +117,7 @@ THEORY ListConstantsX IS
 END
 &
 THEORY ListSetsX IS
-  Set_Definition(Implementation(traffic_light_alg),COLOR)==({GREEN,YELLOW,RED});
+  Set_Definition(Implementation(traffic_light_alg),COLOR)==({green,yellow,red});
   Context_List_Enumerated(Implementation(traffic_light_alg))==(?);
   Context_List_Defered(Implementation(traffic_light_alg))==(?);
   Context_List_Sets(Implementation(traffic_light_alg))==(?);
@@ -158,21 +158,21 @@ END
 &
 THEORY InheritedEnvX IS
   Operations(Implementation(traffic_light_alg))==(Type(advance) == Cst(No_type,No_type));
-  Constants(Implementation(traffic_light_alg))==(Type(GREEN) == Cst(etype(COLOR,0,2));Type(YELLOW) == Cst(etype(COLOR,0,2));Type(RED) == Cst(etype(COLOR,0,2)))
+  Constants(Implementation(traffic_light_alg))==(Type(green) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(red) == Cst(etype(COLOR,0,2)))
 END
 &
 THEORY ListVisibleStaticX END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Implementation(traffic_light_alg)) == (? | ? | ? | statevalue | advance | ? | imported(Machine(state.VarNatural)) | ? | traffic_light_alg);
+  List_Of_Ids(Implementation(traffic_light_alg)) == (? | ? | ? | ? | advance | ? | imported(Machine(state.VarNatural)) | ? | traffic_light_alg);
   List_Of_HiddenCst_Ids(Implementation(traffic_light_alg)) == (? | ?);
   List_Of_VisibleCst_Ids(Implementation(traffic_light_alg)) == (?);
-  List_Of_VisibleVar_Ids(Implementation(traffic_light_alg)) == (? | ?);
+  List_Of_VisibleVar_Ids(Implementation(traffic_light_alg)) == (? | statevalue);
   List_Of_Ids_SeenBNU(Implementation(traffic_light_alg)) == (? : ?);
-  List_Of_Ids(Machine(VarNatural)) == (? | ? | value | ? | set,get | ? | ? | ? | VarNatural);
+  List_Of_Ids(Machine(VarNatural)) == (? | ? | ? | ? | set,get | ? | ? | ? | VarNatural);
   List_Of_HiddenCst_Ids(Machine(VarNatural)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(VarNatural)) == (?);
-  List_Of_VisibleVar_Ids(Machine(VarNatural)) == (? | ?);
+  List_Of_VisibleVar_Ids(Machine(VarNatural)) == (value | ?);
   List_Of_Ids_SeenBNU(Machine(VarNatural)) == (? : ?)
 END
 &
@@ -181,11 +181,7 @@ THEORY SetsEnvX IS
 END
 &
 THEORY ConstantsEnvX IS
-  Constants(Implementation(traffic_light_alg)) == (Type(RED) == Cst(etype(COLOR,0,2));Type(YELLOW) == Cst(etype(COLOR,0,2));Type(GREEN) == Cst(etype(COLOR,0,2)))
-END
-&
-THEORY VariablesLocEnvX IS
-  Variables_Loc(Implementation(traffic_light_alg),advance, 1) == (Type(tmp) == Lvl(btype(INTEGER,?,?)))
+  Constants(Implementation(traffic_light_alg)) == (Type(red) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(green) == Cst(etype(COLOR,0,2)))
 END
 &
 THEORY TCIntRdX IS
@@ -215,8 +211,8 @@ THEORY TypingPredicateX IS
 END
 &
 THEORY ImportedVariablesListX IS
-  ImportedVariablesList(Implementation(traffic_light_alg),Machine(state.VarNatural))==(state.value);
-  ImportedVisVariablesList(Implementation(traffic_light_alg),Machine(state.VarNatural))==(?)
+  ImportedVariablesList(Implementation(traffic_light_alg),Machine(state.VarNatural))==(?);
+  ImportedVisVariablesList(Implementation(traffic_light_alg),Machine(state.VarNatural))==(state.value)
 END
 &
 THEORY ListLocalOpInvariantX END

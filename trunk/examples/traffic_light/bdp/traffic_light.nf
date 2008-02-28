@@ -106,8 +106,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Machine(traffic_light),advance)==(btrue | not(color = RED) & not(color = YELLOW) & color = GREEN ==> color:=YELLOW [] not(color = GREEN) & not(color = RED) & color = YELLOW ==> color:=RED [] not(color = GREEN) & not(color = YELLOW) & color = RED ==> color:=GREEN [] not(color = GREEN) & not(color = YELLOW) & not(color = RED) ==> skip);
-  List_Substitution(Machine(traffic_light),advance)==(CASE color OF EITHER GREEN THEN color:=YELLOW OR YELLOW THEN color:=RED OR RED THEN color:=GREEN END END)
+  Expanded_List_Substitution(Machine(traffic_light),advance)==(btrue | not(color = red) & not(color = yellow) & color = green ==> color:=yellow [] not(color = green) & not(color = red) & color = yellow ==> color:=red [] not(color = green) & not(color = yellow) & color = red ==> color:=green [] not(color = green) & not(color = yellow) & not(color = red) ==> skip);
+  List_Substitution(Machine(traffic_light),advance)==(CASE color OF EITHER green THEN color:=yellow OR yellow THEN color:=red OR red THEN color:=green END END)
 END
 &
 THEORY ListConstantsX IS
@@ -117,7 +117,7 @@ THEORY ListConstantsX IS
 END
 &
 THEORY ListSetsX IS
-  Set_Definition(Machine(traffic_light),COLOR)==({GREEN,YELLOW,RED});
+  Set_Definition(Machine(traffic_light),COLOR)==({green,yellow,red});
   Context_List_Enumerated(Machine(traffic_light))==(?);
   Context_List_Defered(Machine(traffic_light))==(?);
   Context_List_Sets(Machine(traffic_light))==(?);
@@ -147,7 +147,7 @@ END
 THEORY ListSeenInfoX END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(traffic_light)) == (COLOR,GREEN,YELLOW,RED | ? | color | ? | advance | ? | ? | ? | traffic_light);
+  List_Of_Ids(Machine(traffic_light)) == (COLOR,green,yellow,red | ? | color | ? | advance | ? | ? | ? | traffic_light);
   List_Of_HiddenCst_Ids(Machine(traffic_light)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(traffic_light)) == (?);
   List_Of_VisibleVar_Ids(Machine(traffic_light)) == (? | ?);
@@ -159,7 +159,7 @@ THEORY SetsEnvX IS
 END
 &
 THEORY ConstantsEnvX IS
-  Constants(Machine(traffic_light)) == (Type(GREEN) == Cst(etype(COLOR,0,2));Type(YELLOW) == Cst(etype(COLOR,0,2));Type(RED) == Cst(etype(COLOR,0,2)))
+  Constants(Machine(traffic_light)) == (Type(green) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(red) == Cst(etype(COLOR,0,2)))
 END
 &
 THEORY VariablesEnvX IS

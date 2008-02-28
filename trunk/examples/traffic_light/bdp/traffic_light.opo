@@ -21,11 +21,11 @@ THEORY OPOFormulas IS
   (btrue);
   ("`Local hypotheses'" & not(color = 3|->COLOR) & not(color = 2|->COLOR) & color = 1|->COLOR);
   "`Check that the invariant (color : COLOR) is preserved by the operation - ref 3.4'";
-  (YELLOW : COLOR);
+  (yellow : COLOR);
   ("`Local hypotheses'" & not(color = 1|->COLOR) & not(color = 3|->COLOR) & color = 2|->COLOR);
-  (RED : COLOR);
+  (red : COLOR);
   ("`Local hypotheses'" & not(color = 1|->COLOR) & not(color = 2|->COLOR) & color = 3|->COLOR);
-  (GREEN : COLOR);
+  (green : COLOR);
   ("`Local hypotheses'" & not(color = 1|->COLOR) & not(color = 2|->COLOR) & not(color = 3|->COLOR));
   (btrue => color : COLOR)
 END

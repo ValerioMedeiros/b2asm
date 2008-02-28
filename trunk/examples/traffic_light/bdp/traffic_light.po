@@ -7,7 +7,7 @@ THEORY Formulas IS
 END
 &
 THEORY EnumerateX IS
-  COLOR == {GREEN,YELLOW,RED}
+  COLOR == {green,yellow,red}
 END
 &
 THEORY Version IS

@@ -1,39 +1,9 @@
 THEORY BBTTE IS
+  cmd(0 | cl) & gol(0 | (micromemory_data$1<+{0|->micromemory_data$1(0)+1})(0) = (state+1) mod 3) & cmd(1 | xp) & cmd(1 | eh(dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}),NATURAL,Goal)) & cmd(1 | ov) & gol(1 | 0 = 0 => micromemory_data$1(0)+1 = (state+1) mod 3) & gol(2 | micromemory_data$1(0)+1 = (state+1) mod 3) & cmd(3 | eh(micromemory_data$1(0),state,Goal)) & gol(3 | state+1 = (state+1) mod 3) & cmd(4 | ah(state : 0..2)) & cmd(4 | ds(micromemory_data$1<+{0|->state+1} : NATURAL +-> NATURAL)) & cmd(4 | ds(not((micromemory_data$1<+{0|->state+1})(0) = 3))) & cmd(4 | ds(4 : INTEGER)) & cmd(4 | ds(3 : INTEGER)) & cmd(4 | ah(micromemory_data$1(0) = state)) & cmd(4 | ds(micromemory_data$1(0) = state)) & cmd(4 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  ?;
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | cl) & gol(0 | dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | ah(dom(micromemory_data$1) = NATURAL)) & gol(1 | dom(micromemory_data$1)\/{0} = NATURAL) & cmd(2 | pp(rp.0)) & gol(0 | SUCCESS);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr)
+  cmd(0 | cl) & gol(0 | dom(memory_data$0<+{0|->0}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | eh(dom(memory_data$0),NATURAL,Goal)) & gol(1 | NATURAL\/{0} = NATURAL) & cmd(2 | ss) & cmd(2 | pp(rp.1)) & gol(0 | SUCCESS)
 END

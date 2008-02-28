@@ -19,16 +19,16 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*************************************************************************/
+************************************************************************/
 
 MACHINE
    traffic_light
 VARIABLES
    color
-SETS
-   COLOR = {GREEN, YELLOW, RED}
+SETS 
+ COLOR={green,yellow,red}
 INVARIANT
-   color : COLOR
+   color :  COLOR  
 
 INITIALISATION
    color :: COLOR
@@ -36,14 +36,17 @@ INITIALISATION
 OPERATIONS
 
 advance = 
-  BEGIN
-    CASE color OF
-      EITHER GREEN THEN color := YELLOW
-      OR YELLOW THEN color := RED
-      OR RED THEN color := GREEN
-      END
-    END
+BEGIN
+  CASE color OF 
+  EITHER green THEN color:=yellow
+  OR yellow THEN color:=red
+  OR red THEN color:=green
   END
+
+  END
+/* color :: COLOR */
+
+END
 
 
 END

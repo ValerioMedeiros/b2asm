@@ -29,7 +29,12 @@ IMPORTS
    uc.Microcontroller
 
 INVARIANT
-   uc.memory_data(0) = state
+  
+   0<= uc.memory_data(0) & uc.memory_data(0)<=2 &
+   (uc.memory_data(0) = 0) <=> (color = green) &
+   (uc.memory_data(0) = 1) <=> (color = yellow) &
+   (uc.memory_data(0) = 2) <=> (color = red)
+
 
 INITIALISATION 
    uc.init_data(0,0)
@@ -38,35 +43,68 @@ OPERATIONS
         
 advance =
 
-  VAR pc, end IN
-    pc := 0;
-    end := 4;
-    uc.init(pc,end);
+BEGIN 
 
-   WHILE pc < end DO
+   uc.init(0,11);
+
+   WHILE uc.pc < uc.end DO
     BEGIN
-      CASE pc OF
-        EITHER 0 THEN uc.inc(0)                  
-            OR 1 THEN uc.isequal(0,3)
-            OR 2 THEN uc.set_data(0,0)
-            OR 3 THEN uc.nop
+      CASE uc.pc OF
+        EITHER 0  THEN uc.isequal(0,0)                  
+            OR 1  THEN uc.goto(5)
+            OR 2  THEN uc.isequal(0,1)
+            OR 3  THEN uc.goto(7)
+            OR 4  THEN uc.goto(9)
+            OR 5  THEN uc.set_data(0,1)
+            OR 6  THEN uc.goto(10)
+            OR 7  THEN uc.set_data(0,2)
+            OR 8  THEN uc.goto(10)
+            OR 9  THEN uc.set_data(0,0)
+            OR 10 THEN uc.nop
         END
-      END;
-      pc <-- uc.get_pc
+      END
     END
     INVARIANT 
-      pc >= 0 & pc <= 4 &
-      pc = uc.pc &
-      end = uc.end &
-      uc.memory_data : (NATURAL --> NATURAL) &
-      (pc = 0 => (uc.memory_data(0) = state) ) &
-      (pc = 1 => (uc.memory_data(0) = (state + 1) )) &
-      (pc = 2 => (uc.memory_data(0) = (state + 1) & uc.memory_data(0)=3 )) &
-      (pc = 3 => (uc.memory_data(0) = (state + 1)mod 3 )) &
-      (pc = 4 => (uc.memory_data(0) = (state + 1)mod 3 ))
-    VARIANT (end - pc)
+      0 <= uc.pc & uc.pc <= 11 & 
+      0 <= uc.memory_data(0) & uc.memory_data(0)<=2 /*&
+      (uc.memory_data(0) = 0) <=> (color = green) &
+      (uc.memory_data(0) = 1) <=> (color = yellow) &
+      (uc.memory_data(0) = 2) <=> (color = red) */
+
+      & ((uc.pc = 0) => (uc.memory_data(0) :  0..2))
+      & ((uc.pc = 1) => (uc.memory_data(0) = 0  ))
+      & ((uc.pc = 2) => (uc.memory_data(0) /= 0  )) 
+      & ((uc.pc = 3) => (uc.memory_data(0) = 1  ))
+      & ((uc.pc = 4) => (uc.memory_data(0) = 2  ))
+      & ((uc.pc = 5) => (uc.memory_data(0) = 0  ))
+      & ((uc.pc = 6) => (uc.memory_data(0) = 1  ))
+      & ((uc.pc = 7) => (uc.memory_data(0) = 1  ))
+      & ((uc.pc = 8) => (uc.memory_data(0) = 2  ))
+      & ((uc.pc = 9) => (uc.memory_data(0) = 2  ))
+      & ((uc.pc = 10) => (uc.memory_data(0) :  0..2))
+
+
+    VARIANT (uc.end - uc.pc)
    END
   END
 
  END
 
+/* Original David 
+   INVARIANT 
+      0 <= uc.pc & uc.pc <= 10 &
+      0 <= uc.memory_data(0) & uc.memory_data(0)<=2 &
+      (uc.memory_data(0) = 0) <=> (color = red) &
+      (uc.memory_data(0) = 1) <=> (color = green) &
+      (uc.memory_data(0) = 2) <=> (color = yellow)
+      & ((uc.pc = 1) => (uc.memory_data(0) = 0))
+      & ((uc.pc = 2) => (uc.memory_data(0) /= 0))
+      & ((uc.pc = 3) => (uc.memory_data(0) /= 0 & uc.memory_data(0) = 1))
+      & ((uc.pc = 4) => (uc.memory_data(0) /= 0 & uc.memory_data(0) /= 1))
+      & ((uc.pc = 5) => (uc.memory_data(0) = 0))
+      & ((uc.pc = 6) => (uc.memory_data(0) = 1))
+      & ((uc.pc = 7) => (uc.memory_data(0) /= 0 & uc.memory_data(0) = 1))
+      & ((uc.pc = 8) => (uc.memory_data(0) = 2))
+      & ((uc.pc = 9) => (uc.memory_data(0) /= 0 & uc.memory_data(0) /= 1))
+    VARIANT (uc.end - uc.pc)
+*/
