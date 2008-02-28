@@ -33,7 +33,7 @@ END
 THEORY ListVariablesX IS
   External_Context_List_Variables(Implementation(traffic_light_ass))==(?);
   Context_List_Variables(Implementation(traffic_light_ass))==(?);
-  Abstract_List_Variables(Implementation(traffic_light_ass))==(color);
+  Abstract_List_Variables(Implementation(traffic_light_ass))==(state);
   Local_List_Variables(Implementation(traffic_light_ass))==(?);
   List_Variables(Implementation(traffic_light_ass))==(microend,micropc,microw,microstack,micromemory_data);
   External_List_Variables(Implementation(traffic_light_ass))==(micro.end,micro.pc,micro.w,micro.stack,micro.memory_data)
@@ -50,10 +50,10 @@ END
 &
 THEORY ListInvariantX IS
   Gluing_Seen_List_Invariant(Implementation(traffic_light_ass))==(btrue);
-  Abstract_List_Invariant(Implementation(traffic_light_ass))==(color : COLOR);
+  Abstract_List_Invariant(Implementation(traffic_light_ass))==(state : 0..2);
   Expanded_List_Invariant(Implementation(traffic_light_ass))==(micromemory_data : NATURAL --> NATURAL & microstack : 1..8 +-> NATURAL & card(microstack)<=8 & microw : NATURAL & micropc : NATURAL & microend : NATURAL & micropc<=microend);
   Context_List_Invariant(Implementation(traffic_light_ass))==(btrue);
-  List_Invariant(Implementation(traffic_light_ass))==(micromemory_data(0) = 0 <=> (color = GREEN) & micromemory_data(0) = 1 <=> (color = YELLOW) & micromemory_data(0) = 2 <=> (color = RED) & micromemory_data(0) : 0..2)
+  List_Invariant(Implementation(traffic_light_ass))==(micromemory_data(0) = state)
 END
 &
 THEORY ListAssertionsX IS
@@ -117,15 +117,14 @@ THEORY ListConstantsX IS
 END
 &
 THEORY ListSetsX IS
-  Set_Definition(Implementation(traffic_light_ass),COLOR)==({GREEN,YELLOW,RED});
   Context_List_Enumerated(Implementation(traffic_light_ass))==(?);
   Context_List_Defered(Implementation(traffic_light_ass))==(?);
   Context_List_Sets(Implementation(traffic_light_ass))==(?);
-  List_Own_Enumerated(Implementation(traffic_light_ass))==(COLOR);
+  List_Own_Enumerated(Implementation(traffic_light_ass))==(?);
   List_Valuable_Sets(Implementation(traffic_light_ass))==(?);
-  Inherited_List_Enumerated(Implementation(traffic_light_ass))==(COLOR);
+  Inherited_List_Enumerated(Implementation(traffic_light_ass))==(?);
   Inherited_List_Defered(Implementation(traffic_light_ass))==(?);
-  Inherited_List_Sets(Implementation(traffic_light_ass))==(COLOR);
+  Inherited_List_Sets(Implementation(traffic_light_ass))==(?);
   List_Enumerated(Implementation(traffic_light_ass))==(?);
   List_Defered(Implementation(traffic_light_ass))==(?);
   List_Sets(Implementation(traffic_light_ass))==(?)
@@ -139,7 +138,7 @@ THEORY ListHiddenConstantsX IS
 END
 &
 THEORY ListPropertiesX IS
-  Abstract_List_Properties(Implementation(traffic_light_ass))==(not(COLOR = {}));
+  Abstract_List_Properties(Implementation(traffic_light_ass))==(btrue);
   Context_List_Properties(Implementation(traffic_light_ass))==(btrue);
   Inherited_List_Properties(Implementation(traffic_light_ass))==(btrue);
   List_Properties(Implementation(traffic_light_ass))==(btrue)
@@ -157,8 +156,7 @@ THEORY ListIncludedOperationsX IS
 END
 &
 THEORY InheritedEnvX IS
-  Operations(Implementation(traffic_light_ass))==(Type(advance) == Cst(No_type,No_type));
-  Constants(Implementation(traffic_light_ass))==(Type(GREEN) == Cst(etype(COLOR,0,2));Type(YELLOW) == Cst(etype(COLOR,0,2));Type(RED) == Cst(etype(COLOR,0,2)))
+  Operations(Implementation(traffic_light_ass))==(Type(advance) == Cst(No_type,No_type))
 END
 &
 THEORY ListVisibleStaticX END
@@ -174,14 +172,6 @@ THEORY ListOfIdsX IS
   List_Of_VisibleCst_Ids(Machine(Microcontroller)) == (?);
   List_Of_VisibleVar_Ids(Machine(Microcontroller)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(Microcontroller)) == (? : ?)
-END
-&
-THEORY SetsEnvX IS
-  Sets(Implementation(traffic_light_ass)) == (Type(COLOR) == Cst(SetOf(etype(COLOR,0,2))))
-END
-&
-THEORY ConstantsEnvX IS
-  Constants(Implementation(traffic_light_ass)) == (Type(RED) == Cst(etype(COLOR,0,2));Type(YELLOW) == Cst(etype(COLOR,0,2));Type(GREEN) == Cst(etype(COLOR,0,2)))
 END
 &
 THEORY VariablesLocEnvX IS

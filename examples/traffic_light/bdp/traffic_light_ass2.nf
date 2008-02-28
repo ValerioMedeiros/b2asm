@@ -33,27 +33,27 @@ END
 THEORY ListVariablesX IS
   External_Context_List_Variables(Implementation(traffic_light_ass2))==(?);
   Context_List_Variables(Implementation(traffic_light_ass2))==(?);
-  Abstract_List_Variables(Implementation(traffic_light_ass2))==(state);
+  Abstract_List_Variables(Implementation(traffic_light_ass2))==(color);
   Local_List_Variables(Implementation(traffic_light_ass2))==(?);
-  List_Variables(Implementation(traffic_light_ass2))==(ucend,ucpc,ucw,ucstack,ucmemory_data);
-  External_List_Variables(Implementation(traffic_light_ass2))==(uc.end,uc.pc,uc.w,uc.stack,uc.memory_data)
+  List_Variables(Implementation(traffic_light_ass2))==(?);
+  External_List_Variables(Implementation(traffic_light_ass2))==(?)
 END
 &
 THEORY ListVisibleVariablesX IS
   Inherited_List_VisibleVariables(Implementation(traffic_light_ass2))==(?);
   Abstract_List_VisibleVariables(Implementation(traffic_light_ass2))==(?);
-  External_List_VisibleVariables(Implementation(traffic_light_ass2))==(?);
-  Expanded_List_VisibleVariables(Implementation(traffic_light_ass2))==(?);
+  External_List_VisibleVariables(Implementation(traffic_light_ass2))==(uc.end,uc.pc,uc.w,uc.stack,uc.memory_data);
+  Expanded_List_VisibleVariables(Implementation(traffic_light_ass2))==(ucend,ucpc,ucw,ucstack,ucmemory_data);
   List_VisibleVariables(Implementation(traffic_light_ass2))==(?);
   Internal_List_VisibleVariables(Implementation(traffic_light_ass2))==(?)
 END
 &
 THEORY ListInvariantX IS
   Gluing_Seen_List_Invariant(Implementation(traffic_light_ass2))==(btrue);
-  Abstract_List_Invariant(Implementation(traffic_light_ass2))==(state : 0..2);
+  Abstract_List_Invariant(Implementation(traffic_light_ass2))==(color : COLOR);
   Expanded_List_Invariant(Implementation(traffic_light_ass2))==(ucmemory_data : NATURAL --> NATURAL & ucstack : 1..8 +-> NATURAL & card(ucstack)<=8 & ucw : NATURAL & ucpc : NATURAL & ucend : NATURAL & ucpc<=ucend);
   Context_List_Invariant(Implementation(traffic_light_ass2))==(btrue);
-  List_Invariant(Implementation(traffic_light_ass2))==(ucmemory_data(0) = state)
+  List_Invariant(Implementation(traffic_light_ass2))==(0<=ucmemory_data(0) & ucmemory_data(0)<=2 & ucmemory_data(0) = 0 <=> (color = green) & ucmemory_data(0) = 1 <=> (color = yellow) & ucmemory_data(0) = 2 <=> (color = red))
 END
 &
 THEORY ListAssertionsX IS
@@ -106,8 +106,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Implementation(traffic_light_ass2),advance)==(btrue | @(pc,end).(pc:=0;end:=4;(pc : NATURAL & end : NATURAL & pc<=end | ucpc,ucend:=pc,end);WHILE pc<end DO not(pc = 3) & not(pc = 2) & not(pc = 1) & pc = 0 ==> (0 : NATURAL & ucmemory_data(0)+1 : NATURAL & ucpc+1 : NATURAL & ucpc+1<=ucend & dom(ucmemory_data<+{0|->ucmemory_data(0)+1}) = NATURAL | ucmemory_data,ucpc:=ucmemory_data<+{0|->ucmemory_data(0)+1},ucpc+1) [] not(pc = 0) & not(pc = 3) & not(pc = 2) & pc = 1 ==> (0 : NATURAL & 3 : NATURAL & ucpc+2<ucend | ucmemory_data(0) = 3 ==> ucpc:=ucpc+1 [] not(ucmemory_data(0) = 3) ==> ucpc:=ucpc+2) [] not(pc = 0) & not(pc = 1) & not(pc = 3) & pc = 2 ==> (0 : NATURAL & 0 : NATURAL & ucpc+1<=ucend | ucmemory_data,ucpc:=ucmemory_data<+{0|->0},ucpc+1) [] not(pc = 0) & not(pc = 1) & not(pc = 2) & pc = 3 ==> (ucpc<ucend | ucpc:=ucpc+1) [] not(pc = 0) & not(pc = 1) & not(pc = 2) & not(pc = 3) ==> skip;(btrue | pc:=ucpc) INVARIANT pc>=0 & pc<=4 & pc = ucpc & end = ucend & ucmemory_data : NATURAL --> NATURAL & (pc = 0 => ucmemory_data(0) = state) & (pc = 1 => ucmemory_data(0) = state+1) & (pc = 2 => ucmemory_data(0) = state+1 & ucmemory_data(0) = 3) & (pc = 3 => ucmemory_data(0) = (state+1) mod 3) & (pc = 4 => ucmemory_data(0) = (state+1) mod 3) VARIANT end-pc END));
-  List_Substitution(Implementation(traffic_light_ass2),advance)==(VAR pc,end IN pc:=0;end:=4;(uc.init)(pc,end);WHILE pc<end DO BEGIN CASE pc OF EITHER 0 THEN (uc.inc)(0) OR 1 THEN (uc.isequal)(0,3) OR 2 THEN (uc.set_data)(0,0) OR 3 THEN uc.nop END END;pc <-- uc.get_pc END INVARIANT pc>=0 & pc<=4 & pc = uc.pc & end = uc.end & uc.memory_data : NATURAL --> NATURAL & (pc = 0 => (uc.memory_data)(0) = state) & (pc = 1 => (uc.memory_data)(0) = state+1) & (pc = 2 => (uc.memory_data)(0) = state+1 & (uc.memory_data)(0) = 3) & (pc = 3 => (uc.memory_data)(0) = (state+1) mod 3) & (pc = 4 => (uc.memory_data)(0) = (state+1) mod 3) VARIANT end-pc END END)
+  Expanded_List_Substitution(Implementation(traffic_light_ass2),advance)==(btrue | (0 : NATURAL & 11 : NATURAL & 0<=11 | ucpc,ucend:=0,11);WHILE ucpc<ucend DO not(ucpc = 10) & not(ucpc = 9) & not(ucpc = 8) & not(ucpc = 7) & not(ucpc = 6) & not(ucpc = 5) & not(ucpc = 4) & not(ucpc = 3) & not(ucpc = 2) & not(ucpc = 1) & ucpc = 0 ==> (0 : NATURAL & 0 : NATURAL & ucpc+2<ucend | ucmemory_data(0) = 0 ==> ucpc:=ucpc+1 [] not(ucmemory_data(0) = 0) ==> ucpc:=ucpc+2) [] not(ucpc = 0) & not(ucpc = 10) & not(ucpc = 9) & not(ucpc = 8) & not(ucpc = 7) & not(ucpc = 6) & not(ucpc = 5) & not(ucpc = 4) & not(ucpc = 3) & not(ucpc = 2) & ucpc = 1 ==> (5 : NATURAL & 5<=ucend | ucpc:=5) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 10) & not(ucpc = 9) & not(ucpc = 8) & not(ucpc = 7) & not(ucpc = 6) & not(ucpc = 5) & not(ucpc = 4) & not(ucpc = 3) & ucpc = 2 ==> (0 : NATURAL & 1 : NATURAL & ucpc+2<ucend | ucmemory_data(0) = 1 ==> ucpc:=ucpc+1 [] not(ucmemory_data(0) = 1) ==> ucpc:=ucpc+2) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 10) & not(ucpc = 9) & not(ucpc = 8) & not(ucpc = 7) & not(ucpc = 6) & not(ucpc = 5) & not(ucpc = 4) & ucpc = 3 ==> (7 : NATURAL & 7<=ucend | ucpc:=7) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 3) & not(ucpc = 10) & not(ucpc = 9) & not(ucpc = 8) & not(ucpc = 7) & not(ucpc = 6) & not(ucpc = 5) & ucpc = 4 ==> (9 : NATURAL & 9<=ucend | ucpc:=9) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 3) & not(ucpc = 4) & not(ucpc = 10) & not(ucpc = 9) & not(ucpc = 8) & not(ucpc = 7) & not(ucpc = 6) & ucpc = 5 ==> (0 : NATURAL & 1 : NATURAL & ucpc+1<=ucend | ucmemory_data,ucpc:=ucmemory_data<+{0|->1},ucpc+1) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 3) & not(ucpc = 4) & not(ucpc = 5) & not(ucpc = 10) & not(ucpc = 9) & not(ucpc = 8) & not(ucpc = 7) & ucpc = 6 ==> (10 : NATURAL & 10<=ucend | ucpc:=10) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 3) & not(ucpc = 4) & not(ucpc = 5) & not(ucpc = 6) & not(ucpc = 10) & not(ucpc = 9) & not(ucpc = 8) & ucpc = 7 ==> (0 : NATURAL & 2 : NATURAL & ucpc+1<=ucend | ucmemory_data,ucpc:=ucmemory_data<+{0|->2},ucpc+1) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 3) & not(ucpc = 4) & not(ucpc = 5) & not(ucpc = 6) & not(ucpc = 7) & not(ucpc = 10) & not(ucpc = 9) & ucpc = 8 ==> (10 : NATURAL & 10<=ucend | ucpc:=10) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 3) & not(ucpc = 4) & not(ucpc = 5) & not(ucpc = 6) & not(ucpc = 7) & not(ucpc = 8) & not(ucpc = 10) & ucpc = 9 ==> (0 : NATURAL & 0 : NATURAL & ucpc+1<=ucend | ucmemory_data,ucpc:=ucmemory_data<+{0|->0},ucpc+1) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 3) & not(ucpc = 4) & not(ucpc = 5) & not(ucpc = 6) & not(ucpc = 7) & not(ucpc = 8) & not(ucpc = 9) & ucpc = 10 ==> (ucpc<ucend | ucpc:=ucpc+1) [] not(ucpc = 0) & not(ucpc = 1) & not(ucpc = 2) & not(ucpc = 3) & not(ucpc = 4) & not(ucpc = 5) & not(ucpc = 6) & not(ucpc = 7) & not(ucpc = 8) & not(ucpc = 9) & not(ucpc = 10) ==> skip INVARIANT 0<=ucpc & ucpc<=11 & 0<=ucmemory_data(0) & ucmemory_data(0)<=2 & (ucpc = 0 => ucmemory_data(0) : 0..2) & (ucpc = 1 => ucmemory_data(0) = 0) & (ucpc = 2 => ucmemory_data(0)/=0) & (ucpc = 3 => ucmemory_data(0) = 1) & (ucpc = 4 => ucmemory_data(0) = 2) & (ucpc = 5 => ucmemory_data(0) = 0) & (ucpc = 6 => ucmemory_data(0) = 1) & (ucpc = 7 => ucmemory_data(0) = 1) & (ucpc = 8 => ucmemory_data(0) = 2) & (ucpc = 9 => ucmemory_data(0) = 2) & (ucpc = 10 => ucmemory_data(0) : 0..2) VARIANT ucend-ucpc END);
+  List_Substitution(Implementation(traffic_light_ass2),advance)==((uc.init)(0,11);WHILE uc.pc<uc.end DO BEGIN CASE uc.pc OF EITHER 0 THEN (uc.isequal)(0,0) OR 1 THEN (uc.goto)(5) OR 2 THEN (uc.isequal)(0,1) OR 3 THEN (uc.goto)(7) OR 4 THEN (uc.goto)(9) OR 5 THEN (uc.set_data)(0,1) OR 6 THEN (uc.goto)(10) OR 7 THEN (uc.set_data)(0,2) OR 8 THEN (uc.goto)(10) OR 9 THEN (uc.set_data)(0,0) OR 10 THEN uc.nop END END END INVARIANT 0<=uc.pc & uc.pc<=11 & 0<=(uc.memory_data)(0) & (uc.memory_data)(0)<=2 & (uc.pc = 0 => (uc.memory_data)(0) : 0..2) & (uc.pc = 1 => (uc.memory_data)(0) = 0) & (uc.pc = 2 => (uc.memory_data)(0)/=0) & (uc.pc = 3 => (uc.memory_data)(0) = 1) & (uc.pc = 4 => (uc.memory_data)(0) = 2) & (uc.pc = 5 => (uc.memory_data)(0) = 0) & (uc.pc = 6 => (uc.memory_data)(0) = 1) & (uc.pc = 7 => (uc.memory_data)(0) = 1) & (uc.pc = 8 => (uc.memory_data)(0) = 2) & (uc.pc = 9 => (uc.memory_data)(0) = 2) & (uc.pc = 10 => (uc.memory_data)(0) : 0..2) VARIANT uc.end-uc.pc END)
 END
 &
 THEORY ListConstantsX IS
@@ -117,14 +117,15 @@ THEORY ListConstantsX IS
 END
 &
 THEORY ListSetsX IS
+  Set_Definition(Implementation(traffic_light_ass2),COLOR)==({green,yellow,red});
   Context_List_Enumerated(Implementation(traffic_light_ass2))==(?);
   Context_List_Defered(Implementation(traffic_light_ass2))==(?);
   Context_List_Sets(Implementation(traffic_light_ass2))==(?);
-  List_Own_Enumerated(Implementation(traffic_light_ass2))==(?);
+  List_Own_Enumerated(Implementation(traffic_light_ass2))==(COLOR);
   List_Valuable_Sets(Implementation(traffic_light_ass2))==(?);
-  Inherited_List_Enumerated(Implementation(traffic_light_ass2))==(?);
+  Inherited_List_Enumerated(Implementation(traffic_light_ass2))==(COLOR);
   Inherited_List_Defered(Implementation(traffic_light_ass2))==(?);
-  Inherited_List_Sets(Implementation(traffic_light_ass2))==(?);
+  Inherited_List_Sets(Implementation(traffic_light_ass2))==(COLOR);
   List_Enumerated(Implementation(traffic_light_ass2))==(?);
   List_Defered(Implementation(traffic_light_ass2))==(?);
   List_Sets(Implementation(traffic_light_ass2))==(?)
@@ -138,7 +139,7 @@ THEORY ListHiddenConstantsX IS
 END
 &
 THEORY ListPropertiesX IS
-  Abstract_List_Properties(Implementation(traffic_light_ass2))==(btrue);
+  Abstract_List_Properties(Implementation(traffic_light_ass2))==(not(COLOR = {}));
   Context_List_Properties(Implementation(traffic_light_ass2))==(btrue);
   Inherited_List_Properties(Implementation(traffic_light_ass2))==(btrue);
   List_Properties(Implementation(traffic_light_ass2))==(btrue)
@@ -156,26 +157,31 @@ THEORY ListIncludedOperationsX IS
 END
 &
 THEORY InheritedEnvX IS
-  Operations(Implementation(traffic_light_ass2))==(Type(advance) == Cst(No_type,No_type))
+  Operations(Implementation(traffic_light_ass2))==(Type(advance) == Cst(No_type,No_type));
+  Constants(Implementation(traffic_light_ass2))==(Type(green) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(red) == Cst(etype(COLOR,0,2)))
 END
 &
 THEORY ListVisibleStaticX END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Implementation(traffic_light_ass2)) == (? | ? | ? | ucmemory_data,ucstack,ucw,ucpc,ucend | advance | ? | imported(Machine(uc.Microcontroller)) | ? | traffic_light_ass2);
+  List_Of_Ids(Implementation(traffic_light_ass2)) == (? | ? | ? | ? | advance | ? | imported(Machine(uc.Microcontroller)) | ? | traffic_light_ass2);
   List_Of_HiddenCst_Ids(Implementation(traffic_light_ass2)) == (? | ?);
   List_Of_VisibleCst_Ids(Implementation(traffic_light_ass2)) == (?);
-  List_Of_VisibleVar_Ids(Implementation(traffic_light_ass2)) == (? | ?);
+  List_Of_VisibleVar_Ids(Implementation(traffic_light_ass2)) == (? | ucmemory_data,ucstack,ucw,ucpc,ucend);
   List_Of_Ids_SeenBNU(Implementation(traffic_light_ass2)) == (? : ?);
-  List_Of_Ids(Machine(Microcontroller)) == (? | ? | end,pc,w,stack,memory_data | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
+  List_Of_Ids(Machine(Microcontroller)) == (? | ? | ? | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
   List_Of_HiddenCst_Ids(Machine(Microcontroller)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(Microcontroller)) == (?);
-  List_Of_VisibleVar_Ids(Machine(Microcontroller)) == (? | ?);
+  List_Of_VisibleVar_Ids(Machine(Microcontroller)) == (end,pc,w,stack,memory_data | ?);
   List_Of_Ids_SeenBNU(Machine(Microcontroller)) == (? : ?)
 END
 &
-THEORY VariablesLocEnvX IS
-  Variables_Loc(Implementation(traffic_light_ass2),advance, 1) == (Type(pc) == Lvl(btype(INTEGER,?,?));Type(end) == Lvl(btype(INTEGER,?,?)))
+THEORY SetsEnvX IS
+  Sets(Implementation(traffic_light_ass2)) == (Type(COLOR) == Cst(SetOf(etype(COLOR,0,2))))
+END
+&
+THEORY ConstantsEnvX IS
+  Constants(Implementation(traffic_light_ass2)) == (Type(red) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(green) == Cst(etype(COLOR,0,2)))
 END
 &
 THEORY TCIntRdX IS
@@ -205,8 +211,8 @@ THEORY TypingPredicateX IS
 END
 &
 THEORY ImportedVariablesListX IS
-  ImportedVariablesList(Implementation(traffic_light_ass2),Machine(uc.Microcontroller))==(uc.memory_data,uc.stack,uc.w,uc.pc,uc.end);
-  ImportedVisVariablesList(Implementation(traffic_light_ass2),Machine(uc.Microcontroller))==(?)
+  ImportedVariablesList(Implementation(traffic_light_ass2),Machine(uc.Microcontroller))==(?);
+  ImportedVisVariablesList(Implementation(traffic_light_ass2),Machine(uc.Microcontroller))==(uc.memory_data,uc.stack,uc.w,uc.pc,uc.end)
 END
 &
 THEORY ListLocalOpInvariantX END

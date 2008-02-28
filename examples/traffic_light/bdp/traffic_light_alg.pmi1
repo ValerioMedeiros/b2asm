@@ -1,96 +1,18 @@
 THEORY BalanceX IS
-  traffic_light_alg,26,6,0,17,0,0,0;
+  traffic_light_alg,0,0,0,0,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  Initialisation,1,0,0,1,0,0,0;
-  advance,25,6,0,16,0,0,0
+  Initialisation,0,0,0,0,0,0,0;
+  advance,0,0,0,0,0,0,0
 END
 &
-THEORY ProofState IS
-  Proved(0);
-  Proved(0);
-  Unproved;
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(Util);
-  Proved(0);
-  Proved(Util);
-  Proved(0);
-  Proved(0);
-  Proved(Util);
-  Proved(0);
-  Proved(Util);
-  Proved(Util);
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(Util);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0)
+THEORY ProofState
 END
 &
-THEORY MethodList IS
-  pr;
-  pr;
-  ?;
-  pr;
-  pr;
-  pr;
-  cl & xp & pr;
-  pr;
-  cl & xp & ss & pr;
-  pr;
-  pr;
-  cl & xp & ss & pr;
-  pr;
-  cl & xp & ss & pr;
-  cl & xp & ss & pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  cl & xp & ss & pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr
+THEORY MethodList
 END
 &
-THEORY PassList IS
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?
+THEORY PassList
 END
 &
 THEORY ManForms 

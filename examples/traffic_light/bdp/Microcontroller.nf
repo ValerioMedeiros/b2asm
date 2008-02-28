@@ -37,9 +37,9 @@ THEORY ListVariablesX IS
   External_Context_List_Variables(Machine(Microcontroller))==(?);
   Context_List_Variables(Machine(Microcontroller))==(?);
   Abstract_List_Variables(Machine(Microcontroller))==(?);
-  Local_List_Variables(Machine(Microcontroller))==(end,pc,w,stack,memory_data);
-  List_Variables(Machine(Microcontroller))==(end,pc,w,stack,memory_data);
-  External_List_Variables(Machine(Microcontroller))==(end,pc,w,stack,memory_data)
+  Local_List_Variables(Machine(Microcontroller))==(?);
+  List_Variables(Machine(Microcontroller))==(?);
+  External_List_Variables(Machine(Microcontroller))==(?)
 END
 &
 THEORY ListVisibleVariablesX IS
@@ -47,8 +47,8 @@ THEORY ListVisibleVariablesX IS
   Abstract_List_VisibleVariables(Machine(Microcontroller))==(?);
   External_List_VisibleVariables(Machine(Microcontroller))==(?);
   Expanded_List_VisibleVariables(Machine(Microcontroller))==(?);
-  List_VisibleVariables(Machine(Microcontroller))==(?);
-  Internal_List_VisibleVariables(Machine(Microcontroller))==(?)
+  List_VisibleVariables(Machine(Microcontroller))==(end,pc,w,stack,memory_data);
+  Internal_List_VisibleVariables(Machine(Microcontroller))==(end,pc,w,stack,memory_data)
 END
 &
 THEORY ListInvariantX IS
@@ -302,15 +302,15 @@ END
 THEORY ListSeenInfoX END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(Microcontroller)) == (? | ? | end,pc,w,stack,memory_data | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
+  List_Of_Ids(Machine(Microcontroller)) == (? | ? | ? | ? | init_data,init,push,pop_1,pop_2,get_data,get_pc,set_end,get_end,set_w,get_w,nop,goto,iszero,isequal,move,move_w_m,move_m_w,reset,reset_w,set_data,inc,dec,add,sub,mul,div | ? | ? | ? | Microcontroller);
   List_Of_HiddenCst_Ids(Machine(Microcontroller)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(Microcontroller)) == (?);
-  List_Of_VisibleVar_Ids(Machine(Microcontroller)) == (? | ?);
+  List_Of_VisibleVar_Ids(Machine(Microcontroller)) == (end,pc,w,stack,memory_data | ?);
   List_Of_Ids_SeenBNU(Machine(Microcontroller)) == (? : ?)
 END
 &
-THEORY VariablesEnvX IS
-  Variables(Machine(Microcontroller)) == (Type(end) == Mvl(btype(INTEGER,?,?));Type(pc) == Mvl(btype(INTEGER,?,?));Type(w) == Mvl(btype(INTEGER,?,?));Type(stack) == Mvl(SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(memory_data) == Mvl(SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?))))
+THEORY VisibleVariablesEnvX IS
+  VisibleVariables(Machine(Microcontroller)) == (Type(end) == Mvv(btype(INTEGER,?,?));Type(pc) == Mvv(btype(INTEGER,?,?));Type(w) == Mvv(btype(INTEGER,?,?));Type(stack) == Mvv(SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(memory_data) == Mvv(SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?))))
 END
 &
 THEORY OperationsEnvX IS

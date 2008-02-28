@@ -1,46 +1,15 @@
 THEORY BalanceX IS
-  traffic_light_ass,38,2,0,30,4,0,0;
+  traffic_light_ass,7,3,0,4,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  Initialisation,3,1,0,2,0,0,0;
-  advance,35,1,0,28,4,0,0
+  Initialisation,2,1,0,1,0,0,0;
+  advance,5,2,0,3,0,0,0
 END
 &
 THEORY ProofState IS
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(1);
-  Proved(0);
-  Proved(1);
-  Proved(1);
-  Proved(1);
   Proved(Util);
   Proved(0);
+  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -48,40 +17,9 @@ THEORY ProofState IS
 END
 &
 THEORY MethodList IS
+  cl & xp & eh(dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}),NATURAL,Goal) & ov & eh(micromemory_data$1(0),state,Goal) & ah(state : 0..2) & ds(micromemory_data$1<+{0|->state+1} : NATURAL +-> NATURAL) & ds(not((micromemory_data$1<+{0|->state+1})(0) = 3)) & ds(4 : INTEGER) & ds(3 : INTEGER) & ah(micromemory_data$1(0) = state) & ds(micromemory_data$1(0) = state) & pp(rp.1);
   pr;
-  pr;
-  pr;
-  ?;
-  pr;
-  pr;
-  pr;
-  pr;
-  ?;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  cl & xp & ss & ah(dom(micromemory_data$1) = NATURAL) & pp(rp.0);
-  pr;
+  cl & xp & ss & pp(rp.1);
   pr;
   pr;
   pr;
@@ -91,37 +29,6 @@ END
 THEORY PassList IS
   Force(0),?;
   Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(1),(?;0);
-  Force(0),?;
-  Force(1),(?;0);
-  Force(1),(?;0);
-  Force(1),(?;0);
-  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),?;

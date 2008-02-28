@@ -25,28 +25,24 @@ IMPLEMENTATION
 REFINES
    traffic_light
 IMPORTS
-   state.VarNatural
+  state.VarNatural
 INVARIANT
-   (state.value = 0) <=> (color = GREEN) &
-   (state.value = 1) <=> (color = YELLOW) &
-   (state.value = 2) <=> (color = RED) &
-   state.value : 0..2
+   
+   0<= state.value & state.value<=2 &
+   (state.value = 0) <=> (color = green) &
+   (state.value = 1) <=> (color = yellow) &
+   (state.value = 2) <=> (color = red) 
 
 INITIALISATION
    state.set(0)
 
 OPERATIONS
 
-advance =
-  VAR tmp IN
-    tmp <-- state.get;
-    IF tmp = 0 THEN
-      state.set(1)
-    ELSIF tmp = 1 THEN
-      state.set(2)
-    ELSE
-      state.set(0)
-    END
-  END
+advance =  
+
+	IF state.value = 0 THEN state.set(1)
+	ELSIF state.value = 1 THEN state.set(2) 
+	ELSE state.set(0) END
+	
 
 END
