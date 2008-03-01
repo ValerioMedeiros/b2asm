@@ -108,7 +108,7 @@ END
 &
 THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Implementation(sequenceasm),run)==(btrue | (3 : NATURAL | ucpc,ucend:=0,3);(1 : NATURAL & 2 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{2|->ucmem(1)},ucpc+1);(0 : NATURAL & 1 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{1|->ucmem(0)},ucpc+1);(2 : NATURAL & 0 : NATURAL & ucpc+1<=ucend | ucmem,ucpc:=ucmem<+{0|->ucmem(2)},ucpc+1));
-  List_Substitution(Implementation(sequenceasm),run)==((uc.init)(3);(uc.move)(1,2);(uc.move)(0,1);(uc.move)(2,0))
+  List_Substitution(Implementation(sequenceasm),run)==((uc.init)(3);(uc.copy)(1,2);(uc.copy)(0,1);(uc.copy)(2,0))
 END
 &
 THEORY ListConstantsX IS
@@ -162,7 +162,7 @@ THEORY ListSeenInfoX IS
 END
 &
 THEORY ListIncludedOperationsX IS
-  List_Included_Operations(Implementation(sequenceasm),Machine(ram))==(init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc)
+  List_Included_Operations(Implementation(sequenceasm),Machine(ram))==(init,nop,set,inc,copy,testgt,testeq,goto,get_data,get_pc)
 END
 &
 THEORY InheritedEnvX IS
@@ -180,7 +180,7 @@ THEORY ListOfIdsX IS
   List_Of_VisibleCst_Ids(Implementation(sequenceasm)) == (?);
   List_Of_VisibleVar_Ids(Implementation(sequenceasm)) == (? | ucmem,ucpc,ucend);
   List_Of_Ids_SeenBNU(Implementation(sequenceasm)) == (seen(Machine(types)) : (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | ?));
-  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
+  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,copy,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
   List_Of_HiddenCst_Ids(Machine(ram)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(ram)) == (?);
   List_Of_VisibleVar_Ids(Machine(ram)) == (end,pc,mem | ?);

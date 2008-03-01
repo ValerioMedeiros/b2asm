@@ -35,9 +35,9 @@ OPERATIONS
     WHILE uc.pc < uc.end DO
     BEGIN
       CASE uc.pc OF
-        EITHER 0 THEN uc.move ( 1 , 2 )
-        OR 1 THEN uc.move ( 0 , 1 )
-        OR 2 THEN uc.move ( 2 , 0 )
+        EITHER 0 THEN uc.copy ( 1 , 2 )
+        OR 1 THEN uc.copy ( 0 , 1 )
+        OR 2 THEN uc.copy ( 2 , 0 )
         END
       END
     END

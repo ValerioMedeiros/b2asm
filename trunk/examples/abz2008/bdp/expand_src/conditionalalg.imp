@@ -1,0 +1,22 @@
+IMPLEMENTATION conditionalalg
+REFINES conditional
+SEES types
+IMPORTS mi.nat
+INVARIANT
+  max ( st ) = mi.value
+INITIALISATION
+  BEGIN
+    mi.set ( 0 )
+  END
+OPERATIONS
+  add ( v ) =
+    BEGIN
+      IF mi.value < v THEN
+        mi.set ( v )
+      END
+    END ;
+  res <-- largest =
+    BEGIN
+      res := mi.value
+    END
+END

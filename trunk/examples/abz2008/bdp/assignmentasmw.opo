@@ -7,17 +7,17 @@ THEORY OPOBalanceX IS
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & _f(6) & run.12,(_f(19) & _of(20) => _of(2));
-  _f(1) & _f(2) & _f(6) & run.11,(_f(17) & _of(8) => _of(19));
-  _f(1) & _f(2) & _f(6) & run.10,(_f(17) & _of(8) => _of(18));
-  _f(1) & _f(2) & _f(6) & run.9,(_f(17) & _of(8) => _of(17));
-  _f(1) & _f(2) & _f(6) & run.8,(_f(11) & _of(15) => _of(16));
-  _f(1) & _f(2) & _f(6) & run.7,(_of(14) & _of(8) => _of(5));
-  _f(1) & _f(2) & _f(6) & run.6,(_of(12) & _of(8) => _of(13));
-  _f(1) & _f(2) & _f(6) & run.5,(_of(8) => _of(11));
-  _f(1) & _f(2) & _f(6) & run.4,(_of(8) => _of(10));
-  _f(1) & _f(2) & _f(6) & run.3,(_of(8) => _of(9));
-  _f(1) & _f(2) & _f(6) & run.2,(_of(8) => _of(2));
+  _f(1) & _f(2) & _f(6) & run.12,(_f(19) & _of(19) => _of(2));
+  _f(1) & _f(2) & _f(6) & run.11,(_f(17) & _of(4) => _of(18));
+  _f(1) & _f(2) & _f(6) & run.10,(_f(17) & _of(4) => _of(17));
+  _f(1) & _f(2) & _f(6) & run.9,(_f(17) & _of(4) => _of(16));
+  _f(1) & _f(2) & _f(6) & run.8,(_f(11) & _of(14) => _of(15));
+  _f(1) & _f(2) & _f(6) & run.7,(_of(13) & _of(4) => _of(5));
+  _f(1) & _f(2) & _f(6) & run.6,(_of(11) & _of(4) => _of(12));
+  _f(1) & _f(2) & _f(6) & run.5,(_of(4) => _of(10));
+  _f(1) & _f(2) & _f(6) & run.4,(_of(4) => _of(9));
+  _f(1) & _f(2) & _f(6) & run.3,(_of(4) => _of(8));
+  _f(1) & _f(2) & _f(6) & run.2,(_of(4) => _of(2));
   _f(1) & _f(2) & _f(6) & run.1,(_of(7) => _of(2));
   _f(1) & _f(2) & Initialisation.2,(_f(3) & _of(6) => _of(2));
   _f(1) & _f(2) & Initialisation.1,(_of(3) & _of(4) => _of(5));
@@ -32,7 +32,6 @@ THEORY OPOFormulas IS
   (0 : NATURAL);
   "`Check initialisation refinement - ref 4.3, 5.4'";
   "`Check precondition (btrue) deduction'";
-  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   (1 : NATURAL);
   (0<=0);
   (0<=1);

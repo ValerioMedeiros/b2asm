@@ -18,7 +18,7 @@ OPERATIONS
       CASE uc.pc OF
         EITHER 0 THEN uc.set(1,v)
         OR 1 THEN uc.testgt(1,0)
-        OR 2 THEN uc.move(1,0)
+        OR 2 THEN uc.copy(1,0)
         END
       END    END
     INVARIANT 

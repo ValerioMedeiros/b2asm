@@ -8,10 +8,10 @@ THEORY ProofList IS
   _f(1) & _f(2) & _f(18) & testgt.3,(_f(20) & _f(5) => _f(21));
   _f(1) & _f(2) & _f(18) & testgt.2,(_f(19) & _f(5) => _f(7));
   _f(1) & _f(2) & _f(18) & testgt.1,(_f(19) & _f(5) => _f(6));
-  _f(1) & _f(2) & _f(15) & move.4,(_f(5) => _f(7));
-  _f(1) & _f(2) & _f(15) & move.3,(_f(5) => _f(6));
-  _f(1) & _f(2) & _f(15) & move.2,(_f(9) => _f(17));
-  _f(1) & _f(2) & _f(15) & move.1,(_f(9) => _f(16));
+  _f(1) & _f(2) & _f(15) & copy.4,(_f(5) => _f(7));
+  _f(1) & _f(2) & _f(15) & copy.3,(_f(5) => _f(6));
+  _f(1) & _f(2) & _f(15) & copy.2,(_f(9) => _f(17));
+  _f(1) & _f(2) & _f(15) & copy.1,(_f(9) => _f(16));
   _f(1) & _f(2) & _f(12) & inc.4,(_f(5) => _f(7));
   _f(1) & _f(2) & _f(12) & inc.3,(_f(5) => _f(6));
   _f(1) & _f(2) & _f(12) & inc.2,(_f(9) => _f(14));
@@ -39,7 +39,7 @@ THEORY Formulas IS
   ("`inc preconditions in this component'" & addr : INTEGER & 0<=addr & pc+1<=end & mem(addr)+1<=2147483647);
   (mem<+{addr|->mem(addr)+1} : NATURAL +-> uint32);
   (dom(mem<+{addr|->mem(addr)+1}) = NATURAL);
-  ("`move preconditions in this component'" & src : INTEGER & 0<=src & dest : INTEGER & 0<=dest & pc+1<=end);
+  ("`copy preconditions in this component'" & src : INTEGER & 0<=src & dest : INTEGER & 0<=dest & pc+1<=end);
   (mem<+{dest|->mem(src)} : NATURAL +-> uint32);
   (dom(mem<+{dest|->mem(src)}) = NATURAL);
   ("`testgt preconditions in this component'" & addr1 : INTEGER & 0<=addr1 & addr2 : INTEGER & 0<=addr2 & (mem(addr2)+1<=mem(addr1) => pc+1<=end) & (mem(addr1)<=mem(addr2) => pc+2<=end));

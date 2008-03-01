@@ -1,0 +1,27 @@
+THEORY OPOBalanceX IS
+  conditional,5;
+  Initialisation,0;
+  add,3;
+  largest,2
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(4) & _f(6) & largest.2,(_of(3) => _of(6));
+  _f(1) & _f(4) & _f(6) & largest.1,(_of(1) => _of(2));
+  _f(1) & _f(4) & _f(5) & add.3,(_of(3) => _of(5));
+  _f(1) & _f(4) & _f(5) & add.2,(_of(3) => _of(4));
+  _f(1) & _f(4) & _f(5) & add.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue);
+  "`Check that the invariant (st : POW(uint32)) is preserved by the operation - ref 3.4'";
+  (v : uint32);
+  (st : POW(uint32));
+  (btrue => st : POW(uint32))
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

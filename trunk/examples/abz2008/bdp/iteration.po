@@ -1,0 +1,17 @@
+THEORY ProofList IS
+  _f(1) & Initialisation.1,(_f(2) => _f(3))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647 & uint16 : POW(INTEGER) & uint16 = 0..65535);
+  "`Check that the invariant (a : uint32) is established by the initialisation - ref 3.3'" & "`Check that the invariant (b : uint32) is established by the initialisation - ref 3.3'" & "`Check that the invariant (s : uint32) is established by the initialisation - ref 3.3'" & "`Check that the invariant (a+b : uint32) is established by the initialisation - ref 3.3'";
+  (0 : uint32);
+  ("`Component invariant'" & a : uint32 & b : uint32 & s : uint32 & a+b : uint32 & s = a+b)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

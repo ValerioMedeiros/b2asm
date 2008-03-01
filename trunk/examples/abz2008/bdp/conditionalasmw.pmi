@@ -1,0 +1,136 @@
+THEORY BalanceX IS
+  conditionalasmw,37,6,0,31,0,0,0;
+  ValuesLemmas,0,0,0,0,0,0,0;
+  InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
+  Initialisation,2,0,0,2,0,0,0;
+  add,31,5,0,26,0,0,0;
+  largest,4,1,0,3,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  cl & xp & eh(dom(ucmem$1),NATURAL,Goal) & ss & pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & pp(rp.0);
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & rn(not(0<= -1+ucmem$2(1)-ucmem$2(0))) & pp(rp.0);
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ss & pp(rp.0);
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ov;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ds(ucpc$2 = 0 => ucmem$2(0) = max(st)) & ds(ucpc$2 = 1 => ucmem$2(0) = max(st) & ucmem$2(1) = v) & ds(ucpc$2 = 2 => ucmem$2(0) = max(st) & ucmem$2(1) = v & max(st)+1<=v) & ds(ucpc$2 = 3 => ucmem$2(0) = max({v,max(st)})) & ds(not(v : st)) & ds(v : uint32) & ss & pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END
