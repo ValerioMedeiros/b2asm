@@ -1,32 +1,47 @@
 THEORY BalanceX IS
-  traffic_light_ass,7,3,0,4,0,0,0;
+  traffic_light_ass,12,0,0,12,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  Initialisation,2,1,0,1,0,0,0;
-  advance,5,2,0,3,0,0,0
+  Initialisation,3,0,0,3,0,0,0;
+  advance,9,0,0,9,0,0,0
 END
 &
 THEORY ProofState IS
-  Proved(Util);
-  Proved(0);
-  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
-  Proved(Util)
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0)
 END
 &
 THEORY MethodList IS
-  cl & xp & eh(dom(micromemory_data$1<+{0|->micromemory_data$1(0)+1}),NATURAL,Goal) & ov & eh(micromemory_data$1(0),state,Goal) & ah(state : 0..2) & ds(micromemory_data$1<+{0|->state+1} : NATURAL +-> NATURAL) & ds(not((micromemory_data$1<+{0|->state+1})(0) = 3)) & ds(4 : INTEGER) & ds(3 : INTEGER) & ah(micromemory_data$1(0) = state) & ds(micromemory_data$1(0) = state) & pp(rp.1);
-  pr;
-  cl & xp & ss & pp(rp.1);
   pr;
   pr;
   pr;
-  cl & xp & ss & eh(dom(memory_data$0),NATURAL,Goal) & ss & pp(rp.1)
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr
 END
 &
 THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;

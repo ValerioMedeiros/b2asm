@@ -81,7 +81,6 @@ THEORY BBTTE IS
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
-  cmd(0 | cl) & gol(0 | ucmemory_data$2(0) = 2) & cmd(1 | xp) & cmd(1 | ds(0<=2)) & cmd(1 | ds(2<=11)) & cmd(1 | ds(2 = 0 => ucmemory_data$2(0) : 0..2)) & cmd(1 | ds(2 = 1 => ucmemory_data$2(0) = 0)) & cmd(1 | ds(2 = 3 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(2 = 4 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(2 = 5 => ucmemory_data$2(0) = 0)) & cmd(1 | ds(2 = 6 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(2 = 7 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(2 = 8 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(2 = 9 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(2 = 10 => ucmemory_data$2(0) : 0..2)) & cmd(1 | ds(2+1<=11)) & cmd(1 | ds(2+2 = 4)) & cmd(1 | ds(not(2 = 3))) & cmd(1 | ds(not(2 = 4))) & cmd(1 | ds(not(2 = 5))) & cmd(1 | ds(not(2 = 6))) & cmd(1 | ds(not(2 = 7))) & cmd(1 | ds(not(2 = 8))) & cmd(1 | ds(not(2 = 9))) & cmd(1 | ds(not(2 = 10))) & cmd(1 | ds(not(2 = 1))) & cmd(1 | ds(not(2 = 0))) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
@@ -92,6 +91,10 @@ THEORY BBTTE IS
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | 10-ucpc$2 : INTEGER) & cmd(1 | xp) & cmd(1 | ds(ucpc$2 = 9 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(ucpc$2 = 8 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(ucpc$2 = 7 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(ucpc$2 = 6 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(ucpc$2 = 5 => ucmemory_data$2(0) = 0)) & cmd(1 | ds(ucpc$2 = 4 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(ucpc$2 = 3 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(ucpc$2 = 2 => not(ucmemory_data$2(0) = 0))) & cmd(1 | ds(ucpc$2 = 1 => ucmemory_data$2(0) = 0)) & cmd(1 | ds(ucpc$2 = 0 => ucmemory_data$2(0) : 0..2)) & cmd(1 | ds(ucmemory_data$2(0) = counter)) & cmd(1 | ds(ucmemory_data$2(0) : 0..2)) & cmd(1 | ss) & cmd(1 | pr) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(memory_data$0<+{0|->0}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
@@ -102,10 +105,7 @@ THEORY BBTTE IS
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
-  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | 11-ucpc$2 : INTEGER) & cmd(1 | xp) & cmd(1 | ds(ucpc$2 = 10 => ucmemory_data$2(0) : 0..2)) & cmd(1 | ds(ucpc$2 = 9 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(ucpc$2 = 8 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(ucpc$2 = 7 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(ucpc$2 = 6 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(ucpc$2 = 5 => ucmemory_data$2(0) = 0)) & cmd(1 | ds(ucpc$2 = 4 => ucmemory_data$2(0) = 2)) & cmd(1 | ds(ucpc$2 = 3 => ucmemory_data$2(0) = 1)) & cmd(1 | ds(ucpc$2 = 2 => not(ucmemory_data$2(0) = 0))) & cmd(1 | ds(ucpc$2 = 1 => ucmemory_data$2(0) = 0)) & cmd(1 | ds(ucpc$2 = 0 => ucmemory_data$2(0) : 0..2)) & cmd(1 | ds(ucmemory_data$2(0) = counter)) & cmd(1 | ds(ucmemory_data$2(0) : 0..2)) & cmd(1 | ss) & cmd(1 | pr) & gol(0 | SUCCESS);
   cmd(0 | pr);
   cmd(0 | pr);
   cmd(0 | pr);

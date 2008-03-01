@@ -13,7 +13,7 @@ THEORY LoadedStructureX IS
 END
 &
 THEORY ListSeesX IS
-  List_Sees(Machine(traffic_light))==(?)
+  List_Sees(Machine(traffic_light))==(definitions)
 END
 &
 THEORY ListUsesX IS
@@ -63,7 +63,7 @@ END
 THEORY ListAssertionsX IS
   Expanded_List_Assertions(Machine(traffic_light))==(btrue);
   Abstract_List_Assertions(Machine(traffic_light))==(btrue);
-  Context_List_Assertions(Machine(traffic_light))==(btrue);
+  Context_List_Assertions(Machine(traffic_light))==(!c.(c : COLOR => c = green or c = yellow or c = red));
   List_Assertions(Machine(traffic_light))==(btrue)
 END
 &
@@ -77,7 +77,9 @@ THEORY ListParametersX IS
   List_Parameters(Machine(traffic_light))==(?)
 END
 &
-THEORY ListInstanciatedParametersX END
+THEORY ListInstanciatedParametersX IS
+  List_Instanciated_Parameters(Machine(traffic_light),Machine(definitions))==(?)
+END
 &
 THEORY ListConstraintsX IS
   List_Context_Constraints(Machine(traffic_light))==(btrue);
@@ -118,16 +120,16 @@ END
 &
 THEORY ListSetsX IS
   Set_Definition(Machine(traffic_light),COLOR)==({green,yellow,red});
-  Context_List_Enumerated(Machine(traffic_light))==(?);
+  Context_List_Enumerated(Machine(traffic_light))==(COLOR);
   Context_List_Defered(Machine(traffic_light))==(?);
-  Context_List_Sets(Machine(traffic_light))==(?);
+  Context_List_Sets(Machine(traffic_light))==(COLOR);
   List_Valuable_Sets(Machine(traffic_light))==(?);
   Inherited_List_Enumerated(Machine(traffic_light))==(?);
   Inherited_List_Defered(Machine(traffic_light))==(?);
   Inherited_List_Sets(Machine(traffic_light))==(?);
-  List_Enumerated(Machine(traffic_light))==(COLOR);
+  List_Enumerated(Machine(traffic_light))==(?);
   List_Defered(Machine(traffic_light))==(?);
-  List_Sets(Machine(traffic_light))==(COLOR)
+  List_Sets(Machine(traffic_light))==(?)
 END
 &
 THEORY ListHiddenConstantsX IS
@@ -139,27 +141,33 @@ END
 &
 THEORY ListPropertiesX IS
   Abstract_List_Properties(Machine(traffic_light))==(btrue);
-  Context_List_Properties(Machine(traffic_light))==(btrue);
+  Context_List_Properties(Machine(traffic_light))==(not(COLOR = {}));
   Inherited_List_Properties(Machine(traffic_light))==(btrue);
-  List_Properties(Machine(traffic_light))==(not(COLOR = {}))
+  List_Properties(Machine(traffic_light))==(btrue)
 END
 &
-THEORY ListSeenInfoX END
+THEORY ListSeenInfoX IS
+  Seen_Internal_List_Operations(Machine(traffic_light),Machine(definitions))==(?);
+  Seen_Context_List_Enumerated(Machine(traffic_light))==(?);
+  Seen_Context_List_Invariant(Machine(traffic_light))==(btrue);
+  Seen_Context_List_Assertions(Machine(traffic_light))==(btrue);
+  Seen_Context_List_Properties(Machine(traffic_light))==(btrue);
+  Seen_List_Constraints(Machine(traffic_light))==(btrue);
+  Seen_List_Operations(Machine(traffic_light),Machine(definitions))==(?);
+  Seen_Expanded_List_Invariant(Machine(traffic_light),Machine(definitions))==(btrue)
+END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(traffic_light)) == (COLOR,green,yellow,red | ? | color | ? | advance | ? | ? | ? | traffic_light);
+  List_Of_Ids(Machine(traffic_light)) == (? | ? | color | ? | advance | ? | seen(Machine(definitions)) | ? | traffic_light);
   List_Of_HiddenCst_Ids(Machine(traffic_light)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(traffic_light)) == (?);
   List_Of_VisibleVar_Ids(Machine(traffic_light)) == (? | ?);
-  List_Of_Ids_SeenBNU(Machine(traffic_light)) == (? : ?)
-END
-&
-THEORY SetsEnvX IS
-  Sets(Machine(traffic_light)) == (Type(COLOR) == Cst(SetOf(etype(COLOR,0,2))))
-END
-&
-THEORY ConstantsEnvX IS
-  Constants(Machine(traffic_light)) == (Type(green) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(red) == Cst(etype(COLOR,0,2)))
+  List_Of_Ids_SeenBNU(Machine(traffic_light)) == (? : ?);
+  List_Of_Ids(Machine(definitions)) == (COLOR,green,yellow,red | ? | ? | ? | ? | ? | ? | ? | definitions);
+  List_Of_HiddenCst_Ids(Machine(definitions)) == (? | ?);
+  List_Of_VisibleCst_Ids(Machine(definitions)) == (?);
+  List_Of_VisibleVar_Ids(Machine(definitions)) == (? | ?);
+  List_Of_Ids_SeenBNU(Machine(definitions)) == (? : ?)
 END
 &
 THEORY VariablesEnvX IS

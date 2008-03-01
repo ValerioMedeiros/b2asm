@@ -23,13 +23,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 MACHINE
    traffic_light
+SEES
+   definitions
 VARIABLES
    color
-SETS 
- COLOR={green,yellow,red}
 INVARIANT
    color :  COLOR  
-
 INITIALISATION
    color :: COLOR
 
