@@ -1,0 +1,1 @@
+Flag(FileOn("traffic_light_ass2.res")) & Set(toto | state : 0..2 & ucmemory_data$1(0) = state & 0<=state & state<=2 & dom(ucmemory_data$2) = NATURAL => (ucmemory_data$2 : NATURAL +-> NATURAL => not(0 = 1+state-ucmemory_data$2(0))))
