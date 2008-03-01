@@ -1,3 +1,5 @@
-file:5677a8238d3ec3d51fa8d4cac8136963
-abst:traffic_light
+file:1f632adcad45ccecfa77dec58d113f9a
+abst:traffic_light_data_refinement
+sees:definitions
+sees:data_refinement
 impo:Microcontroller:uc

@@ -5,8 +5,8 @@ END
 &
 THEORY UpperLevelX IS
   First_Level(Implementation(traffic_light_alg))==(Machine(traffic_light));
-  Level(Implementation(traffic_light_alg))==(1);
-  Upper_Level(Implementation(traffic_light_alg))==(Machine(traffic_light))
+  Level(Implementation(traffic_light_alg))==(2);
+  Upper_Level(Implementation(traffic_light_alg))==(Refinement(traffic_light_data_refinement))
 END
 &
 THEORY LoadedStructureX IS
@@ -14,7 +14,7 @@ THEORY LoadedStructureX IS
 END
 &
 THEORY ListSeesX IS
-  List_Sees(Implementation(traffic_light_alg))==(?)
+  List_Sees(Implementation(traffic_light_alg))==(definitions,data_refinement)
 END
 &
 THEORY ListIncludesX IS
@@ -33,7 +33,7 @@ END
 THEORY ListVariablesX IS
   External_Context_List_Variables(Implementation(traffic_light_alg))==(?);
   Context_List_Variables(Implementation(traffic_light_alg))==(?);
-  Abstract_List_Variables(Implementation(traffic_light_alg))==(color);
+  Abstract_List_Variables(Implementation(traffic_light_alg))==(counter,color);
   Local_List_Variables(Implementation(traffic_light_alg))==(?);
   List_Variables(Implementation(traffic_light_alg))==(?);
   External_List_Variables(Implementation(traffic_light_alg))==(?)
@@ -50,16 +50,16 @@ END
 &
 THEORY ListInvariantX IS
   Gluing_Seen_List_Invariant(Implementation(traffic_light_alg))==(btrue);
-  Abstract_List_Invariant(Implementation(traffic_light_alg))==(color : COLOR);
+  Abstract_List_Invariant(Implementation(traffic_light_alg))==(counter : NATURAL & counter : 0..2 & counter = color_refine(color) & color : COLOR);
   Expanded_List_Invariant(Implementation(traffic_light_alg))==(statevalue : NATURAL);
   Context_List_Invariant(Implementation(traffic_light_alg))==(btrue);
-  List_Invariant(Implementation(traffic_light_alg))==(0<=statevalue & statevalue<=2 & statevalue = 0 <=> (color = green) & statevalue = 1 <=> (color = yellow) & statevalue = 2 <=> (color = red))
+  List_Invariant(Implementation(traffic_light_alg))==(statevalue : 0..2 & statevalue = counter)
 END
 &
 THEORY ListAssertionsX IS
   Abstract_List_Assertions(Implementation(traffic_light_alg))==(btrue);
   Expanded_List_Assertions(Implementation(traffic_light_alg))==(btrue);
-  Context_List_Assertions(Implementation(traffic_light_alg))==(btrue);
+  Context_List_Assertions(Implementation(traffic_light_alg))==(!c.(c : COLOR => c = green or c = yellow or c = red) & color_refine(green) = 0 & color_refine(yellow) = 1 & color_refine(red) = 2);
   List_Assertions(Implementation(traffic_light_alg))==(btrue)
 END
 &
@@ -74,7 +74,9 @@ THEORY ListParametersX IS
 END
 &
 THEORY ListInstanciatedParametersX IS
-  List_Instanciated_Parameters(Implementation(traffic_light_alg),Machine(state.VarNatural))==(?)
+  List_Instanciated_Parameters(Implementation(traffic_light_alg),Machine(state.VarNatural))==(?);
+  List_Instanciated_Parameters(Implementation(traffic_light_alg),Machine(definitions))==(?);
+  List_Instanciated_Parameters(Implementation(traffic_light_alg),Machine(data_refinement))==(?)
 END
 &
 THEORY ListConstraintsX IS
@@ -118,14 +120,14 @@ END
 &
 THEORY ListSetsX IS
   Set_Definition(Implementation(traffic_light_alg),COLOR)==({green,yellow,red});
-  Context_List_Enumerated(Implementation(traffic_light_alg))==(?);
+  Context_List_Enumerated(Implementation(traffic_light_alg))==(COLOR);
   Context_List_Defered(Implementation(traffic_light_alg))==(?);
-  Context_List_Sets(Implementation(traffic_light_alg))==(?);
-  List_Own_Enumerated(Implementation(traffic_light_alg))==(COLOR);
+  Context_List_Sets(Implementation(traffic_light_alg))==(COLOR);
+  List_Own_Enumerated(Implementation(traffic_light_alg))==(?);
   List_Valuable_Sets(Implementation(traffic_light_alg))==(?);
-  Inherited_List_Enumerated(Implementation(traffic_light_alg))==(COLOR);
+  Inherited_List_Enumerated(Implementation(traffic_light_alg))==(?);
   Inherited_List_Defered(Implementation(traffic_light_alg))==(?);
-  Inherited_List_Sets(Implementation(traffic_light_alg))==(COLOR);
+  Inherited_List_Sets(Implementation(traffic_light_alg))==(?);
   List_Enumerated(Implementation(traffic_light_alg))==(?);
   List_Defered(Implementation(traffic_light_alg))==(?);
   List_Sets(Implementation(traffic_light_alg))==(?)
@@ -139,8 +141,8 @@ THEORY ListHiddenConstantsX IS
 END
 &
 THEORY ListPropertiesX IS
-  Abstract_List_Properties(Implementation(traffic_light_alg))==(not(COLOR = {}));
-  Context_List_Properties(Implementation(traffic_light_alg))==(btrue);
+  Abstract_List_Properties(Implementation(traffic_light_alg))==(btrue);
+  Context_List_Properties(Implementation(traffic_light_alg))==(not(COLOR = {}) & color_refine : COLOR --> NATURAL & color_refine = {green|->0,yellow|->1,red|->2});
   Inherited_List_Properties(Implementation(traffic_light_alg))==(btrue);
   List_Properties(Implementation(traffic_light_alg))==(btrue)
 END
@@ -150,21 +152,38 @@ THEORY ListValuesX IS
   List_Values(Implementation(traffic_light_alg))==(?)
 END
 &
-THEORY ListSeenInfoX END
+THEORY ListSeenInfoX IS
+  Seen_Internal_List_Operations(Implementation(traffic_light_alg),Machine(data_refinement))==(?);
+  Seen_Context_List_Enumerated(Implementation(traffic_light_alg))==(COLOR);
+  Seen_Context_List_Invariant(Implementation(traffic_light_alg))==(btrue);
+  Seen_Context_List_Assertions(Implementation(traffic_light_alg))==(!c.(c : COLOR => c = green or c = yellow or c = red));
+  Seen_Context_List_Properties(Implementation(traffic_light_alg))==(not(COLOR = {}));
+  Seen_List_Constraints(Implementation(traffic_light_alg))==(btrue);
+  Seen_List_Operations(Implementation(traffic_light_alg),Machine(data_refinement))==(?);
+  Seen_Expanded_List_Invariant(Implementation(traffic_light_alg),Machine(data_refinement))==(btrue);
+  Set_Definition(Implementation(traffic_light_alg),COLOR)==({green,yellow,red});
+  Seen_Internal_List_Operations(Implementation(traffic_light_alg),Machine(definitions))==(?);
+  Seen_List_Operations(Implementation(traffic_light_alg),Machine(definitions))==(?);
+  Seen_Expanded_List_Invariant(Implementation(traffic_light_alg),Machine(definitions))==(btrue)
+END
 &
 THEORY ListIncludedOperationsX IS
   List_Included_Operations(Implementation(traffic_light_alg),Machine(VarNatural))==(set,get)
 END
 &
 THEORY InheritedEnvX IS
-  Operations(Implementation(traffic_light_alg))==(Type(advance) == Cst(No_type,No_type));
-  Constants(Implementation(traffic_light_alg))==(Type(green) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(red) == Cst(etype(COLOR,0,2)))
+  Operations(Implementation(traffic_light_alg))==(Type(advance) == Cst(No_type,No_type))
 END
 &
-THEORY ListVisibleStaticX END
+THEORY ListVisibleStaticX IS
+  List_Constants(Implementation(traffic_light_alg),Machine(data_refinement))==(color_refine);
+  List_Constants_Env(Implementation(traffic_light_alg),Machine(data_refinement))==(Type(color_refine) == Cst(SetOf(etype(COLOR,0,2)*btype(INTEGER,?,?))));
+  List_Constants_Env(Implementation(traffic_light_alg),Machine(definitions))==(Type(green) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(red) == Cst(etype(COLOR,0,2)));
+  Enumerate_Definition(Implementation(traffic_light_alg),Machine(definitions),COLOR)==({green,yellow,red})
+END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Implementation(traffic_light_alg)) == (? | ? | ? | ? | advance | ? | imported(Machine(state.VarNatural)) | ? | traffic_light_alg);
+  List_Of_Ids(Implementation(traffic_light_alg)) == (? | ? | ? | ? | advance | ? | seen(Machine(definitions)),seen(Machine(data_refinement)),imported(Machine(state.VarNatural)) | ? | traffic_light_alg);
   List_Of_HiddenCst_Ids(Implementation(traffic_light_alg)) == (? | ?);
   List_Of_VisibleCst_Ids(Implementation(traffic_light_alg)) == (?);
   List_Of_VisibleVar_Ids(Implementation(traffic_light_alg)) == (? | statevalue);
@@ -173,15 +192,17 @@ THEORY ListOfIdsX IS
   List_Of_HiddenCst_Ids(Machine(VarNatural)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(VarNatural)) == (?);
   List_Of_VisibleVar_Ids(Machine(VarNatural)) == (value | ?);
-  List_Of_Ids_SeenBNU(Machine(VarNatural)) == (? : ?)
-END
-&
-THEORY SetsEnvX IS
-  Sets(Implementation(traffic_light_alg)) == (Type(COLOR) == Cst(SetOf(etype(COLOR,0,2))))
-END
-&
-THEORY ConstantsEnvX IS
-  Constants(Implementation(traffic_light_alg)) == (Type(red) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(green) == Cst(etype(COLOR,0,2)))
+  List_Of_Ids_SeenBNU(Machine(VarNatural)) == (? : ?);
+  List_Of_Ids(Machine(data_refinement)) == (color_refine | ? | ? | ? | ? | ? | seen(Machine(definitions)) | ? | data_refinement);
+  List_Of_HiddenCst_Ids(Machine(data_refinement)) == (? | ?);
+  List_Of_VisibleCst_Ids(Machine(data_refinement)) == (color_refine);
+  List_Of_VisibleVar_Ids(Machine(data_refinement)) == (? | ?);
+  List_Of_Ids_SeenBNU(Machine(data_refinement)) == (? : ?);
+  List_Of_Ids(Machine(definitions)) == (COLOR,green,yellow,red | ? | ? | ? | ? | ? | ? | ? | definitions);
+  List_Of_HiddenCst_Ids(Machine(definitions)) == (? | ?);
+  List_Of_VisibleCst_Ids(Machine(definitions)) == (?);
+  List_Of_VisibleVar_Ids(Machine(definitions)) == (? | ?);
+  List_Of_Ids_SeenBNU(Machine(definitions)) == (? : ?)
 END
 &
 THEORY TCIntRdX IS

@@ -1,3 +1,5 @@
-file:d5da5ecd9a92c60736f0c5bc2f28c699
-abst:traffic_light
-impo:Microcontroller:micro
+file:98c836c342bbe88c7eb4f68dc7939c9a
+abst:traffic_light_data_refinement
+sees:definitions
+sees:data_refinement
+impo:Microcontroller:uc

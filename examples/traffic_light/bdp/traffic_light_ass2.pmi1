@@ -1,19 +1,14 @@
 THEORY BalanceX IS
-  traffic_light_ass2,132,3,0,117,0,0,0;
+  traffic_light_ass2,110,2,0,102,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  Initialisation,4,1,0,3,0,0,0;
-  advance,128,2,0,114,0,0,0
+  Initialisation,3,1,0,2,0,0,0;
+  advance,107,1,0,100,0,0,0
 END
 &
 THEORY ProofState IS
   Unproved;
   Unproved;
-  Proved(0);
-  Unproved;
-  Unproved;
-  Proved(0);
-  Unproved;
   Unproved;
   Proved(0);
   Proved(0);
@@ -40,31 +35,6 @@ THEORY ProofState IS
   Proved(0);
   Unproved;
   Proved(0);
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Unproved;
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -80,6 +50,21 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
   Unproved;
   Proved(0);
   Proved(0);
@@ -89,11 +74,6 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -134,22 +114,14 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(Util);
-  Proved(0);
-  Proved(0);
   Proved(0);
   Proved(0);
   Proved(Util)
 END
 &
 THEORY MethodList IS
-  ?;
-  ?;
   pr;
-  ?;
-  ?;
   pr;
-  ?;
-  cl & xp;
   pr;
   pr;
   pr;
@@ -228,7 +200,6 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  cl & xp & ds(0<=2) & ds(2<=11) & ds(2 = 0 => ucmemory_data$2(0) : 0..2) & ds(2 = 1 => ucmemory_data$2(0) = 0) & ds(2 = 3 => ucmemory_data$2(0) = 1) & ds(2 = 4 => ucmemory_data$2(0) = 2) & ds(2 = 5 => ucmemory_data$2(0) = 0) & ds(2 = 6 => ucmemory_data$2(0) = 1) & ds(2 = 7 => ucmemory_data$2(0) = 1) & ds(2 = 8 => ucmemory_data$2(0) = 2) & ds(2 = 9 => ucmemory_data$2(0) = 2) & ds(2 = 10 => ucmemory_data$2(0) : 0..2) & ds(2+1<=11) & ds(2+2 = 4) & ds(not(2 = 3)) & ds(not(2 = 4)) & ds(not(2 = 5)) & ds(not(2 = 6)) & ds(not(2 = 7)) & ds(not(2 = 8)) & ds(not(2 = 9)) & ds(not(2 = 10)) & ds(not(2 = 1)) & ds(not(2 = 0)) & pp(rp.1);
   pr;
   pr;
   pr;
@@ -255,22 +226,7 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  cl & xp & ss & pp(rp.1);
-  pr;
-  pr;
+  cl & xp & ds(ucpc$2 = 10 => ucmemory_data$2(0) : 0..2) & ds(ucpc$2 = 9 => ucmemory_data$2(0) = 2) & ds(ucpc$2 = 8 => ucmemory_data$2(0) = 2) & ds(ucpc$2 = 7 => ucmemory_data$2(0) = 1) & ds(ucpc$2 = 6 => ucmemory_data$2(0) = 1) & ds(ucpc$2 = 5 => ucmemory_data$2(0) = 0) & ds(ucpc$2 = 4 => ucmemory_data$2(0) = 2) & ds(ucpc$2 = 3 => ucmemory_data$2(0) = 1) & ds(ucpc$2 = 2 => not(ucmemory_data$2(0) = 0)) & ds(ucpc$2 = 1 => ucmemory_data$2(0) = 0) & ds(ucpc$2 = 0 => ucmemory_data$2(0) : 0..2) & ds(ucmemory_data$2(0) = counter) & ds(ucmemory_data$2(0) : 0..2) & ss & pr;
   pr;
   pr;
   cl & xp & ss & pp(rp.1)
@@ -279,11 +235,6 @@ END
 THEORY PassList IS
   Force(0),(?;0;1);
   Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),(?;0;1);
   Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
@@ -310,31 +261,6 @@ THEORY PassList IS
   Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -350,6 +276,21 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
@@ -398,14 +339,7 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),?

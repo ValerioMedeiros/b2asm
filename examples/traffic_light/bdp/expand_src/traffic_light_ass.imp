@@ -1,66 +1,67 @@
+/*************************************************************************
+Copyright (c) 2008 David Deharbe, Valerio Medeiros Jr
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+    * Neither the name of the Universidade Federal do Rio Grande do Norte nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*************************************************************************/
 IMPLEMENTATION
    traffic_light_ass
 REFINES
-   traffic_light
+   traffic_light_data_refinement
+SEES
+   definitions ,
+   data_refinement
 
 IMPORTS
-   micro.Microcontroller
+   uc.Microcontroller
 
 INVARIANT
-  micro.memory_data ( 0 ) = state
+
+   uc.memory_data ( 0 ) : 0 .. 2 &
+   uc.memory_data ( 0 ) = counter
 
 INITIALISATION
-
-   micro.init_data ( 0 , 0 )
+   uc.init_data ( 0 , 0 )
 
 OPERATIONS
 
 advance =
 
+ BEGIN
 
- VAR  local_pc  IN
+   uc.init ( 0 , 11 ) ;
 
 
-              micro.init ( 0 , 4 ) ; /*local_pc <-- micro.get_pc; local_end <-- micro.get_end;*/
+     IF uc.pc = 0  THEN uc.isequal ( 0 , 0 ) END ;
+     IF uc.pc = 1  THEN uc.goto ( 5 )     END ;
+     IF uc.pc = 2  THEN uc.isequal ( 0 , 1 ) END ;
+     IF uc.pc = 3  THEN uc.goto ( 7 )     END ;
+     IF uc.pc = 4  THEN uc.goto ( 9 )     END ;
+     IF uc.pc = 5  THEN uc.set_data ( 0 , 1 ) END ;
+     IF uc.pc = 6  THEN uc.goto ( 10 )    END ;
+     IF uc.pc = 7  THEN uc.set_data ( 0 , 2 ) END ;
+     IF uc.pc = 8 THEN uc.goto ( 10 )    END ;
+     IF uc.pc = 9  THEN uc.set_data ( 0 , 0 ) END ;
 
-/* pc = 0 */  micro.inc ( 0 ) ;     /* nao necessita do get */
-
-/* pc = 1 */  micro.isequal ( 0 , 3 ) ; local_pc <-- micro.get_pc ;
-
-/* pc = 2 */  IF local_pc = 2 THEN  micro.set_data ( 0 , 0 ) END
-
-/* pc = 3 */
+     IF  uc.pc /= 10 THEN uc.goto ( - 1 ) END /*PRE uc.pc = 10 THEN SKIP END*/
+     /* Verificacao completamente automatica */
 
  END
 
-END
-
-/*
-  run =
-  VAR pc, end IN
-    pc := 0;
-    end := 3;
-    uc.init(pc,end);
-    WHILE pc < end DO
-    BEGIN
-      CASE pc OF
-        EITHER 0 THEN uc.move(0,2)
-        OR 1 THEN uc.move(1,0)
-        OR 2 THEN uc.move(2,1)
-        END
-      END;
-      pc <-- uc.get_pc
-    END
-    INVARIANT 
-      pc >= 0 & pc <= 3 &
-      pc = uc.pc &
-      end = uc.end &
-      (pc = 0 => (uc.memory_data(0) = a & uc.memory_data(1) = b)) &
-      (pc = 1 => (uc.memory_data(0) = a & uc.memory_data(1) = b & uc.memory_data(2) = a)) &
-      (pc = 2 => (uc.memory_data(0) = b & uc.memory_data(1) = b & uc.memory_data(2) = a)) &
-      (pc = 3 => (uc.memory_data(0) = b & uc.memory_data(1) = a))
-    VARIANT (end - pc)
-    END
-  END
-END
-*/
+ END

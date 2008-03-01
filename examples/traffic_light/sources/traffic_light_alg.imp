@@ -23,26 +23,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 IMPLEMENTATION
    traffic_light_alg
 REFINES
-   traffic_light
+   traffic_light_data_refinement
+SEES
+   definitions, data_refinement
 IMPORTS
-  state.VarNatural
+   state.VarNatural
 INVARIANT
-   
-   0<= state.value & state.value<=2 &
-   (state.value = 0) <=> (color = green) &
-   (state.value = 1) <=> (color = yellow) &
-   (state.value = 2) <=> (color = red) 
-
+   state.value : 0..2 & (state.value = counter)
 INITIALISATION
    state.set(0)
-
 OPERATIONS
-
 advance =  
-
 	IF state.value = 0 THEN state.set(1)
 	ELSIF state.value = 1 THEN state.set(2) 
 	ELSE state.set(0) END
-	
-
 END

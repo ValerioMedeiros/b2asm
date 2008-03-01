@@ -23,17 +23,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 IMPLEMENTATION
    traffic_light_ass2
 REFINES 
-   traffic_light
+   traffic_light_data_refinement
+SEES
+   definitions, data_refinement
 
 IMPORTS
    uc.Microcontroller
 
 INVARIANT
-  
-   0<= uc.memory_data(0) & uc.memory_data(0)<=2 &
-   (uc.memory_data(0) = 0) <=> (color = green) &
-   (uc.memory_data(0) = 1) <=> (color = yellow) &
-   (uc.memory_data(0) = 2) <=> (color = red)
+   uc.memory_data(0) : 0..2 &
+   uc.memory_data(0) = counter
 
 
 INITIALISATION 
@@ -45,7 +44,7 @@ advance =
 
 BEGIN 
 
-   uc.init(0,11);
+   uc.init(0,10);
 
    WHILE uc.pc < uc.end DO
     BEGIN
@@ -60,17 +59,12 @@ BEGIN
             OR 7  THEN uc.set_data(0,2)
             OR 8  THEN uc.goto(10)
             OR 9  THEN uc.set_data(0,0)
-            OR 10 THEN uc.nop
         END
       END
     END
     INVARIANT 
-      0 <= uc.pc & uc.pc <= 11 & 
-      0 <= uc.memory_data(0) & uc.memory_data(0)<=2 /*&
-      (uc.memory_data(0) = 0) <=> (color = green) &
-      (uc.memory_data(0) = 1) <=> (color = yellow) &
-      (uc.memory_data(0) = 2) <=> (color = red) */
-
+      0 <= uc.pc & uc.pc <= 10 & 
+      uc.memory_data(0) : 0..2 & uc.memory_data(0) = counter
       & ((uc.pc = 0) => (uc.memory_data(0) :  0..2))
       & ((uc.pc = 1) => (uc.memory_data(0) = 0  ))
       & ((uc.pc = 2) => (uc.memory_data(0) /= 0  )) 
@@ -81,8 +75,6 @@ BEGIN
       & ((uc.pc = 7) => (uc.memory_data(0) = 1  ))
       & ((uc.pc = 8) => (uc.memory_data(0) = 2  ))
       & ((uc.pc = 9) => (uc.memory_data(0) = 2  ))
-      & ((uc.pc = 10) => (uc.memory_data(0) :  0..2))
-
 
     VARIANT (uc.end - uc.pc)
    END

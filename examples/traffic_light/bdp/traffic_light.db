@@ -10,6 +10,12 @@
         <component_file path="/home/david/B/traffic_light/sources" name="VarNatural" suffix="mch" user="usuario">
             <component name="VarNatural" type="specification" />
         </component_file>
+        <component_file path="/home/david/B/traffic_light/sources" name="data_refinement" suffix="mch" user="usuario">
+            <component name="data_refinement" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light/sources" name="definitions" suffix="mch" user="usuario">
+            <component name="definitions" type="specification" />
+        </component_file>
         <component_file path="/home/david/B/traffic_light/sources" name="traffic_light" suffix="mch" user="usuario">
             <component name="traffic_light" type="specification" />
         </component_file>
@@ -21,6 +27,9 @@
         </component_file>
         <component_file path="/home/david/B/traffic_light/sources" name="traffic_light_ass2" suffix="imp" user="usuario">
             <component name="traffic_light_ass2" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light/sources" name="traffic_light_data_refinement" suffix="ref" user="usuario">
+            <component name="traffic_light_data_refinement" type="refinement" />
         </component_file>
     </project>
 </db_xml>
