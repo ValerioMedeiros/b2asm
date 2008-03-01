@@ -1,0 +1,100 @@
+THEORY BalanceX IS
+  traffic_light_data_refinement,26,1,0,9,3,0,0;
+  Initialisation,1,1,0,0,0,0,0;
+  advance,25,0,0,9,3,0,0
+END
+&
+THEORY ProofState IS
+  Unproved;
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Unproved;
+  Unproved;
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Proved(1);
+  Proved(1);
+  Proved(1);
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Unproved;
+  Unproved;
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Unproved;
+  Unproved;
+  Proved(Util)
+END
+&
+THEORY MethodList IS
+  ?;
+  pr;
+  ?;
+  pr;
+  pr;
+  ?;
+  ?;
+  ?;
+  pr;
+  ?;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  ?;
+  pr;
+  ?;
+  ?;
+  ?;
+  pr;
+  pr;
+  ?;
+  ?;
+  ?;
+  cl & xp & se(green) & ss & pr & eh(color_refine(green),0,Goal)
+END
+&
+THEORY PassList IS
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(1),(?;0);
+  Force(1),(?;0);
+  Force(1),(?;0);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1)
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END
