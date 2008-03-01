@@ -36,8 +36,8 @@ OPERATIONS
   run =
   BEGIN
     (uc.init) ( 3 ) ;
-    (uc.move) ( 1 , 2 ) ;
-    (uc.move) ( 0 , 1 ) ;
-    (uc.move) ( 2 , 0 )
+    (uc.copy) ( 1 , 2 ) ;
+    (uc.copy) ( 0 , 1 ) ;
+    (uc.copy) ( 2 , 0 )
   END
 END

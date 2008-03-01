@@ -87,8 +87,8 @@ THEORY ListConstraintsX IS
 END
 &
 THEORY ListOperationsX IS
-  Internal_List_Operations(Machine(ram))==(init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc);
-  List_Operations(Machine(ram))==(init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc)
+  Internal_List_Operations(Machine(ram))==(init,nop,set,inc,copy,testgt,testeq,goto,get_data,get_pc);
+  List_Operations(Machine(ram))==(init,nop,set,inc,copy,testgt,testeq,goto,get_data,get_pc)
 END
 &
 THEORY ListInputX IS
@@ -96,7 +96,7 @@ THEORY ListInputX IS
   List_Input(Machine(ram),nop)==(?);
   List_Input(Machine(ram),set)==(addr,val);
   List_Input(Machine(ram),inc)==(addr);
-  List_Input(Machine(ram),move)==(src,dest);
+  List_Input(Machine(ram),copy)==(src,dest);
   List_Input(Machine(ram),testgt)==(addr1,addr2);
   List_Input(Machine(ram),testeq)==(addr1,addr2);
   List_Input(Machine(ram),goto)==(dest);
@@ -109,7 +109,7 @@ THEORY ListOutputX IS
   List_Output(Machine(ram),nop)==(?);
   List_Output(Machine(ram),set)==(?);
   List_Output(Machine(ram),inc)==(?);
-  List_Output(Machine(ram),move)==(?);
+  List_Output(Machine(ram),copy)==(?);
   List_Output(Machine(ram),testgt)==(?);
   List_Output(Machine(ram),testeq)==(?);
   List_Output(Machine(ram),goto)==(?);
@@ -122,7 +122,7 @@ THEORY ListHeaderX IS
   List_Header(Machine(ram),nop)==(nop);
   List_Header(Machine(ram),set)==(set(addr,val));
   List_Header(Machine(ram),inc)==(inc(addr));
-  List_Header(Machine(ram),move)==(move(src,dest));
+  List_Header(Machine(ram),copy)==(copy(src,dest));
   List_Header(Machine(ram),testgt)==(testgt(addr1,addr2));
   List_Header(Machine(ram),testeq)==(testeq(addr1,addr2));
   List_Header(Machine(ram),goto)==(goto(dest));
@@ -135,7 +135,7 @@ THEORY ListPreconditionX IS
   List_Precondition(Machine(ram),nop)==(pc+1<=end);
   List_Precondition(Machine(ram),set)==(addr : NATURAL & val : uint32 & pc+1<=end);
   List_Precondition(Machine(ram),inc)==(addr : NATURAL & pc+1<=end & mem(addr)<MAXINT);
-  List_Precondition(Machine(ram),move)==(src : NATURAL & dest : NATURAL & pc+1<=end);
+  List_Precondition(Machine(ram),copy)==(src : NATURAL & dest : NATURAL & pc+1<=end);
   List_Precondition(Machine(ram),testgt)==(addr1 : NATURAL & addr2 : NATURAL & (mem(addr1)>mem(addr2) => pc+1<=end) & (mem(addr1)<=mem(addr2) => pc+2<=end));
   List_Precondition(Machine(ram),testeq)==(addr1 : NATURAL & addr2 : NATURAL & (mem(addr1) = mem(addr2) => pc+1<=end) & (mem(addr1)/=mem(addr2) => pc+2<=end));
   List_Precondition(Machine(ram),goto)==(dest : NATURAL & dest<=end);
@@ -149,7 +149,7 @@ THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(ram),goto)==(dest : NATURAL & dest<=end | pc:=dest);
   Expanded_List_Substitution(Machine(ram),testeq)==(addr1 : NATURAL & addr2 : NATURAL & (mem(addr1) = mem(addr2) => pc+1<=end) & (mem(addr1)/=mem(addr2) => pc+2<=end) | mem(addr1) = mem(addr2) ==> pc:=pc+1 [] not(mem(addr1) = mem(addr2)) ==> pc:=pc+2);
   Expanded_List_Substitution(Machine(ram),testgt)==(addr1 : NATURAL & addr2 : NATURAL & (mem(addr1)>mem(addr2) => pc+1<=end) & (mem(addr1)<=mem(addr2) => pc+2<=end) | mem(addr1)>mem(addr2) ==> pc:=pc+1 [] not(mem(addr1)>mem(addr2)) ==> pc:=pc+2);
-  Expanded_List_Substitution(Machine(ram),move)==(src : NATURAL & dest : NATURAL & pc+1<=end | mem,pc:=mem<+{dest|->mem(src)},pc+1);
+  Expanded_List_Substitution(Machine(ram),copy)==(src : NATURAL & dest : NATURAL & pc+1<=end | mem,pc:=mem<+{dest|->mem(src)},pc+1);
   Expanded_List_Substitution(Machine(ram),inc)==(addr : NATURAL & pc+1<=end & mem(addr)<MAXINT | mem,pc:=mem<+{addr|->mem(addr)+1},pc+1);
   Expanded_List_Substitution(Machine(ram),set)==(addr : NATURAL & val : uint32 & pc+1<=end | mem,pc:=mem<+{addr|->val},pc+1);
   Expanded_List_Substitution(Machine(ram),nop)==(pc+1<=end | pc:=pc+1);
@@ -158,7 +158,7 @@ THEORY ListSubstitutionX IS
   List_Substitution(Machine(ram),nop)==(pc:=pc+1);
   List_Substitution(Machine(ram),set)==(mem(addr):=val || pc:=pc+1);
   List_Substitution(Machine(ram),inc)==(mem(addr):=mem(addr)+1 || pc:=pc+1);
-  List_Substitution(Machine(ram),move)==(mem(dest):=mem(src) || pc:=pc+1);
+  List_Substitution(Machine(ram),copy)==(mem(dest):=mem(src) || pc:=pc+1);
   List_Substitution(Machine(ram),testgt)==(IF mem(addr1)>mem(addr2) THEN pc:=pc+1 ELSE pc:=pc+2 END);
   List_Substitution(Machine(ram),testeq)==(IF mem(addr1) = mem(addr2) THEN pc:=pc+1 ELSE pc:=pc+2 END);
   List_Substitution(Machine(ram),goto)==(pc:=dest);
@@ -211,7 +211,7 @@ THEORY ListSeenInfoX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
+  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,copy,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
   List_Of_HiddenCst_Ids(Machine(ram)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(ram)) == (?);
   List_Of_VisibleVar_Ids(Machine(ram)) == (end,pc,mem | ?);
@@ -228,7 +228,7 @@ THEORY VisibleVariablesEnvX IS
 END
 &
 THEORY OperationsEnvX IS
-  Operations(Machine(ram)) == (Type(get_pc) == Cst(btype(INTEGER,?,?),No_type);Type(get_data) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?));Type(goto) == Cst(No_type,btype(INTEGER,?,?));Type(testeq) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(testgt) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(move) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(inc) == Cst(No_type,btype(INTEGER,?,?));Type(set) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(nop) == Cst(No_type,No_type);Type(init) == Cst(No_type,btype(INTEGER,?,?)));
+  Operations(Machine(ram)) == (Type(get_pc) == Cst(btype(INTEGER,?,?),No_type);Type(get_data) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?));Type(goto) == Cst(No_type,btype(INTEGER,?,?));Type(testeq) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(testgt) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(copy) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(inc) == Cst(No_type,btype(INTEGER,?,?));Type(set) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(nop) == Cst(No_type,No_type);Type(init) == Cst(No_type,btype(INTEGER,?,?)));
   Observers(Machine(ram)) == (Type(get_pc) == Cst(btype(INTEGER,?,?),No_type);Type(get_data) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?)))
 END
 &

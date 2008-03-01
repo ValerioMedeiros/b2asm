@@ -1,0 +1,37 @@
+IMPLEMENTATION conditionalasmw
+REFINES conditional
+SEES types
+IMPORTS (uc.ram)
+INVARIANT
+  max ( st ) = (uc.mem) ( 0 )
+INITIALISATION
+  BEGIN
+    (uc.init) ( 1 ) ;
+    (uc.set) ( 0 , 0 )
+  END
+OPERATIONS
+  add ( v ) =
+  BEGIN
+    (uc.init) ( 3 ) ;
+    WHILE (uc.pc) < (uc.end) DO
+    BEGIN
+      CASE (uc.pc) OF
+        EITHER 0 THEN (uc.set) ( 1 , v )
+        OR 1 THEN (uc.testgt) ( 1 , 0 )
+        OR 2 THEN (uc.copy) ( 1 , 0 )
+        END
+      END    END
+    INVARIANT
+      0 <= (uc.pc) & (uc.pc) <= (uc.end) &
+      ( (uc.pc) = 0 => (uc.mem) ( 0 ) = max ( st ) ) &
+      ( (uc.pc) = 1 => (uc.mem) ( 0 ) = max ( st ) & (uc.mem) ( 1 ) = v ) &
+      ( (uc.pc) = 2 => (uc.mem) ( 0 ) = max ( st ) & (uc.mem) ( 1 ) = v & max ( st ) < v ) &
+      ( (uc.pc) = 3 => (uc.mem) ( 0 ) = max ( { v , max ( st ) } ) )
+    VARIANT (uc.end) - (uc.pc)
+    END
+  END ;
+  res <-- largest =
+    BEGIN
+      res := (uc.mem) ( 0 )
+    END
+END

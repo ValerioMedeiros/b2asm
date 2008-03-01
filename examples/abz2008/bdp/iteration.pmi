@@ -1,0 +1,25 @@
+THEORY BalanceX IS
+  iteration,1,0,0,1,0,0,0;
+  Initialisation,1,0,0,1,0,0,0;
+  run,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END

@@ -1,0 +1,76 @@
+/*************************************************************************
+Copyright (c) 2007, David Deharbe
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+    * Neither the name of the Universidade Federal do Rio Grande do Norte nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*************************************************************************/
+
+IMPLEMENTATION iterationasmw
+REFINES iteration
+SEES types , iterationasmvariant
+IMPORTS
+  (uc.ram)
+INVARIANT
+  a = (uc.mem) ( 0 ) & b = (uc.mem) ( 1 ) & s = (uc.mem) ( 2 )
+INITIALISATION
+  BEGIN
+    (uc.init) ( 3 ) ;
+    (uc.set) ( 0 , 0 ) ;
+    (uc.set) ( 1 , 0 ) ;
+    (uc.set) ( 2 , 0 )
+  END
+OPERATIONS
+  run =
+  VAR loopvar IN
+    (uc.init) ( 7 ) ;
+    loopvar := 0 ;
+    WHILE (uc.pc) < (uc.end) DO
+    BEGIN
+      CASE (uc.pc) OF
+        EITHER 0 THEN (uc.copy) ( 0 , 2 )
+        OR 1 THEN (uc.set) ( 3 , 0 )
+        OR 2 THEN (uc.testeq) ( 1 , 3 )
+        OR 3 THEN (uc.goto) ( 7 )
+        OR 4 THEN (uc.inc) ( 2 )
+        OR 5 THEN (uc.inc) ( 3 )
+        OR 6 THEN
+          BEGIN
+             (uc.goto) ( 2 ) ;
+             loopvar := loopvar + 1
+          END
+        END
+      END
+    END
+    INVARIANT
+      0 <= (uc.pc) & (uc.pc) <= (uc.end) &
+      loopvar : NATURAL &
+      (uc.mem) : ( NATURAL --> NATURAL ) &
+      (uc.mem) ( 0 ) = a & (uc.mem) ( 1 ) = b &
+      ( (uc.pc) = 0 => loopvar = 0 & (uc.mem) ( 2 ) = s ) &
+      ( (uc.pc) = 1 => loopvar = 0 & (uc.mem) ( 2 ) = a ) &
+      ( (uc.pc) = 2 => ( (uc.mem) ( 2 ) = a + (uc.mem) ( 3 ) & (uc.mem) ( 3 ) = loopvar & loopvar <= b ) ) &
+      ( (uc.pc) = 3 => ( (uc.mem) ( 2 ) = a + (uc.mem) ( 3 ) & (uc.mem) ( 3 ) = loopvar & loopvar = b ) ) &
+      ( (uc.pc) = 4 => ( (uc.mem) ( 2 ) = a + (uc.mem) ( 3 ) & (uc.mem) ( 3 ) = loopvar & loopvar < b ) ) &
+      ( (uc.pc) = 5 => ( (uc.mem) ( 2 ) = a + (uc.mem) ( 3 ) + 1 & (uc.mem) ( 3 ) = loopvar & loopvar < b ) ) &
+      ( (uc.pc) = 6 => ( (uc.mem) ( 2 ) = a + (uc.mem) ( 3 ) & (uc.mem) ( 3 ) = loopvar + 1 & loopvar < b ) ) &
+      ( (uc.pc) = 7 => ( (uc.mem) ( 2 ) = a + (uc.mem) ( 3 ) & (uc.mem) ( 3 ) = loopvar & loopvar = b ) )
+    VARIANT pgvar ( (uc.pc) , (uc.mem) ( 1 ) , loopvar )
+    END
+  END
+END

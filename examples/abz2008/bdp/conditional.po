@@ -1,0 +1,19 @@
+THEORY ProofList IS
+  _f(1) & Initialisation.1,(_f(2) => _f(3))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & uint32 : POW(INTEGER) & uint32 = 0..2147483647 & uint16 : POW(INTEGER) & uint16 = 0..65535);
+  "`Check that the invariant (st : POW(uint32)) is established by the initialisation - ref 3.3'";
+  ({} : POW(uint32));
+  ("`Component invariant'" & st : POW(uint32));
+  ("`add preconditions in this component'" & v : uint32 & not(v : st));
+  ("`largest preconditions in this component'" & not(st = {}))
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

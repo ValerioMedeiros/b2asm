@@ -1,0 +1,7 @@
+THEORY BBTTE IS
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | max(st\/{v}) = mivalue$1) & cmd(1 | xp) & cmd(1 | rn(not(mivalue$1+1<=v))) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | cl) & gol(0 | max(st\/{v}) = v) & cmd(1 | xp) & cmd(1 | ah(max(st) = mivalue$1)) & cmd(1 | ss) & cmd(1 | pp(rp.0)) & gol(0 | SUCCESS)
+END

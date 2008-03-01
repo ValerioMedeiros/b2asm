@@ -162,7 +162,7 @@ THEORY ListSeenInfoX IS
 END
 &
 THEORY ListIncludedOperationsX IS
-  List_Included_Operations(Implementation(assignmentasmw),Machine(ram))==(init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc)
+  List_Included_Operations(Implementation(assignmentasmw),Machine(ram))==(init,nop,set,inc,copy,testgt,testeq,goto,get_data,get_pc)
 END
 &
 THEORY InheritedEnvX IS
@@ -180,7 +180,7 @@ THEORY ListOfIdsX IS
   List_Of_VisibleCst_Ids(Implementation(assignmentasmw)) == (?);
   List_Of_VisibleVar_Ids(Implementation(assignmentasmw)) == (? | ucmem,ucpc,ucend);
   List_Of_Ids_SeenBNU(Implementation(assignmentasmw)) == (seen(Machine(types)) : (uint32,uint16 | ? | ? | ? | ? | ? | ? | ? | ?));
-  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,move,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
+  List_Of_Ids(Machine(ram)) == (? | ? | ? | ? | init,nop,set,inc,copy,testgt,testeq,goto,get_data,get_pc | ? | seen(Machine(types)) | ? | ram);
   List_Of_HiddenCst_Ids(Machine(ram)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(ram)) == (?);
   List_Of_VisibleVar_Ids(Machine(ram)) == (end,pc,mem | ?);
