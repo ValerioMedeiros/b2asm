@@ -1,7 +1,7 @@
 THEORY BalanceX IS
-  traffic_light_data_refinement,36,13,0,23,0,0,0;
+  traffic_light_data_refinement,18,4,0,14,0,0,0;
   Initialisation,2,1,0,1,0,0,0;
-  advance,34,12,0,22,0,0,0
+  advance,16,3,0,13,0,0,0
 END
 &
 THEORY ProofState IS
@@ -12,30 +12,12 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(0);
-  Proved(Util);
-  Proved(0);
-  Proved(0);
-  Proved(Util);
-  Proved(0);
-  Proved(0);
-  Proved(Util);
-  Proved(0);
-  Proved(Util);
-  Proved(Util);
-  Proved(0);
-  Proved(0);
-  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
   Proved(Util);
-  Proved(Util);
-  Proved(Util);
   Proved(0);
   Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(Util);
   Proved(0);
   Proved(Util);
   Proved(Util);
@@ -51,33 +33,15 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  cl & xp & ah(color = yellow) & ds(not(2 = 0)) & ds(not(2 = 1)) & ds(not(color = green) & not(color = yellow) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(color))) & ah(color : COLOR) & pr & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = yellow) & ah(counter$1 = 2) & pr;
-  pr;
-  pr;
-  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = green) & ah(counter$1 = 2) & pr;
-  pr;
-  pr;
-  cl & xp & ss & pr;
-  pr;
-  cl & xp & mh(not(red = green) & not(red = yellow) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(green))) & rn(not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(green))) & mh(0 : INTEGER & 0 : 0..2 => not(0 = color_refine(green))) & ss & pr & ss & pr & ds(not(red = green)) & ds(not(2 = 1)) & ds(not(2 = 0)) & pr;
-  cl & xp & mh(not(red = green) & not(red = yellow) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(green))) & rn(not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(green))) & mh(0 : INTEGER & 0 : 0..2 => not(0 = color_refine(green))) & ss & pr & ss & pr & pr;
-  pr;
-  pr;
-  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = green) & ah(counter$1 = 1) & pr;
   pr;
   pr;
   pr;
-  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 1) & pr;
-  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 1) & pr;
-  cl & xp & ah(color : COLOR) & ah(color = yellow) & ds(not(0 = 1)) & ds(not(0 = 2)) & ds(not(color = green) & not(color = yellow) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(color))) & pr & ah(color = yellow) & ah(counter$1 = 0) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ds(not(0 = 2)) & ds(not(0 = 1)) & ds(not(yellow = red)) & ds(not(yellow = green) & not(yellow = yellow) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(yellow))) & ds(not(yellow = green)) & ds(yellow : COLOR) & pr;
+  cl & xp & ah(counter$1 = 2) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(color_refine(green) = 0) & ss & pr & eh(color_refine(green),0,Goal) & mh(not(red = green) & not(red = yellow) => not(color_step(2) : INTEGER & 0<=color_step(2) & color_step(2) : 0..2 & color_step(2) = 0)) & rn(not(color_step(2) : INTEGER & 0<=color_step(2) & color_step(2) : 0..2 & color_step(2) = 0)) & mh(color_step(2) : INTEGER & 0<=color_step(2) & color_step(2) : 0..2 => not(color_step(2) = 0)) & pr & pr & pr & ss & pr;
   pr;
   pr;
   pr;
-  pr;
-  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 0) & ss & pr;
-  pr;
-  cl & xp & mh(not(red = green) & not(red = yellow) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(green))) & rn(not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(green))) & mh(1 : INTEGER & 1 : 0..2 => not(1 = color_refine(green))) & ss & pr & ss & pr & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 2) & ss & pr;
-  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 0) & pr;
+  cl & xp & ah(counter$1 = 2) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & eh(color,red,Goal) & ah(color_refine(green) = 0) & ah(color_refine = {green|->0,yellow|->1,red|->2}) & eh(color_refine(green),0,Goal) & mh(not(red = green) & not(red = yellow) => not(color_step(2) : INTEGER & 0<=color_step(2) & color_step(2) : 0..2 & color_step(2) = 0)) & ah(color_step = {0|->1,1|->2,2|->0}) & rn(not({0|->1,1|->2,2|->0}(2) : INTEGER & 0<={0|->1,1|->2,2|->0}(2) & {0|->1,1|->2,2|->0}(2) : 0..2 & {0|->1,1|->2,2|->0}(2) = 0)) & ss & pr;
+  cl & xp & mh(not(red = green) & not(red = yellow) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green))) & rn(not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green))) & ds(not(red = green)) & ah(color_refine(green) = 0) & ah(color_refine = {green|->0,yellow|->1,red|->2}) & eh(color_refine(green),0,Goal) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(counter$1 = 2) & ss & ah(color = red) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & eh(color,red,Goal) & eh(color,red,Goal) & ah({green|->0,yellow|->1,red|->2}(red) = 2) & eh({green|->0,yellow|->1,red|->2}(red),2,Goal) & ah(color_step = {0|->1,1|->2,2|->0}) & ss & pr;
   cl & xp & se(green) & ss & pr & ss & pr;
   pr
 END
@@ -90,34 +54,16 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(1),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),(?;0;1);
   Force(0),(?;0;1);
-  Force(0),(?;0;1);
+  Force(0),?;
   Force(0),?
 END
 &

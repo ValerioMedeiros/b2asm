@@ -1,53 +1,14 @@
 THEORY OPOBalanceX IS
-  traffic_light_data_refinement,47;
+  traffic_light_data_refinement,8;
   Initialisation,3;
-  advance,44
+  advance,5
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & _f(7) & advance.44,(_f(33) & _of(32) => _of(33));
-  _f(1) & _f(2) & _f(7) & advance.43,(_f(33) & _of(10) => _of(31));
-  _f(1) & _f(2) & _f(7) & advance.42,(_f(33) & _of(10) => _of(30));
-  _f(1) & _f(2) & _f(7) & advance.41,(_of(35) & _of(14) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.40,(_f(31) & _of(32) => _of(33));
-  _f(1) & _f(2) & _f(7) & advance.39,(_f(31) & _of(10) => _of(31));
-  _f(1) & _f(2) & _f(7) & advance.38,(_f(31) & _of(10) => _of(30));
-  _f(1) & _f(2) & _f(7) & advance.37,(_of(34) & _of(14) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.36,(_f(29) & _of(32) => _of(33));
-  _f(1) & _f(2) & _f(7) & advance.35,(_f(29) & _of(10) => _of(31));
-  _f(1) & _f(2) & _f(7) & advance.34,(_f(29) & _of(10) => _of(30));
-  _f(1) & _f(2) & _f(7) & advance.33,(_of(28) & _of(8) => _of(29));
-  _f(1) & _f(2) & _f(7) & advance.32,(_f(28) & _of(10) => _of(5));
-  _f(1) & _f(2) & _f(7) & advance.31,(_f(28) & _of(10) => _of(4));
-  _f(1) & _f(2) & _f(7) & advance.30,(_of(27) & _of(14) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.29,(_f(26) & _of(10) => _of(5));
-  _f(1) & _f(2) & _f(7) & advance.28,(_f(26) & _of(10) => _of(4));
-  _f(1) & _f(2) & _f(7) & advance.27,(_of(26) & _of(14) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.26,(_f(24) & _of(10) => _of(5));
-  _f(1) & _f(2) & _f(7) & advance.25,(_f(24) & _of(10) => _of(4));
-  _f(1) & _f(2) & _f(7) & advance.24,(_of(24) & _of(8) => _of(25));
-  _f(1) & _f(2) & _f(7) & advance.23,(_f(23) & _of(14) => _of(21));
-  _f(1) & _f(2) & _f(7) & advance.22,(_f(23) & _of(10) => _of(20));
-  _f(1) & _f(2) & _f(7) & advance.21,(_f(23) & _of(10) => _of(19));
-  _f(1) & _f(2) & _f(7) & advance.20,(_of(23) & _of(14) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.19,(_f(21) & _of(10) => _of(20));
-  _f(1) & _f(2) & _f(7) & advance.18,(_f(21) & _of(10) => _of(19));
-  _f(1) & _f(2) & _f(7) & advance.17,(_of(22) & _of(14) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.16,(_f(19) & _of(14) => _of(21));
-  _f(1) & _f(2) & _f(7) & advance.15,(_f(19) & _of(10) => _of(20));
-  _f(1) & _f(2) & _f(7) & advance.14,(_f(19) & _of(10) => _of(19));
-  _f(1) & _f(2) & _f(7) & advance.13,(_of(17) & _of(8) => _of(18));
-  _f(1) & _f(2) & _f(7) & advance.12,(_f(18) & _of(10) => _of(12));
-  _f(1) & _f(2) & _f(7) & advance.11,(_f(18) & _of(10) => _of(11));
-  _f(1) & _f(2) & _f(7) & advance.10,(_of(16) & _of(14) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.9,(_f(16) & _of(14) => _of(15));
-  _f(1) & _f(2) & _f(7) & advance.8,(_f(16) & _of(10) => _of(12));
-  _f(1) & _f(2) & _f(7) & advance.7,(_f(16) & _of(10) => _of(11));
-  _f(1) & _f(2) & _f(7) & advance.6,(_of(13) & _of(14) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.5,(_f(8) & _of(10) => _of(12));
-  _f(1) & _f(2) & _f(7) & advance.4,(_f(8) & _of(10) => _of(11));
-  _f(1) & _f(2) & _f(7) & advance.3,(_of(7) & _of(8) => _of(9));
-  _f(1) & _f(2) & _f(7) & advance.2,(_of(1) => _of(2));
+  _f(1) & _f(2) & _f(7) & advance.5,(_of(13) & _of(12) => _f(10));
+  _f(1) & _f(2) & _f(7) & advance.4,(_of(11) & _of(12) => _f(10));
+  _f(1) & _f(2) & _f(7) & advance.3,(_of(8) & _of(9) => _of(10));
+  _f(1) & _f(2) & _f(7) & advance.2,(_of(7) => _of(2));
   _f(1) & _f(2) & _f(7) & advance.1,(_of(6) => _of(2));
   _f(1) & _f(2) & Initialisation.3,(_of(3) => _of(5));
   _f(1) & _f(2) & Initialisation.2,(_of(3) => _of(4));
@@ -61,35 +22,13 @@ THEORY OPOFormulas IS
   (0 : INTEGER);
   (0<=0);
   "`Check precondition (btrue) deduction'";
-  ("`Local hypotheses'" & not(counter$1 = 2) & not(counter$1 = 1) & counter$1 = 0 & color = 3|->COLOR & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(1|->COLOR))) & color = 1|->COLOR);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  ("`Local hypotheses'" & color = 3|->COLOR & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(1|->COLOR))) & color = 1|->COLOR);
   "`Check that the invariant (counter : NATURAL & counter : NATURAL & counter : 0..2 & counter = color_refine(color)) is preserved by the operation - ref 4.4, 5.5'";
-  (not(!(color$7777).(not(color = red) & not(color = yellow) & color$7777 = yellow => not(1 : INTEGER & 0<=1 & 1 : 0..2 & 1 = color_refine(color$7777)))));
-  "`Check that the invariant (counter : NATURAL) is preserved by the operation - ref 4.4, 5.5'";
-  (1 : INTEGER);
-  (0<=1);
-  ("`Local hypotheses'" & not(counter$1 = 2) & not(counter$1 = 1) & counter$1 = 0 & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(color))) & color = 1|->COLOR);
+  (not(!(color$7777).(not(color = red) & not(color = yellow) & color$7777 = yellow => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(color$7777)))));
+  ("`Local hypotheses'" & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(color))) & color = 1|->COLOR);
   "`Check that the invariant (counter = color_refine(color)) is preserved by the operation - ref 4.4, 5.5'";
-  (1 = color_refine(yellow));
-  ("`Local hypotheses'" & not(counter$1 = 2) & not(counter$1 = 1) & counter$1 = 0 & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(color))) & not(color = 1|->COLOR));
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 2) & counter$1 = 1 & color = 3|->COLOR & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(2 : INTEGER & 2 : 0..2 & 2 = color_refine(1|->COLOR))) & color = 1|->COLOR);
-  (not(!(color$7777).(not(color = red) & not(color = yellow) & color$7777 = yellow => not(2 : INTEGER & 0<=2 & 2 : 0..2 & 2 = color_refine(color$7777)))));
-  (2 : INTEGER);
-  (0<=2);
-  (2 = color_refine(red));
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 2) & counter$1 = 1 & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(2 : INTEGER & 2 : 0..2 & 2 = color_refine(color))) & color = 1|->COLOR);
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 2) & counter$1 = 1 & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(2 : INTEGER & 2 : 0..2 & 2 = color_refine(color))) & not(color = 1|->COLOR));
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 1) & counter$1 = 2 & color = 3|->COLOR & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(1|->COLOR))) & color = 1|->COLOR);
-  (not(!(color$7777).(not(color = red) & not(color = yellow) & color$7777 = yellow => not(0 : INTEGER & 0<=0 & 0 : 0..2 & 0 = color_refine(color$7777)))));
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 1) & counter$1 = 2 & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(color))) & color = 1|->COLOR);
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 1) & counter$1 = 2 & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(color))) & not(color = 1|->COLOR));
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 1) & not(counter$1 = 2) & color = 3|->COLOR & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(counter$1 : INTEGER & 0<=counter$1 & counter$1 : 0..2 & counter$1 = color_refine(1|->COLOR))) & color = 1|->COLOR);
-  (not(!(color$7777).(not(color = red) & not(color = yellow) & color$7777 = yellow => not(counter$1 : INTEGER & 0<=counter$1 & counter$1 : 0..2 & counter$1 = color_refine(color$7777)))));
-  (counter$1 : INTEGER);
-  (0<=counter$1);
-  "`Check that the invariant (counter : 0..2) is preserved by the operation - ref 4.4, 5.5'";
-  (counter$1 : 0..2);
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 1) & not(counter$1 = 2) & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(counter$1 : INTEGER & 0<=counter$1 & counter$1 : 0..2 & counter$1 = color_refine(color))) & color = 1|->COLOR);
-  ("`Local hypotheses'" & not(counter$1 = 0) & not(counter$1 = 1) & not(counter$1 = 2) & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(counter$1 : INTEGER & 0<=counter$1 & counter$1 : 0..2 & counter$1 = color_refine(color))) & not(color = 1|->COLOR))
+  ("`Local hypotheses'" & not(color = 3|->COLOR) & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(color))) & not(color = 1|->COLOR))
 END
 &
 THEORY Version IS

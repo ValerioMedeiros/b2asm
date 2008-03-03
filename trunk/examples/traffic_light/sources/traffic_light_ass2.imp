@@ -64,17 +64,18 @@ BEGIN
     END
     INVARIANT 
       0 <= uc.pc & uc.pc <= 10 & 
-      uc.memory_data(0) : 0..2 & uc.memory_data(0) = counter
-      & ((uc.pc = 0) => (uc.memory_data(0) :  0..2))
-      & ((uc.pc = 1) => (uc.memory_data(0) = 0  ))
-      & ((uc.pc = 2) => (uc.memory_data(0) /= 0  )) 
-      & ((uc.pc = 3) => (uc.memory_data(0) = 1  ))
-      & ((uc.pc = 4) => (uc.memory_data(0) = 2  ))
-      & ((uc.pc = 5) => (uc.memory_data(0) = 0  ))
-      & ((uc.pc = 6) => (uc.memory_data(0) = 1  ))
-      & ((uc.pc = 7) => (uc.memory_data(0) = 1  ))
-      & ((uc.pc = 8) => (uc.memory_data(0) = 2  ))
-      & ((uc.pc = 9) => (uc.memory_data(0) = 2  ))
+      uc.memory_data(0) : 0..2 &
+      ((uc.pc = 0) => (uc.memory_data(0) :  0..2 & uc.memory_data(0) = counter)) &
+      ((uc.pc = 1) => uc.memory_data(0) = 0 & counter = 0) &
+      ((uc.pc = 2) => uc.memory_data(0) /= 0 & uc.memory_data(0) = counter) &
+      ((uc.pc = 3) => uc.memory_data(0) = 1 & counter = 1) &
+      ((uc.pc = 4) => uc.memory_data(0) = 2 & uc.memory_data(0) = counter) &
+      ((uc.pc = 5) => uc.memory_data(0) = 0 & counter = 0) &
+      ((uc.pc = 6) => uc.memory_data(0) = 1 & counter = 0) &
+      ((uc.pc = 7) => uc.memory_data(0) = 1 & counter = 1) &
+      ((uc.pc = 8) => uc.memory_data(0) = 2 & counter = 1) &
+      ((uc.pc = 9) => uc.memory_data(0) = 2 & counter = 2) &
+      ((uc.pc = 10) => (uc.memory_data(0) :  0..2 & uc.memory_data(0) = color_step(counter)))
 
     VARIANT (uc.end - uc.pc)
    END

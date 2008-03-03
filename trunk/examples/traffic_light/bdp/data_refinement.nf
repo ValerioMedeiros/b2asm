@@ -64,7 +64,7 @@ THEORY ListAssertionsX IS
   Expanded_List_Assertions(Machine(data_refinement))==(btrue);
   Abstract_List_Assertions(Machine(data_refinement))==(btrue);
   Context_List_Assertions(Machine(data_refinement))==(!c.(c : COLOR => c = green or c = yellow or c = red));
-  List_Assertions(Machine(data_refinement))==(color_refine(green) = 0 & color_refine(yellow) = 1 & color_refine(red) = 2)
+  List_Assertions(Machine(data_refinement))==(color_refine(green) = 0 & color_refine(yellow) = 1 & color_refine(red) = 2 & color_step(0) = 1 & color_step(1) = 2 & color_step(2) = 0)
 END
 &
 THEORY ListInitialisationX IS
@@ -102,9 +102,9 @@ THEORY ListPreconditionX END
 THEORY ListSubstitutionX END
 &
 THEORY ListConstantsX IS
-  List_Valuable_Constants(Machine(data_refinement))==(color_refine);
+  List_Valuable_Constants(Machine(data_refinement))==(color_refine,color_step);
   Inherited_List_Constants(Machine(data_refinement))==(?);
-  List_Constants(Machine(data_refinement))==(color_refine)
+  List_Constants(Machine(data_refinement))==(color_refine,color_step)
 END
 &
 THEORY ListSetsX IS
@@ -132,7 +132,7 @@ THEORY ListPropertiesX IS
   Abstract_List_Properties(Machine(data_refinement))==(btrue);
   Context_List_Properties(Machine(data_refinement))==(not(COLOR = {}));
   Inherited_List_Properties(Machine(data_refinement))==(btrue);
-  List_Properties(Machine(data_refinement))==(color_refine : COLOR --> NATURAL & color_refine = {green|->0,yellow|->1,red|->2})
+  List_Properties(Machine(data_refinement))==(color_refine : COLOR --> NATURAL & color_refine = {green|->0,yellow|->1,red|->2} & color_step : 0..2 --> 0..2 & color_step = {0|->1,1|->2,2|->0})
 END
 &
 THEORY ListSeenInfoX IS
@@ -147,9 +147,9 @@ THEORY ListSeenInfoX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(data_refinement)) == (color_refine | ? | ? | ? | ? | ? | seen(Machine(definitions)) | ? | data_refinement);
+  List_Of_Ids(Machine(data_refinement)) == (color_refine,color_step | ? | ? | ? | ? | ? | seen(Machine(definitions)) | ? | data_refinement);
   List_Of_HiddenCst_Ids(Machine(data_refinement)) == (? | ?);
-  List_Of_VisibleCst_Ids(Machine(data_refinement)) == (color_refine);
+  List_Of_VisibleCst_Ids(Machine(data_refinement)) == (color_refine,color_step);
   List_Of_VisibleVar_Ids(Machine(data_refinement)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(data_refinement)) == (? : ?);
   List_Of_Ids(Machine(definitions)) == (COLOR,green,yellow,red | ? | ? | ? | ? | ? | ? | ? | definitions);
@@ -160,7 +160,7 @@ THEORY ListOfIdsX IS
 END
 &
 THEORY ConstantsEnvX IS
-  Constants(Machine(data_refinement)) == (Type(color_refine) == Cst(SetOf(etype(COLOR,0,2)*btype(INTEGER,?,?))))
+  Constants(Machine(data_refinement)) == (Type(color_refine) == Cst(SetOf(etype(COLOR,0,2)*btype(INTEGER,?,?)));Type(color_step) == Cst(SetOf(btype(INTEGER,0,2)*btype(INTEGER,0,2))))
 END
 &
 THEORY TCIntRdX IS
