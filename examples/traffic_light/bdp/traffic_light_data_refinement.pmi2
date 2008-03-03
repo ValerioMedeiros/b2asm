@@ -1,94 +1,124 @@
 THEORY BalanceX IS
-  traffic_light_data_refinement,26,1,0,9,3,0,0;
-  Initialisation,1,1,0,0,0,0,0;
-  advance,25,0,0,9,3,0,0
+  traffic_light_data_refinement,36,13,0,23,0,0,0;
+  Initialisation,2,1,0,1,0,0,0;
+  advance,34,12,0,22,0,0,0
 END
 &
 THEORY ProofState IS
-  Unproved;
-  Proved(0);
-  Unproved;
   Proved(0);
   Proved(0);
-  Unproved;
-  Unproved;
-  Unproved;
-  Proved(0);
-  Unproved;
-  Proved(0);
-  Proved(1);
-  Proved(1);
-  Proved(1);
-  Proved(0);
-  Unproved;
-  Proved(0);
-  Unproved;
-  Unproved;
-  Unproved;
   Proved(0);
   Proved(0);
-  Unproved;
-  Unproved;
-  Unproved;
-  Proved(Util)
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0)
 END
 &
 THEORY MethodList IS
-  ?;
-  pr;
-  ?;
-  pr;
-  pr;
-  ?;
-  ?;
-  ?;
-  pr;
-  ?;
   pr;
   pr;
   pr;
   pr;
   pr;
-  ?;
-  pr;
-  ?;
-  ?;
-  ?;
   pr;
   pr;
-  ?;
-  ?;
-  ?;
-  cl & xp & se(green) & ss & pr & eh(color_refine(green),0,Goal)
+  cl & xp & ah(color = yellow) & ds(not(2 = 0)) & ds(not(2 = 1)) & ds(not(color = green) & not(color = yellow) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(color))) & ah(color : COLOR) & pr & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = yellow) & ah(counter$1 = 2) & pr;
+  pr;
+  pr;
+  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = green) & ah(counter$1 = 2) & pr;
+  pr;
+  pr;
+  cl & xp & ss & pr;
+  pr;
+  cl & xp & mh(not(red = green) & not(red = yellow) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(green))) & rn(not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(green))) & mh(0 : INTEGER & 0 : 0..2 => not(0 = color_refine(green))) & ss & pr & ss & pr & ds(not(red = green)) & ds(not(2 = 1)) & ds(not(2 = 0)) & pr;
+  cl & xp & mh(not(red = green) & not(red = yellow) => not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(green))) & rn(not(0 : INTEGER & 0 : 0..2 & 0 = color_refine(green))) & mh(0 : INTEGER & 0 : 0..2 => not(0 = color_refine(green))) & ss & pr & ss & pr & pr;
+  pr;
+  pr;
+  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = green) & ah(counter$1 = 1) & pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 1) & pr;
+  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 1) & pr;
+  cl & xp & ah(color : COLOR) & ah(color = yellow) & ds(not(0 = 1)) & ds(not(0 = 2)) & ds(not(color = green) & not(color = yellow) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(color))) & pr & ah(color = yellow) & ah(counter$1 = 0) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ds(not(0 = 2)) & ds(not(0 = 1)) & ds(not(yellow = red)) & ds(not(yellow = green) & not(yellow = yellow) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(yellow))) & ds(not(yellow = green)) & ds(yellow : COLOR) & pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 0) & ss & pr;
+  pr;
+  cl & xp & mh(not(red = green) & not(red = yellow) => not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(green))) & rn(not(1 : INTEGER & 1 : 0..2 & 1 = color_refine(green))) & mh(1 : INTEGER & 1 : 0..2 => not(1 = color_refine(green))) & ss & pr & ss & pr & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 2) & ss & pr;
+  cl & xp & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ah(counter$1 = 0) & pr;
+  cl & xp & se(green) & ss & pr & ss & pr;
+  pr
 END
 &
 THEORY PassList IS
-  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
   Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(1),(?;0);
-  Force(1),(?;0);
-  Force(1),(?;0);
   Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
   Force(0),(?;0;1);
   Force(0),(?;0;1);
-  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(1),(?;0;1);
   Force(0),(?;0;1);
   Force(0),(?;0;1);
-  Force(0),(?;0;1)
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?
 END
 &
 THEORY ManForms 

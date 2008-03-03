@@ -63,7 +63,7 @@ END
 THEORY ListAssertionsX IS
   Expanded_List_Assertions(Refinement(traffic_light_data_refinement))==(btrue);
   Abstract_List_Assertions(Refinement(traffic_light_data_refinement))==(btrue);
-  Context_List_Assertions(Refinement(traffic_light_data_refinement))==(!c.(c : COLOR => c = green or c = yellow or c = red) & color_refine(green) = 0 & color_refine(yellow) = 1 & color_refine(red) = 2);
+  Context_List_Assertions(Refinement(traffic_light_data_refinement))==(!c.(c : COLOR => c = green or c = yellow or c = red) & color_refine(green) = 0 & color_refine(yellow) = 1 & color_refine(red) = 2 & color_step(0) = 1 & color_step(1) = 2 & color_step(2) = 0);
   List_Assertions(Refinement(traffic_light_data_refinement))==(btrue)
 END
 &
@@ -96,8 +96,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Refinement(traffic_light_data_refinement),advance)==(btrue | not(counter = 2) & not(counter = 1) & counter = 0 ==> counter:=1 [] not(counter = 0) & not(counter = 2) & counter = 1 ==> counter:=2 [] not(counter = 0) & not(counter = 1) & counter = 2 ==> counter:=0 [] not(counter = 0) & not(counter = 1) & not(counter = 2) ==> skip);
-  List_Substitution(Refinement(traffic_light_data_refinement),advance)==(CASE counter OF EITHER 0 THEN counter:=1 OR 1 THEN counter:=2 OR 2 THEN counter:=0 END END)
+  Expanded_List_Substitution(Refinement(traffic_light_data_refinement),advance)==(btrue | counter:=color_step(counter));
+  List_Substitution(Refinement(traffic_light_data_refinement),advance)==(counter:=color_step(counter))
 END
 &
 THEORY ListParametersX IS
@@ -143,7 +143,7 @@ END
 &
 THEORY ListPropertiesX IS
   Abstract_List_Properties(Refinement(traffic_light_data_refinement))==(btrue);
-  Context_List_Properties(Refinement(traffic_light_data_refinement))==(not(COLOR = {}) & color_refine : COLOR --> NATURAL & color_refine = {green|->0,yellow|->1,red|->2});
+  Context_List_Properties(Refinement(traffic_light_data_refinement))==(not(COLOR = {}) & color_refine : COLOR --> NATURAL & color_refine = {green|->0,yellow|->1,red|->2} & color_step : 0..2 --> 0..2 & color_step = {0|->1,1|->2,2|->0});
   Inherited_List_Properties(Refinement(traffic_light_data_refinement))==(btrue);
   List_Properties(Refinement(traffic_light_data_refinement))==(btrue)
 END
@@ -169,9 +169,9 @@ THEORY ListOfIdsX IS
   List_Of_VisibleCst_Ids(Refinement(traffic_light_data_refinement)) == (?);
   List_Of_VisibleVar_Ids(Refinement(traffic_light_data_refinement)) == (? | ?);
   List_Of_Ids_SeenBNU(Refinement(traffic_light_data_refinement)) == (? : ?);
-  List_Of_Ids(Machine(data_refinement)) == (color_refine | ? | ? | ? | ? | ? | seen(Machine(definitions)) | ? | data_refinement);
+  List_Of_Ids(Machine(data_refinement)) == (color_refine,color_step | ? | ? | ? | ? | ? | seen(Machine(definitions)) | ? | data_refinement);
   List_Of_HiddenCst_Ids(Machine(data_refinement)) == (? | ?);
-  List_Of_VisibleCst_Ids(Machine(data_refinement)) == (color_refine);
+  List_Of_VisibleCst_Ids(Machine(data_refinement)) == (color_refine,color_step);
   List_Of_VisibleVar_Ids(Machine(data_refinement)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(data_refinement)) == (? : ?);
   List_Of_Ids(Machine(definitions)) == (COLOR,green,yellow,red | ? | ? | ? | ? | ? | ? | ? | definitions);
