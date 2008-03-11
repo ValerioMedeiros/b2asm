@@ -1,0 +1,80 @@
+/*************************************************************************
+Copyright (c) 2008 David Deharbe, Valerio Medeiros Jr
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+    * Neither the name of the Universidade Federal do Rio Grande do Norte nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*************************************************************************/
+IMPLEMENTATION
+   traffic_light_asm2
+
+SEES
+   definitions
+
+REFINES
+   traffic_light
+
+IMPORTS
+   uc.Microcontroller
+
+INVARIANT
+   uc.memory_data ( 0 ) = state
+
+INITIALISATION
+   uc.init_data ( 0 , 0 )
+
+OPERATIONS
+
+advance =
+
+  VAR pc , end IN
+    pc := 0 ;
+    end := 5 ;
+    uc.init ( pc , end ) ;
+
+
+ WHILE pc < end DO
+    BEGIN
+      CASE pc OF
+        EITHER 0 THEN uc.isequal ( 0 , 1 )
+            OR 1 THEN uc.goto ( 4 )
+            OR 2 THEN uc.dec ( 0 )
+            OR 3 THEN uc.goto ( 5 )
+            OR 4 THEN uc.set_data ( 0 , 3 )
+        END
+      END ;
+      pc <-- uc.get_pc
+    END
+    INVARIANT
+      pc >= 0 & pc <= 5 &
+      pc = uc.pc &
+      end = uc.end &
+      uc.memory_data : ( NATURAL --> NATURAL ) &
+      ( pc = 0 => ( uc.memory_data ( 0 ) = state ) ) &
+      ( pc = 1 => ( uc.memory_data ( 0 ) = state & uc.memory_data ( 0 ) /= 1 ) ) &
+      ( pc = 2 => ( uc.memory_data ( 0 ) = state & uc.memory_data ( 0 ) /= 1 ) ) &
+      ( pc = 3 => ( uc.memory_data ( 0 ) = /*color_step(*/ state /*)*/ ) ) &
+      ( pc = 4 => ( uc.memory_data ( 0 ) = state & uc.memory_data ( 0 ) = 1 ) ) &
+      ( pc = 5 => ( uc.memory_data ( 0 ) = /*color_step(*/ state /*)*/ ) )
+    VARIANT ( end - pc )
+   END
+  END
+
+
+
+ END
