@@ -1,20 +1,33 @@
 THEORY OPOBalanceX IS
-  traffic_light,2;
+  traffic_light,6;
   Initialisation,1;
-  advance,1
+  advance,5
 END
 &
 THEORY OPOProofList IS
-  _f(1) & advance.1,(_of(4) => _of(5));
-  Initialisation.1,(_of(1) & _of(2) => _of(3))
+  _f(1) & _f(2) & _f(3) & advance.5,(_of(13) & _of(7) => _of(14));
+  _f(1) & _f(2) & _f(3) & advance.4,(_of(11) & _of(7) => _of(12));
+  _f(1) & _f(2) & _f(3) & advance.3,(_of(9) & _of(7) => _of(10));
+  _f(1) & _f(2) & _f(3) & advance.2,(_of(6) & _of(7) => _of(8));
+  _f(1) & _f(2) & _f(3) & advance.1,(_of(4) => _of(5));
+  _f(1) & _f(2) & Initialisation.1,(_of(1) & _of(2) => _of(3))
 END
 &
 THEORY OPOFormulas IS
-  ("`Local hypotheses'" & state$0 : 1..3);
-  "`Check that the invariant (state : 1..3) is established by the initialisation - ref 3.3'";
-  (btrue => state$0 : 1..3);
+  ("`Local hypotheses'" & color$0 : (1..3)*{COLOR});
+  "`Check that the invariant (color : COLOR) is established by the initialisation - ref 3.3'";
+  (btrue & !c.(c : COLOR => c = green or c = yellow or c = red) => color$0 : COLOR);
   "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
-  (btrue)
+  (btrue);
+  ("`Local hypotheses'" & not(color = 3|->COLOR) & not(color = 2|->COLOR) & color = 1|->COLOR);
+  "`Check that the invariant (color : COLOR) is preserved by the operation - ref 3.4'";
+  (yellow : COLOR);
+  ("`Local hypotheses'" & not(color = 1|->COLOR) & not(color = 3|->COLOR) & color = 2|->COLOR);
+  (red : COLOR);
+  ("`Local hypotheses'" & not(color = 1|->COLOR) & not(color = 2|->COLOR) & color = 3|->COLOR);
+  (green : COLOR);
+  ("`Local hypotheses'" & not(color = 1|->COLOR) & not(color = 2|->COLOR) & not(color = 3|->COLOR));
+  (btrue & !c.(c : COLOR => c = green or c = yellow or c = red) => color : COLOR)
 END
 &
 THEORY Version IS

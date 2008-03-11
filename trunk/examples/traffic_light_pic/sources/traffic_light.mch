@@ -26,21 +26,21 @@ MACHINE
 SEES
    definitions 
 VARIABLES
-   state
+   color
 INVARIANT
-   state :  1..3  /*{green,yellow,red} */
-
+   color :  COLOR  
 INITIALISATION
-   state :: 1..3
+   color :: COLOR
 
 OPERATIONS
 
 advance = 
-BEGIN
-  IF state = 1 THEN state:= 3 
-  ELSE state := state - 1 END
-
-END
-
-
+  BEGIN
+    CASE color OF 
+    EITHER green THEN color:=yellow
+    OR yellow THEN color:=red
+    OR red THEN color:=green
+    END
+    END
+  END
 END

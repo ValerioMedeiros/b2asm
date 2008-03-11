@@ -1,4 +1,5 @@
-file:c9ea870537b0ddde11c3e7601d2e3220
-abst:traffic_light
+file:91aaf010280c86874de5a4fd14350ee3
+abst:traffic_light_data_refinement
 sees:definitions
+sees:data_refinement
 impo:VarNatural:state

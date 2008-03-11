@@ -1,25 +1,28 @@
 THEORY BalanceX IS
-  TYPES,4,0,0,2,0,0,0;
+  TYPES,5,3,0,2,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  AssertionLemmas,4,0,0,2,0,0,0;
+  AssertionLemmas,5,3,0,2,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
-  Unproved;
+  Proved(Util);
+  Proved(Util);
   Proved(0);
-  Unproved;
+  Proved(Util);
   Proved(0)
 END
 &
 THEORY MethodList IS
-  ?;
+  cl & xp & ah(!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & ph(8,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & ph(7,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.1) & pp(rp.1) & pp(rp.0) & ph(6,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ph(5,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ss & ph(4,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & pp(rp.0) & pp(rp.0) & ss & ph(3,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & pp(rp.0) & pp(rp.0) & ph(2,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & pp(rp.0) & pp(rp.0) & ph(1,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & pp(rp.0) & ss & eh(2**8,2*2**7,Goal) & eh(2**7,2*2**6,Goal) & eh(2**6,2*2**5,Goal) & eh(2**5,2*2**4,Goal) & eh(2**4,2*2**3,Goal) & eh(2**3,2*2**2,Goal) & eh(2**2,4,Goal) & ss & pr;
+  cl & xp & eh(NB_WORDS,2**8,Goal) & ss & ph(8,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ss & ph(7,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ss & ph(6,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ss & ph(5,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ph(4,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ss & ph(3,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ph(2,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & pp(rp.0) & pp(rp.0) & pp(rp.0) & ss & eh(2**8,2*2**7,Goal) & eh(2**7,2*2**6,Goal) & eh(2**6,2*2**5,Goal) & eh(2**5,2*2**4,Goal) & eh(2**4,2*2**3,Goal) & eh(2**3,2*2**2,Goal) & eh(2**2,4,Goal) & ss & pr;
   pr;
-  ?;
+  cl & xp & eh(WORD,0..NB_WORDS-1,Goal) & eh(NB_WORDS,2**8,Goal) & ah(2**8 = 256) & ah(!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & ph(8,!n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(n-1))) & ss & pr & eh(2**8,2*2**(8-1),Goal) & ss & ph(7,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & pr & pr & eh(2**7,2*2**(-1+7),Goal) & ss & ph(6,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & ss & pr & ss & pr & ph(5,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & ss & pr & ss & pr & eh(2**6,2*2**(-1+6),Goal) & ss & eh(2**5,2*2**4,Goal) & ss & ph(4,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & ss & pr & ss & pr & eh(2**4,2*2**(-1+4),Goal) & ss & ph(3,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & ss & pr & ss & pr & eh(2**3,2*2**(-1+3),Goal) & ss & ph(2,!n.(0<=n & 1<=n => 2**n = 2*2**(-1+n) & 2**n = 2*2**(-1+n))) & ss & pr & ss & pr & eh(2**2,2*2**(-1+2),Goal) & ss & pr & ss & pp(rp.0);
   pr
 END
 &
 THEORY PassList IS
+  Force(0),(?;0;1);
   Force(0),(?;0;1);
   Force(0),?;
   Force(0),(?;0;1);

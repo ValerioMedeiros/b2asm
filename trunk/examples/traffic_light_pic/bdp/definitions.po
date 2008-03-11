@@ -1,10 +1,17 @@
-THEORY ProofList
+THEORY ProofList IS
+  _f(1) & AssertionLemmas.1,(_f(2) & _f(3) => _f(4))
 END
 &
-THEORY Formulas 
+THEORY Formulas IS
+  ("`Component properties'" & not((1..3)*{COLOR} = {}));
+  ("`Local hypotheses'" & c : (1..3)*{COLOR});
+  "`Check assertion (!c.(c : COLOR => c = green or c = yellow or c = red)) deduction - ref 3.2, 4.2, 5.3'";
+  (c = 1|->COLOR or c = 2|->COLOR or c = 3|->COLOR);
+  ("`Component assertions'" & !c.(c : (1..3)*{COLOR} => c = 1|->COLOR or c = 2|->COLOR or c = 3|->COLOR))
 END
 &
-THEORY EnumerateX 
+THEORY EnumerateX IS
+  COLOR == {green,yellow,red}
 END
 &
 THEORY Version IS

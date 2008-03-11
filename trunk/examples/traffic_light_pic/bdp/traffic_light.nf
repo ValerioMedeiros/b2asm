@@ -37,9 +37,9 @@ THEORY ListVariablesX IS
   External_Context_List_Variables(Machine(traffic_light))==(?);
   Context_List_Variables(Machine(traffic_light))==(?);
   Abstract_List_Variables(Machine(traffic_light))==(?);
-  Local_List_Variables(Machine(traffic_light))==(state);
-  List_Variables(Machine(traffic_light))==(state);
-  External_List_Variables(Machine(traffic_light))==(state)
+  Local_List_Variables(Machine(traffic_light))==(color);
+  List_Variables(Machine(traffic_light))==(color);
+  External_List_Variables(Machine(traffic_light))==(color)
 END
 &
 THEORY ListVisibleVariablesX IS
@@ -57,20 +57,20 @@ THEORY ListInvariantX IS
   Expanded_List_Invariant(Machine(traffic_light))==(btrue);
   Abstract_List_Invariant(Machine(traffic_light))==(btrue);
   Context_List_Invariant(Machine(traffic_light))==(btrue);
-  List_Invariant(Machine(traffic_light))==(state : 1..3)
+  List_Invariant(Machine(traffic_light))==(color : COLOR)
 END
 &
 THEORY ListAssertionsX IS
   Expanded_List_Assertions(Machine(traffic_light))==(btrue);
   Abstract_List_Assertions(Machine(traffic_light))==(btrue);
-  Context_List_Assertions(Machine(traffic_light))==(btrue);
+  Context_List_Assertions(Machine(traffic_light))==(!c.(c : COLOR => c = green or c = yellow or c = red));
   List_Assertions(Machine(traffic_light))==(btrue)
 END
 &
 THEORY ListInitialisationX IS
-  Expanded_List_Initialisation(Machine(traffic_light))==(@(state$0).(state$0 : 1..3 ==> state:=state$0));
+  Expanded_List_Initialisation(Machine(traffic_light))==(@(color$0).(color$0 : COLOR ==> color:=color$0));
   Context_List_Initialisation(Machine(traffic_light))==(skip);
-  List_Initialisation(Machine(traffic_light))==(state:: 1..3)
+  List_Initialisation(Machine(traffic_light))==(color:: COLOR)
 END
 &
 THEORY ListParametersX IS
@@ -108,8 +108,8 @@ THEORY ListPreconditionX IS
 END
 &
 THEORY ListSubstitutionX IS
-  Expanded_List_Substitution(Machine(traffic_light),advance)==(btrue | state = 1 ==> state:=3 [] not(state = 1) ==> state:=state-1);
-  List_Substitution(Machine(traffic_light),advance)==(IF state = 1 THEN state:=3 ELSE state:=state-1 END)
+  Expanded_List_Substitution(Machine(traffic_light),advance)==(btrue | not(color = red) & not(color = yellow) & color = green ==> color:=yellow [] not(color = green) & not(color = red) & color = yellow ==> color:=red [] not(color = green) & not(color = yellow) & color = red ==> color:=green [] not(color = green) & not(color = yellow) & not(color = red) ==> skip);
+  List_Substitution(Machine(traffic_light),advance)==(CASE color OF EITHER green THEN color:=yellow OR yellow THEN color:=red OR red THEN color:=green END END)
 END
 &
 THEORY ListConstantsX IS
@@ -119,9 +119,10 @@ THEORY ListConstantsX IS
 END
 &
 THEORY ListSetsX IS
-  Context_List_Enumerated(Machine(traffic_light))==(?);
+  Set_Definition(Machine(traffic_light),COLOR)==({green,yellow,red});
+  Context_List_Enumerated(Machine(traffic_light))==(COLOR);
   Context_List_Defered(Machine(traffic_light))==(?);
-  Context_List_Sets(Machine(traffic_light))==(?);
+  Context_List_Sets(Machine(traffic_light))==(COLOR);
   List_Valuable_Sets(Machine(traffic_light))==(?);
   Inherited_List_Enumerated(Machine(traffic_light))==(?);
   Inherited_List_Defered(Machine(traffic_light))==(?);
@@ -140,7 +141,7 @@ END
 &
 THEORY ListPropertiesX IS
   Abstract_List_Properties(Machine(traffic_light))==(btrue);
-  Context_List_Properties(Machine(traffic_light))==(btrue);
+  Context_List_Properties(Machine(traffic_light))==(not(COLOR = {}));
   Inherited_List_Properties(Machine(traffic_light))==(btrue);
   List_Properties(Machine(traffic_light))==(btrue)
 END
@@ -157,12 +158,12 @@ THEORY ListSeenInfoX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(traffic_light)) == (? | ? | state | ? | advance | ? | seen(Machine(definitions)) | ? | traffic_light);
+  List_Of_Ids(Machine(traffic_light)) == (? | ? | color | ? | advance | ? | seen(Machine(definitions)) | ? | traffic_light);
   List_Of_HiddenCst_Ids(Machine(traffic_light)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(traffic_light)) == (?);
   List_Of_VisibleVar_Ids(Machine(traffic_light)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(traffic_light)) == (? : ?);
-  List_Of_Ids(Machine(definitions)) == (? | ? | ? | ? | ? | ? | ? | ? | definitions);
+  List_Of_Ids(Machine(definitions)) == (COLOR,green,yellow,red | ? | ? | ? | ? | ? | ? | ? | definitions);
   List_Of_HiddenCst_Ids(Machine(definitions)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(definitions)) == (?);
   List_Of_VisibleVar_Ids(Machine(definitions)) == (? | ?);
@@ -170,7 +171,7 @@ THEORY ListOfIdsX IS
 END
 &
 THEORY VariablesEnvX IS
-  Variables(Machine(traffic_light)) == (Type(state) == Mvl(btype(INTEGER,?,?)))
+  Variables(Machine(traffic_light)) == (Type(color) == Mvl(etype(COLOR,?,?)))
 END
 &
 THEORY OperationsEnvX IS

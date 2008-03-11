@@ -64,7 +64,7 @@ THEORY ListAssertionsX IS
   Expanded_List_Assertions(Machine(definitions))==(btrue);
   Abstract_List_Assertions(Machine(definitions))==(btrue);
   Context_List_Assertions(Machine(definitions))==(btrue);
-  List_Assertions(Machine(definitions))==(btrue)
+  List_Assertions(Machine(definitions))==(!c.(c : COLOR => c = green or c = yellow or c = red))
 END
 &
 THEORY ListInitialisationX IS
@@ -106,6 +106,7 @@ THEORY ListConstantsX IS
 END
 &
 THEORY ListSetsX IS
+  Set_Definition(Machine(definitions),COLOR)==({green,yellow,red});
   Context_List_Enumerated(Machine(definitions))==(?);
   Context_List_Defered(Machine(definitions))==(?);
   Context_List_Sets(Machine(definitions))==(?);
@@ -113,9 +114,9 @@ THEORY ListSetsX IS
   Inherited_List_Enumerated(Machine(definitions))==(?);
   Inherited_List_Defered(Machine(definitions))==(?);
   Inherited_List_Sets(Machine(definitions))==(?);
-  List_Enumerated(Machine(definitions))==(?);
+  List_Enumerated(Machine(definitions))==(COLOR);
   List_Defered(Machine(definitions))==(?);
-  List_Sets(Machine(definitions))==(?)
+  List_Sets(Machine(definitions))==(COLOR)
 END
 &
 THEORY ListHiddenConstantsX IS
@@ -129,17 +130,25 @@ THEORY ListPropertiesX IS
   Abstract_List_Properties(Machine(definitions))==(btrue);
   Context_List_Properties(Machine(definitions))==(btrue);
   Inherited_List_Properties(Machine(definitions))==(btrue);
-  List_Properties(Machine(definitions))==(btrue)
+  List_Properties(Machine(definitions))==(not(COLOR = {}))
 END
 &
 THEORY ListSeenInfoX END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(definitions)) == (? | ? | ? | ? | ? | ? | ? | ? | definitions);
+  List_Of_Ids(Machine(definitions)) == (COLOR,green,yellow,red | ? | ? | ? | ? | ? | ? | ? | definitions);
   List_Of_HiddenCst_Ids(Machine(definitions)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(definitions)) == (?);
   List_Of_VisibleVar_Ids(Machine(definitions)) == (? | ?);
   List_Of_Ids_SeenBNU(Machine(definitions)) == (? : ?)
+END
+&
+THEORY SetsEnvX IS
+  Sets(Machine(definitions)) == (Type(COLOR) == Cst(SetOf(etype(COLOR,0,2))))
+END
+&
+THEORY ConstantsEnvX IS
+  Constants(Machine(definitions)) == (Type(green) == Cst(etype(COLOR,0,2));Type(yellow) == Cst(etype(COLOR,0,2));Type(red) == Cst(etype(COLOR,0,2)))
 END
 &
 THEORY TCIntRdX IS
