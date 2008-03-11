@@ -44,6 +44,7 @@ OPERATIONS
 
 advance =
 BEGIN
+   m.CALL ( 0 ) ;
    WHILE m.pc < 10 DO
     BEGIN
       CASE m.pc OF
@@ -59,9 +60,10 @@ BEGIN
             OR 9  THEN m.MOVWF ( 0 )
         END
       END
-    END
+    END ;
+    m.RETURN
     INVARIANT
-      0 <= m.pc & m.pc <= 10 &
+      0 <= m.pc & m.pc <= 10 & m.sp > 0 &
       m.mem ( 0 ) : 0 .. 2 &
       ( ( m.pc = 0 ) => ( m.mem ( 0 ) : 0 .. 2 & m.mem ( 0 ) = counter ) ) &
       ( ( m.pc = 1 ) => m.mem ( 0 ) = 2 & counter = 2 ) &
