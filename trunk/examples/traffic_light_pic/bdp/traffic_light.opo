@@ -1,0 +1,22 @@
+THEORY OPOBalanceX IS
+  traffic_light,2;
+  Initialisation,1;
+  advance,1
+END
+&
+THEORY OPOProofList IS
+  _f(1) & advance.1,(_of(4) => _of(5));
+  Initialisation.1,(_of(1) & _of(2) => _of(3))
+END
+&
+THEORY OPOFormulas IS
+  ("`Local hypotheses'" & state$0 : 1..3);
+  "`Check that the invariant (state : 1..3) is established by the initialisation - ref 3.3'";
+  (btrue => state$0 : 1..3);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

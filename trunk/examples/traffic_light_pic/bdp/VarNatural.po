@@ -1,0 +1,14 @@
+THEORY ProofList
+END
+&
+THEORY Formulas IS
+  ("`Component invariant'" & value : INTEGER & 0<=value);
+  ("`set preconditions in this component'" & new_value : INTEGER & 0<=new_value)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

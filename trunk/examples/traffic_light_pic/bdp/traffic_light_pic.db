@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<db_xml>
+    <atelierb version="3_7_ubuntu-cvs" />
+    <project decomp_dir="/home/david/B/traffic_light_pic/bdp/expand_src" old_decomp_dir="/home/david/B/traffic_light_pic/bdp/src">
+        <!-- Definition directory list -->
+        <!-- Component file list -->
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="ALU" suffix="mch" user="usuario">
+            <component name="ALU" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="Microcontroller" suffix="mch" user="usuario">
+            <component name="Microcontroller" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="PIC" suffix="mch" user="usuario">
+            <component name="PIC" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="TYPES" suffix="mch" user="usuario">
+            <component name="TYPES" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="TYPE_BIT" suffix="mch" user="usuario">
+            <component name="TYPE_BIT" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="TYPE_BV8" suffix="mch" user="usuario">
+            <component name="TYPE_BV8" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="VarNatural" suffix="mch" user="usuario">
+            <component name="VarNatural" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="definitions" suffix="mch" user="usuario">
+            <component name="definitions" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light" suffix="mch" user="usuario">
+            <component name="traffic_light" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_alg" suffix="imp" user="usuario">
+            <component name="traffic_light_alg" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_asm" suffix="imp" user="usuario">
+            <component name="traffic_light_asm" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_asm2" suffix="imp" user="usuario">
+            <component name="traffic_light_asm2" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_asm_pic" suffix="imp" user="usuario">
+            <component name="traffic_light_asm_pic" type="implementation" />
+        </component_file>
+    </project>
+</db_xml>
