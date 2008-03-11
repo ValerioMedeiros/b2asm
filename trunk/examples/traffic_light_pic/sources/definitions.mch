@@ -1,3 +1,0 @@
-MODEL
-   definitions
-END
