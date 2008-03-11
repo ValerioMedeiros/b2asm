@@ -22,7 +22,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *************************************************************************/
 MACHINE
    VarNatural
-VARIABLES
+CONCRETE_VARIABLES
    value
 INVARIANT
    value : NATURAL 

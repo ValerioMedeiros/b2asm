@@ -1,4 +1,4 @@
-/*************************************************************************
+			/*************************************************************************
 Copyright (c) 2008 David Deharbe, Valerio Medeiros Jr
 
 All rights reserved.
@@ -22,36 +22,34 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *************************************************************************/
 IMPLEMENTATION
    traffic_light_asm_pic
-
 SEES
-   definitions
+   definitions, data_refinement
 
 REFINES 
-   traffic_light
+   traffic_light_data_refinement
 
 IMPORTS
    m.PIC
 
 INVARIANT
-  m.mem(0) = state
+   m.mem(0) : 0..2 & m.mem(0) = counter
 
 INITIALISATION 
-    m.MOVELW(3);
-    m.MOVEWF(0)
+   BEGIN
+      m.MOVELW(0);
+      m.MOVEWF(0)
+   END
 
 OPERATIONS
         
 advance =
-
   VAR pc, end IN
-
     m.DECFSZ(0,0);
     m.GOTO(4);
     m.MOVELW(3);
     m.MOVEWF(0)
-
   END  
 
 
- END
+END
 

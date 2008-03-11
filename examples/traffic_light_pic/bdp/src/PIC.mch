@@ -25,10 +25,7 @@ MACHINE
    PIC
 
 SEES
-   TYPES
-
-USES
-   ALU
+   TYPES , ALU
 
 CONCRETE_VARIABLES
    mem ,

@@ -1,4 +1,5 @@
 THEORY ProofList IS
+  _f(1) & _f(2) & AssertionLemmas.5,(_f(12) => _f(13));
   _f(1) & _f(2) & AssertionLemmas.4,(_f(10) => _f(11));
   _f(1) & _f(2) & AssertionLemmas.3,(_f(5) & _f(8) => _f(9));
   _f(1) & _f(2) & AssertionLemmas.2,(_f(5) & _f(6) => _f(7));
@@ -6,7 +7,7 @@ THEORY ProofList IS
 END
 &
 THEORY Formulas IS
-  ("`Component properties'" & WORD_LENGTH : INTEGER & 0<=WORD_LENGTH & INST_SZ : INTEGER & 0<=INST_SZ & NB_WORDS : INTEGER & 0<=NB_WORDS & NB_INSTRUCTIONS : INTEGER & 0<=NB_INSTRUCTIONS & WORD_LENGTH = 8 & NB_WORDS = 2**WORD_LENGTH & WORD = 0..NB_WORDS-1 & WORD_POSITION = 0..WORD_LENGTH-1 & NB_INSTRUCTIONS = 2**INST_SZ & INSTRUCTION_MAX = NB_INSTRUCTIONS-1 & INSTRUCTION = 0..INSTRUCTION_MAX & INSTRUCTION_NEXT : INSTRUCTION +-> INSTRUCTION & dom(INSTRUCTION_NEXT) = INSTRUCTION & INSTRUCTION_NEXT = SET(p,q).(p : INSTRUCTION & q : INSTRUCTION & 0<=p & p+1<=NB_INSTRUCTIONS-1 & q = p+1)\/{NB_INSTRUCTIONS-1|->0} & BV_TO_WORD : BV8 +-> WORD & dom(BV_TO_WORD) = BV8 & WORD_TO_BV : WORD +-> BV8 & dom(WORD_TO_BV) = WORD & !(w,v).(w : WORD & v : BV8 => (v = WORD_TO_BV(w) => w = 128*v(7)+64*v(6)+32*v(5)+16*v(4)+8*v(3)+4*v(2)+2*v(1)+v(0)) & (w = 128*v(7)+64*v(6)+32*v(5)+16*v(4)+8*v(3)+4*v(2)+2*v(1)+v(0) => v = WORD_TO_BV(w))) & BV_TO_WORD = WORD_TO_BV~ & not(REGISTER = {}));
+  ("`Component properties'" & WORD_LENGTH : INTEGER & 0<=WORD_LENGTH & INST_SZ : INTEGER & 0<=INST_SZ & NB_WORDS : INTEGER & 0<=NB_WORDS & NB_INSTRUCTIONS : INTEGER & 0<=NB_INSTRUCTIONS & WORD_LENGTH = 8 & NB_WORDS = 2**WORD_LENGTH & WORD = 0..NB_WORDS-1 & WORD_POSITION = 0..WORD_LENGTH-1 & NB_INSTRUCTIONS = 2**INST_SZ & INSTRUCTION_MAX = NB_INSTRUCTIONS-1 & INSTRUCTION = 0..INSTRUCTION_MAX & INSTRUCTION_NEXT : INSTRUCTION +-> INSTRUCTION & dom(INSTRUCTION_NEXT) = INSTRUCTION & INSTRUCTION_NEXT = SET(p,q).(p : INSTRUCTION & q : INSTRUCTION & 0<=p & p+1<=NB_INSTRUCTIONS-1 & q = p+1)\/{NB_INSTRUCTIONS-1|->0} & BV_TO_WORD : BV8 +-> WORD & dom(BV_TO_WORD) = BV8 & WORD_TO_BV : WORD +-> BV8 & dom(WORD_TO_BV) = WORD & !(w,v).(w : WORD & v : BV8 => (v = WORD_TO_BV(w) => w = 128*v(7)+64*v(6)+32*v(5)+16*v(4)+8*v(3)+4*v(2)+2*v(1)+v(0)) & (w = 128*v(7)+64*v(6)+32*v(5)+16*v(4)+8*v(3)+4*v(2)+2*v(1)+v(0) => v = WORD_TO_BV(w))) & BV_TO_WORD = WORD_TO_BV~ & !n.(n : INTEGER & 0<=n & 1<=n => 2**n = 2*2**(n-1)) & 2**0 = 1 & REGISTER : POW(INTEGER) & REGISTER = 0..127);
   ("`Included,imported and extended machines properties'" & BIT = 0..1 & BIT_FLIP : BIT +-> BIT & dom(BIT_FLIP) = BIT & !b.(b : BIT => BIT_FLIP(b) = 1-b) & BIT_AND : BIT*BIT +-> BIT & dom(BIT_AND) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_AND(b1,b2) = 1 => b1 = 1) & (b1 = 1 => BIT_AND(b1,b2) = 1) & b2 = 1) & BIT_IOR : BIT*BIT +-> BIT & dom(BIT_IOR) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_IOR(b1,b2) = 1 => b1 = 1) & (b1 = 1 => BIT_IOR(b1,b2) = 1) or b2 = 1) & BIT_XOR : BIT*BIT +-> BIT & dom(BIT_XOR) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_XOR(b1,b2) = 1 => b1 = 1 & b2 = 0 or (b1 = 0 & b2 = 1)) & ((b1 = 1 & b2 = 0 => BIT_XOR(b1,b2) = 1) & (b1 = 0 & b2 = 1 => BIT_XOR(b1,b2) = 1))) & BV8_INDEX = 0..7 & BV8 = BV8_INDEX --> BIT & BV8_SET_BIT : BV8*BV8_INDEX*BIT +-> BV8 & dom(BV8_SET_BIT) = BV8*BV8_INDEX*BIT & !(v,i,j,b).(v : BV8 & i : BV8_INDEX & j : BV8_INDEX & b : BIT & not(i = j) => BV8_SET_BIT(v,i,b)(j) = v(j)) & !(v,i,b).(v : BV8 & i : BV8_INDEX & b : BIT => BV8_SET_BIT(v,i,b)(i) = b) & BV8_COMPLEMENT : BV8 +-> BV8 & dom(BV8_COMPLEMENT) = BV8 & !(v,i).(v : BV8 & i : BV8_INDEX => BV8_COMPLEMENT(v)(i) = BIT_FLIP(v(i))) & BV8_ALL_ZEROES : BV8 & !i.(i : BV8_INDEX => BV8_ALL_ZEROES(i) = 0) & BV8_AND : BV8*BV8 +-> BV8 & dom(BV8_AND) = BV8*BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_AND(v1,v2)(i) = BIT_AND(v1(i),v2(i))) & BV8_IOR : BV8*BV8 +-> BV8 & dom(BV8_IOR) = BV8*BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_IOR(v1,v2)(i) = BIT_IOR(v1(i),v2(i))) & BV8_XOR : BV8*BV8 +-> BV8 & dom(BV8_XOR) = BV8*BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_XOR(v1,v2)(i) = BIT_XOR(v1(i),v2(i))) & "`Included,imported and extended machines assertions'" & BIT_FLIP(0) = 1 & BIT_FLIP(1) = 0 & BIT_AND(0,0) = 0 & BIT_AND(0,1) = 0 & BIT_AND(1,0) = 0 & BIT_AND(1,1) = 1 & BIT_IOR(0,0) = 0 & BIT_IOR(0,1) = 0 & BIT_IOR(1,0) = 0 & BIT_IOR(1,1) = 1 & BIT_XOR(0,0) = 0 & BIT_XOR(0,1) = 1 & BIT_XOR(1,0) = 1 & BIT_XOR(1,1) = 0);
   "`Check assertion (WORD_POSITION = BV8_INDEX) deduction - ref 3.2, 4.2, 5.3'";
   (WORD_POSITION = BV8_INDEX);
@@ -17,7 +18,9 @@ THEORY Formulas IS
   (0<=n);
   "`Check assertion (NB_WORDS = 256) deduction - ref 3.2, 4.2, 5.3'";
   (NB_WORDS = 256);
-  ("`Component assertions'" & NB_WORDS = 256 & !n.(n : WORD => 0<=n) & !n.(n : WORD => n<=255) & WORD_POSITION = BV8_INDEX)
+  "`Check assertion (2**8 = 256) deduction - ref 3.2, 4.2, 5.3'";
+  (2**8 = 256);
+  ("`Component assertions'" & 2**8 = 256 & NB_WORDS = 256 & !n.(n : WORD => 0<=n) & !n.(n : WORD => n<=255) & WORD_POSITION = BV8_INDEX)
 END
 &
 THEORY EnumerateX 

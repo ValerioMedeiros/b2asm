@@ -1,18 +1,14 @@
-THEORY ProofList IS
-  _f(1) & advance.2,(_f(5) & _f(3) => _f(6));
-  _f(1) & advance.1,(_f(2) & _f(3) => _f(4))
+THEORY ProofList
 END
 &
 THEORY Formulas IS
-  ("`Component invariant'" & state : 1..3);
-  ("`Local hypotheses'" & state = 1);
-  "`Check that the invariant (state : 1..3) is preserved by the operation - ref 3.4'";
-  (3 : 1..3);
-  ("`Local hypotheses'" & not(state = 1));
-  (state-1 : 1..3)
+  ("`Seen and used machines properties'" & not((1..3)*{COLOR} = {}));
+  ("`Seen and used machines assertions'" & !c.(c : (1..3)*{COLOR} => c = 1|->COLOR or c = 2|->COLOR or c = 3|->COLOR));
+  ("`Component invariant'" & color : (1..3)*{COLOR})
 END
 &
-THEORY EnumerateX 
+THEORY EnumerateX IS
+  COLOR == {green,yellow,red}
 END
 &
 THEORY Version IS

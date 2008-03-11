@@ -37,9 +37,11 @@ CONCRETE_CONSTANTS
    INSTRUCTION ,
    NB_INSTRUCTIONS ,
    INSTRUCTION_MAX ,
-   INSTRUCTION_NEXT
-  , BV_TO_WORD
-  , WORD_TO_BV
+   INSTRUCTION_NEXT ,
+   BV_TO_WORD ,
+   WORD_TO_BV ,
+   REGISTER
+
 
 PROPERTIES
    WORD_LENGTH : NATURAL &
@@ -60,11 +62,12 @@ PROPERTIES
   & ! ( w , v ) . ( w : WORD & v : BV8 =>
                 ( ( v = WORD_TO_BV ( w ) ) <=> ( w = 128 * v ( 7 ) + 64 * v ( 6 ) + 32 * v ( 5 ) + 16 * v ( 4 ) + 8 * v ( 3 ) + 4 * v ( 2 ) + 2 * v ( 1 ) + v ( 0 ) ) ) )
   & BV_TO_WORD = WORD_TO_BV ~
-
-SETS
-   REGISTER
+  & ! ( n ) . ( n : NATURAL & n > 0 => 2 ** n = 2 * ( 2 ** ( n - 1 ) ) )
+  & 2 ** 0 = 1
+  & REGISTER : POW ( INTEGER ) & REGISTER = 0 .. 127
 
 ASSERTIONS
+   2 ** 8 = 256 &
    NB_WORDS = 256 &
    ! ( n ) . ( n : WORD => 0 <= n ) &
    ! ( n ) . ( n : WORD => n <= 255 ) &

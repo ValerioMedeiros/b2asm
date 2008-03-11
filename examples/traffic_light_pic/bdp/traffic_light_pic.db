@@ -7,9 +7,6 @@
         <component_file path="/home/david/B/traffic_light_pic/sources" name="ALU" suffix="mch" user="usuario">
             <component name="ALU" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/traffic_light_pic/sources" name="Microcontroller" suffix="mch" user="usuario">
-            <component name="Microcontroller" type="specification" />
-        </component_file>
         <component_file path="/home/david/B/traffic_light_pic/sources" name="PIC" suffix="mch" user="usuario">
             <component name="PIC" type="specification" />
         </component_file>
@@ -25,6 +22,9 @@
         <component_file path="/home/david/B/traffic_light_pic/sources" name="VarNatural" suffix="mch" user="usuario">
             <component name="VarNatural" type="specification" />
         </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="data_refinement" suffix="mch" user="david">
+            <component name="data_refinement" type="specification" />
+        </component_file>
         <component_file path="/home/david/B/traffic_light_pic/sources" name="definitions" suffix="mch" user="usuario">
             <component name="definitions" type="specification" />
         </component_file>
@@ -34,14 +34,11 @@
         <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_alg" suffix="imp" user="usuario">
             <component name="traffic_light_alg" type="implementation" />
         </component_file>
-        <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_asm" suffix="imp" user="usuario">
-            <component name="traffic_light_asm" type="implementation" />
-        </component_file>
-        <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_asm2" suffix="imp" user="usuario">
-            <component name="traffic_light_asm2" type="implementation" />
-        </component_file>
         <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_asm_pic" suffix="imp" user="usuario">
             <component name="traffic_light_asm_pic" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/traffic_light_pic/sources" name="traffic_light_data_refinement" suffix="ref" user="david">
+            <component name="traffic_light_data_refinement" type="refinement" />
         </component_file>
     </project>
 </db_xml>

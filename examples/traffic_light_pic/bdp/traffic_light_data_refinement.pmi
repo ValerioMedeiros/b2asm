@@ -1,0 +1,76 @@
+THEORY BalanceX IS
+  traffic_light_data_refinement,18,4,0,14,0,0,0;
+  Initialisation,2,1,0,1,0,0,0;
+  advance,16,3,0,13,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ah(color = red) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(red)) & eh(counter$1,{green|->0,yellow|->1,red|->2}(red),Goal) & ss & pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ah(color = red) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(red)) & ss & pr;
+  cl & xp & mh(not(red = green) & not(red = yellow) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green))) & rn(not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green))) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & eh(color,red,Goal) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & ss & pr;
+  cl & xp & se(green) & ss & pr & ah(color_refine = {green|->0,yellow|->1,red|->2}) & ss & pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END

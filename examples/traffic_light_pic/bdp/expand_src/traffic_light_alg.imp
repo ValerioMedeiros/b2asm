@@ -1,5 +1,5 @@
 /*************************************************************************
-Copyright (c) 2008 David Deharbe, Valerio Medeiros Jr
+Copyright (c) 2008 David Deharbe
 
 All rights reserved.
 
@@ -22,27 +22,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *************************************************************************/
 IMPLEMENTATION
    traffic_light_alg
-SEES
-   definitions
 REFINES
-   traffic_light
+   traffic_light_data_refinement
+SEES
+   definitions , data_refinement
 IMPORTS
    state.VarNatural
 INVARIANT
-   state.value = state /*{red,green,yellow} */
-
+   state.value : 0 .. 2 & ( state.value = counter )
 INITIALISATION
-   state.set ( 1 )
-
+   state.set ( 0 )
 OPERATIONS
-
 advance =
-VAR tmp IN
-  tmp <-- state.get ;
-  IF tmp = 1 THEN   state.set ( 3 )
-  ELSE state.set ( tmp - 1 ) END
-
-END
-
-
+        IF state.value = 0 THEN state.set ( 1 )
+        ELSIF state.value = 1 THEN state.set ( 2 )
+        ELSE state.set ( 0 ) END
 END

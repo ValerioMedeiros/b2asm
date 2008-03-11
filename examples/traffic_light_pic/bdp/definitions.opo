@@ -1,10 +1,11 @@
 THEORY OPOBalanceX IS
   definitions,1;
+  AssertionLemmas,0;
   Initialisation,1
 END
 &
 THEORY OPOProofList IS
-  Initialisation.1,(_of(1) => _of(2))
+  _f(1) & Initialisation.1,(_of(1) => _of(2))
 END
 &
 THEORY OPOFormulas IS
