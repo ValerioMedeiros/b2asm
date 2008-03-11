@@ -1,0 +1,10 @@
+THEORY BBTTE IS
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(micromemory_data$1<+{0|->micromemory_data$1(0)-1}) = NATURAL) & cmd(1 | xp) & cmd(1 | ss) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | dom(memory_data$0<+{0|->3}) = NATURAL) & cmd(1 | xp) & cmd(1 | pp(rp.1)) & gol(0 | SUCCESS)
+END

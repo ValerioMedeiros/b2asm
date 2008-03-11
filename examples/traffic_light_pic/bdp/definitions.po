@@ -1,0 +1,12 @@
+THEORY ProofList
+END
+&
+THEORY Formulas 
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
