@@ -43,43 +43,42 @@ INITIALISATION
 OPERATIONS
         
 advance =
-BEGIN 
-   m.CALL(0);
-   WHILE m.pc < 10 DO
-    BEGIN
-      CASE m.pc OF
-        EITHER 0  THEN m.BTFSC(0,1)
-            OR 1  THEN m.GOTO(8)
-            OR 2  THEN m.BTFSC(0,0)
-            OR 3  THEN m.GOTO(6)
-            OR 4  THEN m.MOVLW(1)
-            OR 5  THEN m.GOTO(9)
-            OR 6  THEN m.MOVLW(2)
-            OR 7  THEN m.GOTO(9)
-            OR 8  THEN m.MOVLW(0)
-            OR 9  THEN m.MOVWF(0)
-        END
+   BEGIN 
+      m.CALL(0);
+      WHILE m.pc < 10 DO
+      BEGIN
+         CASE m.pc OF
+            EITHER 0  THEN m.BTFSC(0,1)
+               OR 1  THEN m.GOTO(8)
+               OR 2  THEN m.BTFSC(0,0)
+               OR 3  THEN m.GOTO(6)
+               OR 4  THEN m.MOVLW(1)
+               OR 5  THEN m.GOTO(9)
+               OR 6  THEN m.MOVLW(2)
+               OR 7  THEN m.GOTO(9)
+               OR 8  THEN m.MOVLW(0)
+               OR 9  THEN m.MOVWF(0)
+            END
+         END
       END
-    END;
-    m.RETURN
-    INVARIANT 
-      0 <= m.pc & m.pc <= 10 & m.sp > 0 & 
-      m.mem(0) : 0..2 &
-      ((m.pc = 0) => (m.mem(0) :  0..2 & m.mem(0) = counter)) &
-      ((m.pc = 1) => m.mem(0) = 2 & counter = 2) &
-      ((m.pc = 2) => m.mem(0) /= 2 & m.mem(0) = counter) &
-      ((m.pc = 3) => m.mem(0) = 1 & counter = 1) &
-      ((m.pc = 4) => m.mem(0) = 0 & m.mem(0) = counter) &
-      ((m.pc = 5) => m.mem(0) = 0 & m.mem(0) = counter & m.w = 1) &
-      ((m.pc = 6) => m.mem(0) = 1 & m.mem(0) = counter) &
-      ((m.pc = 7) => m.mem(0) = 1 & m.mem(0) = counter & m.w = 2) &
-      ((m.pc = 8) => m.mem(0) = 2 & m.mem(0) = counter) &
-      ((m.pc = 9) => (m.mem(0) : 0..2 & m.mem(0) = counter & m.w = color_step(counter))) &
-      ((m.pc = 10) => (m.mem(0) :  0..2 & m.mem(0) = color_step(counter)))
-
-    VARIANT (10 - m.pc)
+      INVARIANT 
+         0 <= m.pc & m.pc <= 10 & m.sp > 0 & 
+         m.mem(0) : 0..2 &
+         ((m.pc = 0) => (m.mem(0) :  0..2 & m.mem(0) = counter)) &
+         ((m.pc = 1) => m.mem(0) = 2 & counter = 2) &
+         ((m.pc = 2) => m.mem(0) /= 2 & m.mem(0) = counter) &
+         ((m.pc = 3) => m.mem(0) = 1 & counter = 1) &
+         ((m.pc = 4) => m.mem(0) = 0 & m.mem(0) = counter) &
+         ((m.pc = 5) => m.mem(0) = 0 & m.mem(0) = counter & m.w = 1) &
+         ((m.pc = 6) => m.mem(0) = 1 & m.mem(0) = counter) &
+         ((m.pc = 7) => m.mem(0) = 1 & m.mem(0) = counter & m.w = 2) &
+         ((m.pc = 8) => m.mem(0) = 2 & m.mem(0) = counter) &
+         ((m.pc = 9) => (m.mem(0) : 0..2 & m.mem(0) = counter & m.w = color_step(counter))) &
+         ((m.pc = 10) => (m.mem(0) :  0..2 & m.mem(0) = color_step(counter)))
+      VARIANT (10 - m.pc)
+      END;
+      m.RETURN
    END
-  END
 
 END
 
