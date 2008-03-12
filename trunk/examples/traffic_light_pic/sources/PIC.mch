@@ -70,14 +70,16 @@ OPERATIONS
    ;
    RETURN =
       PRE sp > 0 THEN
-         stack := {sp - 1} <<| stack ||
          pc := stack(sp - 1) ||
+         stack := {sp - 1} <<| stack ||
          sp := sp - 1
       END
    ;
    RETLW (k) =
       PRE k : WORD & sp > 0 THEN
          pc := stack(sp - 1) ||
+         stack := {sp - 1} <<| stack ||
+         sp := sp - 1 ||
          w := k
       END
    ;
@@ -309,11 +311,6 @@ OPERATIONS
          END
       END
    ;
-   GOTO (k) =
-      PRE k : INSTRUCTION THEN
-         pc := k
-      END
-   ;
    INCF (f, d) =
       PRE f : REGISTER & d : BIT THEN
          ANY result, carry, zero WHERE 
@@ -347,6 +344,11 @@ OPERATIONS
                pc := INSTRUCTION_NEXT(pc)
             END
          END
+      END
+   ;
+   GOTO (k) =
+      PRE k : INSTRUCTION THEN
+         pc := k
       END
    ;
    MOVLW (k) =

@@ -23,7 +23,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 IMPLEMENTATION
    traffic_light_asm_pic
 SEES
-   definitions , data_refinement , TYPES
+   definitions , data_refinement , TYPES , ALU
 
 REFINES
    traffic_light_data_refinement

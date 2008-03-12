@@ -1,6 +1,7 @@
-file:8677414cb15812bc639b3733b583ce35
+file:cd2b858673f0b4217eebce64b6e1c584
 abst:traffic_light_data_refinement
 sees:definitions
 sees:data_refinement
 sees:TYPES
+sees:ALU
 impo:PIC:m

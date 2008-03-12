@@ -37,9 +37,9 @@ OPERATIONS
 advance = 
   BEGIN
     CASE color OF 
-    EITHER green THEN color:=yellow
-    OR yellow THEN color:=red
-    OR red THEN color:=green
+    EITHER green THEN color := yellow
+    OR yellow THEN color := red
+    OR red THEN color := green
     END
     END
   END
