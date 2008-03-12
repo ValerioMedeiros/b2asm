@@ -88,8 +88,8 @@ THEORY ListConstraintsX IS
 END
 &
 THEORY ListOperationsX IS
-  Internal_List_Operations(Machine(PIC))==(CALL,RETURN,RETLW,ADDLW,ADDWF,SUBLW,SUBWF,ANDLW,ANDLWF,IORLW,IORLWF,XORLW,XORLWF,BCF,BSF,BTFSC,BTFSS,CLRF,CLRW,COMF,DECF,DECFSZ,GOTO,INCF,INCFSZ,MOVLW,MOVF,MOVWF,NOP,ROLF,RORF,SWAP);
-  List_Operations(Machine(PIC))==(CALL,RETURN,RETLW,ADDLW,ADDWF,SUBLW,SUBWF,ANDLW,ANDLWF,IORLW,IORLWF,XORLW,XORLWF,BCF,BSF,BTFSC,BTFSS,CLRF,CLRW,COMF,DECF,DECFSZ,GOTO,INCF,INCFSZ,MOVLW,MOVF,MOVWF,NOP,ROLF,RORF,SWAP)
+  Internal_List_Operations(Machine(PIC))==(CALL,RETURN,RETLW,ADDLW,ADDWF,SUBLW,SUBWF,ANDLW,ANDLWF,IORLW,IORLWF,XORLW,XORLWF,BCF,BSF,BTFSC,BTFSS,CLRF,CLRW,COMF,DECF,DECFSZ,INCF,INCFSZ,GOTO,MOVLW,MOVF,MOVWF,NOP,ROLF,RORF,SWAP);
+  List_Operations(Machine(PIC))==(CALL,RETURN,RETLW,ADDLW,ADDWF,SUBLW,SUBWF,ANDLW,ANDLWF,IORLW,IORLWF,XORLW,XORLWF,BCF,BSF,BTFSC,BTFSS,CLRF,CLRW,COMF,DECF,DECFSZ,INCF,INCFSZ,GOTO,MOVLW,MOVF,MOVWF,NOP,ROLF,RORF,SWAP)
 END
 &
 THEORY ListInputX IS
@@ -115,9 +115,9 @@ THEORY ListInputX IS
   List_Input(Machine(PIC),COMF)==(f,d);
   List_Input(Machine(PIC),DECF)==(f,d);
   List_Input(Machine(PIC),DECFSZ)==(f,d);
-  List_Input(Machine(PIC),GOTO)==(k);
   List_Input(Machine(PIC),INCF)==(f,d);
   List_Input(Machine(PIC),INCFSZ)==(f,d);
+  List_Input(Machine(PIC),GOTO)==(k);
   List_Input(Machine(PIC),MOVLW)==(k);
   List_Input(Machine(PIC),MOVF)==(f,d);
   List_Input(Machine(PIC),MOVWF)==(f);
@@ -150,9 +150,9 @@ THEORY ListOutputX IS
   List_Output(Machine(PIC),COMF)==(?);
   List_Output(Machine(PIC),DECF)==(?);
   List_Output(Machine(PIC),DECFSZ)==(?);
-  List_Output(Machine(PIC),GOTO)==(?);
   List_Output(Machine(PIC),INCF)==(?);
   List_Output(Machine(PIC),INCFSZ)==(?);
+  List_Output(Machine(PIC),GOTO)==(?);
   List_Output(Machine(PIC),MOVLW)==(?);
   List_Output(Machine(PIC),MOVF)==(?);
   List_Output(Machine(PIC),MOVWF)==(?);
@@ -185,9 +185,9 @@ THEORY ListHeaderX IS
   List_Header(Machine(PIC),COMF)==(COMF(f,d));
   List_Header(Machine(PIC),DECF)==(DECF(f,d));
   List_Header(Machine(PIC),DECFSZ)==(DECFSZ(f,d));
-  List_Header(Machine(PIC),GOTO)==(GOTO(k));
   List_Header(Machine(PIC),INCF)==(INCF(f,d));
   List_Header(Machine(PIC),INCFSZ)==(INCFSZ(f,d));
+  List_Header(Machine(PIC),GOTO)==(GOTO(k));
   List_Header(Machine(PIC),MOVLW)==(MOVLW(k));
   List_Header(Machine(PIC),MOVF)==(MOVF(f,d));
   List_Header(Machine(PIC),MOVWF)==(MOVWF(f));
@@ -220,9 +220,9 @@ THEORY ListPreconditionX IS
   List_Precondition(Machine(PIC),COMF)==(f : REGISTER & d : BIT);
   List_Precondition(Machine(PIC),DECF)==(f : REGISTER & d : BIT);
   List_Precondition(Machine(PIC),DECFSZ)==(f : REGISTER & d : BIT);
-  List_Precondition(Machine(PIC),GOTO)==(k : INSTRUCTION);
   List_Precondition(Machine(PIC),INCF)==(f : REGISTER & d : BIT);
   List_Precondition(Machine(PIC),INCFSZ)==(f : REGISTER & d : BIT);
+  List_Precondition(Machine(PIC),GOTO)==(k : INSTRUCTION);
   List_Precondition(Machine(PIC),MOVLW)==(k : WORD);
   List_Precondition(Machine(PIC),MOVF)==(f : REGISTER & d : BIT);
   List_Precondition(Machine(PIC),MOVWF)==(f : REGISTER);
@@ -240,9 +240,9 @@ THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(PIC),MOVWF)==(f : REGISTER | mem,pc:=mem<+{f|->w},INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),MOVF)==(f : REGISTER & d : BIT | d = 0 ==> w:=mem(f) [] not(d = 0) ==> skip || z:=bool(mem(f) = 0) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),MOVLW)==(k : WORD | w,pc:=k,INSTRUCTION_NEXT(pc));
+  Expanded_List_Substitution(Machine(PIC),GOTO)==(k : INSTRUCTION | pc:=k);
   Expanded_List_Substitution(Machine(PIC),INCFSZ)==(f : REGISTER & d : BIT | @(result,carry,zero).(result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || (result = 0 ==> pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) [] not(result = 0) ==> pc:=INSTRUCTION_NEXT(pc)))));
   Expanded_List_Substitution(Machine(PIC),INCF)==(f : REGISTER & d : BIT | @(result,carry,zero).(result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=bool(result = 0))) || pc:=INSTRUCTION_NEXT(pc));
-  Expanded_List_Substitution(Machine(PIC),GOTO)==(k : INSTRUCTION | pc:=k);
   Expanded_List_Substitution(Machine(PIC),DECFSZ)==(f : REGISTER & d : BIT | @(result,borrow,zero).(result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=zero || (result = 0 ==> pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) [] not(result = 0) ==> pc:=INSTRUCTION_NEXT(pc)))));
   Expanded_List_Substitution(Machine(PIC),DECF)==(f : REGISTER & d : BIT | @(result,borrow,zero).(result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),1) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=zero)) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),COMF)==(f : REGISTER & d : BIT | @result.(result = complement(mem(f)) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || z:=bool(result = 0))) || pc:=INSTRUCTION_NEXT(pc));
@@ -262,12 +262,12 @@ THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(PIC),SUBLW)==(k : WORD | @(result,borrow,zero).(result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(k,w) ==> w,c,z:=result,borrow,zero) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),ADDWF)==(f : REGISTER & d : BIT | @(result,carry,zero).(result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),w) ==> (d = 0 ==> w:=result [] not(d = 0) ==> mem:=mem<+{f|->result} || c:=carry || z:=zero)) || pc:=INSTRUCTION_NEXT(pc));
   Expanded_List_Substitution(Machine(PIC),ADDLW)==(k : WORD | @(result,carry,zero).(result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(k,w) ==> w,c,z:=result,carry,zero) || pc:=INSTRUCTION_NEXT(pc));
-  Expanded_List_Substitution(Machine(PIC),RETLW)==(k : WORD & sp>0 | pc,w:=stack(sp-1),k);
-  Expanded_List_Substitution(Machine(PIC),RETURN)==(sp>0 | stack,pc,sp:={sp-1}<<|stack,stack(sp-1),sp-1);
+  Expanded_List_Substitution(Machine(PIC),RETLW)==(k : WORD & sp>0 | pc,stack,sp,w:=stack(sp-1),{sp-1}<<|stack,sp-1,k);
+  Expanded_List_Substitution(Machine(PIC),RETURN)==(sp>0 | pc,stack,sp:=stack(sp-1),{sp-1}<<|stack,sp-1);
   Expanded_List_Substitution(Machine(PIC),CALL)==(k : INSTRUCTION | stack,sp,pc:=stack<+{sp|->INSTRUCTION_NEXT(pc)},sp+1,k);
   List_Substitution(Machine(PIC),CALL)==(stack(sp):=INSTRUCTION_NEXT(pc) || sp:=sp+1 || pc:=k);
-  List_Substitution(Machine(PIC),RETURN)==(stack:={sp-1}<<|stack || pc:=stack(sp-1) || sp:=sp-1);
-  List_Substitution(Machine(PIC),RETLW)==(pc:=stack(sp-1) || w:=k);
+  List_Substitution(Machine(PIC),RETURN)==(pc:=stack(sp-1) || stack:={sp-1}<<|stack || sp:=sp-1);
+  List_Substitution(Machine(PIC),RETLW)==(pc:=stack(sp-1) || stack:={sp-1}<<|stack || sp:=sp-1 || w:=k);
   List_Substitution(Machine(PIC),ADDLW)==(ANY result,carry,zero WHERE result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(k,w) THEN w,c,z:=result,carry,zero END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),ADDWF)==(ANY result,carry,zero WHERE result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),w) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || c:=carry || z:=zero END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),SUBLW)==(ANY result,borrow,zero WHERE result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(k,w) THEN w,c,z:=result,borrow,zero END || pc:=INSTRUCTION_NEXT(pc));
@@ -287,9 +287,9 @@ THEORY ListSubstitutionX IS
   List_Substitution(Machine(PIC),COMF)==(ANY result WHERE result = complement(mem(f)) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=bool(result = 0) END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),DECF)==(ANY result,borrow,zero WHERE result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=zero END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),DECFSZ)==(ANY result,borrow,zero WHERE result : WORD & borrow : BOOL & zero : BOOL & result,borrow,zero = substract(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=zero || IF result = 0 THEN pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) ELSE pc:=INSTRUCTION_NEXT(pc) END END);
-  List_Substitution(Machine(PIC),GOTO)==(pc:=k);
   List_Substitution(Machine(PIC),INCF)==(ANY result,carry,zero WHERE result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || z:=bool(result = 0) END || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),INCFSZ)==(ANY result,carry,zero WHERE result : WORD & carry : BOOL & zero : BOOL & result,carry,zero = add(mem(f),1) THEN IF d = 0 THEN w:=result ELSE mem(f):=result END || IF result = 0 THEN pc:=INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) ELSE pc:=INSTRUCTION_NEXT(pc) END END);
+  List_Substitution(Machine(PIC),GOTO)==(pc:=k);
   List_Substitution(Machine(PIC),MOVLW)==(w:=k || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),MOVF)==(IF d = 0 THEN w:=mem(f) ELSE skip END || z:=bool(mem(f) = 0) || pc:=INSTRUCTION_NEXT(pc));
   List_Substitution(Machine(PIC),MOVWF)==(mem(f):=w || pc:=INSTRUCTION_NEXT(pc));
@@ -327,7 +327,7 @@ END
 &
 THEORY ListPropertiesX IS
   Abstract_List_Properties(Machine(PIC))==(btrue);
-  Context_List_Properties(Machine(PIC))==(WORD_LENGTH : NATURAL & INST_SZ : NATURAL & NB_WORDS : NATURAL & NB_INSTRUCTIONS : NATURAL & WORD_LENGTH = 8 & NB_WORDS = 2**WORD_LENGTH & WORD = 0..NB_WORDS-1 & WORD_POSITION = 0..WORD_LENGTH-1 & INST_SZ = 8 & NB_INSTRUCTIONS = 256 & INSTRUCTION_MAX = NB_INSTRUCTIONS-1 & INSTRUCTION = 0..INSTRUCTION_MAX & INSTRUCTION_NEXT : INSTRUCTION --> INSTRUCTION & !i.(i : INSTRUCTION => (i = 255 => INSTRUCTION_NEXT(i) = 0) & (i<255 => INSTRUCTION_NEXT(i) = i+1)) & BV_TO_WORD : BV8 --> WORD & WORD_TO_BV : WORD --> BV8 & !(w,v).(w : WORD & v : BV8 => v = WORD_TO_BV(w) <=> (w = 128*v(7)+64*v(6)+32*v(5)+16*v(4)+8*v(3)+4*v(2)+2*v(1)+v(0))) & BV_TO_WORD = WORD_TO_BV~ & !n.(n : NATURAL & n>0 => 2**n = 2*2**(n-1)) & REGISTER : POW(INTEGER) & REGISTER = 0..127 & BIT = 0..1 & BIT_FLIP : BIT --> BIT & !b.(b : BIT => BIT_FLIP(b) = 1-b) & BIT_AND : BIT*BIT --> BIT & !(b1,b2).(b1 : BIT & b2 : BIT => BIT_AND(b1,b2) = 1 <=> (b1 = 1) & b2 = 1) & BIT_IOR : BIT*BIT --> BIT & !(b1,b2).(b1 : BIT & b2 : BIT => BIT_IOR(b1,b2) = 1 <=> (b1 = 1) or b2 = 1) & BIT_XOR : BIT*BIT --> BIT & !(b1,b2).(b1 : BIT & b2 : BIT => BIT_XOR(b1,b2) = 1 <=> (b1 = 1 & b2 = 0 or (b1 = 0 & b2 = 1))) & BV8_INDEX = 0..7 & BV8 = BV8_INDEX --> BIT & BV8_SET_BIT : BV8*BV8_INDEX*BIT --> BV8 & !(v,i,j,b).(v : BV8 & i : BV8_INDEX & j : BV8_INDEX & b : BIT => (i/=j => BV8_SET_BIT(v,i,b)(j) = v(j))) & !(v,i,b).(v : BV8 & i : BV8_INDEX & b : BIT => BV8_SET_BIT(v,i,b)(i) = b) & BV8_COMPLEMENT : BV8 --> BV8 & !(v,i).(v : BV8 & i : BV8_INDEX => BV8_COMPLEMENT(v)(i) = BIT_FLIP(v(i))) & BV8_ALL_ZEROES : BV8 & !i.(i : BV8_INDEX => BV8_ALL_ZEROES(i) = 0) & BV8_AND : BV8*BV8 --> BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_AND(v1,v2)(i) = BIT_AND(v1(i),v2(i))) & BV8_IOR : BV8*BV8 --> BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_IOR(v1,v2)(i) = BIT_IOR(v1(i),v2(i))) & BV8_XOR : BV8*BV8 --> BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_XOR(v1,v2)(i) = BIT_XOR(v1(i),v2(i))) & add : WORD*WORD --> WORD*BOOL*BOOL & !(w1,w2,sum).(w1 : WORD & w2 : WORD & sum : NATURAL & sum = w1+w2 => (sum<=255 => add(w1,w2) = sum,bool(sum = 0),FALSE) & (256<=sum => add(w1,w2) = sum-256,bool(sum = 256),TRUE)) & substract : WORD*WORD --> WORD*BOOL*BOOL & !(w1,w2,diff).(w1 : WORD & w2 : WORD & diff : INTEGER & diff = w1-w2 => (diff<0 => substract(w1,w2) = diff+256,FALSE,TRUE) & (diff>=0 => substract(w1,w2) = diff,bool(diff = 0),FALSE)) & and : WORD*WORD --> WORD*BOOL & !(w1,w2,w).(w1 : WORD & w2 : WORD & w : WORD & w = BV_TO_WORD(BV8_AND(WORD_TO_BV(w1),WORD_TO_BV(w2))) => and(w1,w2) = w,bool(w = 0)) & ior : WORD*WORD --> WORD*BOOL & !(w1,w2,w).(w1 : WORD & w2 : WORD & w : WORD & w = BV_TO_WORD(BV8_IOR(WORD_TO_BV(w1),WORD_TO_BV(w2))) => ior(w1,w2) = w,bool(w = 0)) & xor : WORD*WORD --> WORD*BOOL & !(w1,w2,w).(w1 : WORD & w2 : WORD & w : WORD & w = BV_TO_WORD(BV8_XOR(WORD_TO_BV(w1),WORD_TO_BV(w2))) => xor(w1,w2) = w,bool(w = 0)) & bitget : WORD*WORD_POSITION --> BIT & !(w,i).(w : WORD & i : WORD_POSITION => bitget(w,i) = WORD_TO_BV(w)(i)) & bitset : WORD*WORD_POSITION --> WORD & !(w,i).(w : WORD & i : WORD_POSITION => bitset(w,i) = BV_TO_WORD(BV8_SET_BIT(WORD_TO_BV(w),i,1))) & bitclear : WORD*WORD_POSITION --> WORD & !(w,i,b).(w : WORD & i : WORD_POSITION & b : BIT => bitclear(w,i) = BV_TO_WORD(BV8_SET_BIT(WORD_TO_BV(w),i,0))) & complement : WORD --> WORD & !w.(w : WORD => complement(w) = BV_TO_WORD(BV8_COMPLEMENT(WORD_TO_BV(w)))) & swap : WORD --> WORD & !(w,v).(w : WORD & v : BV8 => (v = WORD_TO_BV(w) => swap(w) = BV_TO_WORD({0|->v(4),1|->v(5),2|->v(6),3|->v(7),4|->v(0),5|->v(1),6|->v(2),7|->v(3)}))) & rotateleft : WORD --> WORD*BOOL & !(w,v).(w : WORD & v : BV8 => (v = WORD_TO_BV(w) => rotateleft(w) = BV_TO_WORD({0|->v(7),1|->v(0),2|->v(1),3|->v(2),4|->v(3),5|->v(4),6|->v(5),7|->v(6)}),bool(v(7) = 1))) & rotateright : WORD --> WORD*BOOL & !(w,v).(w : WORD & v : BV8 => (v = WORD_TO_BV(w) => rotateright(w) = BV_TO_WORD({0|->v(1),1|->v(2),2|->v(3),3|->v(4),4|->v(5),5|->v(6),6|->v(7),7|->v(0)}),bool(v(0) = 1))));
+  Context_List_Properties(Machine(PIC))==(WORD_LENGTH : NATURAL & INST_SZ : NATURAL & NB_WORDS : NATURAL & NB_INSTRUCTIONS : NATURAL & WORD_LENGTH = 8 & NB_WORDS = 2**WORD_LENGTH & WORD = 0..NB_WORDS-1 & WORD_POSITION = 0..WORD_LENGTH-1 & INST_SZ = 8 & NB_INSTRUCTIONS = 256 & INSTRUCTION_MAX = NB_INSTRUCTIONS-1 & INSTRUCTION = 0..INSTRUCTION_MAX & INSTRUCTION_NEXT : INSTRUCTION --> INSTRUCTION & !i.(i : INSTRUCTION => (i = 255 => INSTRUCTION_NEXT(i) = 0) & (i<255 => INSTRUCTION_NEXT(i) = i+1)) & BV_TO_WORD : BV8 --> WORD & WORD_TO_BV : WORD --> BV8 & !(w,v).(w : WORD & v : BV8 => v = WORD_TO_BV(w) <=> (w = 128*v(7)+64*v(6)+32*v(5)+16*v(4)+8*v(3)+4*v(2)+2*v(1)+v(0))) & BV_TO_WORD = WORD_TO_BV~ & !n.(n : NATURAL & n>0 => 2**n = 2*2**(n-1)) & REGISTER : POW(INTEGER) & REGISTER = 0..127 & BIT = 0..1 & BIT_FLIP : BIT --> BIT & !b.(b : BIT => BIT_FLIP(b) = 1-b) & BIT_AND : BIT*BIT --> BIT & !(b1,b2).(b1 : BIT & b2 : BIT => BIT_AND(b1,b2) = 1 <=> (b1 = 1) & b2 = 1) & BIT_IOR : BIT*BIT --> BIT & !(b1,b2).(b1 : BIT & b2 : BIT => BIT_IOR(b1,b2) = 1 <=> (b1 = 1) or b2 = 1) & BIT_XOR : BIT*BIT --> BIT & !(b1,b2).(b1 : BIT & b2 : BIT => BIT_XOR(b1,b2) = 1 <=> (b1 = 1 & b2 = 0 or (b1 = 0 & b2 = 1))) & BV8_INDEX = 0..7 & BV8 = BV8_INDEX --> BIT & BV8_SET_BIT : BV8*BV8_INDEX*BIT --> BV8 & !(v,i,j,b).(v : BV8 & i : BV8_INDEX & j : BV8_INDEX & b : BIT => (i/=j => BV8_SET_BIT(v,i,b)(j) = v(j))) & !(v,i,b).(v : BV8 & i : BV8_INDEX & b : BIT => BV8_SET_BIT(v,i,b)(i) = b) & BV8_COMPLEMENT : BV8 --> BV8 & !(v,i).(v : BV8 & i : BV8_INDEX => BV8_COMPLEMENT(v)(i) = BIT_FLIP(v(i))) & BV8_ALL_ZEROES : BV8 & !i.(i : BV8_INDEX => BV8_ALL_ZEROES(i) = 0) & BV8_AND : BV8*BV8 --> BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_AND(v1,v2)(i) = BIT_AND(v1(i),v2(i))) & BV8_IOR : BV8*BV8 --> BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_IOR(v1,v2)(i) = BIT_IOR(v1(i),v2(i))) & BV8_XOR : BV8*BV8 --> BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_XOR(v1,v2)(i) = BIT_XOR(v1(i),v2(i))) & add : WORD*WORD --> WORD*BOOL*BOOL & !(w1,w2,sum).(w1 : WORD & w2 : WORD & sum : NATURAL & sum = w1+w2 => (sum<=255 => add(w1,w2) = sum,FALSE,bool(sum = 0)) & (256<=sum => add(w1,w2) = sum-256,TRUE,bool(sum = 256))) & substract : WORD*WORD --> WORD*BOOL*BOOL & !(w1,w2,diff).(w1 : WORD & w2 : WORD & diff : INTEGER & diff = w1-w2 => (diff<0 => substract(w1,w2) = diff+256,FALSE,TRUE) & (diff>=0 => substract(w1,w2) = diff,bool(diff = 0),FALSE)) & and : WORD*WORD --> WORD*BOOL & !(w1,w2,w).(w1 : WORD & w2 : WORD & w : WORD & w = BV_TO_WORD(BV8_AND(WORD_TO_BV(w1),WORD_TO_BV(w2))) => and(w1,w2) = w,bool(w = 0)) & ior : WORD*WORD --> WORD*BOOL & !(w1,w2,w).(w1 : WORD & w2 : WORD & w : WORD & w = BV_TO_WORD(BV8_IOR(WORD_TO_BV(w1),WORD_TO_BV(w2))) => ior(w1,w2) = w,bool(w = 0)) & xor : WORD*WORD --> WORD*BOOL & !(w1,w2,w).(w1 : WORD & w2 : WORD & w : WORD & w = BV_TO_WORD(BV8_XOR(WORD_TO_BV(w1),WORD_TO_BV(w2))) => xor(w1,w2) = w,bool(w = 0)) & bitget : WORD*WORD_POSITION --> BIT & !(w,i).(w : WORD & i : WORD_POSITION => bitget(w,i) = WORD_TO_BV(w)(i)) & bitset : WORD*WORD_POSITION --> WORD & !(w,i).(w : WORD & i : WORD_POSITION => bitset(w,i) = BV_TO_WORD(BV8_SET_BIT(WORD_TO_BV(w),i,1))) & bitclear : WORD*WORD_POSITION --> WORD & !(w,i,b).(w : WORD & i : WORD_POSITION & b : BIT => bitclear(w,i) = BV_TO_WORD(BV8_SET_BIT(WORD_TO_BV(w),i,0))) & complement : WORD --> WORD & !w.(w : WORD => complement(w) = BV_TO_WORD(BV8_COMPLEMENT(WORD_TO_BV(w)))) & swap : WORD --> WORD & !(w,v).(w : WORD & v : BV8 => (v = WORD_TO_BV(w) => swap(w) = BV_TO_WORD({0|->v(4),1|->v(5),2|->v(6),3|->v(7),4|->v(0),5|->v(1),6|->v(2),7|->v(3)}))) & rotateleft : WORD --> WORD*BOOL & !(w,v).(w : WORD & v : BV8 => (v = WORD_TO_BV(w) => rotateleft(w) = BV_TO_WORD({0|->v(7),1|->v(0),2|->v(1),3|->v(2),4|->v(3),5|->v(4),6|->v(5),7|->v(6)}),bool(v(7) = 1))) & rotateright : WORD --> WORD*BOOL & !(w,v).(w : WORD & v : BV8 => (v = WORD_TO_BV(w) => rotateright(w) = BV_TO_WORD({0|->v(1),1|->v(2),2|->v(3),3|->v(4),4|->v(5),5|->v(6),6|->v(7),7|->v(0)}),bool(v(0) = 1))));
   Inherited_List_Properties(Machine(PIC))==(btrue);
   List_Properties(Machine(PIC))==(btrue)
 END
@@ -347,7 +347,7 @@ THEORY ListSeenInfoX IS
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(PIC)) == (? | ? | ? | ? | CALL,RETURN,RETLW,ADDLW,ADDWF,SUBLW,SUBWF,ANDLW,ANDLWF,IORLW,IORLWF,XORLW,XORLWF,BCF,BSF,BTFSC,BTFSS,CLRF,CLRW,COMF,DECF,DECFSZ,GOTO,INCF,INCFSZ,MOVLW,MOVF,MOVWF,NOP,ROLF,RORF,SWAP | ? | seen(Machine(TYPES)),seen(Machine(ALU)) | ? | PIC);
+  List_Of_Ids(Machine(PIC)) == (? | ? | ? | ? | CALL,RETURN,RETLW,ADDLW,ADDWF,SUBLW,SUBWF,ANDLW,ANDLWF,IORLW,IORLWF,XORLW,XORLWF,BCF,BSF,BTFSC,BTFSS,CLRF,CLRW,COMF,DECF,DECFSZ,INCF,INCFSZ,GOTO,MOVLW,MOVF,MOVWF,NOP,ROLF,RORF,SWAP | ? | seen(Machine(TYPES)),seen(Machine(ALU)) | ? | PIC);
   List_Of_HiddenCst_Ids(Machine(PIC)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(PIC)) == (?);
   List_Of_VisibleVar_Ids(Machine(PIC)) == (sp,stack,pc,c,z,w,mem | ?);
@@ -379,7 +379,7 @@ THEORY VisibleVariablesEnvX IS
 END
 &
 THEORY OperationsEnvX IS
-  Operations(Machine(PIC)) == (Type(SWAP) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(RORF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(ROLF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(NOP) == Cst(No_type,No_type);Type(MOVWF) == Cst(No_type,btype(INTEGER,?,?));Type(MOVF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(MOVLW) == Cst(No_type,btype(INTEGER,?,?));Type(INCFSZ) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(INCF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(GOTO) == Cst(No_type,btype(INTEGER,?,?));Type(DECFSZ) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(DECF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(COMF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(CLRW) == Cst(No_type,No_type);Type(CLRF) == Cst(No_type,btype(INTEGER,?,?));Type(BTFSS) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(BTFSC) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(BSF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(BCF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(XORLWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(XORLW) == Cst(No_type,btype(INTEGER,?,?));Type(IORLWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(IORLW) == Cst(No_type,btype(INTEGER,?,?));Type(ANDLWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(ANDLW) == Cst(No_type,btype(INTEGER,?,?));Type(SUBWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(SUBLW) == Cst(No_type,btype(INTEGER,?,?));Type(ADDWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(ADDLW) == Cst(No_type,btype(INTEGER,?,?));Type(RETLW) == Cst(No_type,btype(INTEGER,?,?));Type(RETURN) == Cst(No_type,No_type);Type(CALL) == Cst(No_type,btype(INTEGER,?,?)))
+  Operations(Machine(PIC)) == (Type(SWAP) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(RORF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(ROLF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(NOP) == Cst(No_type,No_type);Type(MOVWF) == Cst(No_type,btype(INTEGER,?,?));Type(MOVF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(MOVLW) == Cst(No_type,btype(INTEGER,?,?));Type(GOTO) == Cst(No_type,btype(INTEGER,?,?));Type(INCFSZ) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(INCF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(DECFSZ) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(DECF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(COMF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(CLRW) == Cst(No_type,No_type);Type(CLRF) == Cst(No_type,btype(INTEGER,?,?));Type(BTFSS) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(BTFSC) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(BSF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(BCF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(XORLWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(XORLW) == Cst(No_type,btype(INTEGER,?,?));Type(IORLWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(IORLW) == Cst(No_type,btype(INTEGER,?,?));Type(ANDLWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(ANDLW) == Cst(No_type,btype(INTEGER,?,?));Type(SUBWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(SUBLW) == Cst(No_type,btype(INTEGER,?,?));Type(ADDWF) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(ADDLW) == Cst(No_type,btype(INTEGER,?,?));Type(RETLW) == Cst(No_type,btype(INTEGER,?,?));Type(RETURN) == Cst(No_type,No_type);Type(CALL) == Cst(No_type,btype(INTEGER,?,?)))
 END
 &
 THEORY TCIntRdX IS

@@ -36,8 +36,8 @@ PROPERTIES
     add : (WORD * WORD) --> (WORD * BOOL * BOOL)
   & ! (w1, w2, sum).
      (w1 : WORD & w2 : WORD & sum : NATURAL & sum = w1+w2 =>
-      ((sum <= 255 => add(w1, w2) = (sum, bool(sum=0), FALSE)) &
-       (256 <= sum => add(w1, w2) = (sum-256, bool(sum=256), TRUE)))) 
+      ((sum <= 255 => add(w1, w2) = (sum, FALSE, bool(sum=0))) &
+       (256 <= sum => add(w1, w2) = (sum-256, TRUE, bool(sum=256))))) 
 
   & substract : WORD * WORD --> WORD * BOOL * BOOL
   & ! (w1, w2, diff).
