@@ -1,4 +1,4 @@
-You will find described here an agenda of this research.
+#summary You will find described here an agenda of this research.
 
 
 = Introduction =
