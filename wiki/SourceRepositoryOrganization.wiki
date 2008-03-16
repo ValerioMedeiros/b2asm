@@ -1,0 +1,12 @@
+#summary This page describes the organization of the source code repository.
+
+= Introduction =
+
+For the moment being, the source code is composed of B projects that have been produced using the B4free toolkit through the Click'n'Prove interface.
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
