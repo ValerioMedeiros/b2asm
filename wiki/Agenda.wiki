@@ -8,5 +8,9 @@ The goal of the b2asm project is to develop a model-based approach that will pro
 = Details =
 
 The project is currently in a phase where we try to establish the feasibility of the approach. Our methodology is to:
-* build abstract (B) models of computing platforms, such as the instruction set of a family of micro-controllers;
-* develop small B projects down to assembly level, using the abovementioned of the corresponding instruction sets.
+   * build abstract (B) models of computing platforms, such as the instruction set of a family of micro-controllers;
+   * develop small B projects down to assembly level, using the abovementioned of the corresponding instruction sets.
+
+Several such examples have been developped and stored in the source code repository. Consult the SourceRepositoryOrganization for further details.
+
+The next step of the project is to develop rules to automatically generate assembly level implementations from traditional algorithmic level implementations.
