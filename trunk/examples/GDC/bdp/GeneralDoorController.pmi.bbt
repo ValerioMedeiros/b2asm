@@ -1,0 +1,26 @@
+THEORY BBTTE IS
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  ?;
+  cmd(0 | cl) & gol(0 | cc$0 = 3|->COMMAND) & cmd(1 | xp) & gol(1 | select_command(FALSE,i_close_left_doors,i_open_left_doors,Leftcommand_mem) = 3|->COMMAND) & cmd(2 | cls) & cmd(2 | ph(i_close_left_doors,i_open_left_doors,Leftcommand_mem,!(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : COMMAND => select_command(FALSE,cc,oo,mm) = CLOSE_DOORS))) & gol(2 | i_close_left_doors : BOOL) & cmd(3 | ah(i_close_left_doors : BOOL)) & gol(2 | i_open_left_doors : BOOL) & cmd(3 | ah(i_open_left_doors : BOOL)) & gol(2 | Leftcommand_mem : (1..3)*{COMMAND}) & cmd(3 | ah(Leftcommand_mem : COMMAND)) & gol(0 | SUCCESS);
+  ?;
+  cmd(0 | cl) & gol(0 | cc$0 = 3|->COMMAND) & cmd(1 | xp) & gol(1 | select_command(FALSE,i_close_left_doors,i_open_left_doors,Leftcommand_mem) = 3|->COMMAND) & cmd(2 | cls) & cmd(2 | ph(i_close_left_doors,i_open_left_doors,Leftcommand_mem,!(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : COMMAND => select_command(FALSE,cc,oo,mm) = CLOSE_DOORS))) & gol(2 | i_close_left_doors : BOOL) & cmd(3 | ah(i_close_left_doors : BOOL)) & gol(2 | i_open_left_doors : BOOL) & cmd(3 | ah(i_open_left_doors : BOOL)) & gol(2 | Leftcommand_mem : (1..3)*{COMMAND}) & cmd(3 | ah(Leftcommand_mem : COMMAND)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  ?;
+  cmd(0 | cl) & gol(0 | cc$0 = 3|->COMMAND) & cmd(1 | xp) & gol(1 | select_command(FALSE,i_close_left_doors,i_open_left_doors,Leftcommand_mem) = 3|->COMMAND) & cmd(2 | cls) & cmd(2 | ph(i_close_left_doors,i_open_left_doors,Leftcommand_mem,!(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : COMMAND => select_command(FALSE,cc,oo,mm) = CLOSE_DOORS))) & gol(2 | i_close_left_doors : BOOL) & cmd(3 | ah(i_close_left_doors : BOOL)) & gol(2 | i_open_left_doors : BOOL) & cmd(3 | ah(i_open_left_doors : BOOL)) & gol(2 | Leftcommand_mem : (1..3)*{COMMAND}) & cmd(3 | ah(Leftcommand_mem : COMMAND)) & gol(0 | SUCCESS);
+  ?;
+  cmd(0 | cl) & gol(0 | cc$0 = 3|->COMMAND) & cmd(1 | xp) & gol(1 | select_command(FALSE,i_close_left_doors,i_open_left_doors,Leftcommand_mem) = 3|->COMMAND) & cmd(2 | cls) & cmd(2 | ph(i_close_left_doors,i_open_left_doors,Leftcommand_mem,!(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : COMMAND => select_command(FALSE,cc,oo,mm) = CLOSE_DOORS))) & gol(2 | i_close_left_doors : BOOL) & cmd(3 | ah(i_close_left_doors : BOOL)) & gol(2 | i_open_left_doors : BOOL) & cmd(3 | ah(i_open_left_doors : BOOL)) & gol(2 | Leftcommand_mem : (1..3)*{COMMAND}) & cmd(3 | ah(Leftcommand_mem : COMMAND)) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  ?;
+  cmd(0 | cl) & gol(0 | cc$0 = 3|->COMMAND) & cmd(1 | xp) & gol(1 | select_command(FALSE,i_close_left_doors,i_open_left_doors,Leftcommand_mem) = 3|->COMMAND) & cmd(2 | cls) & cmd(2 | ph(i_close_left_doors,i_open_left_doors,Leftcommand_mem,!(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : COMMAND => select_command(FALSE,cc,oo,mm) = CLOSE_DOORS))) & gol(2 | i_close_left_doors : BOOL) & cmd(3 | ah(i_close_left_doors : BOOL)) & gol(2 | i_open_left_doors : BOOL) & cmd(3 | ah(i_open_left_doors : BOOL)) & gol(2 | Leftcommand_mem : (1..3)*{COMMAND}) & cmd(3 | ah(Leftcommand_mem : COMMAND)) & gol(0 | SUCCESS);
+  ?;
+  cmd(0 | cl) & gol(0 | cc$0 = 3|->COMMAND) & cmd(1 | xp) & gol(1 | select_command(FALSE,i_close_left_doors,i_open_left_doors,Leftcommand_mem) = 3|->COMMAND) & cmd(2 | cls) & cmd(2 | ph(i_close_left_doors,i_open_left_doors,Leftcommand_mem,!(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : COMMAND => select_command(FALSE,cc,oo,mm) = CLOSE_DOORS))) & gol(2 | i_close_left_doors : BOOL) & cmd(3 | ah(i_close_left_doors : BOOL)) & gol(2 | i_open_left_doors : BOOL) & cmd(3 | ah(i_open_left_doors : BOOL)) & gol(2 | Leftcommand_mem : (1..3)*{COMMAND}) & cmd(3 | ah(Leftcommand_mem : COMMAND)) & gol(0 | SUCCESS)
+END

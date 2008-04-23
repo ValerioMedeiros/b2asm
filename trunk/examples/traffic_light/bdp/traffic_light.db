@@ -22,9 +22,6 @@
         <component_file path="/home/david/B/traffic_light/sources" name="traffic_light_alg" suffix="imp" user="usuario">
             <component name="traffic_light_alg" type="implementation" />
         </component_file>
-        <component_file path="/home/david/B/traffic_light/sources" name="traffic_light_ass" suffix="imp" user="usuario">
-            <component name="traffic_light_ass" type="implementation" />
-        </component_file>
         <component_file path="/home/david/B/traffic_light/sources" name="traffic_light_ass2" suffix="imp" user="usuario">
             <component name="traffic_light_ass2" type="implementation" />
         </component_file>

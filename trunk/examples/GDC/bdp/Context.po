@@ -1,0 +1,17 @@
+THEORY ProofList
+END
+&
+THEORY Formulas IS
+  ("`Component properties'" & not((1..3)*{STATE} = {}) & not((1..3)*{CONDUCTION} = {}) & not((1..2)*{DOORS} = {}) & not((1..3)*{COMMAND} = {}))
+END
+&
+THEORY EnumerateX IS
+  STATE == {LEADER,NONE,OPPOSITE};
+  CONDUCTION == {MANUAL,CONTROLLED,CONDUCTION_OFF};
+  DOORS == {OPENED,CLOSED};
+  COMMAND == {NO_COMMAND,OPEN_DOORS,CLOSE_DOORS}
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

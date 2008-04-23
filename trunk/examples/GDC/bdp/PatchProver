@@ -1,0 +1,6 @@
+THEORY User_Pass IS
+  ff(0) & cl & xp & pr;
+  ff(0) & cl & xp & pr & pr;
+  ff(0) & cl & xp & pp(rp.0);
+  ff(0) & cl & xp & pp(rp.1)
+END

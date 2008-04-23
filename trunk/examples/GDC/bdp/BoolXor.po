@@ -1,0 +1,29 @@
+THEORY ProofList IS
+  _f(1) & AssertionLemmas.4,(_f(10) & _f(11) => _f(12));
+  _f(1) & AssertionLemmas.3,(_f(7) & _f(8) => _f(9));
+  _f(1) & AssertionLemmas.2,(_f(4) & _f(5) => _f(6));
+  _f(1) & AssertionLemmas.1,(_f(2) => _f(3))
+END
+&
+THEORY Formulas IS
+  ("`Component properties'" & xor : BOOL*BOOL +-> BOOL & dom(xor) = BOOL*BOOL & !(a,b).(a : BOOL & b : BOOL => xor(a,b) = bool(not(a = b))));
+  "`Check assertion (xor(TRUE,FALSE) = TRUE) deduction - ref 3.2, 4.2, 5.3'";
+  (xor(TRUE,FALSE) = TRUE);
+  ("`Local hypotheses'" & xor(TRUE,FALSE) = TRUE);
+  "`Check assertion (xor(FALSE,TRUE) = TRUE) deduction - ref 3.2, 4.2, 5.3'";
+  (xor(FALSE,TRUE) = TRUE);
+  ("`Local hypotheses'" & xor(TRUE,FALSE) = TRUE & xor(FALSE,TRUE) = TRUE);
+  "`Check assertion (xor(TRUE,TRUE) = FALSE) deduction - ref 3.2, 4.2, 5.3'";
+  (xor(TRUE,TRUE) = FALSE);
+  ("`Local hypotheses'" & xor(TRUE,FALSE) = TRUE & xor(FALSE,TRUE) = TRUE & xor(TRUE,TRUE) = FALSE);
+  "`Check assertion (xor(FALSE,FALSE) = FALSE) deduction - ref 3.2, 4.2, 5.3'";
+  (xor(FALSE,FALSE) = FALSE);
+  ("`Component assertions'" & xor(TRUE,FALSE) = TRUE & xor(FALSE,TRUE) = TRUE & xor(TRUE,TRUE) = FALSE & xor(FALSE,FALSE) = FALSE)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

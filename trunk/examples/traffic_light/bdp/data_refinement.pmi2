@@ -1,10 +1,13 @@
 THEORY BalanceX IS
-  data_refinement,3,0,0,3,0,0,0;
-  AssertionLemmas,3,0,0,3,0,0,0;
+  data_refinement,6,0,0,6,0,0,0;
+  AssertionLemmas,6,0,0,6,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
+  Proved(0);
+  Proved(0);
+  Proved(0);
   Proved(0);
   Proved(0);
   Proved(0)
@@ -13,10 +16,16 @@ END
 THEORY MethodList IS
   pr;
   pr;
+  pr;
+  pr;
+  pr;
   pr
 END
 &
 THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?

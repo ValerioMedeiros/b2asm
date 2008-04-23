@@ -1,0 +1,135 @@
+IMPLEMENTATION
+        GDCalg
+REFINES
+        GDC2
+SEES
+        Context ,
+        ContextCode ,
+        Control ,
+        BoolXor
+
+IMPORTS
+        vslow_speed.Nat ,
+        vtraction.Nat ,
+        vcabin.Nat ,
+        vopposite.Nat ,
+        vconduction.Nat ,
+        vmanual.Nat , vcontrolled.Nat ,
+        vLeftcommand_mem.Nat ,
+        vLeftopen_doors.Nat , vLeftclose_doors.Nat ,
+        vLefttl_sensor_open.Nat ,
+        vLefttl_command.Nat ,
+        vLeftvisual_open.Nat ,
+        vRightcommand_mem.Nat ,
+        vRightopen_doors.Nat , vRightclose_doors.Nat ,
+        vRighttl_sensor_open.Nat ,
+        vRighttl_command.Nat ,
+        vRightvisual_open.Nat
+
+CONCRETE_VARIABLES
+        vleader
+
+INVARIANT
+        vleader : NATURAL & vleader = BOOL_CODE ( leader ) &
+        vslow_speed.value = BOOL_CODE ( slow_speed ) &
+        vtraction.value = BOOL_CODE ( traction ) &
+        vcabin.value = STATE_CODE ( cabin ) &
+        vconduction.value = CONDUCTION_CODE ( conduction ) &
+        vmanual.value = BOOL_CODE ( manual ) &
+        vcontrolled.value = BOOL_CODE ( controlled ) &
+        vLeftcommand_mem.value = COMMAND_CODE ( Leftcommand_mem ) &
+        vLefttl_command.value = COMMAND_CODE ( Lefttl_command ) &
+        vLeftopen_doors.value = BOOL_CODE ( Leftopen_doors ) &
+        vLeftclose_doors.value = BOOL_CODE ( Leftclose_doors ) &
+        vLeftvisual_open.value = BOOL_CODE ( Leftvisual_open ) &
+        vRightcommand_mem.value = COMMAND_CODE ( Rightcommand_mem ) &
+        vRighttl_command.value = COMMAND_CODE ( Righttl_command ) &
+        vRightopen_doors.value = BOOL_CODE ( Rightopen_doors ) &
+        vRightclose_doors.value = BOOL_CODE ( Rightclose_doors ) &
+        vRightvisual_open.value = BOOL_CODE ( Rightvisual_open )
+
+INITIALISATION
+        vslow_speed.set ( BOOL_CODE ( TRUE ) ) ;
+        vtraction.set ( BOOL_CODE ( TRUE ) ) ;
+        vcabin.set ( STATE_CODE ( NONE ) ) ;
+        vleader := BOOL_CODE ( FALSE ) ;
+        vopposite.set ( BOOL_CODE ( FALSE ) ) ;
+        vconduction.set ( CONDUCTION_CODE ( MANUAL ) ) ;
+        vmanual.set ( BOOL_CODE ( TRUE ) ) ;
+        vcontrolled.set ( BOOL_CODE ( FALSE ) ) ;
+        vLeftcommand_mem.set ( COMMAND_CODE ( CLOSE_DOORS ) ) ;
+        vLefttl_command.set ( COMMAND_CODE ( CLOSE_DOORS ) ) ;
+        vLeftopen_doors.set ( BOOL_CODE ( FALSE ) ) ;
+        vLeftclose_doors.set ( BOOL_CODE ( TRUE ) ) ;
+        vLefttl_sensor_open.set ( BOOL_CODE ( FALSE ) ) ;
+        vLeftvisual_open.set ( BOOL_CODE ( FALSE ) ) ;
+        vRightcommand_mem.set ( COMMAND_CODE ( CLOSE_DOORS ) ) ;
+        vRighttl_command.set ( COMMAND_CODE ( CLOSE_DOORS ) ) ;
+        vRightopen_doors.set ( BOOL_CODE ( FALSE ) ) ;
+        vRightclose_doors.set ( BOOL_CODE ( TRUE ) ) ;
+        vRighttl_sensor_open.set ( BOOL_CODE ( FALSE ) ) ;
+        vRightvisual_open.set ( BOOL_CODE ( FALSE ) )
+
+OPERATIONS
+
+update_controller ( i_open_left_doors , i_close_left_doors , i_tl_sensor_left_open ,
+        i_tl_left_command , i_open_right_doors , i_close_right_doors ,
+        i_tl_sensor_right_open , i_tl_right_command ,
+        i_leader , i_opposite ,
+        i_manual , i_controlled ,
+        i_slow_speed ) =
+        BEGIN
+        vleader := BOOL_CODE ( i_leader ) ;
+        vopposite.set ( BOOL_CODE ( i_opposite ) ) ;
+        vslow_speed.set ( BOOL_CODE ( i_slow_speed ) ) ;
+        vmanual.set ( BOOL_CODE ( i_manual ) ) ;
+        vcontrolled.set ( BOOL_CODE ( i_controlled ) ) ;
+        vLeftopen_doors.set ( BOOL_CODE ( i_open_left_doors ) ) ;
+        vLeftclose_doors.set ( BOOL_CODE ( i_close_left_doors ) ) ;
+        vLefttl_sensor_open.set ( BOOL_CODE ( i_tl_sensor_left_open ) ) ;
+        vLeftvisual_open.set ( BOOL_CODE ( i_tl_sensor_left_open ) ) ;
+        vRightopen_doors.set ( BOOL_CODE ( i_open_right_doors ) ) ;
+        vRightclose_doors.set ( BOOL_CODE ( i_close_right_doors ) ) ;
+        vRighttl_sensor_open.set ( BOOL_CODE ( i_tl_sensor_right_open ) ) ;
+        vRightvisual_open.set ( BOOL_CODE ( i_tl_sensor_right_open ) ) ;
+        IF vleader = BOOL_CODE ( TRUE ) THEN
+                vcabin.set ( STATE_CODE ( LEADER ) )
+        ELSIF vopposite.value = BOOL_CODE ( TRUE ) THEN
+                vcabin.set ( STATE_CODE ( OPPOSITE ) )
+        ELSE
+                vcabin.set ( STATE_CODE ( NONE ) )
+        END ;
+        IF ( vmanual.value = vcontrolled.value ) THEN
+                vconduction.set ( CONDUCTION_CODE ( CONDUCTION_OFF ) )
+        ELSIF ( vmanual.value = BOOL_CODE ( TRUE ) ) THEN
+                vconduction.set ( CONDUCTION_CODE ( MANUAL ) )
+        ELSE
+                vconduction.set ( CONDUCTION_CODE ( CONTROLLED ) )
+        END ;
+        VAR cond IN
+                cond := conduction_p ( i_leader , i_manual , i_controlled ) ;
+                IF cond = TRUE THEN
+                        VAR cl , cr IN
+                                cl := select_command_code ( vslow_speed.value , vLeftclose_doors.value , vLeftopen_doors.value , vLeftcommand_mem.value ) ;
+                                cr := select_command_code ( vslow_speed.value , vRightclose_doors.value , vRightopen_doors.value , vRightcommand_mem.value ) ;
+                                IF cond = TRUE THEN
+                                        vLefttl_command.set ( cl ) ;
+                                        vLeftcommand_mem.set ( cl ) ;
+                                        vRighttl_command.set ( cr ) ;
+                                        vRightcommand_mem.set ( cr )
+                                ELSE
+                                        vLefttl_command.set ( vLefttl_command.value ) ;
+                                        vLeftcommand_mem.set ( vLefttl_command.value ) ;
+                                        vRighttl_command.set ( vRighttl_command.value ) ;
+                                        vRightcommand_mem.set ( vRighttl_command.value )
+                                END
+                        END
+                END
+        END ;
+        IF vLefttl_sensor_open.value = BOOL_CODE ( TRUE ) or vRighttl_sensor_open.value = BOOL_CODE ( TRUE ) THEN
+                vtraction.set ( BOOL_CODE ( FALSE ) )
+        ELSE
+                vtraction.set ( BOOL_CODE ( TRUE ) )
+        END
+        END
+END

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<db_xml>
+    <atelierb version="3_7_ubuntu-cvs" />
+    <project decomp_dir="/home/david/B/GDC/bdp/expand_src" old_decomp_dir="/home/david/B/GDC/bdp/src">
+        <!-- Definition directory list -->
+        <!-- Component file list -->
+        <component_file path="/home/david/B/GDC/sources" name="BoolXor" suffix="mch" user="david">
+            <component name="BoolXor" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/GDC/sources" name="Context" suffix="mch" user="david">
+            <component name="Context" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/GDC/sources" name="ContextCode" suffix="mch" user="david">
+            <component name="ContextCode" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/GDC/sources" name="Control" suffix="mch" user="david">
+            <component name="Control" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/GDC/sources" name="GDC" suffix="mch" user="david">
+            <component name="GDC" type="specification" />
+        </component_file>
+        <component_file path="/home/david/B/GDC/sources" name="GDC1" suffix="ref" user="david">
+            <component name="GDC1" type="refinement" />
+        </component_file>
+        <component_file path="/home/david/B/GDC/sources" name="GDC2" suffix="ref" user="david">
+            <component name="GDC2" type="refinement" />
+        </component_file>
+        <component_file path="/home/david/B/GDC/sources" name="GDCalg" suffix="imp" user="david">
+            <component name="GDCalg" type="implementation" />
+        </component_file>
+        <component_file path="/home/david/B/GDC/sources" name="Nat" suffix="mch" user="david">
+            <component name="Nat" type="specification" />
+        </component_file>
+    </project>
+</db_xml>
