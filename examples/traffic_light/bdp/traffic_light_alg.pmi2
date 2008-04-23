@@ -1,43 +1,18 @@
 THEORY BalanceX IS
-  traffic_light_alg,32,1,0,20,1,0,0;
+  traffic_light_alg,7,0,0,7,0,0,0;
   ValuesLemmas,0,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  Initialisation,2,1,0,1,0,0,0;
-  advance,30,0,0,19,1,0,0
+  Initialisation,1,0,0,1,0,0,0;
+  advance,6,0,0,6,0,0,0
 END
 &
 THEORY ProofState IS
-  Proved(1);
   Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
-  Unproved;
   Proved(0);
-  Unproved;
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Unproved;
-  Unproved;
-  Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Unproved;
-  Proved(0);
-  Unproved;
-  Unproved;
-  Proved(Util);
   Proved(0)
 END
 &
@@ -48,66 +23,16 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  ?;
-  pr;
-  ?;
-  ?;
-  pr;
-  pr;
-  pr;
-  ?;
-  pr;
-  pr;
-  pr;
-  pr;
-  ?;
-  ?;
-  ?;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  cl & xp & se(green) & ss & pr & ss & ph(green,!c.(c : COLOR => (c = green => color_refine(c) = 0) & (c = yellow => color_refine(c) = 1) & (c = red => color_refine(c) = 2))) & ss & pp(rp.0) & eh(0,color_refine(green),Goal);
   pr
 END
 &
 THEORY PassList IS
-  Force(1),(?;0);
   Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),(?;0;1);
   Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),?;
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
-  Force(0),(?;0;1);
   Force(0),?
 END
 &

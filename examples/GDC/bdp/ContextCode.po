@@ -1,0 +1,17 @@
+THEORY ProofList
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & not((1..3)*{STATE} = {}) & not((1..3)*{CONDUCTION} = {}) & not((1..2)*{DOORS} = {}) & not((1..3)*{COMMAND} = {}) & "`Component properties'" & STATE_CODE : (1..3)*{STATE} +-> NATURAL & dom(STATE_CODE) = (1..3)*{STATE} & STATE_CODE = {2|->STATE|->0}\/{1|->STATE|->1}\/{3|->STATE|->2} & CONDUCTION_CODE : (1..3)*{CONDUCTION} +-> NATURAL & dom(CONDUCTION_CODE) = (1..3)*{CONDUCTION} & CONDUCTION_CODE = {3|->CONDUCTION|->0}\/{1|->CONDUCTION|->1}\/{2|->CONDUCTION|->2} & DOORS_CODE : (1..2)*{DOORS} +-> NATURAL & dom(DOORS_CODE) = (1..2)*{DOORS} & DOORS_CODE = {1|->DOORS|->0}\/{2|->DOORS|->1} & COMMAND_CODE : (1..3)*{COMMAND} +-> NATURAL & dom(COMMAND_CODE) = (1..3)*{COMMAND} & COMMAND_CODE = {1|->COMMAND|->0}\/{2|->COMMAND|->1}\/{3|->COMMAND|->2} & BOOL_CODE : BOOL +-> NATURAL & dom(BOOL_CODE) = BOOL & BOOL_CODE = {FALSE|->0}\/{TRUE|->1} & select_command_code : NATURAL*NATURAL*NATURAL*NATURAL +-> NATURAL & dom(select_command_code) = NATURAL*NATURAL*NATURAL*NATURAL & !(slow,close,open,mem).(slow : INTEGER & 0<=slow & (close : INTEGER & 0<=close) & (open : INTEGER & 0<=open) & (mem : INTEGER & 0<=mem) => (slow = BOOL_CODE(FALSE) => select_command_code(slow,close,open,mem) = COMMAND_CODE(3|->COMMAND)) & (close = BOOL_CODE(TRUE) => select_command_code(slow,close,open,mem) = COMMAND_CODE(3|->COMMAND)) & (slow = BOOL_CODE(TRUE) & close = BOOL_CODE(FALSE) & open = BOOL_CODE(TRUE) => select_command_code(slow,close,open,mem) = COMMAND_CODE(2|->COMMAND)) & (slow = BOOL_CODE(TRUE) & close = BOOL_CODE(FALSE) & open = BOOL_CODE(FALSE) => select_command_code(slow,close,open,mem) = mem)))
+END
+&
+THEORY EnumerateX IS
+  STATE == {LEADER,NONE,OPPOSITE};
+  CONDUCTION == {MANUAL,CONTROLLED,CONDUCTION_OFF};
+  DOORS == {OPENED,CLOSED};
+  COMMAND == {NO_COMMAND,OPEN_DOORS,CLOSE_DOORS}
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

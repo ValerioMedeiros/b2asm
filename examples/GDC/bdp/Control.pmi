@@ -1,0 +1,49 @@
+THEORY BalanceX IS
+  Control,9,1,0,4,0,0,0;
+  AssertionLemmas,9,1,0,4,0,0,0;
+  Initialisation,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  cl & xp & ph(TRUE,TRUE,FALSE,!(leader,manual,controlled).(leader : BOOL & manual : BOOL & controlled : BOOL => conduction_p(leader,manual,controlled) = bool(leader = TRUE & xor(manual,controlled) = TRUE))) & pr & pr & pr & ss & eh(xor(TRUE,FALSE),TRUE,Goal) & ss & pr;
+  cl & xp & ph(TRUE,FALSE,TRUE,!(leader,manual,controlled).(leader : BOOL & manual : BOOL & controlled : BOOL => conduction_p(leader,manual,controlled) = bool(leader = TRUE & xor(manual,controlled) = TRUE))) & pr & pr & pr & eh(xor(FALSE,TRUE),TRUE,Goal) & pr;
+  cl & xp & ph(TRUE,TRUE,TRUE,!(leader,manual,controlled).(leader : BOOL & manual : BOOL & controlled : BOOL => conduction_p(leader,manual,controlled) = bool(leader = TRUE & xor(manual,controlled) = TRUE))) & pr & pr & pr & eh(xor(TRUE,TRUE),FALSE,Goal) & pr;
+  cl & xp & ph(TRUE,FALSE,FALSE,!(leader,manual,controlled).(leader : BOOL & manual : BOOL & controlled : BOOL => conduction_p(leader,manual,controlled) = bool(leader = TRUE & xor(manual,controlled) = TRUE))) & pr & pr & pr & eh(xor(FALSE,FALSE),FALSE,Goal) & pr;
+  pr;
+  cl & xp & ph(TRUE,FALSE,FALSE,!(l,m,c).(l : BOOL & m : BOOL & c : BOOL => conduction_p(l,m,c) = bool(l = TRUE & xor(m,c) = TRUE))) & pr & pr & pr & ss & eh(xor(FALSE,FALSE),FALSE,Goal) & ss & pr;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END

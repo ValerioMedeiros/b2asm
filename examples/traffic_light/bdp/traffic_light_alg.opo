@@ -1,49 +1,16 @@
 THEORY OPOBalanceX IS
-  traffic_light_alg,41;
+  traffic_light_alg,8;
   ValuesLemmas,1;
   InstanciatedConstraintsLemmas,0;
   Initialisation,2;
-  advance,38
+  advance,5
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & _f(6) & advance.38,(_of(47) & _of(20) => _of(19));
-  _f(1) & _f(2) & _f(6) & advance.37,(_of(47) & _of(20) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.36,(_of(46) & _of(20) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.35,(_of(45) & _of(20) => _of(43));
-  _f(1) & _f(2) & _f(6) & advance.34,(_of(45) & _of(20) => _of(19));
-  _f(1) & _f(2) & _f(6) & advance.33,(_of(45) & _of(20) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.32,(_of(44) & _of(20) => _of(2));
-  _f(1) & _f(2) & _f(6) & advance.31,(_of(42) & _of(20) => _of(43));
-  _f(1) & _f(2) & _f(6) & advance.30,(_of(42) & _of(15) => _of(19));
-  _f(1) & _f(2) & _f(6) & advance.29,(_of(42) & _of(15) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.28,(_of(40) & _of(15) => _of(41));
-  _f(1) & _f(2) & _f(6) & advance.27,(_of(38) & _of(15) => _of(39));
-  _f(1) & _f(2) & _f(6) & advance.26,(_of(36) & _of(20) => _of(37));
-  _f(1) & _f(2) & _f(6) & advance.25,(_of(36) & _of(20) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.24,(_of(34) & _of(20) => _of(35));
-  _f(1) & _f(2) & _f(6) & advance.23,(_of(34) & _of(15) => _of(19));
-  _f(1) & _f(2) & _f(6) & advance.22,(_of(34) & _of(15) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.21,(_of(32) & _of(15) => _of(33));
-  _f(1) & _f(2) & _f(6) & advance.20,(_of(30) & _of(15) => _of(31));
-  _f(1) & _f(2) & _f(6) & advance.19,(_of(28) & _of(20) => _of(29));
-  _f(1) & _f(2) & _f(6) & advance.18,(_of(27) & _of(20) => _of(21));
-  _f(1) & _f(2) & _f(6) & advance.17,(_of(27) & _of(20) => _of(19));
-  _f(1) & _f(2) & _f(6) & advance.16,(_of(27) & _of(20) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.15,(_of(25) & _of(20) => _of(26));
-  _f(1) & _f(2) & _f(6) & advance.14,(_of(25) & _of(20) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.13,(_of(24) & _of(20) => _of(21));
-  _f(1) & _f(2) & _f(6) & advance.12,(_of(24) & _of(20) => _of(19));
-  _f(1) & _f(2) & _f(6) & advance.11,(_of(24) & _of(20) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.10,(_of(22) & _of(20) => _of(23));
-  _f(1) & _f(2) & _f(6) & advance.9,(_of(17) & _of(20) => _of(21));
-  _f(1) & _f(2) & _f(6) & advance.8,(_of(17) & _of(15) => _of(19));
-  _f(1) & _f(2) & _f(6) & advance.7,(_of(17) & _of(15) => _of(18));
-  _f(1) & _f(2) & _f(6) & advance.6,(_of(14) & _of(15) => _of(16));
-  _f(1) & _f(2) & _f(6) & advance.5,(_of(13) & _of(3) => _of(4));
-  _f(1) & _f(2) & _f(6) & advance.4,(_of(11) & _of(3) => _of(12));
-  _f(1) & _f(2) & _f(6) & advance.3,(_of(9) & _of(3) => _of(10));
-  _f(1) & _f(2) & _f(6) & advance.2,(_of(3) => _of(2));
+  _f(1) & _f(2) & _f(6) & advance.5,(_of(14) & _of(9) => _of(4));
+  _f(1) & _f(2) & _f(6) & advance.4,(_of(12) & _of(9) => _of(13));
+  _f(1) & _f(2) & _f(6) & advance.3,(_of(10) & _of(9) => _of(11));
+  _f(1) & _f(2) & _f(6) & advance.2,(_of(9) => _of(2));
   _f(1) & _f(2) & _f(6) & advance.1,(_of(8) => _of(2));
   _f(1) & _f(2) & Initialisation.2,(_of(5) & _of(6) => _of(7));
   _f(1) & _f(2) & Initialisation.1,(_of(3) => _of(4));
@@ -59,45 +26,12 @@ THEORY OPOFormulas IS
   "`Check that the invariant (statevalue = counter) is established by the initialisation - ref 4.3, 5.4'" & "`Check initialisation refinement - ref 4.3, 5.4'";
   (0 = 0);
   "`Check precondition (btrue) deduction'";
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   ("`Local hypotheses'" & statevalue$1 = 0);
   (1 : NATURAL);
   ("`Local hypotheses'" & not(statevalue$1 = 0) & statevalue$1 = 1);
   (2 : NATURAL);
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & not(statevalue$1 = 1));
-  ("`Local hypotheses'" & statevalue$1 = 0 & 1 : INTEGER & counter = 2 & counter = 1);
-  "`Check that the invariant (statevalue = counter & statevalue = counter) is preserved by the operation - ref 4.4, 5.5'";
-  (not(counter = 2) & not(counter = 1) & counter = 0 & 1 = 1 or (not(counter = 0) & not(counter = 2) & 1 = 2));
-  ("`Local hypotheses'" & statevalue$1 = 0 & 1 : INTEGER & counter = 2 & not(counter = 1) & counter = 0);
-  (not(counter = 2));
-  (not(counter = 1));
-  "`Check that the invariant (statevalue = counter) is preserved by the operation - ref 4.4, 5.5'";
-  (1 = 1);
-  ("`Local hypotheses'" & statevalue$1 = 0 & 1 : INTEGER & counter = 2 & not(counter = 1) & not(counter = 0));
-  (1 = 0);
-  ("`Local hypotheses'" & statevalue$1 = 0 & 1 : INTEGER & not(counter = 2) & counter = 1 & counter = 0);
-  ("`Local hypotheses'" & statevalue$1 = 0 & 1 : INTEGER & not(counter = 2) & counter = 1 & not(counter = 0));
-  (1 = 2);
-  ("`Local hypotheses'" & statevalue$1 = 0 & 1 : INTEGER & not(counter = 2) & not(counter = 1) & counter = 0);
-  ("`Local hypotheses'" & statevalue$1 = 0 & 1 : INTEGER & not(counter = 2) & not(counter = 1) & not(counter = 0));
-  (1 = counter);
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & statevalue$1 = 1 & 2 : INTEGER & counter = 2 & counter = 1);
-  (not(counter = 2) & not(counter = 1) & counter = 0 & 2 = 1 or (not(counter = 0) & not(counter = 2) & 2 = 2));
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & statevalue$1 = 1 & 2 : INTEGER & counter = 2 & not(counter = 1));
-  (not(counter = 2) & not(counter = 1) & counter = 0 & 2 = 1 or (not(counter = 0) & 2 = 0));
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & statevalue$1 = 1 & 2 : INTEGER & not(counter = 2) & counter = 1 & counter = 0);
-  (2 = 1);
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & statevalue$1 = 1 & 2 : INTEGER & not(counter = 2) & counter = 1 & not(counter = 0));
-  (2 = 2);
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & statevalue$1 = 1 & 2 : INTEGER & not(counter = 2) & not(counter = 1));
-  (not(counter = 2) & not(counter = 1) & counter = 0 & 2 = 1 or (not(counter = 0) & 2 = counter));
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & not(statevalue$1 = 1) & 0 : INTEGER & counter = 2 & counter = 1);
-  (not(counter = 2) & not(counter = 1) & counter = 0 & 0 = 1 or (not(counter = 0) & not(counter = 2) & 0 = 2));
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & not(statevalue$1 = 1) & 0 : INTEGER & counter = 2 & not(counter = 1) & counter = 0);
-  (0 = 1);
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & not(statevalue$1 = 1) & 0 : INTEGER & counter = 2 & not(counter = 1));
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & not(statevalue$1 = 1) & 0 : INTEGER & not(counter = 2) & counter = 1 & counter = 0);
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & not(statevalue$1 = 1) & 0 : INTEGER & not(counter = 2) & counter = 1 & not(counter = 0));
-  ("`Local hypotheses'" & not(statevalue$1 = 0) & not(statevalue$1 = 1) & 0 : INTEGER & not(counter = 2) & not(counter = 1) & counter = 0)
+  ("`Local hypotheses'" & not(statevalue$1 = 0) & not(statevalue$1 = 1))
 END
 &
 THEORY Version IS

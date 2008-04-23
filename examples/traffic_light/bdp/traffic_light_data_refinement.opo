@@ -5,10 +5,10 @@ THEORY OPOBalanceX IS
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & _f(7) & advance.5,(_of(13) & _of(12) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.4,(_of(11) & _of(12) => _f(10));
-  _f(1) & _f(2) & _f(7) & advance.3,(_of(8) & _of(9) => _of(10));
-  _f(1) & _f(2) & _f(7) & advance.2,(_of(7) => _of(2));
+  _f(1) & _f(2) & _f(7) & advance.5,(_of(12) & _of(11) => _f(10));
+  _f(1) & _f(2) & _f(7) & advance.4,(_of(10) & _of(11) => _f(10));
+  _f(1) & _f(2) & _f(7) & advance.3,(_of(7) & _of(8) => _of(9));
+  _f(1) & _f(2) & _f(7) & advance.2,(_of(1) => _of(2));
   _f(1) & _f(2) & _f(7) & advance.1,(_of(6) => _of(2));
   _f(1) & _f(2) & Initialisation.3,(_of(3) => _of(5));
   _f(1) & _f(2) & Initialisation.2,(_of(3) => _of(4));
@@ -22,7 +22,6 @@ THEORY OPOFormulas IS
   (0 : INTEGER);
   (0<=0);
   "`Check precondition (btrue) deduction'";
-  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
   ("`Local hypotheses'" & color = 3|->COLOR & (not(color = 1|->COLOR) & not(color = 2|->COLOR) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(1|->COLOR))) & color = 1|->COLOR);
   "`Check that the invariant (counter : NATURAL & counter : NATURAL & counter : 0..2 & counter = color_refine(color)) is preserved by the operation - ref 4.4, 5.5'";
   (not(!(color$7777).(not(color = red) & not(color = yellow) & color$7777 = yellow => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(color$7777)))));

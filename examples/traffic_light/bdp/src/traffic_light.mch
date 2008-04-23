@@ -29,24 +29,18 @@ ABSTRACT_VARIABLES
    color
 INVARIANT
    color :  COLOR
-
 INITIALISATION
    color :: COLOR
 
 OPERATIONS
 
 advance =
-BEGIN
-  CASE color OF
-  EITHER green THEN color := yellow
-  OR yellow THEN color := red
-  OR red THEN color := green
+  BEGIN
+    CASE color OF
+    EITHER green THEN color := yellow
+    OR yellow THEN color := red
+    OR red THEN color := green
+    END
+    END
   END
-
-  END
-/* color :: COLOR */
-
-END
-
-
 END

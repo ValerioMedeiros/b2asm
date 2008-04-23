@@ -1,0 +1,6 @@
+THEORY BBTTE IS
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | xor(TRUE,TRUE) = FALSE) & cmd(1 | xp) & cmd(1 | ph(TRUE,TRUE,!(a,b).(a : BOOL & b : BOOL => xor(a,b) = bool(not(a = b))))) & gol(1 | TRUE : BOOL) & cmd(2 | pr) & gol(1 | TRUE : BOOL) & cmd(2 | pr) & cmd(1 | ss) & cmd(1 | pr) & gol(0 | SUCCESS);
+  cmd(0 | cl) & gol(0 | xor(FALSE,TRUE) = TRUE) & cmd(1 | xp) & cmd(1 | ph(FALSE,TRUE,!(a,b).(a : BOOL & b : BOOL => xor(a,b) = bool(not(a = b))))) & gol(1 | FALSE : BOOL) & cmd(2 | pr) & gol(1 | TRUE : BOOL) & cmd(2 | pr) & cmd(1 | ss) & cmd(1 | pr) & gol(0 | SUCCESS);
+  cmd(0 | cl) & gol(0 | xor(TRUE,FALSE) = TRUE) & cmd(1 | xp) & cmd(1 | ph(TRUE,FALSE,!(a,b).(a : BOOL & b : BOOL => xor(a,b) = bool(not(a = b))))) & gol(1 | TRUE : BOOL) & cmd(2 | pr) & gol(1 | FALSE : BOOL) & cmd(2 | pr) & cmd(1 | eh(xor(TRUE,FALSE),bool(not(TRUE = FALSE)),Goal)) & gol(1 | bool(not(TRUE = FALSE)) = TRUE) & cmd(2 | ss) & cmd(2 | pr) & gol(0 | SUCCESS)
+END

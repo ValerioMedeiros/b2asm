@@ -1,0 +1,54 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & AssertionLemmas.9,(_f(26) & _f(27) => _f(28));
+  _f(1) & _f(2) & AssertionLemmas.8,(_f(23) & _f(24) => _f(25));
+  _f(1) & _f(2) & AssertionLemmas.7,(_f(20) & _f(21) => _f(22));
+  _f(1) & _f(2) & AssertionLemmas.6,(_f(17) & _f(18) => _f(19));
+  _f(1) & _f(2) & AssertionLemmas.5,(_f(14) & _f(15) => _f(16));
+  _f(1) & _f(2) & AssertionLemmas.4,(_f(11) & _f(12) => _f(13));
+  _f(1) & _f(2) & AssertionLemmas.3,(_f(8) & _f(9) => _f(10));
+  _f(1) & _f(2) & AssertionLemmas.2,(_f(5) & _f(6) => _f(7));
+  _f(1) & _f(2) & AssertionLemmas.1,(_f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & not((1..3)*{STATE} = {}) & not((1..3)*{CONDUCTION} = {}) & not((1..2)*{DOORS} = {}) & not((1..3)*{COMMAND} = {}) & xor : BOOL*BOOL +-> BOOL & dom(xor) = BOOL*BOOL & !(a,b).(a : BOOL & b : BOOL => xor(a,b) = bool(not(a = b))) & "`Component properties'" & conduction_p : BOOL*BOOL*BOOL +-> BOOL & dom(conduction_p) = BOOL*BOOL*BOOL & conduction_p = %(leader,manual,controlled).(leader : BOOL & manual : BOOL & controlled : BOOL | bool(leader = TRUE & xor(manual,controlled) = TRUE)) & !(l,m,c).(l : BOOL & m : BOOL & c : BOOL => conduction_p(l,m,c) = bool(l = TRUE & xor(m,c) = TRUE)) & select_command : BOOL*BOOL*BOOL*((1..3)*{COMMAND}) +-> (1..3)*{COMMAND} & dom(select_command) = BOOL*BOOL*BOOL*((1..3)*{COMMAND}) & !(slow,close,open,mem).(slow : BOOL & close : BOOL & open : BOOL & mem : (1..3)*{COMMAND} => (slow = FALSE => select_command(slow,close,open,mem) = 3|->COMMAND) & (close = TRUE => select_command(slow,close,open,mem) = 3|->COMMAND) & (slow = TRUE & close = FALSE & open = TRUE => select_command(slow,close,open,mem) = 2|->COMMAND) & (slow = TRUE & close = FALSE & open = FALSE => select_command(slow,close,open,mem) = mem)));
+  ("`Seen and used machines assertions'" & xor(TRUE,FALSE) = TRUE & xor(FALSE,TRUE) = TRUE & xor(TRUE,TRUE) = FALSE & xor(FALSE,FALSE) = FALSE);
+  "`Check assertion (conduction_p(TRUE,TRUE,FALSE) = TRUE) deduction - ref 3.2, 4.2, 5.3'";
+  (conduction_p(TRUE,TRUE,FALSE) = TRUE);
+  ("`Local hypotheses'" & conduction_p(TRUE,TRUE,FALSE) = TRUE);
+  "`Check assertion (conduction_p(TRUE,FALSE,TRUE) = TRUE) deduction - ref 3.2, 4.2, 5.3'";
+  (conduction_p(TRUE,FALSE,TRUE) = TRUE);
+  ("`Local hypotheses'" & conduction_p(TRUE,TRUE,FALSE) = TRUE & conduction_p(TRUE,FALSE,TRUE) = TRUE);
+  "`Check assertion (conduction_p(TRUE,TRUE,TRUE) = FALSE) deduction - ref 3.2, 4.2, 5.3'";
+  (conduction_p(TRUE,TRUE,TRUE) = FALSE);
+  ("`Local hypotheses'" & conduction_p(TRUE,TRUE,FALSE) = TRUE & conduction_p(TRUE,FALSE,TRUE) = TRUE & conduction_p(TRUE,TRUE,TRUE) = FALSE);
+  "`Check assertion (conduction_p(TRUE,FALSE,FALSE) = FALSE) deduction - ref 3.2, 4.2, 5.3'";
+  (conduction_p(TRUE,FALSE,FALSE) = FALSE);
+  ("`Local hypotheses'" & conduction_p(TRUE,TRUE,FALSE) = TRUE & conduction_p(TRUE,FALSE,TRUE) = TRUE & conduction_p(TRUE,TRUE,TRUE) = FALSE & conduction_p(TRUE,FALSE,FALSE) = FALSE & mm : BOOL & cc : BOOL);
+  "`Check assertion (!(mm,cc).(mm : BOOL & cc : BOOL => conduction_p(FALSE,mm,cc) = FALSE)) deduction - ref 3.2, 4.2, 5.3'";
+  (conduction_p(FALSE,mm,cc) = FALSE);
+  ("`Local hypotheses'" & conduction_p(TRUE,TRUE,FALSE) = TRUE & conduction_p(TRUE,FALSE,TRUE) = TRUE & conduction_p(TRUE,TRUE,TRUE) = FALSE & conduction_p(TRUE,FALSE,FALSE) = FALSE & !(mm,cc$0).(mm : BOOL & cc$0 : BOOL => conduction_p(FALSE,mm,cc$0) = FALSE) & cc : BOOL & oo : BOOL & mm : (1..3)*{COMMAND});
+  "`Check assertion (!(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : COMMAND => select_command(FALSE,cc,oo,mm) = CLOSE_DOORS)) deduction - ref 3.2, 4.2, 5.3'";
+  (select_command(FALSE,cc,oo,mm) = 3|->COMMAND);
+  ("`Local hypotheses'" & conduction_p(TRUE,TRUE,FALSE) = TRUE & conduction_p(TRUE,FALSE,TRUE) = TRUE & conduction_p(TRUE,TRUE,TRUE) = FALSE & conduction_p(TRUE,FALSE,FALSE) = FALSE & !(mm,cc).(mm : BOOL & cc : BOOL => conduction_p(FALSE,mm,cc) = FALSE) & !(cc,oo,mm$1).(cc : BOOL & oo : BOOL & mm$1 : (1..3)*{COMMAND} => select_command(FALSE,cc,oo,mm$1) = 3|->COMMAND) & ss : BOOL & oo : BOOL & mm : (1..3)*{COMMAND});
+  "`Check assertion (!(ss,oo,mm).(ss : BOOL & oo : BOOL & mm : COMMAND => select_command(ss,TRUE,oo,mm) = CLOSE_DOORS)) deduction - ref 3.2, 4.2, 5.3'";
+  (select_command(ss,TRUE,oo,mm) = 3|->COMMAND);
+  ("`Local hypotheses'" & conduction_p(TRUE,TRUE,FALSE) = TRUE & conduction_p(TRUE,FALSE,TRUE) = TRUE & conduction_p(TRUE,TRUE,TRUE) = FALSE & conduction_p(TRUE,FALSE,FALSE) = FALSE & !(mm,cc).(mm : BOOL & cc : BOOL => conduction_p(FALSE,mm,cc) = FALSE) & !(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : (1..3)*{COMMAND} => select_command(FALSE,cc,oo,mm) = 3|->COMMAND) & !(ss,oo,mm$1).(ss : BOOL & oo : BOOL & mm$1 : (1..3)*{COMMAND} => select_command(ss,TRUE,oo,mm$1) = 3|->COMMAND) & mm : (1..3)*{COMMAND});
+  "`Check assertion (!mm.(mm : COMMAND => select_command(TRUE,FALSE,TRUE,mm) = OPEN_DOORS)) deduction - ref 3.2, 4.2, 5.3'";
+  (select_command(TRUE,FALSE,TRUE,mm) = 2|->COMMAND);
+  ("`Local hypotheses'" & conduction_p(TRUE,TRUE,FALSE) = TRUE & conduction_p(TRUE,FALSE,TRUE) = TRUE & conduction_p(TRUE,TRUE,TRUE) = FALSE & conduction_p(TRUE,FALSE,FALSE) = FALSE & !(mm,cc).(mm : BOOL & cc : BOOL => conduction_p(FALSE,mm,cc) = FALSE) & !(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : (1..3)*{COMMAND} => select_command(FALSE,cc,oo,mm) = 3|->COMMAND) & !(ss,oo,mm).(ss : BOOL & oo : BOOL & mm : (1..3)*{COMMAND} => select_command(ss,TRUE,oo,mm) = 3|->COMMAND) & !mm.(mm : (1..3)*{COMMAND} => select_command(TRUE,FALSE,TRUE,mm) = 2|->COMMAND) & mm : (1..3)*{COMMAND});
+  "`Check assertion (!mm.(mm : COMMAND => select_command(TRUE,FALSE,FALSE,mm) = mm)) deduction - ref 3.2, 4.2, 5.3'";
+  (select_command(TRUE,FALSE,FALSE,mm) = mm);
+  ("`Component assertions'" & conduction_p(TRUE,TRUE,FALSE) = TRUE & conduction_p(TRUE,FALSE,TRUE) = TRUE & conduction_p(TRUE,TRUE,TRUE) = FALSE & conduction_p(TRUE,FALSE,FALSE) = FALSE & !(mm,cc).(mm : BOOL & cc : BOOL => conduction_p(FALSE,mm,cc) = FALSE) & !(cc,oo,mm).(cc : BOOL & oo : BOOL & mm : (1..3)*{COMMAND} => select_command(FALSE,cc,oo,mm) = 3|->COMMAND) & !(ss,oo,mm).(ss : BOOL & oo : BOOL & mm : (1..3)*{COMMAND} => select_command(ss,TRUE,oo,mm) = 3|->COMMAND) & !mm.(mm : (1..3)*{COMMAND} => select_command(TRUE,FALSE,TRUE,mm) = 2|->COMMAND) & !mm.(mm : (1..3)*{COMMAND} => select_command(TRUE,FALSE,FALSE,mm) = mm))
+END
+&
+THEORY EnumerateX IS
+  STATE == {LEADER,NONE,OPPOSITE};
+  CONDUCTION == {MANUAL,CONTROLLED,CONDUCTION_OFF};
+  DOORS == {OPENED,CLOSED};
+  COMMAND == {NO_COMMAND,OPEN_DOORS,CLOSE_DOORS}
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

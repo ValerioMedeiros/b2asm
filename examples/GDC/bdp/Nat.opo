@@ -1,0 +1,45 @@
+THEORY OPOBalanceX IS
+  Nat,11;
+  Initialisation,3;
+  set,4;
+  get,4
+END
+&
+THEORY OPOProofList IS
+  _f(1) & get.4,(_of(17) => _of(18));
+  _f(1) & get.3,(_of(14) => _of(16));
+  _f(1) & get.2,(_of(14) => _of(15));
+  _f(1) & get.1,(_of(13) => _of(7));
+  _f(1) & _f(2) & set.4,(_of(11) => _of(12));
+  _f(1) & _f(2) & set.3,(_of(8) => _of(10));
+  _f(1) & _f(2) & set.2,(_of(8) => _of(9));
+  _f(1) & _f(2) & set.1,(_of(6) => _of(7));
+  Initialisation.3,(_of(4) => _of(5));
+  Initialisation.2,(_of(1) => _of(3));
+  Initialisation.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the invariant (value : NATURAL) is established by the initialisation - ref 3.3'";
+  (0 : INTEGER);
+  (0<=0);
+  "`Check that the invariant (value<256) is established by the initialisation - ref 3.3'";
+  (1<=256);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue);
+  "`Check that the invariant (value : NATURAL) is preserved by the operation - ref 3.4'";
+  (new_value : INTEGER);
+  (0<=new_value);
+  "`Check that the invariant (value<256) is preserved by the operation - ref 3.4'";
+  (new_value+1<=256);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  "`Check that the invariant (value : NATURAL) is preserved by the operation - ref 3.4'";
+  (value : INTEGER);
+  (0<=value);
+  "`Check that the invariant (value<256) is preserved by the operation - ref 3.4'";
+  (value+1<=256)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
