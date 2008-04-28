@@ -1,0 +1,1 @@
+Flag(FileOn("Z80.res")) & Set(toto | rgs : (1..18)*{register8_id} +-> WORD8 & dom(rgs) = (1..18)*{register8_id} & ran(rgs) = WORD8 & rr : (1..18)*{register8_id} & rr_ : (1..18)*{register8_id} => ran({rr}<<|rgs)\/{rgs(rr_)} = ran(rgs))
