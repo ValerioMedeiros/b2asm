@@ -1,0 +1,111 @@
+/*************************************************************************
+Copyright (c) 2008 Valerio Medeiros Jr,David Deharbe
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+    * Neither the name of the Universidade Federal do Rio Grande do Norte nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*************************************************************************/
+IMPLEMENTATION
+   traffic_light_asm_z80
+REFINES
+   traffic_light_data_refinement
+SEES
+   definitions , TYPES , ALU , data_refinement
+
+IMPORTS
+   mp.Z80
+
+INVARIANT
+
+   mp.mem ( 0 ) : 0 .. 2 &
+   mp.mem ( 0 ) = counter
+
+INITIALISATION
+   mp.LD_r_n_ ( h , 0 ) ;
+   mp.LD_r_n_ ( l , 0 ) ;
+   mp.LD_HL_r ( h )
+
+ASSERTIONS
+   INSTRUCTION_NEXT ( 0 ) = 1 &
+   INSTRUCTION_NEXT ( 1 ) = 2 &
+   INSTRUCTION_NEXT ( 2 ) = 3 &
+   INSTRUCTION_NEXT ( 3 ) = 4 &
+   INSTRUCTION_NEXT ( 4 ) = 5 &
+   INSTRUCTION_NEXT ( 5 ) = 6 &
+   INSTRUCTION_NEXT ( 6 ) = 7 &
+   INSTRUCTION_NEXT ( 7 ) = 8 &
+   INSTRUCTION_NEXT ( 8 ) = 9 &
+   INSTRUCTION_NEXT ( 9 ) = 10 &
+   INSTRUCTION_NEXT ( 10 ) = 11 &
+   INSTRUCTION_NEXT ( 11 ) = 12 &
+   INSTRUCTION_NEXT ( 12 ) = 13 &
+   INSTRUCTION_NEXT ( 13 ) = 14
+
+
+OPERATIONS
+
+advance =
+
+
+BEGIN
+      mp.CALL ( 0 ) ;
+      WHILE mp.pc < 14 DO
+      BEGIN
+         CASE mp.pc OF
+            EITHER 0  THEN mp.LD_r_n_ ( h , 0 )
+                OR 1  THEN mp.LD_r_n_ ( l , 0 )
+                OR 2  THEN mp.BIT_b_HL ( 1 )
+                OR 3  THEN mp.JP_z_e
+                OR 4  THEN mp.GOTO ( 7 )
+                OR 5  THEN mp.LD_r_n_ ( a , 0 )
+                OR 6  THEN mp.GOTO ( 14 )
+                OR 7  THEN mp.BIT_b_HL ( 0 )
+                OR 8  THEN mp.JP_z_e
+                OR 9  THEN mp.GOTO ( 11 )
+                OR 10 THEN mp.GOTO ( 13 )
+                OR 11 THEN mp.LD_r_n_ ( a , 1 )
+                OR 12 THEN mp.GOTO ( 14 )
+                OR 13 THEN mp.LD_r_n_ ( a , 2 )
+                OR 14 THEN mp.LD_HL_r ( a )
+             END
+
+   END
+      END
+      INVARIANT
+         0 <= mp.pc & mp.pc <= 14 & mp.sp > 0 &
+         mp.mem ( 0 ) : 0 .. 2 &
+         ( ( mp.pc = 0 ) => ( mp.mem ( 0 ) : 0 .. 2 & mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 ) ) &
+         ( ( mp.pc = 1 ) => ( mp.rgs8 ( l ) = 0 ) ) &
+         /*((mp.pc = 2 ) => (WORD8_TO_BV8(mp.mem(0))(1) = (mp.rgs8(f_))(1) )) &*/
+         /*((mp.pc = 1) => mp.mem(0) = 2 & counter = 2) &
+         ((mp.pc = 2) => mp.mem(0) /= 2 & mp.mem(0) = counter) &
+         ((mp.pc = 3) => mp.mem(0) = 1 & counter = 1) &
+         ((mp.pc = 4) => mp.mem(0) = 0 & mp.mem(0) = counter) &
+         ((mp.pc = 5) => mp.mem(0) = 0 & mp.mem(0) = counter & mp.w = 1) &
+         ((mp.pc = 6) => mp.mem(0) = 1 & mp.mem(0) = counter) &
+         ((mp.pc = 7) => mp.mem(0) = 1 & mp.mem(0) = counter & mp.w = 2) &
+         ((mp.pc = 8) => mp.mem(0) = 2 & mp.mem(0) = counter) &
+         ((mp.pc = 9) => (mp.mem(0) : 0..2 & mp.mem(0) = counter & mp.w = color_step(counter))) &*/
+         ( ( mp.pc = 10 ) => ( mp.mem ( 0 ) : 0 .. 2 & mp.mem ( 0 ) = color_step ( counter ) ) )
+      VARIANT ( 14 - mp.pc )
+      END ;
+
+    mp.RETURN
+   END
+
+END

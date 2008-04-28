@@ -1,0 +1,14 @@
+THEORY ProofList
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & BIT = 0..1 & BIT_FLIP : BIT +-> BIT & dom(BIT_FLIP) = BIT & !b.(b : BIT => BIT_FLIP(b) = 1-b) & BIT_AND : BIT*BIT +-> BIT & dom(BIT_AND) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_AND(b1,b2) = 1 => b1 = 1) & (b1 = 1 => BIT_AND(b1,b2) = 1) & b2 = 1) & BIT_IOR : BIT*BIT +-> BIT & dom(BIT_IOR) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_IOR(b1,b2) = 1 => b1 = 1) & (b1 = 1 => BIT_IOR(b1,b2) = 1) or b2 = 1) & BIT_XOR : BIT*BIT +-> BIT & dom(BIT_XOR) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_XOR(b1,b2) = 1 => b1 = 1 & b2 = 0 or (b1 = 0 & b2 = 1)) & ((b1 = 1 & b2 = 0 => BIT_XOR(b1,b2) = 1) & (b1 = 0 & b2 = 1 => BIT_XOR(b1,b2) = 1))) & "`Component properties'" & BV16_INDEX = 0..15 & BV16 = BV16_INDEX --> BIT & BV16_SET_BIT : BV16*BV16_INDEX*BIT +-> BV16 & dom(BV16_SET_BIT) = BV16*BV16_INDEX*BIT & !(v,i,j,b).(v : BV16 & i : BV16_INDEX & j : BV16_INDEX & b : BIT & not(i = j) => BV16_SET_BIT(v,i,b)(j) = v(j)) & !(v,i,b).(v : BV16 & i : BV16_INDEX & b : BIT => BV16_SET_BIT(v,i,b)(i) = b) & BV16_COMPLEMENT : BV16 +-> BV16 & dom(BV16_COMPLEMENT) = BV16 & !(v,i).(v : BV16 & i : BV16_INDEX => BV16_COMPLEMENT(v)(i) = BIT_FLIP(v(i))) & BV16_ALL_ZEROES : BV16 & !i.(i : BV16_INDEX => BV16_ALL_ZEROES(i) = 0) & BV16_AND : BV16*BV16 +-> BV16 & dom(BV16_AND) = BV16*BV16 & !(v1,v2,i).(v1 : BV16 & v2 : BV16 & i : BV16_INDEX => BV16_AND(v1,v2)(i) = BIT_AND(v1(i),v2(i))) & BV16_IOR : BV16*BV16 +-> BV16 & dom(BV16_IOR) = BV16*BV16 & !(v1,v2,i).(v1 : BV16 & v2 : BV16 & i : BV16_INDEX => BV16_IOR(v1,v2)(i) = BIT_IOR(v1(i),v2(i))) & BV16_XOR : BV16*BV16 +-> BV16 & dom(BV16_XOR) = BV16*BV16 & !(v1,v2,i).(v1 : BV16 & v2 : BV16 & i : BV16_INDEX => BV16_XOR(v1,v2)(i) = BIT_XOR(v1(i),v2(i))));
+  ("`Seen and used machines assertions'" & BIT_FLIP(0) = 1 & BIT_FLIP(1) = 0 & BIT_AND(0,0) = 0 & BIT_AND(0,1) = 0 & BIT_AND(1,0) = 0 & BIT_AND(1,1) = 1 & BIT_IOR(0,0) = 0 & BIT_IOR(0,1) = 0 & BIT_IOR(1,0) = 0 & BIT_IOR(1,1) = 1 & BIT_XOR(0,0) = 0 & BIT_XOR(0,1) = 1 & BIT_XOR(1,0) = 1 & BIT_XOR(1,1) = 0)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
