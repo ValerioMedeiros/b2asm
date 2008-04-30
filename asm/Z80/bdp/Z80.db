@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <db_xml>
     <atelierb version="3_7_ubuntu-cvs" />
-    <project decomp_dir="/home/david/B/Z80/bdp/expand_src" old_decomp_dir="/home/david/B/Z80/bdp/src">
+    <project decomp_dir="/home/consiste/junior/myprograms/B4free-3.2/Z80/bdp/expand_src" old_decomp_dir="/home/consiste/junior/myprograms/B4free-3.2/Z80/bdp/src">
         <!-- Definition directory list -->
         <!-- Component file list -->
-        <component_file path="/home/david/B/Z80/sources" name="ALU" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="ALU" suffix="mch" user="valerio">
             <component name="ALU" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="TYPES" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="TYPES" suffix="mch" user="valerio">
             <component name="TYPES" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="TYPE_BIT" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="TYPE_BIT" suffix="mch" user="valerio">
             <component name="TYPE_BIT" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="TYPE_BV16" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="TYPE_BV16" suffix="mch" user="valerio">
             <component name="TYPE_BV16" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="TYPE_BV8" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="TYPE_BV8" suffix="mch" user="valerio">
             <component name="TYPE_BV8" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="Z80" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="Z80" suffix="mch" user="valerio">
             <component name="Z80" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="data_refinement" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="data_refinement" suffix="mch" user="valerio">
             <component name="data_refinement" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="definitions" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="definitions" suffix="mch" user="valerio">
             <component name="definitions" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="traffic_light" suffix="mch" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="traffic_light" suffix="mch" user="valerio">
             <component name="traffic_light" type="specification" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="traffic_light_asm_z80" suffix="imp" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="traffic_light_asm_z80" suffix="imp" user="valerio">
             <component name="traffic_light_asm_z80" type="implementation" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="traffic_light_asm_z80_auto" suffix="imp" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="traffic_light_asm_z80_auto" suffix="imp" user="valerio">
             <component name="traffic_light_asm_z80_auto" type="implementation" />
         </component_file>
-        <component_file path="/home/david/B/Z80/sources" name="traffic_light_data_refinement" suffix="ref" user="valerio">
+        <component_file path="/home/consiste/junior/myprograms/B4free-3.2/Z80/sources" name="traffic_light_data_refinement" suffix="ref" user="valerio">
             <component name="traffic_light_data_refinement" type="refinement" />
         </component_file>
     </project>

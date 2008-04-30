@@ -80,9 +80,9 @@ advance =
    /*IF mp.pc =13 THEN*/   mp.LD_r_n_ ( a , 2 ) END ;
 
 
-/*IF mp.pc =14 THEN*/ mp.LD_HL_r ( a ) /*END*/ ;
+/*IF mp.pc =14 THEN*/ mp.LD_HL_r ( a ) /*END*/
 
-  IF  mp.pc /= 15 THEN mp.GOTO ( - 1 ) END
+/*  IF  mp.pc /= 15 THEN mp.GOTO(-1) END */
 
   END
 

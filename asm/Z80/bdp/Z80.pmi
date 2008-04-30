@@ -1,11 +1,13 @@
 THEORY BalanceX IS
-  Z80,48,0,0,45,3,0,0;
+  Z80,54,0,0,51,3,0,0;
   AssertionLemmas,13,0,0,13,0,0,0;
   Initialisation,0,0,0,0,0,0,0;
   LD_r_r_,3,0,0,3,0,0,0;
   LD_r_n_,3,0,0,3,0,0,0;
   LD_r_HL,3,0,0,3,0,0,0;
-  LD_r_9ix_d0,3,0,0,3,0,0,0;
+  LD_r_9IX_d0,3,0,0,3,0,0,0;
+  LD_r_9IY_d0,3,0,0,3,0,0,0;
+  LD_9HL0_n,3,0,0,3,0,0,0;
   LD_HL_r,3,0,0,3,0,0,0;
   BIT_b_HL,3,0,0,2,1,0,0;
   JP_z_e,2,0,0,2,0,0,0;
@@ -35,6 +37,12 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(1);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -115,6 +123,12 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
   pr
 END
 &
@@ -137,6 +151,12 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(1),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;

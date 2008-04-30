@@ -18,10 +18,11 @@ PROPERTIES
      ( w1 : WORD16 & w2 : WORD16 & sum : NATURAL & sum = w1 + w2 =>
       ( ( sum <= 65535 => add16 ( w1 , w2 ) = ( sum , bool ( sum = 0 ) , FALSE ) ) &
        ( 65536 <= sum => add16 ( w1 , w2 ) = ( sum - 65536 , bool ( sum = 65536 ) , TRUE ) ) ) )
-  &
 
 
-    add : ( WORD8 * WORD8 ) --> ( WORD8 * BOOL * BOOL )
+
+
+  & add : ( WORD8 * WORD8 ) --> ( WORD8 * BOOL * BOOL )
   & ! ( w1 , w2 , sum ) .
      ( w1 : WORD8 & w2 : WORD8 & sum : NATURAL & sum = w1 + w2 =>
       ( ( sum <= 255 => add ( w1 , w2 ) = ( sum , bool ( sum = 0 ) , FALSE ) ) &
@@ -99,6 +100,7 @@ ASSERTIONS
    ran ( rotateleft ) <: WORD8 * BOOL &
    dom ( rotateleft ) = WORD8 &
    dom ( rotateright ) = WORD8 &
-   ran ( rotateright ) <: WORD8 * BOOL
-
+   ran ( rotateright ) <: WORD8 * BOOL &
+   ! ( w , idx ) . ( w : WORD8 & idx : WORD8_POSITION =>
+      bitget ( w , idx ) = WORD8_TO_BV8 ( w ) ( idx ) )
 END

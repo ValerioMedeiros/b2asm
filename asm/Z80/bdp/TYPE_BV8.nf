@@ -64,7 +64,7 @@ THEORY ListAssertionsX IS
   Expanded_List_Assertions(Machine(TYPE_BV8))==(btrue);
   Abstract_List_Assertions(Machine(TYPE_BV8))==(btrue);
   Context_List_Assertions(Machine(TYPE_BV8))==(BIT_FLIP(0) = 1 & BIT_FLIP(1) = 0 & BIT_AND(0,0) = 0 & BIT_AND(0,1) = 0 & BIT_AND(1,0) = 0 & BIT_AND(1,1) = 1 & BIT_IOR(0,0) = 0 & BIT_IOR(0,1) = 0 & BIT_IOR(1,0) = 0 & BIT_IOR(1,1) = 1 & BIT_XOR(0,0) = 0 & BIT_XOR(0,1) = 1 & BIT_XOR(1,0) = 1 & BIT_XOR(1,1) = 0);
-  List_Assertions(Machine(TYPE_BV8))==(btrue)
+  List_Assertions(Machine(TYPE_BV8))==(!(vec,idx,b).(vec : BV8 & idx : BV8_INDEX & b : BIT => BV8_SET_BIT(vec,idx,b)(idx) = b))
 END
 &
 THEORY ListInitialisationX IS

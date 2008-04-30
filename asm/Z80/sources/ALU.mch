@@ -100,7 +100,8 @@ ASSERTIONS
    ran(rotateleft) <: WORD8 * BOOL &
    dom(rotateleft) = WORD8 &
    dom(rotateright) = WORD8 &
-   ran(rotateright) <: WORD8 * BOOL
-
+   ran(rotateright) <: WORD8 * BOOL &
+   !(w,idx).(w : WORD8 & idx:WORD8_POSITION =>
+      bitget(w, idx)=WORD8_TO_BV8(w)(idx))
 END
 

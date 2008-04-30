@@ -1,5 +1,6 @@
 THEORY OPOBalanceX IS
   TYPE_BV8,1;
+  AssertionLemmas,0;
   Initialisation,1
 END
 &

@@ -1,7 +1,7 @@
 THEORY BalanceX IS
-  traffic_light_data_refinement,18,1,0,14,0,0,0;
+  traffic_light_data_refinement,18,3,0,14,0,0,0;
   Initialisation,2,1,0,1,0,0,0;
-  advance,16,0,0,13,0,0,0
+  advance,16,2,0,13,0,0,0
 END
 &
 THEORY ProofState IS
@@ -15,11 +15,11 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(0);
-  Unproved;
+  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
-  Unproved;
+  Proved(Util);
   Unproved;
   Proved(Util);
   Proved(0)
@@ -36,11 +36,11 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  ?;
+  cl & xp & ss & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & eh(color,red,Goal) & ah(color = red) & ah(counter$1 = {green|->0,yellow|->1,red|->2}(color)) & ah(color = red) & pr;
   pr;
   pr;
   pr;
-  ?;
+  cl & xp & mh(not(red = green) & not(red = yellow) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green))) & rn(not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green))) & ss & pr;
   ?;
   cl & xp & se(green) & ss & pp(rp.0) & ah(color_refine = {green|->0,yellow|->1,red|->2}) & ss & pp(rp.0);
   pr
@@ -63,7 +63,7 @@ THEORY PassList IS
   Force(0),?;
   Force(0),(?;0;1);
   Force(0),(?;0;1);
-  Force(0),(?;0;1);
+  Force(0),?;
   Force(0),?
 END
 &

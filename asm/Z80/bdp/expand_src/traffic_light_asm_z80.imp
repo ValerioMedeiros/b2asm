@@ -89,19 +89,47 @@ BEGIN
       INVARIANT
          0 <= mp.pc & mp.pc <= 14 & mp.sp > 0 &
          mp.mem ( 0 ) : 0 .. 2 &
-         ( ( mp.pc = 0 ) => ( mp.mem ( 0 ) : 0 .. 2 & mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 ) ) &
-         ( ( mp.pc = 1 ) => ( mp.rgs8 ( l ) = 0 ) ) &
-         ( ( mp.pc = 2 ) => ( bitget ( mp.mem ( 0 ) , 1 ) = bitget ( mp.rgs8 ( f_ ) , 1 ) ) ) &
-         /*((mp.pc = 1) => mp.mem(0) = 2 & counter = 2) &
-         ((mp.pc = 2) => mp.mem(0) /= 2 & mp.mem(0) = counter) &
-         ((mp.pc = 3) => mp.mem(0) = 1 & counter = 1) &
-         ((mp.pc = 4) => mp.mem(0) = 0 & mp.mem(0) = counter) &
-         ((mp.pc = 5) => mp.mem(0) = 0 & mp.mem(0) = counter & mp.w = 1) &
-         ((mp.pc = 6) => mp.mem(0) = 1 & mp.mem(0) = counter) &
-         ((mp.pc = 7) => mp.mem(0) = 1 & mp.mem(0) = counter & mp.w = 2) &
-         ((mp.pc = 8) => mp.mem(0) = 2 & mp.mem(0) = counter) &
-         ((mp.pc = 9) => (mp.mem(0) : 0..2 & mp.mem(0) = counter & mp.w = color_step(counter))) &*/
-         ( ( mp.pc = 10 ) => ( mp.mem ( 0 ) : 0 .. 2 & mp.mem ( 0 ) = color_step ( counter ) ) )
+         ( ( mp.pc = 0 ) => ( mp.mem ( 0 ) = counter ) ) &
+         ( ( mp.pc = 1 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 ) ) &
+         ( ( mp.pc = 2 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 ) ) &
+         ( ( mp.pc = 3 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 1 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) ) ) &
+         ( ( mp.pc = 4 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 1 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 0 ) ) &
+         ( ( mp.pc = 5 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 1 ) = bitget ( mp.rgs8 ( f_ ) , 1 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 1 ) ) &
+         ( ( mp.pc = 6 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 1 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 1 &
+                        mp.rgs8 ( a ) = 0 ) ) &
+         ( ( mp.pc = 7 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 1 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 0 ) ) &
+         ( ( mp.pc = 8 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 0 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) ) ) &
+         ( ( mp.pc = 9 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 0 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 0 ) ) &
+         ( ( mp.pc = 10 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 0 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 1 ) ) &
+         ( ( mp.pc = 11 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 0 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 0 ) ) &
+         ( ( mp.pc = 12 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 0 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 0 &
+                        mp.rgs8 ( a ) = 1 ) ) &
+         ( ( mp.pc = 13 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 0 ) = bitget ( mp.rgs8 ( f_ ) , 6 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 6 ) = 1 ) ) &
+         ( ( mp.pc = 14 ) => ( mp.mem ( 0 ) = counter & mp.rgs8 ( h ) = 0 & mp.rgs8 ( l ) = 0 &
+                        bitget ( mp.mem ( 0 ) , 1 ) = bitget ( mp.rgs8 ( f_ ) , 1 ) &
+                        bitget ( mp.rgs8 ( f_ ) , 1 ) = 1 &
+                        mp.rgs8 ( a ) = color_step ( counter ) ) ) &
+         ( ( mp.pc = 15 ) => ( mp.mem ( 0 ) = color_step ( counter ) ) )
       VARIANT ( 14 - mp.pc )
       END ;
 
