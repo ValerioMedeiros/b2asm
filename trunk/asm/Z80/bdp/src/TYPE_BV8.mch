@@ -39,4 +39,7 @@ PROPERTIES
   & BV8_XOR : BV8 * BV8 --> BV8
   & ! ( v1 , v2 , i ) . ( v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_XOR ( v1 , v2 ) ( i ) = BIT_XOR ( v1 ( i ) , v2 ( i ) ) )
 
+ASSERTIONS
+   ! ( vec , idx , b ) . ( vec : BV8 & idx : BV8_INDEX & b : BIT =>
+        BV8_SET_BIT ( vec , idx , b ) ( idx ) = b )
 END

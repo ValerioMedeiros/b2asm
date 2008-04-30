@@ -1,9 +1,14 @@
-THEORY ProofList
+THEORY ProofList IS
+  _f(1) & _f(2) & AssertionLemmas.1,(_f(3) & _f(4) => _f(5))
 END
 &
 THEORY Formulas IS
   ("`Seen and used machines properties'" & BIT = 0..1 & BIT_FLIP : BIT +-> BIT & dom(BIT_FLIP) = BIT & !b.(b : BIT => BIT_FLIP(b) = 1-b) & BIT_AND : BIT*BIT +-> BIT & dom(BIT_AND) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_AND(b1,b2) = 1 => b1 = 1) & (b1 = 1 => BIT_AND(b1,b2) = 1) & b2 = 1) & BIT_IOR : BIT*BIT +-> BIT & dom(BIT_IOR) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_IOR(b1,b2) = 1 => b1 = 1) & (b1 = 1 => BIT_IOR(b1,b2) = 1) or b2 = 1) & BIT_XOR : BIT*BIT +-> BIT & dom(BIT_XOR) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_XOR(b1,b2) = 1 => b1 = 1 & b2 = 0 or (b1 = 0 & b2 = 1)) & ((b1 = 1 & b2 = 0 => BIT_XOR(b1,b2) = 1) & (b1 = 0 & b2 = 1 => BIT_XOR(b1,b2) = 1))) & "`Component properties'" & BV8_INDEX = 0..7 & BV8 = BV8_INDEX --> BIT & BV8_SET_BIT : BV8*BV8_INDEX*BIT +-> BV8 & dom(BV8_SET_BIT) = BV8*BV8_INDEX*BIT & !(v,i,j,b).(v : BV8 & i : BV8_INDEX & j : BV8_INDEX & b : BIT & not(i = j) => BV8_SET_BIT(v,i,b)(j) = v(j)) & !(v,i,b).(v : BV8 & i : BV8_INDEX & b : BIT => BV8_SET_BIT(v,i,b)(i) = b) & BV8_COMPLEMENT : BV8 +-> BV8 & dom(BV8_COMPLEMENT) = BV8 & !(v,i).(v : BV8 & i : BV8_INDEX => BV8_COMPLEMENT(v)(i) = BIT_FLIP(v(i))) & BV8_ALL_ZEROES : BV8 & !i.(i : BV8_INDEX => BV8_ALL_ZEROES(i) = 0) & BV8_AND : BV8*BV8 +-> BV8 & dom(BV8_AND) = BV8*BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_AND(v1,v2)(i) = BIT_AND(v1(i),v2(i))) & BV8_IOR : BV8*BV8 +-> BV8 & dom(BV8_IOR) = BV8*BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_IOR(v1,v2)(i) = BIT_IOR(v1(i),v2(i))) & BV8_XOR : BV8*BV8 +-> BV8 & dom(BV8_XOR) = BV8*BV8 & !(v1,v2,i).(v1 : BV8 & v2 : BV8 & i : BV8_INDEX => BV8_XOR(v1,v2)(i) = BIT_XOR(v1(i),v2(i))));
-  ("`Seen and used machines assertions'" & BIT_FLIP(0) = 1 & BIT_FLIP(1) = 0 & BIT_AND(0,0) = 0 & BIT_AND(0,1) = 0 & BIT_AND(1,0) = 0 & BIT_AND(1,1) = 1 & BIT_IOR(0,0) = 0 & BIT_IOR(0,1) = 0 & BIT_IOR(1,0) = 0 & BIT_IOR(1,1) = 1 & BIT_XOR(0,0) = 0 & BIT_XOR(0,1) = 1 & BIT_XOR(1,0) = 1 & BIT_XOR(1,1) = 0)
+  ("`Seen and used machines assertions'" & BIT_FLIP(0) = 1 & BIT_FLIP(1) = 0 & BIT_AND(0,0) = 0 & BIT_AND(0,1) = 0 & BIT_AND(1,0) = 0 & BIT_AND(1,1) = 1 & BIT_IOR(0,0) = 0 & BIT_IOR(0,1) = 0 & BIT_IOR(1,0) = 0 & BIT_IOR(1,1) = 1 & BIT_XOR(0,0) = 0 & BIT_XOR(0,1) = 1 & BIT_XOR(1,0) = 1 & BIT_XOR(1,1) = 0);
+  ("`Local hypotheses'" & vec : BV8 & idx : BV8_INDEX & b : BIT);
+  "`Check assertion (!(vec,idx,b).(vec : BV8 & idx : BV8_INDEX & b : BIT => BV8_SET_BIT(vec,idx,b)(idx) = b)) deduction - ref 3.2, 4.2, 5.3'";
+  (BV8_SET_BIT(vec,idx,b)(idx) = b);
+  ("`Component assertions'" & !(vec,idx,b).(vec : BV8 & idx : BV8_INDEX & b : BIT => BV8_SET_BIT(vec,idx,b)(idx) = b))
 END
 &
 THEORY EnumerateX 

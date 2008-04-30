@@ -1,7 +1,7 @@
 THEORY BalanceX IS
-  TYPES,4,0,0,2,0,0,0;
+  TYPES,6,0,0,2,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  AssertionLemmas,4,0,0,2,0,0,0;
+  AssertionLemmas,6,0,0,2,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
@@ -9,10 +9,14 @@ THEORY ProofState IS
   Unproved;
   Proved(0);
   Unproved;
-  Proved(0)
+  Proved(0);
+  Unproved;
+  Unproved
 END
 &
 THEORY MethodList IS
+  ?;
+  pr;
   ?;
   pr;
   ?;
@@ -23,7 +27,9 @@ THEORY PassList IS
   Force(0),(?;0;1);
   Force(0),?;
   Force(0),(?;0;1);
-  Force(0),?
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1)
 END
 &
 THEORY ManForms 

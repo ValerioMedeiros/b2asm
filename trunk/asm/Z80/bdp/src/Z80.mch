@@ -102,7 +102,7 @@ OPERATIONS
       END
 ;
 
- LD_r_9ix_d0 ( rr , dd ) =
+ LD_r_9IX_d0 ( rr , dd ) =
       PRE rr : id_register8 & dd : WORD8  THEN
          ANY address , iszero , overflow WHERE address : WORD16 & iszero : BOOL & overflow : BOOL &
             address , iszero , overflow = add16 ( ix , WORD8_TO_WORD16 ( 0 , dd ) )
@@ -112,7 +112,39 @@ OPERATIONS
          END
       END
 ;
+ LD_r_9IY_d0 ( rr , dd ) =
+      PRE rr : id_register8 & dd : WORD8  THEN
+         ANY address , iszero , overflow WHERE address : WORD16 & iszero : BOOL & overflow : BOOL &
+            address , iszero , overflow = add16 ( iy , WORD8_TO_WORD16 ( 0 , dd ) )
+         THEN
+          rgs8 ( rr ) := mem ( address ) ||
+          pc := INSTRUCTION_NEXT ( pc )
+         END
+      END
+;
+ LD_9HL0_n ( nn ) =
+      PRE nn : WORD8 THEN
+         ANY address WHERE address : WORD16 &
+            address =  WORD8_TO_WORD16 ( rgs8 ( h ) , rgs8 ( l ) )
+         THEN
+          mem ( address ) := nn ||
+          pc := INSTRUCTION_NEXT ( pc )
+         END
+      END
+;
+/* LD_9IX_d0_n (dd,nn) =    
+      PRE  dd : WORD8 & nn : WORD8 THEN
+         ANY address,iszero,overflow WHERE address : WORD16 & iszero : BOOL & overflow : BOOL &
+            address,iszero,overflow = add16(iy , WORD8_TO_WORD16(0,dd))
 
+         ANY address WHERE address : WORD16 &
+            address =  WORD8_TO_WORD16(rgs8(h),rgs8(l)) 
+         THEN
+	  mem(address):= nn ||
+          pc := INSTRUCTION_NEXT(pc)
+	 END
+      END
+;*/
 /* Intruncoes fora da sequencia */
 
  LD_HL_r ( rr ) =

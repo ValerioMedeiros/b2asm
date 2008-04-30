@@ -5,22 +5,23 @@ THEORY OPOBalanceX IS
 END
 &
 THEORY OPOProofList IS
-  _f(1) & _f(2) & AssertionLemmas.12,(_of(25) => _of(26));
-  _f(1) & _f(2) & AssertionLemmas.11,(_of(23) => _of(24));
-  _f(1) & _f(2) & AssertionLemmas.10,(_of(21) => _of(22));
-  _f(1) & _f(2) & AssertionLemmas.9,(_of(19) => _of(20));
-  _f(1) & _f(2) & AssertionLemmas.8,(_of(17) => _of(18));
-  _f(1) & _f(2) & AssertionLemmas.7,(_of(15) => _of(16));
-  _f(1) & _f(2) & AssertionLemmas.6,(_of(13) => _of(14));
-  _f(1) & _f(2) & AssertionLemmas.5,(_of(11) => _of(12));
-  _f(1) & _f(2) & AssertionLemmas.4,(_of(9) => _of(10));
-  _f(1) & _f(2) & AssertionLemmas.3,(_of(7) => _of(8));
-  _f(1) & _f(2) & AssertionLemmas.2,(_of(5) => _of(6));
-  _f(1) & _f(2) & AssertionLemmas.1,(_of(3) => _of(4));
-  _f(1) & _f(2) & Initialisation.1,(_of(1) => _of(2))
+  _f(1) & _f(2) & AssertionLemmas.12,(_of(26) => _of(27));
+  _f(1) & _f(2) & AssertionLemmas.11,(_of(24) => _of(25));
+  _f(1) & _f(2) & AssertionLemmas.10,(_of(22) => _of(23));
+  _f(1) & _f(2) & AssertionLemmas.9,(_of(20) => _of(21));
+  _f(1) & _f(2) & AssertionLemmas.8,(_of(18) => _of(19));
+  _f(1) & _f(2) & AssertionLemmas.7,(_of(16) => _of(17));
+  _f(1) & _f(2) & AssertionLemmas.6,(_of(14) => _of(15));
+  _f(1) & _f(2) & AssertionLemmas.5,(_of(12) => _of(13));
+  _f(1) & _f(2) & AssertionLemmas.4,(_of(10) => _of(11));
+  _f(1) & _f(2) & AssertionLemmas.3,(_of(8) => _of(9));
+  _f(1) & _f(2) & AssertionLemmas.2,(_of(6) => _of(7));
+  _f(1) & _f(2) & AssertionLemmas.1,(_of(4) => _of(5));
+  _f(1) & _f(2) & Initialisation.1,(_of(1) & _of(2) => _of(3))
 END
 &
 THEORY OPOFormulas IS
+  ("`Local hypotheses'" & !(vec,idx,b$1).(vec : BV8 & idx : BV8_INDEX & b$1 : BIT => BV8_SET_BIT(vec,idx,b$1)(idx) = b$1));
   "`Check that the invariant (btrue) is established by the initialisation - ref 3.3'";
   (btrue);
   "`Check assertion (dom(rotateright) = WORD8) deduction - ref 3.2, 4.2, 5.3'";
