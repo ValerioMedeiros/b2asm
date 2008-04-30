@@ -43,16 +43,15 @@ CONCRETE_VARIABLES
    stack
 
 INVARIANT
-   stack : WORD16  --> WORD16 &
-/* stack <<: mem & (duvida)*/
+   stack : WORD16  --> WORD8 &
    rgs8 : id_register8 --> WORD8 &
    mem : WORD16 --> WORD8 &
-   pc : WORD16 & sp : WORD16 & ix : WORD16 & iy : WORD16 
-
+   pc : WORD16 & sp : WORD16 & ix : WORD16 & iy : WORD16 /*&
+   stack <:  mem */
 
 ASSERTIONS
    dom(stack)= WORD16&
-   ran(stack)<: WORD16& 
+   ran(stack)<: WORD8& 
    ran(mem) <: WORD8 &
    dom(mem) = WORD16 &
    ran(rgs8) <: WORD8 &
@@ -72,25 +71,11 @@ INITIALISATION
    rgs8 :: id_register8 -->> WORD8 || 
    mem :: WORD16 --> WORD8 ||
    pc :: WORD16 || sp :: WORD16 || ix :: WORD16 || iy :: WORD16 ||
-   stack :: WORD16  --> WORD16
+   stack :: WORD16  --> WORD8
 
 OPERATIONS
 
 
- CALL (k) =
-    PRE k : INSTRUCTION THEN
-        stack(sp) := INSTRUCTION_NEXT(pc) ||
-        sp := sp + 1 ||
-        pc := k
-    END
- ;
- RETURN =
-    PRE sp > 0 THEN
-        stack := {sp - 1} <<| stack ||
-        pc := stack(sp - 1) ||
-        sp := sp - 1
-    END
- ;
 
  LD_r_r_(rr,rr_) =
      PRE rr : id_register8 & rr_ : id_register8  THEN
@@ -116,6 +101,18 @@ OPERATIONS
 	 END
       END
 ;
+
+ LD_r_9ix_d0 (rr , dd) =    
+      PRE rr : id_register8 & dd : WORD8  THEN
+         ANY address,iszero,overflow WHERE address : WORD16 & iszero : BOOL & overflow : BOOL &
+            address,iszero,overflow = add16(ix , WORD8_TO_WORD16(0,dd))
+         THEN
+	  rgs8(rr):= mem(address) ||
+          pc := INSTRUCTION_NEXT(pc)
+	 END
+      END
+;
+
 /* Intruncoes fora da sequencia */
 
  LD_HL_r (rr) =    
@@ -140,7 +137,7 @@ OPERATIONS
 	 END
       END
 ;
- JP_z_e  =  /*Falta expressar o E : -126 .. 129, ele representa o valor do salto  */
+ JP_z_e  =  
 
       IF WORD8_TO_BV8(rgs8(f_))(6) = 0 THEN   pc := INSTRUCTION_NEXT(pc)
       ELSE pc := INSTRUCTION_NEXT(INSTRUCTION_NEXT(pc)) 
@@ -148,24 +145,24 @@ OPERATIONS
 ;
 
 
- SET_b_HL (bb)=  /* Vc conhece uma melhor  forma de modelar o tipo de b (questionamento)*/
+ SET_b_HL (bb)=  
       PRE bb : 0..(WORD8_LENGTH-1) THEN
          ANY address,nw8 WHERE address : WORD16 &  nw8 : BV8 &
              address =  WORD8_TO_WORD16(rgs8(h),rgs8(l))&
              nw8 = BV8_SET_BIT( WORD8_TO_BV8(mem(address)),bb, 1)
-         THEN    /* Vc conhece uma melhor simplificar essa instrucao (questionamento)*/
+         THEN    
 	  mem(address) := BV8_TO_WORD8(nw8) ||
           pc := INSTRUCTION_NEXT(pc)
 	 END
       END
 ;
 
- RES_b_HL (bb)=  /* Vc conhece uma melhor  forma de modelar o tipo de b (questionamento)*/
+ RES_b_HL (bb)=  
       PRE bb : 0..(WORD8_LENGTH-1) THEN
          ANY address,nw8 WHERE address : WORD16 &  nw8 : BV8 &
              address =  WORD8_TO_WORD16(rgs8(h),rgs8(l))&
              nw8 = BV8_SET_BIT( WORD8_TO_BV8(mem(address)),bb, 0)
-         THEN    /* Vc conhece uma melhor simplificar essa instrucao (questionamento)*/
+         THEN    
 	  mem(address) := BV8_TO_WORD8(nw8) ||
           pc := INSTRUCTION_NEXT(pc)
 	 END
@@ -175,7 +172,21 @@ OPERATIONS
       PRE k : INSTRUCTION THEN
          pc := k
       END
-   
+;
+ CALL (k) =
+    PRE k : INSTRUCTION THEN
+        stack(sp) := INSTRUCTION_NEXT(pc) ||
+        sp := sp + 1 ||
+        pc := k
+    END
+ ;
+ RETURN =
+    PRE sp > 0 THEN
+        stack := {sp - 1} <<| stack ||
+        pc := stack(sp - 1) ||
+        sp := sp - 1
+    END
+    
 
 /*;
  INC_HL =
