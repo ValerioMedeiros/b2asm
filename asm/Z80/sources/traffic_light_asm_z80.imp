@@ -91,7 +91,7 @@ BEGIN
          mp.mem(0) : 0..2 &
          ((mp.pc = 0) => ( mp.mem(0) :  0..2 & mp.mem(0) = counter & mp.rgs8(h) = 0 )) &
          ((mp.pc = 1 ) => (mp.rgs8(l) = 0)) & 
-         /*((mp.pc = 2 ) => (WORD8_TO_BV8(mp.mem(0))(1) = (mp.rgs8(f_))(1) )) &*/
+         ((mp.pc = 2 ) => ( bitget(mp.mem(0),1) =  bitget(mp.rgs8(f_),1) )) &
          /*((mp.pc = 1) => mp.mem(0) = 2 & counter = 2) &
          ((mp.pc = 2) => mp.mem(0) /= 2 & mp.mem(0) = counter) &
          ((mp.pc = 3) => mp.mem(0) = 1 & counter = 1) &

@@ -5,12 +5,22 @@ SEES
    TYPES
 
 CONCRETE_CONSTANTS
+   add16 ,
    add , substract ,
    and , ior , xor ,
    bitclear , bitset , bitget ,
    complement , swap , rotateleft , rotateright
 
 PROPERTIES
+
+    add16 : ( WORD16 * WORD16 ) --> ( WORD16 * BOOL * BOOL )
+  & ! ( w1 , w2 , sum ) .
+     ( w1 : WORD16 & w2 : WORD16 & sum : NATURAL & sum = w1 + w2 =>
+      ( ( sum <= 65535 => add16 ( w1 , w2 ) = ( sum , bool ( sum = 0 ) , FALSE ) ) &
+       ( 65536 <= sum => add16 ( w1 , w2 ) = ( sum - 65536 , bool ( sum = 65536 ) , TRUE ) ) ) )
+  &
+
+
     add : ( WORD8 * WORD8 ) --> ( WORD8 * BOOL * BOOL )
   & ! ( w1 , w2 , sum ) .
      ( w1 : WORD8 & w2 : WORD8 & sum : NATURAL & sum = w1 + w2 =>

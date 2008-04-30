@@ -195,6 +195,7 @@ THEORY MethodList IS
   ?;
   ?;
   ?;
+  pr;
   ?;
   ?;
   ?;
@@ -203,6 +204,10 @@ THEORY MethodList IS
   ?;
   ?;
   ?;
+  pr;
+  pr;
+  pr;
+  pr;
   ?;
   ?;
   ?;
@@ -211,6 +216,10 @@ THEORY MethodList IS
   ?;
   ?;
   ?;
+  pr;
+  pr;
+  pr;
+  pr;
   ?;
   ?;
   ?;
@@ -237,70 +246,61 @@ THEORY MethodList IS
   ?;
   ?;
   ?;
+  pr;
   ?;
+  pr;
   ?;
+  pr;
   ?;
+  pr;
   ?;
+  pr;
   ?;
+  pr;
   ?;
   ?;
+  pr;
   ?;
   ?;
+  pr;
   ?;
   ?;
+  pr;
   ?;
   ?;
+  pr;
   ?;
   ?;
+  pr;
   ?;
   ?;
+  pr;
   ?;
   ?;
+  pr;
   ?;
+  pr;
   ?;
+  pr;
   ?;
+  pr;
   ?;
+  pr;
   ?;
+  pr;
+  pr;
   ?;
+  pr;
   ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?;
-  ?
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr
 END
 &
 THEORY PassList IS
@@ -455,5 +455,6 @@ THEORY ManForms
 END
 &
 THEORY Version IS
-  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
 END

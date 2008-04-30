@@ -91,7 +91,7 @@ BEGIN
          (mp.mem) ( 0 ) : 0 .. 2 &
          ( ( (mp.pc) = 0 ) => ( (mp.mem) ( 0 ) : 0 .. 2 & (mp.mem) ( 0 ) = counter & (mp.rgs8) ( h ) = 0 ) ) &
          ( ( (mp.pc) = 1 ) => ( (mp.rgs8) ( l ) = 0 ) ) &
-
+         ( ( (mp.pc) = 2 ) => ( bitget ( (mp.mem) ( 0 ) , 1 ) = bitget ( (mp.rgs8) ( f_ ) , 1 ) ) ) &
 
 
 
@@ -109,33 +109,3 @@ BEGIN
    END
 
 END
-
-
-
-
-
-
-/*  BEGIN 
-
-@*IF mp.pc = 0 THEN*@ mp.LD_r_n_(h,0) @*END*@;
-@*IF mp.pc = 1 THEN*@ mp.LD_r_n_(l,0) @*END*@;
-@*IF mp.pc = 2 THEN*@ mp.BIT_b_HL(1)  @*END*@;
-@*IF mp.pc = 3 THEN*@ mp.JP_z_e       @*END*@; @* z eh zero *@
-  IF mp.pc = 4 THEN   mp.GOTO(7)        END;
-  IF mp.pc = 5 THEN   mp.LD_r_n_(a,0) @*END*@;
-@*IF mp.pc = 6 THEN*@ mp.GOTO(14)      END;
-
-  IF mp.pc = 7 THEN   mp.BIT_b_HL(0) @*END*@;
-@*IF mp.pc = 8 THEN*@ mp.JP_z_e        END; @* z eh zero *@
-  IF mp.pc = 9 THEN   mp.GOTO(11)      END;
-  IF mp.pc =10 THEN   mp.GOTO(13)      END;
-
-  IF mp.pc =11 THEN   mp.LD_r_n_(a,1)  @*END*@;
-@*IF mp.pc =12 THEN*@ mp.GOTO(14)      END;
-  IF mp.pc =13 THEN   mp.LD_r_n_(a,2)  END;
-@*IF mp.pc =14 THEN*@ mp.LD_HL_r(a)  @*END*@;
-
-  IF  mp.pc /= 15 THEN mp.GOTO(-1) END 
-
-  END
-*/
