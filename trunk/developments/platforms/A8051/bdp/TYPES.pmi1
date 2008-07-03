@@ -1,0 +1,80 @@
+THEORY BalanceX IS
+  TYPES,19,0,0,7,0,0,0;
+  InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
+  AssertionLemmas,19,0,0,7,0,0,0;
+  Initialisation,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Unproved;
+  Unproved;
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Unproved;
+  Unproved;
+  Proved(0);
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  ?;
+  ?;
+  pr;
+  ?;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  cl & xp & ph(3,2,!(i,j).(i : INSTRUCTION & j : INSTRUCTION & (i+j : INTEGER & (0<=i+j & 0<=i+j)) => (0<= -255+i+j & 255<=i+j => INSTRUCTION_IJUMP(i,j) = 0) & (0<=254-i-j & i+j+1<=255 => 0 = 1+i+j-INSTRUCTION_IJUMP(i,j) & INSTRUCTION_IJUMP(i,j) = i+j+1))) & pr & pr & pr & pr & pr & pr;
+  pr;
+  pr;
+  cl & xp & ph(2,!i.(i : INSTRUCTION => (i = 255 => INSTRUCTION_NEXT(i) = 0) & (i<=254 & i+1<=255 => 0 = 1+i-INSTRUCTION_NEXT(i) & INSTRUCTION_NEXT(i) = i+1))) & pr & pr;
+  cl & xp & ph(3,!i.(i : INSTRUCTION => (i = 255 => INSTRUCTION_NEXT(i) = 0) & (i<=254 & i+1<=255 => 0 = 1+i-INSTRUCTION_NEXT(i) & INSTRUCTION_NEXT(i) = i+1))) & pr & pr;
+  cl & xp & ph(4,!i.(i : INSTRUCTION => (i = 255 => INSTRUCTION_NEXT(i) = 0) & (i<=254 & i+1<=255 => 0 = 1+i-INSTRUCTION_NEXT(i) & INSTRUCTION_NEXT(i) = i+1))) & pr & pr;
+  pr;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p24.bbt")(CLT == "V3.7.6")
+END

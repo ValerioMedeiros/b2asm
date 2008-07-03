@@ -1,0 +1,56 @@
+THEORY ProofList IS
+  _f(1) & AssertionLemmas.14,(_f(28) => _f(29));
+  _f(1) & AssertionLemmas.13,(_f(26) => _f(27));
+  _f(1) & AssertionLemmas.12,(_f(24) => _f(25));
+  _f(1) & AssertionLemmas.11,(_f(22) => _f(23));
+  _f(1) & AssertionLemmas.10,(_f(20) => _f(21));
+  _f(1) & AssertionLemmas.9,(_f(18) => _f(19));
+  _f(1) & AssertionLemmas.8,(_f(16) => _f(17));
+  _f(1) & AssertionLemmas.7,(_f(14) => _f(15));
+  _f(1) & AssertionLemmas.6,(_f(12) => _f(13));
+  _f(1) & AssertionLemmas.5,(_f(10) => _f(11));
+  _f(1) & AssertionLemmas.4,(_f(8) => _f(9));
+  _f(1) & AssertionLemmas.3,(_f(6) => _f(7));
+  _f(1) & AssertionLemmas.2,(_f(4) => _f(5));
+  _f(1) & AssertionLemmas.1,(_f(2) => _f(3))
+END
+&
+THEORY Formulas IS
+  ("`Component properties'" & BIT = 0..1 & BIT_FLIP : BIT +-> BIT & dom(BIT_FLIP) = BIT & !b.(b : BIT => BIT_FLIP(b) = 1-b) & BIT_AND : BIT*BIT +-> BIT & dom(BIT_AND) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_AND(b1,b2) = 1 => b1 = 1) & (b1 = 1 => BIT_AND(b1,b2) = 1) & b2 = 1) & BIT_IOR : BIT*BIT +-> BIT & dom(BIT_IOR) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_IOR(b1,b2) = 1 => b1 = 1) & (b1 = 1 => BIT_IOR(b1,b2) = 1) or b2 = 1) & BIT_XOR : BIT*BIT +-> BIT & dom(BIT_XOR) = BIT*BIT & !(b1,b2).(b1 : BIT & b2 : BIT => (BIT_XOR(b1,b2) = 1 => b1 = 1 & b2 = 0 or (b1 = 0 & b2 = 1)) & ((b1 = 1 & b2 = 0 => BIT_XOR(b1,b2) = 1) & (b1 = 0 & b2 = 1 => BIT_XOR(b1,b2) = 1))));
+  "`Check assertion (BIT_XOR(1,1) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_XOR(1,1) = 0);
+  "`Check assertion (BIT_XOR(1,0) = 1) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_XOR(1,0) = 1);
+  "`Check assertion (BIT_XOR(0,1) = 1) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_XOR(0,1) = 1);
+  "`Check assertion (BIT_XOR(0,0) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_XOR(0,0) = 0);
+  "`Check assertion (BIT_IOR(1,1) = 1) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_IOR(1,1) = 1);
+  "`Check assertion (BIT_IOR(1,0) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_IOR(1,0) = 0);
+  "`Check assertion (BIT_IOR(0,1) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_IOR(0,1) = 0);
+  "`Check assertion (BIT_IOR(0,0) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_IOR(0,0) = 0);
+  "`Check assertion (BIT_AND(1,1) = 1) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_AND(1,1) = 1);
+  "`Check assertion (BIT_AND(1,0) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_AND(1,0) = 0);
+  "`Check assertion (BIT_AND(0,1) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_AND(0,1) = 0);
+  "`Check assertion (BIT_AND(0,0) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_AND(0,0) = 0);
+  "`Check assertion (BIT_FLIP(1) = 0) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_FLIP(1) = 0);
+  "`Check assertion (BIT_FLIP(0) = 1) deduction - ref 3.2, 4.2, 5.3'";
+  (BIT_FLIP(0) = 1);
+  ("`Component assertions'" & BIT_FLIP(0) = 1 & BIT_FLIP(1) = 0 & BIT_AND(0,0) = 0 & BIT_AND(0,1) = 0 & BIT_AND(1,0) = 0 & BIT_AND(1,1) = 1 & BIT_IOR(0,0) = 0 & BIT_IOR(0,1) = 0 & BIT_IOR(1,0) = 0 & BIT_IOR(1,1) = 1 & BIT_XOR(0,0) = 0 & BIT_XOR(0,1) = 1 & BIT_XOR(1,0) = 1 & BIT_XOR(1,1) = 0)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
