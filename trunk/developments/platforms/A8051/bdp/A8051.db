@@ -10,6 +10,9 @@
         <component_file path="/home/stepgalvao/B/B4free-3.2/A8051/sources" name="ALU" suffix="mch" user="stepgalvao">
             <component name="ALU" type="specification" />
         </component_file>
+        <component_file path="/home/stepgalvao/B/B4free-3.2/A8051/sources" name="MEMORY" suffix="mch" user="stepgalvao">
+            <component name="MEMORY" type="specification" />
+        </component_file>
         <component_file path="/home/stepgalvao/B/B4free-3.2/A8051/sources" name="TYPES" suffix="mch" user="stepgalvao">
             <component name="TYPES" type="specification" />
         </component_file>
