@@ -69,4 +69,5 @@ PROPERTIES
     => BV8_PAR ( v1 ) = BIT_XOR ( BIT_XOR ( t1 , t2 ) , BIT_XOR ( t3 , t4 ) ) )
 
 
+
 END

@@ -1,36 +1,52 @@
 THEORY BalanceX IS
-  A8051,53,0,0,48,1,0,0;
+  A8051,69,0,0,56,1,0,0;
   Initialisation,9,0,0,7,1,0,0;
   CJNE,5,0,0,5,0,0,0;
   CJNEI,5,0,0,5,0,0,0;
-  MOV,3,0,0,3,0,0,0;
+  MOV,4,0,0,3,0,0,0;
   MOVI,4,0,0,3,0,0,0;
-  MOVD,3,0,0,2,0,0,0;
-  MOVRA,2,0,0,2,0,0,0;
-  MOVDA,1,0,0,1,0,0,0;
-  ANL,1,0,0,1,0,0,0;
+  ANL,4,0,0,3,0,0,0;
   ACALL,5,0,0,4,0,0,0;
   SJMP,1,0,0,1,0,0,0;
   JC,2,0,0,2,0,0,0;
   JNB,2,0,0,2,0,0,0;
   AJMP,0,0,0,0,0,0,0;
-  ADDRA,1,0,0,1,0,0,0;
-  SUBBRA,1,0,0,1,0,0,0;
-  INC,1,0,0,1,0,0,0;
-  DEC,1,0,0,1,0,0,0;
-  INCR,3,0,0,3,0,0,0;
-  SUBBR,3,0,0,3,0,0,0
+  ADDS,4,0,0,3,0,0,0;
+  ADDD,4,0,0,3,0,0,0;
+  SUBBS,4,0,0,3,0,0,0;
+  SUBBD,4,0,0,3,0,0,0;
+  INC,4,0,0,3,0,0,0;
+  DEC,4,0,0,3,0,0,0;
+  INCS,4,0,0,3,0,0,0
 END
 &
 THEORY ProofState IS
   Proved(0);
+  Unproved;
   Proved(0);
   Proved(0);
   Proved(0);
+  Unproved;
   Proved(0);
   Proved(0);
   Proved(0);
+  Unproved;
   Proved(0);
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Unproved;
   Proved(0);
   Proved(0);
   Proved(0);
@@ -44,9 +60,6 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
   Unproved;
   Proved(0);
   Proved(0);
@@ -55,6 +68,7 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(0);
+  Unproved;
   Proved(0);
   Proved(0);
   Proved(0);
@@ -80,13 +94,31 @@ END
 &
 THEORY MethodList IS
   pr;
+  ?;
   pr;
   pr;
   pr;
+  ?;
   pr;
   pr;
   pr;
+  ?;
   pr;
+  pr;
+  pr;
+  ?;
+  pr;
+  pr;
+  pr;
+  ?;
+  pr;
+  pr;
+  pr;
+  ?;
+  pr;
+  pr;
+  pr;
+  ?;
   pr;
   pr;
   pr;
@@ -100,14 +132,12 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  pr;
-  pr;
-  pr;
   ?;
   pr;
   pr;
   pr;
   ?;
+  pr;
   pr;
   pr;
   pr;
@@ -136,13 +166,31 @@ END
 &
 THEORY PassList IS
   Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -156,9 +204,6 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?;
   Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
@@ -167,6 +212,7 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
+  Force(0),(?;0;1);
   Force(0),?;
   Force(0),?;
   Force(0),?;

@@ -33,11 +33,18 @@ CONCRETE_CONSTANTS
    complement , swap , rotateleft , rotateright , par
 
 PROPERTIES
-    add : ( WORD * WORD ) --> ( WORD * BOOL * BOOL )
+                        /*r      p     c    ov */
+  add : ( WORD * WORD ) --> ( WORD * BIT * BIT * BIT )
   & ! ( w1 , w2 , sum ) .
-     ( w1 : WORD & w2 : WORD & sum : NATURAL & sum = w1 + w2 =>
-      ( ( sum <= 255 => add ( w1 , w2 ) = ( sum , bool ( sum = 0 ) , FALSE ) ) &
-       ( 256 <= sum => add ( w1 , w2 ) = ( sum - 256 , bool ( sum = 256 ) , TRUE ) ) ) )
+     ( w1 : WORD & w2 : WORD & sum : NATURAL  & sum = w1 + w2 =>
+
+      (
+       ( sum <= 255 => add ( w1 , w2 ) =
+          ( sum , BV8_PAR ( WORD_TO_BV ( sum ) ) , 0 , OVERFLOW ( WORD_TO_COMP2 ( w1 ) , WORD_TO_COMP2 ( w2 ) ) ) )
+       & ( 256 <= sum => add ( w1 , w2 ) =
+          ( sum - 256 , BV8_PAR ( WORD_TO_BV ( sum - 256 ) ) , 1 , OVERFLOW ( WORD_TO_COMP2 ( w1 ) , WORD_TO_COMP2 ( w2 ) ) ) )
+      )
+     )
 
   & substract : WORD * WORD --> WORD * BOOL * BOOL
   & ! ( w1 , w2 , diff ) .
@@ -92,7 +99,7 @@ PROPERTIES
 
 ASSERTIONS
    dom ( add ) = WORD * WORD &
-   ran ( add ) <: WORD * BOOL * BOOL &
+   ran ( add ) <: WORD * BIT * BIT * BIT &
    dom ( substract ) = WORD * WORD &
    ran ( substract ) <: WORD * BOOL * BOOL &
    dom ( and ) = WORD * WORD &

@@ -1,0 +1,25 @@
+IMPLEMENTATION
+   traffic_ligth_8051
+SEES
+ definitions,data_refinement,TYPES
+REFINES
+   traffic_light_data_refinement
+IMPORTS
+   m.A8051
+INVARIANT
+  m.reg(R0)= counter
+OPERATIONS
+
+advance=
+ BEGIN
+ 	IF m.pc=0 THEN m.CJNE(R0,0,2)END;
+	IF m.pc=1 THEN m.MOV(R0,1)END;
+	IF m.pc=3 THEN m.SJMP(4)END;
+	IF m.pc=4 THEN m.CJNE(R0,1,2)END;
+	IF m.pc=5 THEN m.MOV(R0,2)END;
+	IF m.pc=6 THEN m.SJMP(1)END;
+	IF m.pc=7 THEN m.MOV(R0,0)END		
+ END
+		
+	
+END

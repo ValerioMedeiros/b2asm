@@ -1,0 +1,59 @@
+IMPLEMENTATION
+   traffic_light_8051
+SEES
+ definitions,data_refinement,TYPES
+REFINES
+   traffic_light_data_refinement
+IMPORTS
+   m.A8051
+INVARIANT
+  m.reg(R0)= counter
+INITIALISATION
+	m.MOV(R0,0)
+OPERATIONS
+
+advance=
+	BEGIN
+	
+	  m.INIT;
+	  WHILE m.pc<7 DO
+	     BEGIN
+		CASE m.pc OF	
+		    EITHER 0 THEN m.CJNE(R0,1,2)/*IF R0<1 THEN C := 1 ELSE C := 0*/
+			OR 1 THEN m.MOV(R0,2)
+			OR 2 THEN m.SJMP(4)
+			OR 3 THEN m.JC(2)/*IF C=1 THEN J ELSE PC++ */
+			OR 4 THEN m.MOV(R0,0)
+			OR 5 THEN m.SJMP(1)
+			OR 6 THEN m.MOV(R0,1)
+		    END
+		END
+	     END
+	     INVARIANT
+		0<=m.pc & m.pc<=7 & m.reg(R0): 0..2 & m.c :0..1 &
+
+		(m.pc=0 => m.reg(R0)=counter) &
+
+		(m.pc=1 => m.reg(R0)=counter & m.reg(R0)=1) &
+
+		(m.pc=2 => counter=1 & m.reg(R0)=2) &
+
+		(m.pc=3 => m.reg(R0)=counter & m.reg(R0)/=1 ) &
+
+		(m.pc=4 => m.reg(R0)=counter & m.reg(R0)=2 & m.c=0)&
+
+		(m.pc=5 => counter=2 & m.reg(R0)=0 & m.c=0)&
+
+		(m.pc=6 => m.reg(R0)=counter & m.reg(R0)/=1 & m.reg(R0)/=2 & m.c=1) &
+
+		(m.pc=7 => m.reg(R0)=color_step(counter))
+
+	     VARIANT (7-m.pc)
+	  END
+			
+		
+ 				
+	END
+		
+	
+END

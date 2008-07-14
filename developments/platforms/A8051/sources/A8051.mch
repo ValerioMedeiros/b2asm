@@ -3,54 +3,7 @@ MODEL
 
 
 SEES
-TYPES,ALU
-
-CONSTANTS
-sbuf,
-R0,
-R1,
-R2,
-R3,
-R4,
-R5,
-R6,
-R7,
-a,
-P0,
-P1,
-P2,
-P3,
-scon,
-psw,
-P
-
-
-
-
-
-
-PROPERTIES
-sbuf = 153 &
-R0=0 &
-R1=1 &
-R2=2 &
-R3=3 &
-R4=4 &
-R5=5 &
-R6=6 &
-R7=7 &
-a=240&
-P0=128&
-P1=144&
-P2=160&
-P3=176&
-scon=152&
-psw=208&
-P : BIT_ADDRESS&
-P = (psw,0) 
-
-
-
+TYPES,ALU,MEMORY
 
 
 CONCRETE_VARIABLES
@@ -67,22 +20,11 @@ pc : INSTRUCTION &
 sp : NATURAL &
 stack : NATURAL +->> INSTRUCTION &
 dom(stack)=0..(sp-1)&
-bitget(P)=par(mem(a))
-
-
-
-
-
-
-
+bitget(P)=par(mem(A))
 
 INITIALISATION
 sp :=0||
 stack := {}|| mem :: MEM_ADDR-->> WORD ||pc:=0
-
-
-
-
 
 OPERATIONS 
 
@@ -107,7 +49,6 @@ CJNE(addr,data,jump)=
 	  END 
 	END
 ;
-
 
 CJNEI(Rn,data,jump)=
 	PRE 
@@ -163,14 +104,13 @@ MOVI(Rn,data)=
 		 pc:=INSTRUCTION_NEXT(pc)
 	      END
 	END
-
-
 ;
+
 
 /*-->-->-->-->-->-->END-->-->-->-->-->-->-->-->-->-->-->-->-->--> */
 
 
-/*Falta colocar a paridade do acumulador*/
+
 ANL(addr)=
 	PRE 
 	  addr : RAM_ADDR
@@ -178,10 +118,10 @@ ANL(addr)=
           ANY result,b
            WHERE 
 		result : WORD & b : BOOL &
-                result,b= and(a,addr)  
+                result,b= and(A,addr)  
            THEN
 		
-		mem(a):=result
+		mem(A):=result
 
 	   END || pc:=INSTRUCTION_NEXT(pc)  
 	END
@@ -240,6 +180,20 @@ CLR(b)=
 	END
 ;
 
+SETB(b)=
+	PRE
+	  b : BIT_ADDRESS
+	THEN
+
+	  ANY w,p WHERE	
+	    w : WORD & p : WORD_POSITION &  w,p= b
+	  THEN
+	   mem(w) := bitclear(mem(w), p)
+	  END
+	  ||pc:= INSTRUCTION_NEXT(pc)	
+
+	END
+;
 
 /*-->-->-->-->END-->-->-->-->-->-->-->-->--->-->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
 
@@ -252,54 +206,58 @@ AJMP(jump)=
 ;
 
 /* Falta o setar o bit de paridade */	
-ADDS(acc,src)=
+ADD(ac,src)=
 	PRE
-	  acc : SFR_ADDR&
-	  acc=a&	
+	  ac : SFR_ADDR& 
+	 (ac=A or ac=ACC)&	
 	  src : MEM_ADDR
+
 	THEN
           ANY 
-            result,carry,zero 
+            result,par,c,ov
 	  WHERE 
-	    result : WORD & result,carry,zero = add(mem(a),mem(src)) &
-	    carry : BOOL & zero : BOOL
+	    result : WORD &  par : BIT & c : BIT & ov : BIT &
+	    result,par,c,ov = add(mem(A),mem(src))
+	    
 	  THEN 
-   	    mem(a):=result
+   	    mem(A):=result
           END ||
           pc:= INSTRUCTION_NEXT(pc)
 	END 
 ;
-ADDD(acc,data)=
+
+ADDD(ac,data)=
 	PRE
-	  acc : SFR_ADDR&
-	  acc=a&	
+	   ac : SFR_ADDR & 
+	  (ac=A or ac=ACC)&	
 	  data : WORD
 	THEN
           ANY 
-            result,carry,zero 
+            result,par,c,ov
 	  WHERE 
-	    result : WORD & result,carry,zero = add(mem(a),data) &
-	    carry : BOOL & zero : BOOL
-	  THEN 
-   	    mem(a):=result
+	    result : WORD &  par : BIT & c : BIT & ov : BIT &
+	    result,par,c,ov = add(mem(A),data)
+	    
+	  THEN  
+   	    mem(A):=result
           END ||
           pc:= INSTRUCTION_NEXT(pc)
 	END 
 
 ;
-SUBBS(acc,src)=
+SUBBS(ac,src)=
 	PRE
-	  acc : SFR_ADDR&
-	  acc = a &	
+	  ac : SFR_ADDR&
+	  (ac = A or ac=ACC)  &	
 	  src : MEM_ADDR
 	THEN
           ANY 
             result,carry,zero 
 	  WHERE 
-	    result : WORD & result,carry,zero = substract(mem(a),mem(src)) &
+	    result : WORD & result,carry,zero = substract(mem(A),mem(src)) &
 	    carry : BOOL & zero : BOOL
 	  THEN 
-   	    mem(a):=result
+   	    mem(A):=result
 	    	
           END ||
           pc:= INSTRUCTION_NEXT(pc)
@@ -307,17 +265,17 @@ SUBBS(acc,src)=
 ;
 SUBBD(acc,data)=
 	PRE
-	  acc : SFR_ADDR&
-	  acc = a &	
+	   acc : SFR_ADDR & 
+	  (acc = A or acc=ACC)&	
 	  data : WORD
 	THEN
           ANY 
             result,carry,zero 
 	  WHERE 
-	    result : WORD & result,carry,zero = substract(mem(a),data) &
+	    result : WORD & result,carry,zero = substract(mem(A),data) &
 	    carry : BOOL & zero : BOOL
 	  THEN 
-   	    mem(a):=result
+   	    mem(A):=result
 	    	
           END ||
           pc:= INSTRUCTION_NEXT(pc)
@@ -325,13 +283,15 @@ SUBBD(acc,data)=
 ;
 INC =
 	BEGIN
-	  ANY 
-            result,carry,zero 
+	 ANY 
+            result,par,c,ov
 	  WHERE 
-	    result : WORD & result,carry,zero = add(mem(a),1) &
-	    carry : BOOL & zero : BOOL
-	  THEN 
-   	    mem(a):=result
+	    result : WORD &  par : BIT & c : BIT & ov : BIT &
+	    result,par,c,ov = add(mem(A),1)
+	    
+	  THEN  
+   	    mem(A):=result
+ 	   
           END ||
           pc:= INSTRUCTION_NEXT(pc)   
 	END
@@ -339,28 +299,30 @@ INC =
 
 DEC =
 	BEGIN
+
 	  ANY 
             result,carry,zero 
 	  WHERE 
-	    result : WORD & result,carry,zero = substract(a,1) &
+	    result : WORD & result,carry,zero = substract(A,1) &
 	    carry : BOOL & zero : BOOL
 	  THEN 
-   	   mem(a):=result
+   	   mem(A):=result
           END ||
           pc:= INSTRUCTION_NEXT(pc)   
 	END
 ;
+
 INCS(src) =
-	
 	PRE
 	  src : MEM_ADDR
 	THEN
 	  ANY 
-            result,carry,zero 
+            result,par,c,ov
 	  WHERE 
-	    result : WORD & result,carry,zero = add(mem(src),1) &
-	    carry : BOOL & zero : BOOL
-	  THEN 
+	    result : WORD &  par : BIT & c : BIT & ov : BIT &
+	    result,par,c,ov = add(mem(src),1)
+	    
+	  THEN  
    	    mem(src):=result
           END ||
           pc:= INSTRUCTION_NEXT(pc)
