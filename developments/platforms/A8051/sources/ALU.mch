@@ -40,17 +40,22 @@ PROPERTIES
 
       (
        (sum <= 255 => add(w1, w2) = 
-	  (sum, BV8_PAR(WORD_TO_BV(sum)),0,OVERFLOW(WORD_TO_COMP2(w1),WORD_TO_COMP2(w2) ) ) ) 
+	  (sum, BV8_PAR(WORD_TO_BV(sum)),0,OVERFLOW_ADD(WORD_TO_COMP2(w1),WORD_TO_COMP2(w2) ) ) ) 
        &(256 <= sum => add(w1, w2) = 
-	  (sum-256, BV8_PAR(WORD_TO_BV(sum-256)),1,OVERFLOW(WORD_TO_COMP2(w1),WORD_TO_COMP2(w2)))) 
+	  (sum-256, BV8_PAR(WORD_TO_BV(sum-256)),1,OVERFLOW_ADD(WORD_TO_COMP2(w1),WORD_TO_COMP2(w2)))) 
       ) 
      )
-
-  & substract : WORD * WORD --> WORD * BOOL * BOOL
-  & ! (w1, w2, diff).
-     (w1 : WORD & w2 : WORD & diff : INTEGER & diff = w1-w2 =>
-      ((diff < 0 => substract(w1, w2) = (diff+256, FALSE, TRUE)) &
-       (diff >= 0 => substract(w1, w2) = (diff, bool(diff=0), FALSE)))) 
+                                   /*r      p     c     ov */
+  & substract : WORD * WORD * BIT --> WORD * BIT * BIT * BIT
+  & ! (w1, w2,cy,diff).
+     (w1 : WORD & w2 : WORD & diff : INTEGER & cy : BIT & diff = w1-w2-cy =>
+      (
+	diff < 0 => substract(w1,w2,cy) = 
+           (diff+256,BV8_PAR(WORD_TO_BV(diff)),1,OVERFLOW_SUB(WORD_TO_COMP2(w1),WORD_TO_COMP2(w2),cy))
+        &diff >= 0 => substract(w1,w2,cy) = 
+	   (diff,BV8_PAR(WORD_TO_BV(diff)),0,OVERFLOW_SUB(WORD_TO_COMP2(w1),WORD_TO_COMP2(w2),cy))
+      )
+     ) 
 
   & and : (WORD * WORD) --> (WORD * BOOL)
   & ! (w1, w2, w).
@@ -100,8 +105,8 @@ PROPERTIES
 ASSERTIONS
    dom(add) = WORD * WORD &
    ran(add) <: WORD * BIT * BIT * BIT &
-   dom(substract) = WORD * WORD &
-   ran(substract) <: WORD * BOOL * BOOL &
+   dom(substract) = WORD * WORD * BIT &
+   ran(substract) <: WORD * BIT * BIT * BIT &
    dom(and) = WORD * WORD &
    ran(and) <: WORD * BOOL &
    dom(ior) = WORD * WORD &

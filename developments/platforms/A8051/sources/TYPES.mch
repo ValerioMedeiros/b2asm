@@ -21,7 +21,8 @@ WORD
 ,WORD_TO_BV
 ,WORD_TO_COMP2
 ,COMP2_TO_WORD
-,OVERFLOW
+,OVERFLOW_ADD
+,OVERFLOW_SUB
 
 ,MEM_ADDR
 ,RAM_ADDR
@@ -81,15 +82,24 @@ WORD_TO_INT : WORD -->> INT &
 
 &WORD_TO_COMP2 : WORD --> COMPLEMENT_2
 &!(w).(w : WORD => (w<=127 => WORD_TO_COMP2(w)=w) 
-                     & ( w>127 & w<=255 => WORD_TO_COMP2(w)= w-255))
+                    &(w>127 & w<=255 => WORD_TO_COMP2(w)= w-255))
 
 &COMP2_TO_WORD = WORD_TO_COMP2~
 
-&OVERFLOW : COMPLEMENT_2 * COMPLEMENT_2 --> BIT
-& !(c1,c2,csum).(c1 : COMPLEMENT_2 & c2 : COMPLEMENT_2 & csum : INTEGER &
-		csum = c1+c2 => 
-			( (csum <= 127 & -128<=csum => OVERFLOW(c1,c2)=0)
-			  &(csum>127  & -128>csum => OVERFLOW(c1,c2)=1)
+&OVERFLOW_ADD : COMPLEMENT_2 * COMPLEMENT_2 --> BIT
+&!(c1,c2,csum).(c1 : COMPLEMENT_2 & c2 : COMPLEMENT_2 & csum : INTEGER &
+		 csum = c1+c2 => 
+			( (csum <= 127 & -128<=csum => OVERFLOW_ADD(c1,c2)=0)
+			  &(csum>127  & -128>csum => OVERFLOW_ADD(c1,c2)=1)
+			)
+		)
+
+&OVERFLOW_SUB : COMPLEMENT_2 * COMPLEMENT_2 * BIT --> BIT
+&!(c1,c2,cy,csum).(c1 : COMPLEMENT_2 & c2 : COMPLEMENT_2 & csum : INTEGER & cy : BIT &
+		 csum = c1-c2-cy => 
+			( 
+			  (csum <= 127 & -128<=csum => OVERFLOW_SUB(c1,c2,cy)=0)
+			  &(csum>127  & -128>csum => OVERFLOW_SUB(c1,c2,cy)=1)
 			)
 		)
 
