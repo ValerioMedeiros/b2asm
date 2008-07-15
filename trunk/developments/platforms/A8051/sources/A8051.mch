@@ -205,7 +205,7 @@ AJMP(jump)=
 	END
 ;
 
-/* Falta o setar o bit de paridade */	
+
 ADD(ac,src)=
 	PRE
 	  ac : SFR_ADDR& 
@@ -219,6 +219,27 @@ ADD(ac,src)=
 	    result : WORD &  par : BIT & c : BIT & ov : BIT &
 	    result,par,c,ov = add(mem(A),mem(src))
 	    
+	  THEN 
+   	    mem(A):=result
+          END ||
+          pc:= INSTRUCTION_NEXT(pc)
+	END 
+;
+
+ADDI(ac,reg)=
+	PRE
+	  ac : SFR_ADDR & reg : SFR_ADDR
+	 &(ac=A or ac=ACC)
+	 & (reg = R0 or reg = R1)
+	 & mem(reg) : RAM_ADDR
+
+	THEN
+          ANY 
+            addr,result,par,c,ov
+	  WHERE 
+	    result : WORD &  par : BIT & c : BIT & ov : BIT 
+            &addr=mem(reg)
+	    &result,par,c,ov = add(mem(A),mem(addr))
 	  THEN 
    	    mem(A):=result
           END ||
@@ -245,17 +266,20 @@ ADDD(ac,data)=
 	END 
 
 ;
-SUBBS(ac,src)=
+SUBB(ac,src)=
 	PRE
 	  ac : SFR_ADDR&
-	  (ac = A or ac=ACC)  &	
+	 (ac = A or ac=ACC)  &	
 	  src : MEM_ADDR
 	THEN
           ANY 
-            result,carry,zero 
+            result,c,par,ov,w,p 
 	  WHERE 
-	    result : WORD & result,carry,zero = substract(mem(A),mem(src)) &
-	    carry : BOOL & zero : BOOL
+	    w,p=CY
+	    &result : WORD & c : BIT & par : BIT & ov : BIT 
+	    & result,par,c,ov 
+	       = substract(mem(A),mem(src),bitget(mem(w),p))
+	   
 	  THEN 
    	    mem(A):=result
 	    	
@@ -263,6 +287,33 @@ SUBBS(ac,src)=
           pc:= INSTRUCTION_NEXT(pc)
 	END 
 ;
+
+SUBBI(ac,reg)=
+	PRE
+	  ac : SFR_ADDR
+	&(ac = A or ac=ACC)  
+	&reg : SFR_ADDR
+	&(reg = R0 or reg = R1)
+	& mem(reg): RAM_ADDR
+        
+	THEN
+          ANY 
+            result,c,par,ov,w,p,src
+	  WHERE 
+	    w,p=CY
+	    &src=mem(reg)	
+	    &result : WORD & c : BIT & par : BIT & ov : BIT 
+	    & result,par,c,ov 
+	       = substract(mem(A),mem(src),bitget(mem(w),p))
+	   
+	  THEN 
+   	    mem(A):=result
+	    	
+          END ||
+          pc:= INSTRUCTION_NEXT(pc)
+	END 
+;
+
 SUBBD(acc,data)=
 	PRE
 	   acc : SFR_ADDR & 
@@ -270,11 +321,14 @@ SUBBD(acc,data)=
 	  data : WORD
 	THEN
           ANY 
-            result,carry,zero 
+            result,c,par,ov,w,p 
 	  WHERE 
-	    result : WORD & result,carry,zero = substract(mem(A),data) &
-	    carry : BOOL & zero : BOOL
+	    w,p=CY
+	    &result : WORD & c : BIT & par : BIT & ov : BIT 
+	    & result,par,c,ov 
+	       = substract(mem(A),data,bitget(mem(w),p))
 	  THEN 
+	 
    	    mem(A):=result
 	    	
           END ||
@@ -283,7 +337,7 @@ SUBBD(acc,data)=
 ;
 INC =
 	BEGIN
-	 ANY 
+	  ANY 
             result,par,c,ov
 	  WHERE 
 	    result : WORD &  par : BIT & c : BIT & ov : BIT &
@@ -301,11 +355,13 @@ DEC =
 	BEGIN
 
 	  ANY 
-            result,carry,zero 
+            result,c,par,ov,w,p 
 	  WHERE 
-	    result : WORD & result,carry,zero = substract(A,1) &
-	    carry : BOOL & zero : BOOL
-	  THEN 
+	    w,p=CY
+	    &result : WORD & c : BIT & par : BIT & ov : BIT 
+	    & result,par,c,ov 
+	       = substract(mem(A),1,bitget(mem(w),p))
+	  THEN 	 
    	   mem(A):=result
           END ||
           pc:= INSTRUCTION_NEXT(pc)   

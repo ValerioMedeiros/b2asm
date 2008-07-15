@@ -172,7 +172,7 @@ sbuf
 ,F0
 ,AC
 ,CY
-
+,C
 
 
 
@@ -484,7 +484,7 @@ sbuf = 153
 & F0 =(psw,5)
 & AC =(psw,6)
 & CY = (psw,7)
-
+& C = (psw,7)
 
 	
 END
