@@ -1,0 +1,84 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.8,(_f(44) & _f(24) => _f(39));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.7,(_f(43) & _f(24) => _f(39));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.6,(_f(42) & _f(24) => _f(39));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.5,(_f(42) & _f(35) => _f(37));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.4,(_f(42) & _f(35) => _f(36));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.3,(_f(41) & _f(24) => _f(39));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.2,(_f(41) & _f(35) => _f(37));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.1,(_f(41) & _f(35) => _f(36));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.4,(_f(34) & _f(24) => _f(39));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.3,(_f(34) & _f(31) => _f(38));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.2,(_f(34) & _f(35) => _f(37));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.1,(_f(34) & _f(35) => _f(36));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.2,(_f(24) => _f(25));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.1,(_f(31) => _f(32));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.5,(_f(21) => _f(29));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.4,(_f(19) => _f(28));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.3,(_f(16) => _f(27));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.2,(_f(16) => _f(26));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.1,(_f(24) => _f(25));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.4,(_f(21) => _f(22));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.3,(_f(19) => _f(20));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.2,(_f(16) => _f(18));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.1,(_f(16) => _f(17));
+  _f(1) & _f(2) & _f(11) & AssertionLemmas.1,(_f(12) => _f(13));
+  _f(1) & _f(2) & Initialisation.4,(_f(3) & _f(9) => _f(10));
+  _f(1) & _f(2) & Initialisation.3,(_f(3) & _f(7) => _f(8));
+  _f(1) & _f(2) & Initialisation.2,(_f(3) & _f(4) => _f(6));
+  _f(1) & _f(2) & Initialisation.1,(_f(3) & _f(4) => _f(5))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & BIT = 0..1 & bit_not: BIT +-> BIT & dom(bit_not) = BIT & !bb.(bb: BIT => bit_not(bb) = 1-bb) & bit_and: BIT*BIT +-> BIT & dom(bit_and) = BIT*BIT & !(b1,b2).(b1: BIT & b2: BIT => (bit_and(b1,b2) = 1 => b1 = 1) & (b1 = 1 => bit_and(b1,b2) = 1) & b2 = 1) & bit_or: BIT*BIT +-> BIT & dom(bit_or) = BIT*BIT & !(b1,b2).(b1: BIT & b2: BIT => (bit_or(b1,b2) = 1 => b1 = 1) & (b1 = 1 => bit_or(b1,b2) = 1) or b2 = 1) & bit_xor: BIT*BIT +-> BIT & dom(bit_xor) = BIT*BIT & !(b1,b2).(b1: BIT & b2: BIT => (bit_xor(b1,b2) = 1 => not(b1 = b2)) & (not(b1 = b2) => bit_xor(b1,b2) = 1)) & bool_to_bit: BOOL +-> BIT & dom(bool_to_bit) = BOOL & bool_to_bit = {TRUE|->1}\/{FALSE|->0} & BYTE_WIDTH = 8 & BYTE_INDEX = 0..BYTE_WIDTH-1 & BYTE: POW(BIT_VECTOR) & BYTE = SET(vv).(vv: BIT_VECTOR & bv_size(vv) = BYTE_WIDTH) & BYTE_ZERO: BYTE & BYTE_ZERO = BYTE_INDEX*{0} & UCHAR_LENGTH: INTEGER & 0<=UCHAR_LENGTH & NB_UCHARS: INTEGER & 0<=NB_UCHARS & INST_SZ: INTEGER & 0<=INST_SZ & NB_INSTRUCTIONS: INTEGER & 0<=NB_INSTRUCTIONS & UCHAR_LENGTH = 8 & NB_UCHARS = 2**UCHAR_LENGTH & UCHAR = 0..NB_UCHARS-1 & NB_INSTRUCTIONS = 2**INST_SZ & INSTRUCTION_MAX = NB_INSTRUCTIONS-1 & INSTRUCTION = 0..INSTRUCTION_MAX & instruction_next: INSTRUCTION +-> INSTRUCTION & dom(instruction_next) = INSTRUCTION & instruction_next = SET(pp,qq).(pp: INSTRUCTION & qq: INSTRUCTION & 0<=pp & pp+1<=NB_INSTRUCTIONS-1 & qq = pp+1)\/{NB_INSTRUCTIONS-1|->0} & byte_to_uchar: BYTE +-> UCHAR & dom(byte_to_uchar) = BYTE & !vv.(vv: BYTE => byte_to_uchar(vv) = bv_to_nat(vv)) & uchar_to_byte: UCHAR +-> BYTE & dom(uchar_to_byte) = UCHAR & uchar_to_byte = byte_to_uchar~ & REGISTER = 0..255 & REGISTER0 = 0..127 & REGISTER1 = 128..255 & add: UCHAR*UCHAR +-> UCHAR*BOOL*BOOL*BOOL & dom(add) = UCHAR*UCHAR & !(w1,w2).(w1: UCHAR & w2: UCHAR & (w1+w2: INTEGER & 0<=w1+w2) => (w1+w2<=255 => add(w1,w2) = (w1+w2,bool(w1+w2 = 0),bool(16<=w1/16+w2/16))|->FALSE) & (256<=w1+w2 => add(w1,w2) = (w1+w2-256,bool(w1+w2 = 256),bool(16<=w1/16+w2/16))|->TRUE)) & substract: UCHAR*UCHAR +-> UCHAR*BOOL*BOOL & dom(substract) = UCHAR*UCHAR & !(w1,w2).(w1: UCHAR & w2: UCHAR & w1-w2: INTEGER => (w1-w2+1<=0 => substract(w1,w2) = (w1-w2+256,FALSE)|->TRUE) & (0<=w1-w2 => substract(w1,w2) = (w1-w2,bool(w1-w2 = 0))|->FALSE)) & and: BYTE*BYTE +-> BYTE*BOOL & dom(and) = BYTE*BYTE & !(w1,w2).(w1: BYTE & w2: BYTE & bv_and(w1,w2): BYTE => and(w1,w2) = bv_and(w1,w2)|->bool(bv_to_nat(bv_and(w1,w2)) = 0)) & ior: BYTE*BYTE +-> BYTE*BOOL & dom(ior) = BYTE*BYTE & !(w1,w2).(w1: BYTE & w2: BYTE & bv_or(w1,w2): BYTE => ior(w1,w2) = bv_or(w1,w2)|->bool(bv_to_nat(bv_or(w1,w2)) = 0)) & xor: BYTE*BYTE +-> BYTE*BOOL & dom(xor) = BYTE*BYTE & !(w1,w2).(w1: BYTE & w2: BYTE & bv_xor(w1,w2): BYTE => xor(w1,w2) = bv_xor(w1,w2)|->bool(bv_to_nat(bv_xor(w1,w2)) = 0)) & bitget: BYTE*BYTE_INDEX +-> BIT & dom(bitget) = BYTE*BYTE_INDEX & !(ww,ii).(ww: BYTE & ii: BYTE_INDEX => bitget(ww,ii) = ww(ii)) & bitset: BYTE*BYTE_INDEX +-> BYTE & dom(bitset) = BYTE*BYTE_INDEX & !(ww,ii).(ww: BYTE & ii: BYTE_INDEX => bitset(ww,ii) = bv_set(ww,ii)) & bitclear: BYTE*BYTE_INDEX +-> BYTE & dom(bitclear) = BYTE*BYTE_INDEX & !(ww,ii,bb).(ww: BYTE & ii: BYTE_INDEX & bb: BIT => bitclear(ww,ii) = bv_clear(ww,ii)) & complement: BYTE +-> BYTE & dom(complement) = BYTE & !ww.(ww: BYTE => complement(ww) = bv_not(ww)) & swap: BYTE +-> BYTE & dom(swap) = BYTE & !ww.(ww: BYTE => swap(ww) = {0|->ww(4)}\/{1|->ww(5)}\/{2|->ww(6)}\/{3|->ww(7)}\/{4|->ww(0)}\/{5|->ww(1)}\/{6|->ww(2)}\/{7|->ww(3)}) & rotateleft: BYTE +-> BYTE*BOOL & dom(rotateleft) = BYTE & !ww.(ww: BYTE => rotateleft(ww) = {0|->ww(7)}\/{1|->ww(0)}\/{2|->ww(1)}\/{3|->ww(2)}\/{4|->ww(3)}\/{5|->ww(4)}\/{6|->ww(5)}\/{7|->ww(6)}|->bool(ww(7) = 1)) & rotateright: BYTE +-> BYTE*BOOL & dom(rotateright) = BYTE & !ww.(ww: BYTE => rotateright(ww) = {0|->ww(1)}\/{1|->ww(2)}\/{2|->ww(3)}\/{3|->ww(4)}\/{4|->ww(5)}\/{5|->ww(6)}\/{6|->ww(7)}\/{7|->ww(0)}|->bool(ww(0) = 1)) & "`Component properties'" & INDF_ADDR0: REGISTER & INDF_ADDR0 = 0 & TMR0_ADDR: REGISTER & TMR0_ADDR = 1 & PCL_ADDR: REGISTER & PCL_ADDR = 2 & STATUS_ADDR0: REGISTER & STATUS_ADDR0 = 3 & FSR_ADDR0: REGISTER & FSR_ADDR0 = 4 & PORTA_ADDR: REGISTER & PORTA_ADDR = 5 & PORTB_ADDR: REGISTER & PORTB_ADDR = 6 & PCLATH_ADDR0: REGISTER & PCLATH_ADDR0 = 10 & INTCON_ADDR0: REGISTER & INTCON_ADDR0 = 11 & PIR1_ADDR: REGISTER & PIR1_ADDR = 12 & CMCON_ADDR: REGISTER & CMCON_ADDR = 127 & INDF_ADDR1: REGISTER & INDF_ADDR1 = 128 & STATUS_ADDR1: REGISTER & STATUS_ADDR1 = 131 & FSR_ADDR1: REGISTER & FSR_ADDR1 = 132 & TRISA_ADDR: REGISTER & TRISA_ADDR = 133 & TRISB_ADDR: REGISTER & TRISB_ADDR = 134 & PCLATH_ADDR1: REGISTER & PCLATH_ADDR1 = 138 & INTCON_ADDR1: REGISTER & INTCON_ADDR1 = 139 & PIE1_ADDR: REGISTER & PIE1_ADDR = 140 & PCON_ADDR: REGISTER & PCON_ADDR = 142 & LININTF_ADDR: REGISTER & LININTF_ADDR = 144 & VRCON_ADDR: REGISTER & VRCON_ADDR = 159 & UNIMPLEMENTED_LOCATIONS = 7..9\/13..30\/135..137\/{141}\/{143}\/145..158\/192..240 & IRP_POS: BYTE_INDEX & IRP_POS = 7 & RP1_POS: BYTE_INDEX & RP1_POS = 6 & RP0_POS: BYTE_INDEX & RP0_POS = 5 & TO_POS: BYTE_INDEX & TO_POS = 4 & PD_POS: BYTE_INDEX & PD_POS = 3 & ZERO_POS: BYTE_INDEX & ZERO_POS = 2 & DCARRY_POS: BYTE_INDEX & DCARRY_POS = 1 & CARRY_POS: BYTE_INDEX & CARRY_POS = 0 & get_offset: REGISTER*REGISTER +-> REGISTER & dom(get_offset) = REGISTER*REGISTER & !(ff,ind).(ff: REGISTER & ind: REGISTER => (ff = INDF_ADDR0 => get_offset(ind,ff) = ind) & (not(ff = INDF_ADDR0) => get_offset(ind,ff) = ff)) & get_address: REGISTER*BIT*REGISTER +-> REGISTER & dom(get_address) = REGISTER*BIT*REGISTER & !(ff,bb,ind).(ff: REGISTER & bb: BIT & ind: REGISTER => get_address(ff,bb,ind) = 128*bb+get_offset(ff,ind)));
+  ("`Seen and used machines assertions'" & bool_to_bit(FALSE) = 0 & bool_to_bit(TRUE) = 1 & !bb.(bb: BIT => bit_xor(bb,bb) = 0) & !(b1,b2,b3).(b1: BIT & b2: BIT & b3: BIT => bit_xor(b1,bit_xor(b2,b3)) = bit_xor(bit_xor(b1,b2),b3)) & !(b1,b2).(b1: BIT & b2: BIT => bit_xor(b1,b2) = bit_xor(b2,b1)) & bit_xor(1,1) = 0 & bit_xor(1,0) = 1 & bit_xor(0,1) = 1 & bit_xor(0,0) = 0 & !b1.(b1: BIT => bit_or(b1,0) = b1) & !b1.(b1: BIT => bit_or(b1,1) = 1) & !(b1,b2,b3).(b1: BIT & b2: BIT & b3: BIT => bit_or(b1,bit_or(b2,b3)) = bit_or(bit_or(b1,b2),b3)) & !(b1,b2).(b1: BIT & b2: BIT => bit_or(b1,b2) = bit_or(b2,b1)) & bit_or(1,1) = 1 & bit_or(1,0) = 0 & bit_or(0,1) = 0 & bit_or(0,0) = 0 & !b1.(b1: BIT => bit_and(b1,0) = 0) & !b1.(b1: BIT => bit_and(b1,1) = b1) & !(b1,b2,b3).(b1: BIT & b2: BIT & b3: BIT => bit_and(b1,bit_and(b2,b3)) = bit_and(bit_and(b1,b2),b3)) & !(b1,b2).(b1: BIT & b2: BIT => bit_and(b1,b2) = bit_and(b2,b1)) & bit_and(1,1) = 1 & bit_and(1,0) = 0 & bit_and(0,1) = 0 & bit_and(0,0) = 0 & !bb.(bb: BIT => bit_not(bit_not(bb)) = bb) & bit_not(1) = 0 & bit_not(0) = 1 & REGISTER = UCHAR & !nn.(nn: UCHAR => nn<=255) & !nn.(nn: UCHAR => 0<=nn) & NB_UCHARS = 256 & ran(rotateright): POW(BYTE*BOOL) & dom(rotateright) = BYTE & dom(rotateleft) = BYTE & ran(rotateleft): POW(BYTE*BOOL) & ran(swap): POW(BYTE) & dom(swap) = BYTE & ran(complement): POW(BYTE) & dom(complement) = BYTE & ran(bitget): POW(BIT) & dom(bitget) = BYTE*BYTE_INDEX & ran(bitset): POW(BYTE) & dom(bitset) = BYTE*BYTE_INDEX & ran(bitclear): POW(BYTE) & dom(bitclear) = BYTE*BYTE_INDEX & ran(xor): POW(BYTE*BOOL) & dom(xor) = BYTE*BYTE & ran(ior): POW(BYTE*BOOL) & dom(ior) = BYTE*BYTE & ran(and): POW(BYTE*BOOL) & dom(and) = BYTE*BYTE & ran(substract): POW(UCHAR*BOOL*BOOL) & dom(substract) = UCHAR*UCHAR & ran(add): POW(UCHAR*BOOL*BOOL*BOOL) & dom(add) = UCHAR*UCHAR);
+  ("`Local hypotheses'" & pc$0: INSTRUCTION & random: REGISTER +-> BYTE & dom(random) = REGISTER & init_status: BYTE & init_status(RP1_POS) = 0 & W_REGISTER$0: BYTE);
+  "`Check that the invariant (mem: REGISTER --> BYTE) is established by the initialisation - ref 3.3'";
+  (random<+({INDF_ADDR0|->BYTE_ZERO}\/{STATUS_ADDR0|->init_status}\/{INDF_ADDR0|->BYTE_ZERO}\/{STATUS_ADDR1|->init_status})<+UNIMPLEMENTED_LOCATIONS*{BYTE_ZERO}: REGISTER +-> BYTE);
+  (dom(random<+({INDF_ADDR0|->BYTE_ZERO}\/{STATUS_ADDR0|->init_status}\/{INDF_ADDR0|->BYTE_ZERO}\/{STATUS_ADDR1|->init_status})<+UNIMPLEMENTED_LOCATIONS*{BYTE_ZERO}) = REGISTER);
+  "`Check that the invariant (stack: NATURAL +-> INSTRUCTION) is established by the initialisation - ref 3.3'";
+  ({}: NATURAL +-> INSTRUCTION);
+  "`Check that the invariant (dom(stack) = 0..sp-1) is established by the initialisation - ref 3.3'";
+  (dom({}) = 0.. -1);
+  ("`Component invariant'" & mem: REGISTER +-> BYTE & dom(mem) = REGISTER & W_REGISTER: BYTE & pc: INSTRUCTION & sp: INTEGER & 0<=sp & stack: NATURAL +-> INSTRUCTION & dom(stack) = 0..sp-1);
+  "`Check assertion (ran(mem) <: BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (ran(mem): POW(BYTE));
+  ("`Component assertions'" & ran(mem): POW(BYTE) & dom(mem) = REGISTER);
+  ("`CALL preconditions in this component'" & kk: INSTRUCTION);
+  "`Check that the invariant (sp: NATURAL) is preserved by the operation - ref 3.4'";
+  (sp+1: INTEGER);
+  (0<=sp+1);
+  "`Check that the invariant (stack: NATURAL +-> INSTRUCTION) is preserved by the operation - ref 3.4'";
+  (stack<+{sp|->instruction_next(pc)}: NATURAL +-> INSTRUCTION);
+  "`Check that the invariant (dom(stack) = 0..sp-1) is preserved by the operation - ref 3.4'";
+  (dom(stack<+{sp|->instruction_next(pc)}) = 0..sp+1-1);
+  ("`RETURN preconditions in this component'" & 1<=sp);
+  "`Check that the invariant (pc: INSTRUCTION) is preserved by the operation - ref 3.4'";
+  (stack(sp-1): INSTRUCTION);
+  (sp-1: INTEGER);
+  (0<=sp-1);
+  ({sp-1}<<|stack: NATURAL +-> INSTRUCTION);
+  (dom({sp-1}<<|stack) = 0..sp-1-1);
+  ("`RETLW preconditions in this component'" & kk: UCHAR & 1<=sp);
+  "`Check that the invariant (W_REGISTER: BYTE) is preserved by the operation - ref 3.4'";
+  (uchar_to_byte(kk): BYTE);
+  ("`ADDLW preconditions in this component'" & kk: UCHAR);
+  ("`Local hypotheses'" & result: UCHAR & digit_carry: BOOL & carry: BOOL & zero: BOOL & result,digit_carry,carry,zero = add(kk,byte_to_uchar(W_REGISTER)));
+  "`Check that the invariant (mem: REGISTER --> BYTE) is preserved by the operation - ref 3.4'";
+  (mem<+({STATUS_ADDR0|->(mem(STATUS_ADDR0)<+({ZERO_POS|->bool_to_bit(zero)}\/{DCARRY_POS|->bool_to_bit(digit_carry)}\/{CARRY_POS|->bool_to_bit(carry)}))}\/{STATUS_ADDR1|->(mem(STATUS_ADDR0)<+({ZERO_POS|->bool_to_bit(zero)}\/{DCARRY_POS|->bool_to_bit(digit_carry)}\/{CARRY_POS|->bool_to_bit(carry)}))}): REGISTER +-> BYTE);
+  (dom(mem<+({STATUS_ADDR0|->(mem(STATUS_ADDR0)<+({ZERO_POS|->bool_to_bit(zero)}\/{DCARRY_POS|->bool_to_bit(digit_carry)}\/{CARRY_POS|->bool_to_bit(carry)}))}\/{STATUS_ADDR1|->(mem(STATUS_ADDR0)<+({ZERO_POS|->bool_to_bit(zero)}\/{DCARRY_POS|->bool_to_bit(digit_carry)}\/{CARRY_POS|->bool_to_bit(carry)}))})) = REGISTER);
+  (uchar_to_byte(result): BYTE);
+  (instruction_next(pc): INSTRUCTION);
+  ("`ADDWF preconditions in this component'" & ff: REGISTER0 & dd: BIT);
+  ("`Local hypotheses'" & dest: REGISTER & result: UCHAR & digit_carry: BOOL & carry: BOOL & zero: BOOL & dest = get_address(ff,mem(STATUS_ADDR0)(RP0_POS),byte_to_uchar(mem(FSR_ADDR0))) & result,digit_carry,carry,zero = add(byte_to_uchar(mem(dest)),byte_to_uchar(W_REGISTER)) & bv: BYTE & bv = uchar_to_byte(result) & mem2: REGISTER +-> BYTE & dom(mem2) = REGISTER & (not(dd = 0) & not(dest: UNIMPLEMENTED_LOCATIONS) => mem2 = mem<+{dest|->bv}) & (dd = 0 or dest: UNIMPLEMENTED_LOCATIONS => mem2 = mem) & not(ff = STATUS_ADDR0) & dd = 0);
+  ("`Local hypotheses'" & dest: REGISTER & result: UCHAR & digit_carry: BOOL & carry: BOOL & zero: BOOL & dest = get_address(ff,mem(STATUS_ADDR0)(RP0_POS),byte_to_uchar(mem(FSR_ADDR0))) & result,digit_carry,carry,zero = add(byte_to_uchar(mem(dest)),byte_to_uchar(W_REGISTER)) & bv: BYTE & bv = uchar_to_byte(result) & mem2: REGISTER +-> BYTE & dom(mem2) = REGISTER & (not(dd = 0) & not(dest: UNIMPLEMENTED_LOCATIONS) => mem2 = mem<+{dest|->bv}) & (dd = 0 or dest: UNIMPLEMENTED_LOCATIONS => mem2 = mem) & not(ff = STATUS_ADDR0) & not(dd = 0));
+  ("`Local hypotheses'" & dest: REGISTER & result: UCHAR & digit_carry: BOOL & carry: BOOL & zero: BOOL & dest = get_address(ff,mem(STATUS_ADDR0)(RP0_POS),byte_to_uchar(mem(FSR_ADDR0))) & result,digit_carry,carry,zero = add(byte_to_uchar(mem(dest)),byte_to_uchar(W_REGISTER)) & bv: BYTE & bv = uchar_to_byte(result) & mem2: REGISTER +-> BYTE & dom(mem2) = REGISTER & (not(dd = 0) & not(dest: UNIMPLEMENTED_LOCATIONS) => mem2 = mem<+{dest|->bv}) & (dd = 0 or dest: UNIMPLEMENTED_LOCATIONS => mem2 = mem) & ff = STATUS_ADDR0 & dd = 0);
+  ("`Local hypotheses'" & dest: REGISTER & result: UCHAR & digit_carry: BOOL & carry: BOOL & zero: BOOL & dest = get_address(ff,mem(STATUS_ADDR0)(RP0_POS),byte_to_uchar(mem(FSR_ADDR0))) & result,digit_carry,carry,zero = add(byte_to_uchar(mem(dest)),byte_to_uchar(W_REGISTER)) & bv: BYTE & bv = uchar_to_byte(result) & mem2: REGISTER +-> BYTE & dom(mem2) = REGISTER & (not(dd = 0) & not(dest: UNIMPLEMENTED_LOCATIONS) => mem2 = mem<+{dest|->bv}) & (dd = 0 or dest: UNIMPLEMENTED_LOCATIONS => mem2 = mem) & ff = STATUS_ADDR0 & not(dd = 0))
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

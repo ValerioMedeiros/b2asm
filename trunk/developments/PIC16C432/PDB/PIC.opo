@@ -1,0 +1,99 @@
+THEORY OPOBalanceX IS
+  PIC,51;
+  AssertionLemmas,1;
+  Initialisation,4;
+  CALL,5;
+  RETURN,4;
+  RETLW,7;
+  ADDLW,5;
+  ADDWF,25
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.25,(_f(44) & _of(24) => _of(25));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.24,(_f(44) & _of(22) => _of(23));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.23,(_f(44) & _of(19) => _of(21));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.22,(_f(44) & _of(19) => _of(20));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.21,(_of(28) & _of(15) => _of(16));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.20,(_of(28) & _of(13) => _of(10));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.19,(_of(28) & _of(13) => _of(14));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.18,(_f(43) & _of(24) => _of(25));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.17,(_f(43) & _of(22) => _of(23));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.16,(_f(43) & _of(19) => _of(21));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.15,(_f(43) & _of(19) => _of(20));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.14,(_of(27) & _of(15) => _of(26));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.13,(_of(27) & _of(13) => _of(10));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.12,(_of(27) & _of(13) => _of(14));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.11,(_f(42) & _of(24) => _of(25));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.10,(_f(42) & _of(22) => _of(23));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.9,(_f(42) & _of(19) => _of(21));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.8,(_f(42) & _of(19) => _of(20));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.7,(_f(42) & _of(15) => _of(16));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.6,(_f(41) & _of(24) => _of(25));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.5,(_f(41) & _of(22) => _of(23));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.4,(_f(41) & _of(19) => _of(21));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.3,(_f(41) & _of(19) => _of(20));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.2,(_f(41) & _of(15) => _of(26));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(40) & ADDWF.1,(_of(11) => _of(12));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.5,(_f(34) & _of(24) => _of(25));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.4,(_f(34) & _of(22) => _of(23));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.3,(_f(34) & _of(19) => _of(21));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.2,(_f(34) & _of(19) => _of(20));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(33) & ADDLW.1,(_of(11) => _of(12));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.7,(_of(24) => _of(25));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.6,(_of(22) => _of(23));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.5,(_of(19) => _of(21));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.4,(_of(19) => _of(20));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.3,(_of(13) => _of(10));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.2,(_of(13) => _of(14));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(30) & RETLW.1,(_of(11) => _of(12));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.4,(_of(15) => _of(16));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.3,(_of(13) => _of(10));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.2,(_of(13) => _of(14));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(23) & RETURN.1,(_of(11) => _of(12));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.5,(_of(17) => _of(18));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.4,(_of(15) => _of(16));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.3,(_of(13) => _of(10));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.2,(_of(13) => _of(14));
+  _f(1) & _f(2) & _f(11) & _f(14) & _f(15) & CALL.1,(_of(11) => _of(12));
+  _f(1) & _f(2) & _f(11) & AssertionLemmas.1,(_of(8) & _of(9) => _of(10));
+  _f(1) & _f(2) & Initialisation.4,(_f(3) & _of(5) => _of(7));
+  _f(1) & _f(2) & Initialisation.3,(_f(3) & _of(5) => _of(6));
+  _f(1) & _f(2) & Initialisation.2,(_f(3) & _of(3) => _of(4));
+  _f(1) & _f(2) & Initialisation.1,(_f(3) & _of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the invariant (W_REGISTER: BYTE) is established by the initialisation - ref 3.3'";
+  (W_REGISTER$0: BYTE);
+  "`Check that the invariant (pc: INSTRUCTION) is established by the initialisation - ref 3.3'";
+  (pc$0: INSTRUCTION);
+  "`Check that the invariant (sp: NATURAL) is established by the initialisation - ref 3.3'";
+  (0: INTEGER);
+  (0<=0);
+  ("`Local hypotheses'" & ran(mem): POW(BYTE));
+  "`Check assertion (dom(mem) = REGISTER) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(mem) = REGISTER);
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'";
+  (btrue);
+  "`Check that the invariant (mem: REGISTER --> BYTE) is preserved by the operation - ref 3.4'";
+  (mem: REGISTER +-> BYTE);
+  "`Check that the invariant (W_REGISTER: BYTE) is preserved by the operation - ref 3.4'";
+  (W_REGISTER: BYTE);
+  "`Check that the invariant (pc: INSTRUCTION) is preserved by the operation - ref 3.4'";
+  (kk: INSTRUCTION);
+  "`Check that the invariant (sp: NATURAL) is preserved by the operation - ref 3.4'";
+  (sp: INTEGER);
+  (0<=sp);
+  "`Check that the invariant (stack: NATURAL +-> INSTRUCTION) is preserved by the operation - ref 3.4'";
+  (stack: NATURAL +-> INSTRUCTION);
+  "`Check that the invariant (dom(stack) = 0..sp-1) is preserved by the operation - ref 3.4'";
+  (dom(stack) = 0..sp-1);
+  (bv: BYTE);
+  ("`Local hypotheses'" & dest: REGISTER & result: UCHAR & digit_carry: BOOL & carry: BOOL & zero: BOOL & dest = get_address(ff,mem(STATUS_ADDR0)(RP0_POS),byte_to_uchar(mem(FSR_ADDR0))) & result,digit_carry,carry,zero = add(byte_to_uchar(mem(dest)),byte_to_uchar(W_REGISTER)) & bv: BYTE & bv = uchar_to_byte(result) & mem2: REGISTER +-> BYTE & dom(mem2) = REGISTER & (not(dd = 0) & not(dest: UNIMPLEMENTED_LOCATIONS) => mem2 = mem<+{dest|->bv}) & (dd = 0 or dest: UNIMPLEMENTED_LOCATIONS => mem2 = mem) & ff = STATUS_ADDR0 & dd = 0);
+  ("`Local hypotheses'" & dest: REGISTER & result: UCHAR & digit_carry: BOOL & carry: BOOL & zero: BOOL & dest = get_address(ff,mem(STATUS_ADDR0)(RP0_POS),byte_to_uchar(mem(FSR_ADDR0))) & result,digit_carry,carry,zero = add(byte_to_uchar(mem(dest)),byte_to_uchar(W_REGISTER)) & bv: BYTE & bv = uchar_to_byte(result) & mem2: REGISTER +-> BYTE & dom(mem2) = REGISTER & (not(dd = 0) & not(dest: UNIMPLEMENTED_LOCATIONS) => mem2 = mem<+{dest|->bv}) & (dd = 0 or dest: UNIMPLEMENTED_LOCATIONS => mem2 = mem) & ff = STATUS_ADDR0 & not(dd = 0))
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

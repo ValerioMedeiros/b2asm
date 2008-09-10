@@ -1,0 +1,15 @@
+THEORY OPOBalanceX IS
+  DATA_MEMORY,0;
+  AssertionLemmas,0;
+  Initialisation,0
+END
+&
+THEORY OPOProofList
+END
+&
+THEORY OPOFormulas 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END
