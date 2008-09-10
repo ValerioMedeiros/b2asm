@@ -1,0 +1,361 @@
+\documentstyle[11pt,supertabular]{article}
+\setlength{\topmargin}{13mm}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\setlength{\textheight}{225mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\textwidth}{160mm}
+\input{psfig}
+
+\begin{document}
+\begin{sloppypar}
+
+% DEFINITION DES CARACTERES MATHEMATIQUES B
+%------------------------------------------
+\def\@setmcodes#1#2#3{{\count0=#1 \count1=#3
+	\loop \global\mathcode\count0=\count1 \ifnum \count0<#2
+	\advance\count0 by1 \advance\count1 by1 \repeat}}
+
+\@setmcodes{`A}{`Z}{"7441}
+\@setmcodes{`a}{`z}{"7461}
+
+\mathcode`\;="8000 % Makes ; active in math mode
+{\catcode`\;=\active \gdef;{\semicolon\;}}
+\mathchardef\semicolon="003B
+%    Nominal distance from top of paper to top of page
+\topmargin 0 pt
+\textheight 53\baselineskip
+
+%   Left margin on odd-numbered pages
+\oddsidemargin  0.15 in
+%   Left margin on even-numbered pages
+\evensidemargin 0.35 in
+%   Width of marginal notes.
+\marginparwidth 1 in
+%   Note that \oddsidemargin = \evensidemargin
+\oddsidemargin 0.25 in
+\evensidemargin 0.25 in
+\marginparwidth 0.75 in
+\textwidth 5.875 in % Width of text line.
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0ex}
+
+% DEFINITION DES FONTS
+%---------------------
+% The AMS extra symbol fonts are loaded.
+% Note: sometimes called euxm10
+\font\msx=msam10
+% Note: sometimes called euym10
+\font\msy=msbm10
+
+\newfam\msxfam \textfont\msxfam=\msx
+\newfam\msyfam \textfont\msyfam=\msy
+
+\def\famletter#1{\ifcase #1 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\edef\fx{\famletter\msxfam}
+\edef\fy{\famletter\msyfam}
+
+\def\bbold{\fam\msyfam \msy}
+
+% SYMBOLES B
+%-----------
+% makes a quoted expression in mathematical text
+\def\token#1{\hbox{`$#1$'}}
+% used for error messages in Z specs
+\def\report#1{\hbox{`{\tt #1}'}}
+
+% \@myop makes an operator, with a strut to defeat TeX's vertical adjustment.
+\def\@myop#1{\mathop{\mathstrut{#1}}\nolimits}
+
+% This underscore doesn't have the little kern --- you get an italic
+% correction anyway in math mode.
+\def\_{\leavevmode \vbox{\hrule width0.5em}}
+
+% Save \q as \xq for quantifiers q.
+\let\xforall=\forall
+\let\xexists=\exists
+\let\xlambda=\lambda
+\let\xmu=\mu
+
+% \p and \f make arrows with 1 and 2 crossings resp.
+\def\p#1{\mathrel{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\def\f#1{\mathrel{\ooalign{\hfil
+	$\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+
+\let\mc=\mathchardef
+
+\def	\pow		{\mbox{${\cal P}$}}
+\def	\po1		{\mbox{${\cal P}_1$}}
+\let	\cross		\times
+\def	\lambda		{\@myop{\xlambda}}
+\def	\lnot		{\neg\;}
+\def	\land		{\mathrel{\wedge}}
+\def	\lor		{\mathrel{\vee}}
+\let	\implies	\Rightarrow
+\let	\iff		\Leftrightarrow
+\def	\forall		{\@myop{\xforall}}
+\def	\exists		{\@myop{\xexists}}
+\def	\semi		{\mathrel{\comp}}
+\def	\ssemi		{\mathbin{\rm ;}}
+\let	\ensembleVide	\emptyset
+\let	\rel		\leftrightarrow
+\def	\dom		{\@myop{\sf dom}}
+\def	\ran		{\@myop{\sf ran}}
+\def	\id		{\@myop{\sf id}}
+\def	\comp		{\mathbin{\raise
+			0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle
+			\rm o$\hfil\cr\hfil$\scriptscriptstyle\rm 9$\hfil}}}}
+\def	\para		{\mbox{$\mid\mid$}}
+\mc	\dres		"2\fx43
+\mc	\rres		"2\fx42
+\def	\ndres		{\mathbin{{\dres} \llap{$-$}}}
+\def	\nrres		{\mathbin{{\rres}\llap{$-$}}}
+\def	\lover		{\mathbin{{\dres} \llap{$-\!\!\!\!-\!$}}}
+\def	\rover		{\mathbin{{\rres}\llap{$\!-\!\!\!-$}}}
+\let	\fun		\rightarrow
+\def	\pfun		{\p\fun}
+\def	\pinj		{\p\inj}
+\mc	\inj		"3\fx1A
+\def	\psurj		{\p\surj}
+\mc	\surj		"3\fx10
+\def	\bij		{\surj\!\!\!\!\!\!\!\inj}
+\def	\nat		{\mbox{${\cal N}$}}
+\def	\na1		{\mbox{${\cal N}_1$}}
+\def	\num		{\mbox{${\cal Z}$}}
+\def	\int		{\mbox{${\cal Z}$}}
+\def	\rat		{\mbox{${\cal Q}$}}
+\def	\div		{\mathbin{\rm /}}
+\def	\mod		{\mathbin{\bf mod}}
+\def	\upto		{\mathbin{\ldotp\ldotp}}
+\def	\finset		{\mbox{${\cal F}$}}
+\def	\finse1		{\mbox{${\cal F}_1$}}
+\def	\ffun		{\f\fun}
+\def	\finj		{\f\inj}
+\def	\seq		{\@myop{\rm seq}}
+\def	\cat		{\mathbin{\raise 0.8ex\hbox{$\mathchar"2\fx61$}}}
+\def	\sep		{\hspace*{.05in}}
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{0}
+
+%-------------------%
+% Debut du document %
+%-------------------%
+
+ 
+
+\vspace*{4mm}
+\bf MACHINE
+
+\hspace*{0.20in}\it PIC
+
+\vspace*{4mm}
+\bf SEES
+
+\hspace*{0.20in}\it BIT\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it BYTE\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it TYPES
+
+\vspace*{4mm}
+\bf USES
+
+\hspace*{0.20in}\it ALU
+
+\vspace*{4mm}
+\bf INCLUDES
+
+\hspace*{0.20in}\it DATA\_MEMORY
+
+\vspace*{4mm}
+\bf VARIABLES
+
+\hspace*{0.20in}\it W\_REGISTER\rm ,
+
+\hspace*{0.20in}\it pc\rm ,
+
+\hspace*{0.20in}\it stack\rm ,
+
+\hspace*{0.20in}\it sp
+
+\vspace*{4mm}
+\bf INVARIANT
+
+\hspace*{0.20in}\it W\_REGISTER  $\in$  \it BYTE  $\land$ 
+
+\hspace*{0.20in}\it pc  $\in$  \it INSTRUCTION  $\land$ 
+
+\hspace*{0.20in}\it sp  $\in$   $\nat$   $\land$ 
+
+\hspace*{0.20in}\it stack  $\in$   $\nat$   $\pfun$  \it INSTRUCTION  $\land$ 
+
+\hspace*{0.20in}\bf dom\rm (\it stack\rm ) \rm = \rm 0 $\upto$ \rm (\it sp\rm -\rm 1\rm )
+
+\vspace*{4mm}
+\bf CONSTANTS
+
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it TO\_POS\rm , \it PD\_POS\rm , 
+
+\hspace*{0.20in}\it ZERO\_POS\rm , \it DCARRY\_POS\rm , \it CARRY\_POS\rm ,
+
+\vspace*{4mm}
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it get\_address\rm ,
+
+\hspace*{0.20in}\it get\_offset
+
+\vspace*{4mm}
+\bf PROPERTIES
+
+\vspace*{4mm}
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it TO\_POS  $\in$  \it BYTE\_INDEX  $\land$ \hspace*{0.20in}\it TO\_POS \rm = \rm 4  $\land$ 
+
+\hspace*{0.20in}\it PD\_POS  $\in$  \it BYTE\_INDEX  $\land$ \hspace*{0.20in}\it PD\_POS \rm = \rm 3  $\land$ 
+
+\hspace*{0.20in}\it ZERO\_POS  $\in$  \it BYTE\_INDEX  $\land$ \hspace*{0.20in}\it ZERO\_POS \rm = \rm 2  $\land$ 
+
+\hspace*{0.20in}\it DCARRY\_POS  $\in$  \it BYTE\_INDEX  $\land$ \hspace*{0.20in}\it DCARRY\_POS \rm = \rm 1  $\land$ 
+
+\hspace*{0.20in}\it CARRY\_POS  $\in$  \it BYTE\_INDEX  $\land$ \hspace*{0.20in}\it CARRY\_POS \rm = \rm 0
+
+\vspace*{4mm}
+\bf INITIALISATION
+
+\hspace*{0.20in}\it W\_REGISTER  $:\in$  \it BYTE  $\para$ 
+
+\hspace*{0.20in}\it pc  $:\in$  \it INSTRUCTION  $\para$ 
+
+\hspace*{0.20in}\it stack \rm :=  $\ensembleVide$   $\para$ 
+
+\hspace*{0.20in}\it sp \rm := \rm 0
+
+\vspace*{4mm}
+\bf OPERATIONS
+
+\hspace*{0.20in}\bf CALL \rm (\it kk\rm ) \rm =
+
+\hspace*{0.40in}\bf PRE \it kk  $\in$  \it INSTRUCTION \bf THEN
+
+\hspace*{0.60in}\bf stack\rm (\it sp\rm ) \rm := \it instruction\_next\rm (\it pc\rm )  $\para$ 
+
+\hspace*{0.60in}\it sp \rm := \it sp \rm + \rm 1  $\para$ 
+
+\hspace*{0.60in}\it pc \rm := \it kk
+
+\hspace*{0.40in}\bf END
+
+\hspace*{0.20in}\rm ;
+
+\hspace*{0.20in}\bf RETURN \rm =
+
+\hspace*{0.40in}\bf PRE \it sp $>$ \rm 0 \bf THEN
+
+\hspace*{0.60in}\it stack \rm := \rm \{\it sp \rm - \rm 1\rm \}  $\ndres$  \it stack  $\para$ 
+
+\hspace*{0.60in}\it pc \rm := \it stack\rm (\it sp \rm - \rm 1\rm )  $\para$ 
+
+\hspace*{0.60in}\it sp \rm := \it sp \rm - \rm 1
+
+\hspace*{0.40in}\bf END
+
+\hspace*{0.20in}\rm ;
+
+\hspace*{0.20in}\bf RETLW \rm (\it kk\rm ) \rm =
+
+\hspace*{0.40in}\bf PRE \it kk  $\in$  \it UCHAR  $\land$  \it sp $>$ \rm 0 \bf THEN
+
+\hspace*{0.60in}\it pc \rm := \it stack\rm (\it sp \rm - \rm 1\rm )  $\para$ 
+
+\hspace*{0.60in}\it W\_REGISTER \rm := \it uchar\_to\_byte\rm (\it kk\rm )
+
+\hspace*{0.40in}\bf END
+
+\hspace*{0.20in}\rm ;
+
+\hspace*{0.20in}\bf ADDLW \rm (\it kk\rm ) \rm =
+
+\hspace*{0.40in}\bf PRE \it kk  $\in$  \it UCHAR \bf THEN
+
+\hspace*{0.60in}\bf ANY \it result\rm , \it carry\rm , \it digit\_carry\rm , \it zero \bf WHERE 
+
+\hspace*{0.80in}\it result  $\in$  \it UCHAR  $\land$  \it digit\_carry  $\in$  \bf BOOL  $\land$  \it carry  $\in$  \bf BOOL  $\land$  \it zero  $\in$  \bf BOOL  $\land$ 
+
+\hspace*{0.80in}\it result\rm , \it digit\_carry\rm , \it carry\rm , \it zero \rm = \it add\rm (\it kk\rm , \it byte\_to\_uchar\rm (\it W\_REGISTER\rm )\rm )
+
+\hspace*{0.60in}\bf THEN
+
+\hspace*{0.80in}\it W\_REGISTER \rm := \it uchar\_to\_byte\rm (\it result\rm )  $\para$ 
+
+\hspace*{0.80in}\it mem \rm := \it update\_status\rm (\it zero\rm , \it digit\_carry\rm , \it carry\rm )
+
+\hspace*{0.60in}\bf END  $\para$ 
+
+\hspace*{0.60in}\it pc \rm := \it instruction\_next\rm (\it pc\rm )
+
+\hspace*{0.40in}\bf END
+
+\hspace*{0.20in}\rm ;
+
+\hspace*{0.20in}\bf ADDWF \rm (\it ff\rm , \it dd\rm ) \rm =
+
+\hspace*{0.40in}\bf PRE \it ff  $\in$  \it REGISTER0  $\land$  \it dd  $\in$  \it BIT \bf THEN
+
+\hspace*{0.60in}\bf ANY \it dest\rm , \it result\rm , \it carry\rm , \it digit\_carry\rm , \it zero \bf WHERE 
+
+\hspace*{0.80in}\it dest  $\in$  \it REGISTER  $\land$ 
+
+\hspace*{0.80in}\it result  $\in$  \it UCHAR  $\land$  \it digit\_carry  $\in$  \bf BOOL  $\land$  \it carry  $\in$  \bf BOOL  $\land$  \it zero  $\in$  \bf BOOL  $\land$ 
+
+\hspace*{0.80in}\it dest \rm = \it get\_address\rm (\it ff\rm , \it RP0\_VAL\rm , \it byte\_to\_uchar\rm (\it FSR\_VAL\rm )\rm )  $\land$ 
+
+\hspace*{0.80in}\it result\rm , \it digit\_carry\rm , \it carry\rm , \it zero \rm = \it add\rm (\it byte\_to\_uchar\rm (\it mem\rm (\it dest\rm )\rm )\rm , \it byte\_to\_uchar\rm (\it W\_REGISTER\rm )\rm )
+
+\hspace*{0.60in}\bf THEN
+
+\hspace*{0.80in}\bf ANY \it mem2\rm , \it bv \bf WHERE
+
+\hspace*{1.00in}\it bv  $\in$  \it BYTE  $\land$  \it bv \rm = \it uchar\_to\_byte\rm (\it result\rm )  $\land$ 
+
+\hspace*{1.00in}\it mem2  $\in$  \it REGISTER  $\fun$  \it BYTE  $\land$ 
+
+\hspace*{1.00in}\rm (\it dd  $\not =$  \rm 0  $\land$  \it dest  $\not\in$  \it UNIMPLEMENTED\_LOCATIONS  $\implies$  \it mem2 \rm = \it mem  $\lover$  \rm \{ \it dest  $\mapsto$  \it bv \rm \}\rm )  $\land$ 
+
+\hspace*{1.00in}\rm (\it dd \rm = \rm 0  $\lor$  \it dest  $\in$  \it UNIMPLEMENTED\_LOCATIONS  $\implies$  \it mem2 \rm = \it mem\rm )
+
+\hspace*{0.80in}\bf THEN
+
+\hspace*{1.00in}\bf IF \it dd \rm = \rm 0 \bf THEN
+
+\hspace*{1.20in}\it W\_REGISTER \rm := \it bv
+
+\hspace*{1.00in}\bf END  $\para$ 
+
+\hspace*{1.00in}\bf IF \it ff  $\not =$  \it STATUS\_ADDR0 \bf THEN
+
+\hspace*{1.20in}\it mem \rm := \it update\_status\rm (\it zero\rm , \it digit\_carry\rm , \it carry\rm )
+
+\hspace*{1.00in}\bf END
+
+\hspace*{0.80in}\bf END
+
+\hspace*{0.60in}\bf END  $\para$ 
+
+\hspace*{0.60in}\it pc \rm := \it instruction\_next\rm (\it pc\rm )
+
+\hspace*{0.40in}\bf END
+
+ 
+
+\bf END
+
+\newpage
+\end{sloppypar}\end{document}

@@ -1,0 +1,319 @@
+\documentstyle[11pt,supertabular]{article}
+\setlength{\topmargin}{13mm}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\setlength{\textheight}{225mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\textwidth}{160mm}
+\input{psfig}
+
+\begin{document}
+\begin{sloppypar}
+
+% DEFINITION DES CARACTERES MATHEMATIQUES B
+%------------------------------------------
+\def\@setmcodes#1#2#3{{\count0=#1 \count1=#3
+	\loop \global\mathcode\count0=\count1 \ifnum \count0<#2
+	\advance\count0 by1 \advance\count1 by1 \repeat}}
+
+\@setmcodes{`A}{`Z}{"7441}
+\@setmcodes{`a}{`z}{"7461}
+
+\mathcode`\;="8000 % Makes ; active in math mode
+{\catcode`\;=\active \gdef;{\semicolon\;}}
+\mathchardef\semicolon="003B
+%    Nominal distance from top of paper to top of page
+\topmargin 0 pt
+\textheight 53\baselineskip
+
+%   Left margin on odd-numbered pages
+\oddsidemargin  0.15 in
+%   Left margin on even-numbered pages
+\evensidemargin 0.35 in
+%   Width of marginal notes.
+\marginparwidth 1 in
+%   Note that \oddsidemargin = \evensidemargin
+\oddsidemargin 0.25 in
+\evensidemargin 0.25 in
+\marginparwidth 0.75 in
+\textwidth 5.875 in % Width of text line.
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0ex}
+
+% DEFINITION DES FONTS
+%---------------------
+% The AMS extra symbol fonts are loaded.
+% Note: sometimes called euxm10
+\font\msx=msam10
+% Note: sometimes called euym10
+\font\msy=msbm10
+
+\newfam\msxfam \textfont\msxfam=\msx
+\newfam\msyfam \textfont\msyfam=\msy
+
+\def\famletter#1{\ifcase #1 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\edef\fx{\famletter\msxfam}
+\edef\fy{\famletter\msyfam}
+
+\def\bbold{\fam\msyfam \msy}
+
+% SYMBOLES B
+%-----------
+% makes a quoted expression in mathematical text
+\def\token#1{\hbox{`$#1$'}}
+% used for error messages in Z specs
+\def\report#1{\hbox{`{\tt #1}'}}
+
+% \@myop makes an operator, with a strut to defeat TeX's vertical adjustment.
+\def\@myop#1{\mathop{\mathstrut{#1}}\nolimits}
+
+% This underscore doesn't have the little kern --- you get an italic
+% correction anyway in math mode.
+\def\_{\leavevmode \vbox{\hrule width0.5em}}
+
+% Save \q as \xq for quantifiers q.
+\let\xforall=\forall
+\let\xexists=\exists
+\let\xlambda=\lambda
+\let\xmu=\mu
+
+% \p and \f make arrows with 1 and 2 crossings resp.
+\def\p#1{\mathrel{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\def\f#1{\mathrel{\ooalign{\hfil
+	$\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+
+\let\mc=\mathchardef
+
+\def	\pow		{\mbox{${\cal P}$}}
+\def	\po1		{\mbox{${\cal P}_1$}}
+\let	\cross		\times
+\def	\lambda		{\@myop{\xlambda}}
+\def	\lnot		{\neg\;}
+\def	\land		{\mathrel{\wedge}}
+\def	\lor		{\mathrel{\vee}}
+\let	\implies	\Rightarrow
+\let	\iff		\Leftrightarrow
+\def	\forall		{\@myop{\xforall}}
+\def	\exists		{\@myop{\xexists}}
+\def	\semi		{\mathrel{\comp}}
+\def	\ssemi		{\mathbin{\rm ;}}
+\let	\ensembleVide	\emptyset
+\let	\rel		\leftrightarrow
+\def	\dom		{\@myop{\sf dom}}
+\def	\ran		{\@myop{\sf ran}}
+\def	\id		{\@myop{\sf id}}
+\def	\comp		{\mathbin{\raise
+			0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle
+			\rm o$\hfil\cr\hfil$\scriptscriptstyle\rm 9$\hfil}}}}
+\def	\para		{\mbox{$\mid\mid$}}
+\mc	\dres		"2\fx43
+\mc	\rres		"2\fx42
+\def	\ndres		{\mathbin{{\dres} \llap{$-$}}}
+\def	\nrres		{\mathbin{{\rres}\llap{$-$}}}
+\def	\lover		{\mathbin{{\dres} \llap{$-\!\!\!\!-\!$}}}
+\def	\rover		{\mathbin{{\rres}\llap{$\!-\!\!\!-$}}}
+\let	\fun		\rightarrow
+\def	\pfun		{\p\fun}
+\def	\pinj		{\p\inj}
+\mc	\inj		"3\fx1A
+\def	\psurj		{\p\surj}
+\mc	\surj		"3\fx10
+\def	\bij		{\surj\!\!\!\!\!\!\!\inj}
+\def	\nat		{\mbox{${\cal N}$}}
+\def	\na1		{\mbox{${\cal N}_1$}}
+\def	\num		{\mbox{${\cal Z}$}}
+\def	\int		{\mbox{${\cal Z}$}}
+\def	\rat		{\mbox{${\cal Q}$}}
+\def	\div		{\mathbin{\rm /}}
+\def	\mod		{\mathbin{\bf mod}}
+\def	\upto		{\mathbin{\ldotp\ldotp}}
+\def	\finset		{\mbox{${\cal F}$}}
+\def	\finse1		{\mbox{${\cal F}_1$}}
+\def	\ffun		{\f\fun}
+\def	\finj		{\f\inj}
+\def	\seq		{\@myop{\rm seq}}
+\def	\cat		{\mathbin{\raise 0.8ex\hbox{$\mathchar"2\fx61$}}}
+\def	\sep		{\hspace*{.05in}}
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{0}
+
+%-------------------%
+% Debut du document %
+%-------------------%
+
+ 
+
+\bf MACHINE
+
+\hspace*{0.20in}\it ALU
+
+\vspace*{4mm}
+\bf SEES
+
+\hspace*{0.20in}\it TYPES\rm ,
+
+\hspace*{0.20in}\it BIT\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it BIT\_VECTOR\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it BIT\_VECTOR\_ARITHMETICS\rm ,
+
+\hspace*{0.20in}\it BYTE\_DEFINITION
+
+\vspace*{4mm}
+\bf CONSTANTS
+
+\hspace*{0.20in}\it add\rm , \it substract\rm ,
+
+\hspace*{0.20in}\it and\rm , \it ior\rm , \it xor\rm ,
+
+\hspace*{0.20in}\it bitclear\rm , \it bitset\rm , \it bitget\rm ,
+
+\hspace*{0.20in}\it complement\rm , \it swap\rm , \it rotateleft\rm , \it rotateright
+
+\vspace*{4mm}
+\bf PROPERTIES
+
+\hspace*{0.20in}\it add \rm : \rm (\it UCHAR  $\times$  \it UCHAR\rm )  $\fun$  \rm (\it UCHAR  $\times$  \bf BOOL  $\times$  \bf BOOL  $\times$  \bf BOOL\rm )  $\land$ 
+
+\vspace*{4mm}
+\hspace*{0.20in}\it substract \rm : \rm (\it UCHAR  $\times$  \it UCHAR\rm )  $\fun$  \rm (\it UCHAR  $\times$  \bf BOOL  $\times$  \bf BOOL\rm )  $\land$ 
+
+\hspace*{0.20in} $\forall$  \rm (\it w1\rm , \it w2\rm , \it diff\rm )\rm .
+
+\hspace*{0.30in}\rm (\it w1  $\in$  \it UCHAR  $\land$  \it w2  $\in$  \it UCHAR  $\land$  \it diff  $\in$   $\int$   $\land$  \it diff \rm = \it w1\rm -\it w2  $\implies$ 
+
+\hspace*{0.40in}\rm (\rm (\it diff $<$ \rm 0  $\implies$  \it substract\rm (\it w1\rm , \it w2\rm ) \rm = \rm (\it diff\rm +\rm 2\rm 5\rm 6\rm , \bf FALSE\rm , \bf TRUE\rm )\rm )  $\land$ 
+
+\hspace*{0.45in}\rm (\it diff  $\geq$  \rm 0  $\implies$  \it substract\rm (\it w1\rm , \it w2\rm ) \rm = \rm (\it diff\rm , \bf bool\rm (\it diff\rm =\rm 0\rm )\rm , \bf FALSE\rm )\rm )\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it and \rm : \rm (\it BYTE  $\times$  \it BYTE\rm )  $\fun$  \rm (\it BYTE  $\times$  \bf BOOL\rm )  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it w1\rm , \it w2\rm , \it ww\rm )\rm .
+
+\hspace*{0.30in}\rm (\it w1  $\in$  \it BYTE  $\land$  \it w2  $\in$  \it BYTE  $\land$  \it ww  $\in$  \it BYTE  $\land$  \it ww \rm = \it bv\_and\rm (\it w1\rm , \it w2\rm )  $\implies$ 
+
+\hspace*{0.60in}\it and\rm (\it w1\rm , \it w2\rm ) \rm = \rm (\it ww\rm , \bf bool\rm (\it bv\_to\_nat\rm (\it ww\rm ) \rm = \rm 0\rm )\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it ior \rm : \rm (\it BYTE  $\times$  \it BYTE\rm )  $\fun$  \rm (\it BYTE  $\times$  \bf BOOL\rm )  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it w1\rm , \it w2\rm , \it ww\rm )\rm .
+
+\hspace*{0.30in}\rm (\it w1  $\in$  \it BYTE  $\land$  \it w2  $\in$  \it BYTE  $\land$  \it ww  $\in$  \it BYTE  $\land$  \it ww \rm = \it bv\_or\rm (\it w1\rm , \it w2\rm )  $\implies$ 
+
+\hspace*{0.60in}\it ior\rm (\it w1\rm , \it w2\rm ) \rm = \rm (\it ww\rm , \bf bool\rm (\it bv\_to\_nat\rm (\it ww\rm ) \rm = \rm 0\rm )\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it xor \rm : \rm (\it BYTE  $\times$  \it BYTE\rm )  $\fun$  \rm (\it BYTE  $\times$  \bf BOOL\rm )  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it w1\rm , \it w2\rm , \it ww\rm )\rm .
+
+\hspace*{0.30in}\rm (\it w1  $\in$  \it BYTE  $\land$  \it w2  $\in$  \it BYTE  $\land$  \it ww  $\in$  \it BYTE  $\implies$ 
+
+\hspace*{0.40in}\rm (\it ww \rm = \it bv\_xor\rm (\it w1\rm , \it w2\rm )  $\implies$ 
+
+\hspace*{0.60in}\it xor\rm (\it w1\rm , \it w2\rm ) \rm = \rm (\it ww\rm , \bf bool\rm (\it bv\_to\_nat\rm (\it ww\rm ) \rm = \rm 0\rm )\rm )\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it bitget \rm : \rm (\it BYTE  $\times$  \it BYTE\_INDEX\rm )  $\fun$  \it BIT  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it ww\rm , \it ii\rm )\rm .\rm (\it ww  $\in$  \it BYTE  $\land$  \it ii  $\in$  \it BYTE\_INDEX  $\implies$  \it bitget\rm (\it ww\rm ,\it ii\rm ) \rm = \it ww\rm (\it ii\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it bitset \rm : \rm (\it BYTE  $\times$  \it BYTE\_INDEX\rm )  $\fun$  \it BYTE  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it ww\rm , \it ii\rm )\rm .\rm (\it ww  $\in$  \it BYTE  $\land$  \it ii  $\in$  \it BYTE\_INDEX  $\implies$  \it bitset\rm (\it ww\rm ,\it ii\rm ) \rm = \it bv\_set\rm (\it ww\rm , \it ii\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it bitclear \rm : \rm (\it BYTE  $\times$  \it BYTE\_INDEX\rm )  $\fun$  \it BYTE  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it ww\rm , \it ii\rm , \it bb\rm )\rm .\rm (\it ww  $\in$  \it BYTE  $\land$  \it ii  $\in$  \it BYTE\_INDEX  $\land$  \it bb  $\in$  \it BIT  $\implies$  \it bitclear\rm (\it ww\rm ,\it ii\rm ) \rm = \it bv\_clear\rm (\it ww\rm , \it ii\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it complement  $\in$  \it BYTE  $\fun$  \it BYTE  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it ww\rm )\rm .\rm (\it ww  $\in$  \it BYTE  $\implies$  \it complement\rm (\it ww\rm ) \rm = \it bv\_not\rm (\it ww\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it swap  $\in$  \it BYTE  $\fun$  \it BYTE  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it ww\rm )\rm .\rm (\it ww  $\in$  \it BYTE  $\implies$ 
+
+\hspace*{0.30in}\rm (\it swap\rm (\it ww\rm ) \rm = \rm \{\rm 0 $\mapsto$ \it ww\rm (\rm 4\rm )\rm , \rm 1 $\mapsto$ \it ww\rm (\rm 5\rm )\rm , \rm 2 $\mapsto$ \it ww\rm (\rm 6\rm )\rm , \rm 3 $\mapsto$ \it ww\rm (\rm 7\rm )\rm , \rm 4 $\mapsto$ \it ww\rm (\rm 0\rm )\rm , \rm 5 $\mapsto$ \it ww\rm (\rm 1\rm )\rm , \rm 6 $\mapsto$ \it ww\rm (\rm 2\rm )\rm , \rm 7 $\mapsto$ \it ww\rm (\rm 3\rm )\rm \}\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it rotateleft  $\in$  \it BYTE  $\fun$  \it BYTE  $\times$  \bf BOOL  $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it ww\rm )\rm .\rm (\it ww  $\in$  \it BYTE  $\implies$ 
+
+\hspace*{0.30in}\rm (\it rotateleft\rm (\it ww\rm ) \rm = \rm (\rm \{\rm 0 $\mapsto$ \it ww\rm (\rm 7\rm )\rm , \rm 1 $\mapsto$ \it ww\rm (\rm 0\rm )\rm , \rm 2 $\mapsto$ \it ww\rm (\rm 1\rm )\rm , \rm 3 $\mapsto$ \it ww\rm (\rm 2\rm )\rm , \rm 4 $\mapsto$ \it ww\rm (\rm 3\rm )\rm , \rm 5 $\mapsto$ \it ww\rm (\rm 4\rm )\rm , \rm 6 $\mapsto$ \it ww\rm (\rm 5\rm )\rm , \rm 7 $\mapsto$ \it ww\rm (\rm 6\rm )\rm \}\rm , 
+
+\hspace*{0.80in}\bf bool\rm (\it ww\rm (\rm 7\rm )\rm =\rm 1\rm )\rm )\rm )\rm )  $\land$  
+
+\hspace*{0.20in}\it rotateright  $\in$  \it BYTE  $\fun$  \it BYTE  $\times$  \bf BOOL\hspace*{0.10in} $\land$  
+
+\hspace*{0.20in} $\forall$  \rm (\it ww\rm )\rm .\rm (\it ww  $\in$  \it BYTE\hspace*{0.10in} $\implies$ 
+
+\hspace*{0.30in}\rm (\it rotateright\rm (\it ww\rm ) \rm = \rm (\rm \{\rm 0 $\mapsto$ \it ww\rm (\rm 1\rm )\rm , \rm 1 $\mapsto$ \it ww\rm (\rm 2\rm )\rm , \rm 2 $\mapsto$ \it ww\rm (\rm 3\rm )\rm , \rm 3 $\mapsto$ \it ww\rm (\rm 4\rm )\rm , \rm 4 $\mapsto$ \it ww\rm (\rm 5\rm )\rm , \rm 5 $\mapsto$ \it ww\rm (\rm 6\rm )\rm , \rm 6 $\mapsto$ \it ww\rm (\rm 7\rm )\rm , \rm 7 $\mapsto$ \it ww\rm (\rm 0\rm )\rm \}\rm , 
+
+\hspace*{0.80in}\bf bool\rm (\it ww\rm (\rm 0\rm )\rm =\rm 1\rm )\rm )\rm )\rm )
+
+\vspace*{4mm}
+\bf ASSERTIONS
+
+\hspace*{0.20in}\bf dom\rm (\it add\rm ) \rm = \it UCHAR  $\times$  \it UCHAR\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it add\rm )  $\subseteq$  \it UCHAR  $\times$  \bf BOOL  $\times$  \bf BOOL  $\times$  \bf BOOL\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it substract\rm ) \rm = \it UCHAR  $\times$  \it UCHAR\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it substract\rm )  $\subseteq$  \it UCHAR  $\times$  \bf BOOL  $\times$  \bf BOOL\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it and\rm ) \rm = \it BYTE  $\times$  \it BYTE\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it and\rm )  $\subseteq$  \it BYTE  $\times$  \bf BOOL\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it ior\rm ) \rm = \it BYTE  $\times$  \it BYTE\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it ior\rm )  $\subseteq$  \it BYTE  $\times$  \bf BOOL\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it xor\rm ) \rm = \it BYTE  $\times$  \it BYTE\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it xor\rm )  $\subseteq$  \it BYTE  $\times$  \bf BOOL\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it bitclear\rm ) \rm = \it BYTE  $\times$  \it BYTE\_INDEX\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it bitclear\rm )  $\subseteq$  \it BYTE\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it bitset\rm ) \rm = \it BYTE  $\times$  \it BYTE\_INDEX\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it bitset\rm )  $\subseteq$  \it BYTE\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it bitget\rm ) \rm = \it BYTE  $\times$  \it BYTE\_INDEX\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it bitget\rm )  $\subseteq$  \it BIT\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it complement\rm ) \rm = \it BYTE\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it complement\rm )  $\subseteq$  \it BYTE\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it swap\rm ) \rm = \it BYTE\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it swap\rm )  $\subseteq$  \it BYTE\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it rotateleft\rm )  $\subseteq$  \it BYTE  $\times$  \bf BOOL\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it rotateleft\rm ) \rm = \it BYTE\rm ;
+
+\hspace*{0.20in}\bf dom\rm (\it rotateright\rm ) \rm = \it BYTE\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it rotateright\rm )  $\subseteq$  \it BYTE  $\times$  \bf BOOL\rm ;
+
+\vspace*{4mm}
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it add\rm (\rm 0\rm ,\rm 0\rm ) \rm = \rm (\rm 0\rm , \bf TRUE\rm , \bf FALSE\rm , \bf FALSE\rm )\rm ;
+
+\hspace*{0.20in}\it add\rm (\rm 2\rm 5\rm 5\rm ,\rm 1\rm ) \rm = \rm (\rm 0\rm , \bf TRUE\rm , \bf FALSE\rm , \bf TRUE\rm )
+
+\bf END
+
+\newpage
+\end{sloppypar}\end{document}

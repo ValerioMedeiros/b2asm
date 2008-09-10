@@ -1,0 +1,65 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & _f(16) & AssertionLemmas.8,(_f(37) & _f(38) => _f(39));
+  _f(1) & _f(2) & _f(16) & AssertionLemmas.7,(_f(34) & _f(35) => _f(36));
+  _f(1) & _f(2) & _f(16) & AssertionLemmas.6,(_f(31) & _f(32) => _f(33));
+  _f(1) & _f(2) & _f(16) & AssertionLemmas.5,(_f(28) & _f(29) => _f(30));
+  _f(1) & _f(2) & _f(16) & AssertionLemmas.4,(_f(25) & _f(26) => _f(27));
+  _f(1) & _f(2) & _f(16) & AssertionLemmas.3,(_f(22) & _f(23) => _f(24));
+  _f(1) & _f(2) & _f(16) & AssertionLemmas.2,(_f(19) & _f(20) => _f(21));
+  _f(1) & _f(2) & _f(16) & AssertionLemmas.1,(_f(17) => _f(18));
+  _f(1) & _f(2) & Initialisation.5,(_f(3) & _f(14) => _f(15));
+  _f(1) & _f(2) & Initialisation.4,(_f(3) & _f(12) => _f(13));
+  _f(1) & _f(2) & Initialisation.3,(_f(9) & _f(10) => _f(11));
+  _f(1) & _f(2) & Initialisation.2,(_f(6) & _f(7) => _f(8));
+  _f(1) & _f(2) & Initialisation.1,(_f(3) & _f(4) => _f(5))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & BIT_VECTOR = seq(BIT)-{{}} & bv_size: BIT_VECTOR +-> NATURAL-{0} & dom(bv_size) = BIT_VECTOR & bv_size = %bv.(bv: BIT_VECTOR | size(bv)) & bv_catenate: BIT_VECTOR*BIT_VECTOR +-> BIT_VECTOR & dom(bv_catenate) = BIT_VECTOR*BIT_VECTOR & bv_catenate = %(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR | v2^v1) & bv_sub: BIT_VECTOR*NATURAL*NATURAL +-> BIT_VECTOR & dom(bv_sub) = BIT_VECTOR*NATURAL*NATURAL & bv_sub = %(bv,low,high).(bv: BIT_VECTOR & (low: INTEGER & 0<=low) & (high: INTEGER & 0<=high) & low<=high | 0..high-low<|bv) & bv_zero: NATURAL-{0} +-> BIT_VECTOR & dom(bv_zero) = NATURAL-{0} & bv_zero = %sz.(sz: INTEGER & 0<=sz & not(sz = 0) | (1..sz)*{0}) & bv_one: NATURAL-{0} +-> BIT_VECTOR & dom(bv_one) = NATURAL-{0} & bv_one = %sz.(sz: INTEGER & 0<=sz & not(sz = 0) | (1..sz)*{1}) & bv_not: BIT_VECTOR +-> BIT_VECTOR & dom(bv_not) = BIT_VECTOR & bv_not = %v1.(v1: BIT_VECTOR | %idx.(idx: 1..size(v1) | bit_not(v1(idx)))) & bv_and: BIT_VECTOR*BIT_VECTOR +-> BIT_VECTOR & dom(bv_and) = BIT_VECTOR*BIT_VECTOR & bv_and = %(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) | %idx.(idx: 1..size(v1) | bit_and(v1(idx),v2(idx)))) & bv_or: BIT_VECTOR*BIT_VECTOR +-> BIT_VECTOR & dom(bv_or) = BIT_VECTOR*BIT_VECTOR & bv_or = %(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) | %idx.(idx: 1..size(v1) | bit_or(v1(idx),v2(idx)))) & bv_xor: BIT_VECTOR*BIT_VECTOR +-> BIT_VECTOR & dom(bv_xor) = BIT_VECTOR*BIT_VECTOR & bv_xor = %(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) | %idx.(idx: 1..size(v1) | bit_xor(v1(idx),v2(idx)))) & bv_at: BIT_VECTOR*NATURAL +-> BIT & dom(bv_at) = BIT_VECTOR*NATURAL & bv_at = %(v1,idx).(v1: BIT_VECTOR & (idx: INTEGER & 0<=idx) & idx+1<=size(v1) | v1(idx+1)) & bv_set: BIT_VECTOR*NATURAL +-> BIT_VECTOR & dom(bv_set) = BIT_VECTOR*NATURAL & bv_set = %(v1,idx).(v1: BIT_VECTOR & (idx: INTEGER & 0<=idx) & idx+1<=size(v1) | v1<+{idx+1|->1}) & bv_clear: BIT_VECTOR*NATURAL +-> BIT_VECTOR & dom(bv_clear) = BIT_VECTOR*NATURAL & bv_clear = %(v1,idx).(v1: BIT_VECTOR & (idx: INTEGER & 0<=idx) & idx+1<=size(v1) | v1<+{idx+1|->0}) & bv_to_nat: BIT_VECTOR +-> NATURAL & dom(bv_to_nat) = BIT_VECTOR & bv_to_nat = %bv.(bv: BIT_VECTOR | SIGMA(idx).(idx: dom(bv) | 2**idx*bv(idx))) & BYTE_WIDTH = 8 & BYTE_INDEX = 0..BYTE_WIDTH-1 & BYTE: POW(BIT_VECTOR) & BYTE = SET(vv).(vv: BIT_VECTOR & bv_size(vv) = BYTE_WIDTH) & BYTE_ZERO: BYTE & BYTE_ZERO = BYTE_INDEX*{0} & "`Component properties'" & BANK_WIDTH = 2 & BANK: POW(BIT_VECTOR) & BANK = SET(vv).(vv: BIT_VECTOR & bv_size(vv) = BANK_WIDTH) & LOCATION_WIDTH = 7 & LOCATION: POW(BIT_VECTOR) & LOCATION = SET(vv).(vv: BIT_VECTOR & bv_size(vv) = LOCATION_WIDTH) & BANK_SIZE = 2**LOCATION_WIDTH & ADDRESS_WIDTH = BANK_WIDTH+LOCATION_WIDTH & ADDRESS = 0..2**ADDRESS_WIDTH-1 & make_address: BANK*LOCATION +-> ADDRESS & dom(make_address) = BANK*LOCATION & make_address = %(vb,vl).(vb: BANK & vl: LOCATION | bv_to_nat(bv_catenate(vb,vl))) & FILE = ADDRESS --> BYTE & INDF_ADDR: ADDRESS & INDF_ADDR = 0 & TMR0_ADDR: ADDRESS & TMR0_ADDR = 1 & PCL_ADDR: ADDRESS & PCL_ADDR = 2 & STATUS_ADDR: ADDRESS & STATUS_ADDR = 3 & FSR_ADDR: ADDRESS & FSR_ADDR = 4 & PORTA_ADDR: ADDRESS & PORTA_ADDR = 5 & PORTB_ADDR: ADDRESS & PORTB_ADDR = 6 & PCLATH_ADDR: ADDRESS & PCLATH_ADDR = 10 & INTCON_ADDR: ADDRESS & INTCON_ADDR = 11 & PIR1_ADDR: ADDRESS & PIR1_ADDR = 12 & CMCON_ADDR: ADDRESS & CMCON_ADDR = 127 & TRISA_ADDR: ADDRESS & TRISA_ADDR = 133 & TRISB_ADDR: ADDRESS & TRISB_ADDR = 134 & PIE1_ADDR: ADDRESS & PIE1_ADDR = 140 & PCON_ADDR: ADDRESS & PCON_ADDR = 142 & LININTF_ADDR: ADDRESS & LININTF_ADDR = 144 & VRCON_ADDR: ADDRESS & VRCON_ADDR = 159 & UNIMPLEMENTED_LOCATIONS = 7..9\/13..30\/135..137\/{141}\/{143}\/145..158\/192..240 & MAPPED_REGISTERS: POW(ADDRESS) & MAPPED_REGISTERS = {INDF_ADDR}\/{STATUS_ADDR}\/{FSR_ADDR}\/{PCLATH_ADDR}\/{INTCON_ADDR} & register_addresses: ADDRESS +-> POW(ADDRESS)-{{}} & dom(register_addresses) = ADDRESS & !ad.(ad: ADDRESS => (not(ad: MAPPED_REGISTERS) => register_addresses(ad) = {ad}) & (ad: MAPPED_REGISTERS => register_addresses(ad) = {ad}\/{ad+BANK_SIZE})) & IRP_POS: BYTE_INDEX & IRP_POS = 7 & RP1_POS: BYTE_INDEX & RP1_POS = 6 & RP0_POS: BYTE_INDEX & RP0_POS = 5 & actual_address: ADDRESS*FILE +-> ADDRESS & dom(actual_address) = ADDRESS*FILE & actual_address = %(ad,fi).(ad: ADDRESS & fi: FILE & ad: register_addresses(INDF_ADDR) | fi(STATUS_ADDR)(RP0_POS)*2**7+fi(STATUS_ADDR)(RP1_POS)*2**8+bv_to_nat(fi(FSR_ADDR)))\/%(ad,fi).(ad: ADDRESS & fi: FILE & not(ad: register_addresses(INDF_ADDR)) | fi(STATUS_ADDR)(IRP_POS)*2**8+bv_to_nat(fi(FSR_ADDR))));
+  ("`Seen and used machines assertions'" & !bv.(bv: BIT_VECTOR => bv_xor(bv,bv) = bv_zero(bv_size(bv))) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & bv_size(v1) = bv_size(v2) => bv_xor(v1,v2) = bv_xor(v2,v1)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & bv_size(v1) = bv_size(v2) => bv_size(bv_xor(v1,v2)) = bv_size(v2)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & bv_size(v1) = bv_size(v2) => bv_size(bv_xor(v1,v2)) = bv_size(v1)) & !bv.(bv: BIT_VECTOR => bv_or(bv,bv_zero(bv_size(bv))) = bv) & !bv.(bv: BIT_VECTOR => bv_or(bv,bv_one(bv_size(bv))) = bv_one(bv_size(bv))) & !(v1,v2,v3).(v1: BIT_VECTOR & v2: BIT_VECTOR & v3: BIT_VECTOR & bv_size(v1) = bv_size(v2) & bv_size(v1) = bv_size(v3) => bv_or(v1,bv_or(v2,v3)) = bv_or(bv_or(v1,v2),v3)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & bv_size(v1) = bv_size(v2) => bv_or(v1,v2) = bv_or(v2,v1)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & bv_size(v1) = bv_size(v2) => bv_size(bv_or(v1,v2)) = bv_size(v2)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & bv_size(v1) = bv_size(v2) => bv_size(bv_or(v1,v2)) = bv_size(v1)) & !bv.(bv: BIT_VECTOR => bv_and(bv,bv_one(bv_size(bv))) = bv) & !bv.(bv: BIT_VECTOR => bv_and(bv,bv_zero(bv_size(bv))) = bv_zero(bv_size(bv))) & !(v1,v2,v3).(v1: BIT_VECTOR & v2: BIT_VECTOR & v3: BIT_VECTOR & bv_size(v1) = bv_size(v2) & bv_size(v1) = bv_size(v3) => bv_and(v1,bv_and(v2,v3)) = bv_and(bv_and(v1,v2),v3)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & bv_size(v1) = bv_size(v2) => bv_and(v1,v2) = bv_and(v2,v1)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & bv_size(v1) = bv_size(v2) => bv_size(bv_and(v1,v2)) = bv_size(v2)) & !(bv,low,high).(bv: BIT_VECTOR & (low: INTEGER & 0<=low) & (high: INTEGER & 0<=high) & low<=high => bv_size(bv_sub(bv,low,high)) = 1+high-low) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR => bv_size(bv_catenate(v1,v2)) = bv_size(v1)+bv_size(v2)) & !bv.(bv: BIT_VECTOR => bv_not(bv_not(bv)) = bv) & !bv.(bv: BIT_VECTOR => bv_size(bv_not(bv)) = bv_size(bv)) & !ss.(ss: INTEGER & 0<=ss & not(ss = 0) => bv_to_nat(bv_zero(ss)) = 0) & 2**16 = 65536 & 2**15 = 32768 & 2**14 = 16384 & 2**13 = 8192 & 2**12 = 4096 & 2**11 = 2048 & 2**10 = 1024 & 2**9 = 512 & 2**8 = 256 & 2**7 = 128 & 2**6 = 64 & 2**5 = 32 & 2**4 = 16 & 2**3 = 8 & 2**2 = 4 & 2**1 = 2 & 2**0 = 1);
+  ("`Local hypotheses'" & random: FILE & init_status: BYTE & init_status(RP1_POS) = 0);
+  "`Check that the invariant (file: FILE) is established by the initialisation - ref 3.3'";
+  (random<+({INDF_ADDR|->BYTE_ZERO}\/{STATUS_ADDR|->init_status}\/{INDF_ADDR+128|->BYTE_ZERO}\/{STATUS_ADDR+128|->init_status})<+UNIMPLEMENTED_LOCATIONS*{BYTE_ZERO}: FILE);
+  ("`Local hypotheses'" & random: FILE & init_status: BYTE & init_status(RP1_POS) = 0 & ad: UNIMPLEMENTED_LOCATIONS);
+  "`Check that the invariant (!ad.(ad: UNIMPLEMENTED_LOCATIONS => file(ad) = BYTE_ZERO)) is established by the initialisation - ref 3.3'";
+  ((random<+({INDF_ADDR|->BYTE_ZERO}\/{STATUS_ADDR|->init_status}\/{INDF_ADDR+128|->BYTE_ZERO}\/{STATUS_ADDR+128|->init_status})<+UNIMPLEMENTED_LOCATIONS*{BYTE_ZERO})(ad) = BYTE_ZERO);
+  ("`Local hypotheses'" & random: FILE & init_status: BYTE & init_status(RP1_POS) = 0 & reg: MAPPED_REGISTERS);
+  "`Check that the invariant (!reg.(reg: MAPPED_REGISTERS => file(reg) = file(reg+BANK_SIZE))) is established by the initialisation - ref 3.3'";
+  ((random<+({INDF_ADDR|->BYTE_ZERO}\/{STATUS_ADDR|->init_status}\/{INDF_ADDR+128|->BYTE_ZERO}\/{STATUS_ADDR+128|->init_status})<+UNIMPLEMENTED_LOCATIONS*{BYTE_ZERO})(reg) = (random<+({INDF_ADDR|->BYTE_ZERO}\/{STATUS_ADDR|->init_status}\/{INDF_ADDR+128|->BYTE_ZERO}\/{STATUS_ADDR+128|->init_status})<+UNIMPLEMENTED_LOCATIONS*{BYTE_ZERO})(reg+BANK_SIZE));
+  "`Check that the invariant (file(STATUS_ADDR)(IRP_POS) = 0) is established by the initialisation - ref 3.3'";
+  ((random<+({INDF_ADDR|->BYTE_ZERO}\/{STATUS_ADDR|->init_status}\/{INDF_ADDR+128|->BYTE_ZERO}\/{STATUS_ADDR+128|->init_status})<+UNIMPLEMENTED_LOCATIONS*{BYTE_ZERO})(STATUS_ADDR)(IRP_POS) = 0);
+  "`Check that the invariant (file(STATUS_ADDR)(RP1_POS) = 0) is established by the initialisation - ref 3.3'";
+  ((random<+({INDF_ADDR|->BYTE_ZERO}\/{STATUS_ADDR|->init_status}\/{INDF_ADDR+128|->BYTE_ZERO}\/{STATUS_ADDR+128|->init_status})<+UNIMPLEMENTED_LOCATIONS*{BYTE_ZERO})(STATUS_ADDR)(RP1_POS) = 0);
+  ("`Component invariant'" & file: FILE & !ad.(ad: UNIMPLEMENTED_LOCATIONS => file(ad) = BYTE_ZERO) & !reg.(reg: MAPPED_REGISTERS => file(reg) = file(reg+BANK_SIZE)) & file(STATUS_ADDR)(IRP_POS) = 0 & file(STATUS_ADDR)(RP1_POS) = 0);
+  "`Check assertion (BANK_SIZE = 128) deduction - ref 3.2, 4.2, 5.3'";
+  (BANK_SIZE = 128);
+  ("`Local hypotheses'" & BANK_SIZE = 128);
+  "`Check assertion (register_addresses(INDF_ADDR) = {0,128}) deduction - ref 3.2, 4.2, 5.3'";
+  (register_addresses(INDF_ADDR) = {0}\/{128});
+  ("`Local hypotheses'" & BANK_SIZE = 128 & register_addresses(INDF_ADDR) = {0}\/{128});
+  "`Check assertion (register_addresses(STATUS_ADDR) = {3,131}) deduction - ref 3.2, 4.2, 5.3'";
+  (register_addresses(STATUS_ADDR) = {3}\/{131});
+  ("`Local hypotheses'" & BANK_SIZE = 128 & register_addresses(INDF_ADDR) = {0}\/{128} & register_addresses(STATUS_ADDR) = {3}\/{131});
+  "`Check assertion (register_addresses(FSR_ADDR) = {4,132}) deduction - ref 3.2, 4.2, 5.3'";
+  (register_addresses(FSR_ADDR) = {4}\/{132});
+  ("`Local hypotheses'" & BANK_SIZE = 128 & register_addresses(INDF_ADDR) = {0}\/{128} & register_addresses(STATUS_ADDR) = {3}\/{131} & register_addresses(FSR_ADDR) = {4}\/{132});
+  "`Check assertion (register_addresses(PCLATH_ADDR) = {10,138}) deduction - ref 3.2, 4.2, 5.3'";
+  (register_addresses(PCLATH_ADDR) = {10}\/{138});
+  ("`Local hypotheses'" & BANK_SIZE = 128 & register_addresses(INDF_ADDR) = {0}\/{128} & register_addresses(STATUS_ADDR) = {3}\/{131} & register_addresses(FSR_ADDR) = {4}\/{132} & register_addresses(PCLATH_ADDR) = {10}\/{138});
+  "`Check assertion (register_addresses(INTCON_ADDR) = {11,139}) deduction - ref 3.2, 4.2, 5.3'";
+  (register_addresses(INTCON_ADDR) = {11}\/{139});
+  ("`Local hypotheses'" & BANK_SIZE = 128 & register_addresses(INDF_ADDR) = {0}\/{128} & register_addresses(STATUS_ADDR) = {3}\/{131} & register_addresses(FSR_ADDR) = {4}\/{132} & register_addresses(PCLATH_ADDR) = {10}\/{138} & register_addresses(INTCON_ADDR) = {11}\/{139});
+  "`Check assertion (dom(file) = ADDRESS) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(file) = ADDRESS);
+  ("`Local hypotheses'" & BANK_SIZE = 128 & register_addresses(INDF_ADDR) = {0}\/{128} & register_addresses(STATUS_ADDR) = {3}\/{131} & register_addresses(FSR_ADDR) = {4}\/{132} & register_addresses(PCLATH_ADDR) = {10}\/{138} & register_addresses(INTCON_ADDR) = {11}\/{139} & dom(file) = ADDRESS);
+  "`Check assertion (ran(file) <: BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (ran(file): POW(BYTE));
+  ("`Component assertions'" & BANK_SIZE = 128 & register_addresses(INDF_ADDR) = {0}\/{128} & register_addresses(STATUS_ADDR) = {3}\/{131} & register_addresses(FSR_ADDR) = {4}\/{132} & register_addresses(PCLATH_ADDR) = {10}\/{138} & register_addresses(INTCON_ADDR) = {11}\/{139} & dom(file) = ADDRESS & ran(file): POW(BYTE))
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

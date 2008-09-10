@@ -1,0 +1,383 @@
+\documentstyle[11pt,supertabular]{article}
+\setlength{\topmargin}{13mm}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\setlength{\textheight}{225mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\textwidth}{160mm}
+\input{psfig}
+
+\begin{document}
+\begin{sloppypar}
+
+% DEFINITION DES CARACTERES MATHEMATIQUES B
+%------------------------------------------
+\def\@setmcodes#1#2#3{{\count0=#1 \count1=#3
+	\loop \global\mathcode\count0=\count1 \ifnum \count0<#2
+	\advance\count0 by1 \advance\count1 by1 \repeat}}
+
+\@setmcodes{`A}{`Z}{"7441}
+\@setmcodes{`a}{`z}{"7461}
+
+\mathcode`\;="8000 % Makes ; active in math mode
+{\catcode`\;=\active \gdef;{\semicolon\;}}
+\mathchardef\semicolon="003B
+%    Nominal distance from top of paper to top of page
+\topmargin 0 pt
+\textheight 53\baselineskip
+
+%   Left margin on odd-numbered pages
+\oddsidemargin  0.15 in
+%   Left margin on even-numbered pages
+\evensidemargin 0.35 in
+%   Width of marginal notes.
+\marginparwidth 1 in
+%   Note that \oddsidemargin = \evensidemargin
+\oddsidemargin 0.25 in
+\evensidemargin 0.25 in
+\marginparwidth 0.75 in
+\textwidth 5.875 in % Width of text line.
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0ex}
+
+% DEFINITION DES FONTS
+%---------------------
+% The AMS extra symbol fonts are loaded.
+% Note: sometimes called euxm10
+\font\msx=msam10
+% Note: sometimes called euym10
+\font\msy=msbm10
+
+\newfam\msxfam \textfont\msxfam=\msx
+\newfam\msyfam \textfont\msyfam=\msy
+
+\def\famletter#1{\ifcase #1 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\edef\fx{\famletter\msxfam}
+\edef\fy{\famletter\msyfam}
+
+\def\bbold{\fam\msyfam \msy}
+
+% SYMBOLES B
+%-----------
+% makes a quoted expression in mathematical text
+\def\token#1{\hbox{`$#1$'}}
+% used for error messages in Z specs
+\def\report#1{\hbox{`{\tt #1}'}}
+
+% \@myop makes an operator, with a strut to defeat TeX's vertical adjustment.
+\def\@myop#1{\mathop{\mathstrut{#1}}\nolimits}
+
+% This underscore doesn't have the little kern --- you get an italic
+% correction anyway in math mode.
+\def\_{\leavevmode \vbox{\hrule width0.5em}}
+
+% Save \q as \xq for quantifiers q.
+\let\xforall=\forall
+\let\xexists=\exists
+\let\xlambda=\lambda
+\let\xmu=\mu
+
+% \p and \f make arrows with 1 and 2 crossings resp.
+\def\p#1{\mathrel{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\def\f#1{\mathrel{\ooalign{\hfil
+	$\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+
+\let\mc=\mathchardef
+
+\def	\pow		{\mbox{${\cal P}$}}
+\def	\po1		{\mbox{${\cal P}_1$}}
+\let	\cross		\times
+\def	\lambda		{\@myop{\xlambda}}
+\def	\lnot		{\neg\;}
+\def	\land		{\mathrel{\wedge}}
+\def	\lor		{\mathrel{\vee}}
+\let	\implies	\Rightarrow
+\let	\iff		\Leftrightarrow
+\def	\forall		{\@myop{\xforall}}
+\def	\exists		{\@myop{\xexists}}
+\def	\semi		{\mathrel{\comp}}
+\def	\ssemi		{\mathbin{\rm ;}}
+\let	\ensembleVide	\emptyset
+\let	\rel		\leftrightarrow
+\def	\dom		{\@myop{\sf dom}}
+\def	\ran		{\@myop{\sf ran}}
+\def	\id		{\@myop{\sf id}}
+\def	\comp		{\mathbin{\raise
+			0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle
+			\rm o$\hfil\cr\hfil$\scriptscriptstyle\rm 9$\hfil}}}}
+\def	\para		{\mbox{$\mid\mid$}}
+\mc	\dres		"2\fx43
+\mc	\rres		"2\fx42
+\def	\ndres		{\mathbin{{\dres} \llap{$-$}}}
+\def	\nrres		{\mathbin{{\rres}\llap{$-$}}}
+\def	\lover		{\mathbin{{\dres} \llap{$-\!\!\!\!-\!$}}}
+\def	\rover		{\mathbin{{\rres}\llap{$\!-\!\!\!-$}}}
+\let	\fun		\rightarrow
+\def	\pfun		{\p\fun}
+\def	\pinj		{\p\inj}
+\mc	\inj		"3\fx1A
+\def	\psurj		{\p\surj}
+\mc	\surj		"3\fx10
+\def	\bij		{\surj\!\!\!\!\!\!\!\inj}
+\def	\nat		{\mbox{${\cal N}$}}
+\def	\na1		{\mbox{${\cal N}_1$}}
+\def	\num		{\mbox{${\cal Z}$}}
+\def	\int		{\mbox{${\cal Z}$}}
+\def	\rat		{\mbox{${\cal Q}$}}
+\def	\div		{\mathbin{\rm /}}
+\def	\mod		{\mathbin{\bf mod}}
+\def	\upto		{\mathbin{\ldotp\ldotp}}
+\def	\finset		{\mbox{${\cal F}$}}
+\def	\finse1		{\mbox{${\cal F}_1$}}
+\def	\ffun		{\f\fun}
+\def	\finj		{\f\inj}
+\def	\seq		{\@myop{\rm seq}}
+\def	\cat		{\mathbin{\raise 0.8ex\hbox{$\mathchar"2\fx61$}}}
+\def	\sep		{\hspace*{.05in}}
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{0}
+
+%-------------------%
+% Debut du document %
+%-------------------%
+
+ 
+
+\vspace*{4mm}
+\bf MACHINE
+
+\hspace*{0.20in}\it DATA\_MEMORY
+
+\vspace*{4mm}
+\bf SEES
+
+\hspace*{0.20in}\it BIT\_VECTOR\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it BIT\_VECTOR\_ARITHMETICS\rm ,
+
+\hspace*{0.20in}\it BYTE\_DEFINITION\rm ,
+
+\vspace*{4mm}
+\hspace*{0.20in}\it POWER2
+
+\vspace*{4mm}
+\bf CONSTANTS
+
+\hspace*{0.20in}\it BANK\_WIDTH\rm , \it BANK\rm , \it BANK\_SIZE\rm ,
+
+\hspace*{0.20in}\it LOCATION\_WIDTH\rm , \it LOCATION\rm ,
+
+\hspace*{0.20in}\it ADDRESS\_WIDTH\rm , \it ADDRESS\rm ,
+
+\hspace*{0.20in}\it FILE\rm ,
+
+\hspace*{0.20in}\it make\_address\rm ,
+
+\vspace*{4mm}
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it INDF\_ADDR\rm , \it TMR0\_ADDR\rm , \it PCL\_ADDR\rm , 
+
+\hspace*{0.20in}\it STATUS\_ADDR\rm , \it FSR\_ADDR\rm , 
+
+\hspace*{0.20in}\it PORTA\_ADDR\rm , \it PORTB\_ADDR\rm ,
+
+\hspace*{0.20in}\it PCLATH\_ADDR\rm , \it INTCON\_ADDR\rm , \it PIR1\_ADDR\rm , \it CMCON\_ADDR\rm ,
+
+\hspace*{0.20in}\it TRISA\_ADDR\rm , \it TRISB\_ADDR\rm ,
+
+\hspace*{0.20in}\it PIE1\_ADDR\rm , \it PCON\_ADDR\rm , \it LININTF\_ADDR\rm , \it VRCON\_ADDR\rm ,
+
+\vspace*{4mm}
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it UNIMPLEMENTED\_LOCATIONS\rm ,
+
+\vspace*{4mm}
+\hspace*{0.20in}\it MAPPED\_REGISTERS\rm ,
+
+\hspace*{0.20in}\it register\_addresses\rm ,
+
+\vspace*{4mm}
+\hspace*{0.20in}\it IRP\_POS\rm , \it RP1\_POS\rm , \it RP0\_POS\rm ,
+
+\vspace*{4mm}
+\hspace*{0.20in}\it actual\_address
+
+\vspace*{4mm}
+\bf PROPERTIES
+
+\hspace*{0.20in}\it BANK\_WIDTH \rm = \rm 2  $\land$ 
+
+\hspace*{0.20in}\it BANK  $\subseteq$  \it BIT\_VECTOR  $\land$ 
+
+\hspace*{0.20in}\it BANK \rm = \rm \{ \it vv  $\mid$  \it vv  $\in$  \it BIT\_VECTOR  $\land$  \it bv\_size\rm (\it vv\rm ) \rm = \it BANK\_WIDTH \rm \}  $\land$ 
+
+\hspace*{0.20in}\it LOCATION\_WIDTH \rm = \rm 7  $\land$ 
+
+\hspace*{0.20in}\it LOCATION  $\subseteq$  \it BIT\_VECTOR  $\land$ 
+
+\hspace*{0.20in}\it LOCATION \rm = \rm \{ \it vv  $\mid$  \it vv  $\in$  \it BIT\_VECTOR  $\land$  \it bv\_size\rm (\it vv\rm ) \rm = \it LOCATION\_WIDTH \rm \}  $\land$ 
+
+\hspace*{0.20in}\it BANK\_SIZE \rm = \rm 2$^{LOCATION\_WIDTH}$  $\land$ 
+
+\hspace*{0.20in}\it ADDRESS\_WIDTH \rm = \it BANK\_WIDTH \rm + \it LOCATION\_WIDTH  $\land$ 
+
+\hspace*{0.20in}\it ADDRESS \rm = \rm 0 $\upto$ \rm (\rm (\rm 2$^{ADDRESS\_WIDTH}$\rm )\rm -\rm 1\rm )  $\land$ 
+
+\hspace*{0.20in}\it make\_address  $\in$  \it BANK  $\times$  \it LOCATION  $\fun$  \it ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it make\_address \rm =  $\lambda$ \rm (\it vb\rm , \it vl\rm )\rm . \rm (\it vb  $\in$  \it BANK  $\land$  \it vl  $\in$  \it LOCATION  $\mid$  \it bv\_to\_nat \rm (\it bv\_catenate\rm (\it vb\rm , \it vl\rm )\rm )\rm )  $\land$ 
+
+\vspace*{4mm}
+\hspace*{0.20in}\it FILE \rm = \it ADDRESS  $\fun$  \it BYTE  $\land$ 
+
+\vspace*{4mm}
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it INDF\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it INDF\_ADDR \rm = \rm 0  $\land$   
+
+\hspace*{0.20in}\it TMR0\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it TMR0\_ADDR \rm = \rm 1  $\land$   
+
+\hspace*{0.20in}\it PCL\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it PCL\_ADDR \rm = \rm 2  $\land$   
+
+\hspace*{0.20in}\it STATUS\_ADDR  $\in$  \it ADDRESS  $\land$  \it STATUS\_ADDR \rm = \rm 3  $\land$   
+
+\hspace*{0.20in}\it FSR\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it FSR\_ADDR \rm = \rm 4  $\land$   
+
+\hspace*{0.20in}\it PORTA\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it PORTA\_ADDR \rm = \rm 5  $\land$   
+
+\hspace*{0.20in}\it PORTB\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it PORTB\_ADDR \rm = \rm 6  $\land$   
+
+\hspace*{0.20in}\it PCLATH\_ADDR  $\in$  \it ADDRESS  $\land$  \it PCLATH\_ADDR \rm = \rm 1\rm 0  $\land$   
+
+\hspace*{0.20in}\it INTCON\_ADDR  $\in$  \it ADDRESS  $\land$  \it INTCON\_ADDR \rm = \rm 1\rm 1  $\land$   
+
+\hspace*{0.20in}\it PIR1\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it PIR1\_ADDR \rm = \rm 1\rm 2  $\land$   
+
+\hspace*{0.20in}\it CMCON\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it CMCON\_ADDR \rm = \rm 1\rm 2\rm 7  $\land$   
+
+\hspace*{0.20in}\it TRISA\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it TRISA\_ADDR \rm = \rm 1\rm 3\rm 3  $\land$   
+
+\hspace*{0.20in}\it TRISB\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it TRISB\_ADDR \rm = \rm 1\rm 3\rm 4  $\land$   
+
+\hspace*{0.20in}\it PIE1\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it PIE1\_ADDR \rm = \rm 1\rm 4\rm 0  $\land$   
+
+\hspace*{0.20in}\it PCON\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it PCON\_ADDR \rm = \rm 1\rm 4\rm 2  $\land$   
+
+\hspace*{0.20in}\it LININTF\_ADDR  $\in$  \it ADDRESS  $\land$ \it LININTF\_ADDR \rm = \rm 1\rm 4\rm 4  $\land$   
+
+\hspace*{0.20in}\it VRCON\_ADDR  $\in$  \it ADDRESS  $\land$ \hspace*{0.25in}\it VRCON\_ADDR \rm = \rm 1\rm 5\rm 9  $\land$   
+
+\vspace*{4mm}
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it UNIMPLEMENTED\_LOCATIONS \rm = 
+
+\hspace*{0.40in}\rm 7 $\upto$ \rm 9  $\cup$ \hspace*{0.20in}\rm 1\rm 3 $\upto$ \rm 3\rm 0  $\cup$  \rm 1\rm 3\rm 5 $\upto$ \rm 1\rm 3\rm 7  $\cup$  \rm \{\rm 1\rm 4\rm 1\rm \}  $\cup$  \rm \{\rm 1\rm 4\rm 3\rm \}  $\cup$  \rm 1\rm 4\rm 5 $\upto$ \rm 1\rm 5\rm 8  $\cup$  \rm 1\rm 9\rm 2 $\upto$ \rm 2\rm 4\rm 0  $\land$ 
+
+\vspace*{4mm}
+\hspace*{0.20in}\it MAPPED\_REGISTERS  $\subseteq$  \it ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it MAPPED\_REGISTERS \rm = \rm \{ \it INDF\_ADDR\rm , \it STATUS\_ADDR\rm , \it FSR\_ADDR\rm , \it PCLATH\_ADDR\rm , \it INTCON\_ADDR \rm \}  $\land$ 
+
+\vspace*{4mm}
+\hspace*{0.20in}\it register\_addresses  $\in$  \it ADDRESS  $\fun$   $ \po1 $  \rm (\it ADDRESS\rm )  $\land$ 
+
+\hspace*{0.20in} $\forall$ \rm (\it ad\rm )\rm . \rm (\it ad  $\in$  \it ADDRESS  $\implies$ 
+
+\hspace*{0.40in}\rm (\rm (\it ad  $\not\in$  \it MAPPED\_REGISTERS  $\implies$  \it register\_addresses\rm (\it ad\rm ) \rm = \rm \{\it ad\rm \}\rm )  $\land$ 
+
+\hspace*{0.45in}\rm (\it ad  $\in$  \it MAPPED\_REGISTERS  $\implies$  \it register\_addresses\rm (\it ad\rm ) \rm = \rm \{\it ad\rm , \it ad \rm + \it BANK\_SIZE\rm \}\rm )\rm )\rm )  $\land$ 
+
+\vspace*{4mm}
+\hspace*{0.20in}\it IRP\_POS  $\in$  \it BYTE\_INDEX  $\land$  \it IRP\_POS \rm = \rm 7  $\land$ 
+
+\hspace*{0.20in}\it RP1\_POS  $\in$  \it BYTE\_INDEX  $\land$  \it RP1\_POS \rm = \rm 6  $\land$ 
+
+\hspace*{0.20in}\it RP0\_POS  $\in$  \it BYTE\_INDEX  $\land$  \it RP0\_POS \rm = \rm 5  $\land$ 
+
+\vspace*{4mm}
+\hspace*{0.20in}\it actual\_address  $\in$  \it ADDRESS  $\times$  \it FILE  $\fun$  \it ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it actual\_address \rm =
+
+\hspace*{0.40in} $\lambda$  \rm (\it ad\rm , \it fi\rm ) \rm . \rm (\it ad  $\in$  \it ADDRESS  $\land$  \it fi  $\in$  \it FILE  $\land$  \it ad  $\in$  \it register\_addresses \rm (\it INDF\_ADDR\rm )  $\mid$ 
+
+\hspace*{0.60in}\rm (\it fi\rm (\it STATUS\_ADDR\rm )\rm (\it RP0\_POS\rm ) $\times$ \rm 2$^{7}$\rm ) \rm + \rm (\it fi\rm (\it STATUS\_ADDR\rm )\rm (\it RP1\_POS\rm ) $\times$ \rm 2$^{8}$\rm ) \rm + \it bv\_to\_nat\rm (\it fi\rm (\it FSR\_ADDR\rm )\rm )\rm )  $\cup$ 
+
+\hspace*{0.40in} $\lambda$  \rm (\it ad\rm , \it fi\rm ) \rm . \rm (\it ad  $\in$  \it ADDRESS  $\land$  \it fi  $\in$  \it FILE  $\land$  \it ad  $\not\in$  \it register\_addresses \rm (\it INDF\_ADDR\rm )  $\mid$ 
+
+\hspace*{0.60in}\rm (\it fi\rm (\it STATUS\_ADDR\rm )\rm (\it IRP\_POS\rm ) $\times$ \rm 2$^{8}$\rm ) \rm + \it bv\_to\_nat \rm (\it fi\rm (\it FSR\_ADDR\rm )\rm )\rm )
+
+\vspace*{4mm}
+\bf VARIABLES
+
+\hspace*{0.20in}\it file
+
+\vspace*{4mm}
+\bf INVARIANT
+
+\hspace*{0.20in}\it file  $\in$  \it FILE  $\land$ 
+
+\hspace*{0.20in} $\forall$ \rm (\it ad\rm )\rm .\rm (\it ad  $\in$  \it UNIMPLEMENTED\_LOCATIONS  $\implies$  \it file\rm (\it ad\rm ) \rm = \it BYTE\_ZERO\rm )  $\land$ 
+
+\hspace*{0.20in} $\forall$ \rm (\it reg\rm )\rm .\rm (\it reg  $\in$  \it MAPPED\_REGISTERS  $\implies$  \it file\rm (\it reg\rm ) \rm = \it file\rm (\it reg\rm +\it BANK\_SIZE\rm )\rm )  $\land$ 
+
+\hspace*{0.20in}\it file\rm (\it STATUS\_ADDR\rm )\rm (\it IRP\_POS\rm ) \rm = \rm 0  $\land$ 
+
+\hspace*{0.20in}\it file\rm (\it STATUS\_ADDR\rm )\rm (\it RP1\_POS\rm ) \rm = \rm 0
+
+\vspace*{4mm}
+\bf ASSERTIONS
+
+\hspace*{0.20in}\it BANK\_SIZE \rm = \rm 1\rm 2\rm 8\rm ;
+
+\hspace*{0.20in}\it register\_addresses \rm (\it INDF\_ADDR\rm ) \rm = \rm \{\rm 0\rm , \rm 1\rm 2\rm 8\rm \}\rm ;
+
+\hspace*{0.20in}\it register\_addresses \rm (\it STATUS\_ADDR\rm ) \rm = \rm \{\rm 3\rm , \rm 1\rm 3\rm 1\rm \}\rm ;
+
+\hspace*{0.20in}\it register\_addresses \rm (\it FSR\_ADDR\rm ) \rm = \rm \{\rm 4\rm , \rm 1\rm 3\rm 2\rm \}\rm ;
+
+\hspace*{0.20in}\it register\_addresses \rm (\it PCLATH\_ADDR\rm ) \rm = \rm \{\rm 1\rm 0\rm , \rm 1\rm 3\rm 8\rm \}\rm ;
+
+\hspace*{0.20in}\it register\_addresses \rm (\it INTCON\_ADDR\rm ) \rm = \rm \{\rm 1\rm 1\rm , \rm 1\rm 3\rm 9\rm \}\rm ;
+
+\vspace*{4mm}
+\hspace*{0.20in}\bf dom\rm (\it file\rm ) \rm = \it ADDRESS\rm ;
+
+\hspace*{0.20in}\bf ran\rm (\it file\rm )  $\subseteq$  \it BYTE
+
+\vspace*{4mm}
+\bf INITIALISATION
+
+\hspace*{0.20in}\bf ANY \it random\rm , \it init\_status \bf WHERE
+
+\hspace*{0.40in}\it random  $\in$  \it FILE  $\land$ 
+
+\hspace*{0.40in}\it init\_status  $\in$  \it BYTE  $\land$ 
+
+\hspace*{0.40in}\it init\_status \rm (\it RP1\_POS\rm ) \rm = \rm 0
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.40in}\it file \rm := \it random  $\lover$  \rm \{ \it INDF\_ADDR  $\mapsto$  \it BYTE\_ZERO\rm ,
+
+\hspace*{1.00in}\it STATUS\_ADDR  $\mapsto$  \it init\_status\rm ,
+
+\hspace*{1.00in}\it INDF\_ADDR \rm + \rm 1\rm 2\rm 8  $\mapsto$  \it BYTE\_ZERO\rm ,
+
+\hspace*{1.00in}\it STATUS\_ADDR \rm + \rm 1\rm 2\rm 8  $\mapsto$  \it init\_status \rm \}
+
+\hspace*{0.80in} $\lover$  \rm (\it UNIMPLEMENTED\_LOCATIONS  $\times$  \rm \{ \it BYTE\_ZERO \rm \}\rm )
+
+\hspace*{0.20in}\bf END
+
+\bf END
+
+\newpage
+\end{sloppypar}\end{document}
