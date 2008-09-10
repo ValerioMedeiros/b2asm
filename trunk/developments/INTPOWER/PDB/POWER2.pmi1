@@ -1,0 +1,49 @@
+THEORY BalanceX IS
+  POWER2,9,7,0,2,0,0,0;
+  AssertionLemmas,9,7,0,2,0,0,0;
+  Initialisation,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  ph(2,8,!(nn,pp).(nn: INTEGER & nn<=2147483647 & (0<=2147483647+nn & -2147483647<=nn) & (pp: INTEGER & 0<=pp & pp<=2147483647) => (pp = 0 => nn**pp = 1 & nn**pp = 1) & (pp = 1 => nn**pp = nn & nn**pp = nn) & (2<=pp => nn**pp = nn*nn**(-1+pp) & nn**pp = nn*nn**(pp-1)))) & pr & pr & pr & pr & pr & pr & pr & pr;
+  ph(2,7,!(nn,pp).(nn: INTEGER & nn<=2147483647 & (0<=2147483647+nn & -2147483647<=nn) & (pp: INTEGER & 0<=pp & pp<=2147483647) => (pp = 0 => nn**pp = 1 & nn**pp = 1) & (pp = 1 => nn**pp = nn & nn**pp = nn) & (2<=pp => nn**pp = nn*nn**(-1+pp) & nn**pp = nn*nn**(pp-1)))) & pr & pr & pr & pr & pr & pr & pr & pr;
+  ph(2,6,!(nn,pp).(nn: INTEGER & nn<=2147483647 & (0<=2147483647+nn & -2147483647<=nn) & (pp: INTEGER & 0<=pp & pp<=2147483647) => (pp = 0 => nn**pp = 1 & nn**pp = 1) & (pp = 1 => nn**pp = nn & nn**pp = nn) & (2<=pp => nn**pp = nn*nn**(-1+pp) & nn**pp = nn*nn**(pp-1)))) & pr & pr & pr & pr & pr & pr & pr & pr;
+  ph(2,5,!(nn,pp).(nn: INTEGER & nn<=2147483647 & (0<=2147483647+nn & -2147483647<=nn) & (pp: INTEGER & 0<=pp & pp<=2147483647) => (pp = 0 => nn**pp = 1 & nn**pp = 1) & (pp = 1 => nn**pp = nn & nn**pp = nn) & (2<=pp => nn**pp = nn*nn**(-1+pp) & nn**pp = nn*nn**(pp-1)))) & pr & pr & pr & pr & pr & pr & pr & pr;
+  ph(2,4,!(nn,pp).(nn: INTEGER & nn<=2147483647 & (0<=2147483647+nn & -2147483647<=nn) & (pp: INTEGER & 0<=pp & pp<=2147483647) => (pp = 0 => nn**pp = 1 & nn**pp = 1) & (pp = 1 => nn**pp = nn & nn**pp = nn) & (2<=pp => nn**pp = nn*nn**(-1+pp) & nn**pp = nn*nn**(pp-1)))) & pr & pr & pr & pr & pr & pr & pr & ss & pr;
+  ph(2,3,!(nn,pp).(nn: INTEGER & nn<=2147483647 & (0<=2147483647+nn & -2147483647<=nn) & (pp: INTEGER & 0<=pp & pp<=2147483647) => (pp = 0 => nn**pp = 1 & nn**pp = 1) & (pp = 1 => nn**pp = nn & nn**pp = nn) & (2<=pp => nn**pp = nn*nn**(-1+pp) & nn**pp = nn*nn**(pp-1)))) & pr & pr & pr & pr & pr & pr & pr & ss & pr;
+  ph(2,_h,!(nn,pp).(nn: INTEGER & nn<=2147483647 & (0<=2147483647+nn & -2147483647<=nn) & (pp: INTEGER & 0<=pp & pp<=2147483647) => (pp = 0 => nn**pp = 1 & nn**pp = 1) & (pp = 1 => nn**pp = nn & nn**pp = nn) & (2<=pp => nn**pp = nn*nn**(-1+pp) & nn**pp = nn*nn**(pp-1)))) & ph(2,2,!(nn,pp).(nn: INTEGER & nn<=2147483647 & (0<=2147483647+nn & -2147483647<=nn) & (pp: INTEGER & 0<=pp & pp<=2147483647) => (pp = 0 => nn**pp = 1 & nn**pp = 1) & (pp = 1 => nn**pp = nn & nn**pp = nn) & (2<=pp => nn**pp = nn*nn**(-1+pp) & nn**pp = nn*nn**(pp-1)))) & pr & pr & pr & pr & pr & pr & pr & ss & pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK);
+  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+END
