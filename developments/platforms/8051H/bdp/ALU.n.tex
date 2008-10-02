@@ -1,0 +1,325 @@
+\documentstyle[11pt,supertabular]{article}
+\setlength{\topmargin}{13mm}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\setlength{\textheight}{225mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\textwidth}{160mm}
+
+
+\begin{document}
+\begin{sloppypar}
+
+% DEFINITION DES CARACTERES MATHEMATIQUES B
+%------------------------------------------
+\def\@setmcodes#1#2#3{{\count0=#1 \count1=#3
+	\loop \global\mathcode\count0=\count1 \ifnum \count0<#2
+	\advance\count0 by1 \advance\count1 by1 \repeat}}
+
+\@setmcodes{`A}{`Z}{"7441}
+\@setmcodes{`a}{`z}{"7461}
+
+\mathcode`\;="8000 % Makes ; active in math mode
+{\catcode`\;=\active \gdef;{\semicolon\;}}
+\mathchardef\semicolon="003B
+%    Nominal distance from top of paper to top of page
+\topmargin 0 pt
+\textheight 53\baselineskip
+
+%   Left margin on odd-numbered pages
+\oddsidemargin  0.15 in
+%   Left margin on even-numbered pages
+\evensidemargin 0.35 in
+%   Width of marginal notes.
+\marginparwidth 1 in
+%   Note that \oddsidemargin = \evensidemargin
+\oddsidemargin 0.25 in
+\evensidemargin 0.25 in
+\marginparwidth 0.75 in
+\textwidth 5.875 in % Width of text line.
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0ex}
+
+% DEFINITION DES FONTS
+%---------------------
+% The AMS extra symbol fonts are loaded.
+% Note: sometimes called euxm10
+\font\msx=msam10
+% Note: sometimes called euym10
+\font\msy=msbm10
+
+\newfam\msxfam \textfont\msxfam=\msx
+\newfam\msyfam \textfont\msyfam=\msy
+
+\def\famletter#1{\ifcase #1 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\edef\fx{\famletter\msxfam}
+\edef\fy{\famletter\msyfam}
+
+\def\bbold{\fam\msyfam \msy}
+
+% SYMBOLES B
+%-----------
+% makes a quoted expression in mathematical text
+\def\token#1{\hbox{`$#1$'}}
+% used for error messages in Z specs
+\def\report#1{\hbox{`{\tt #1}'}}
+
+% \@myop makes an operator, with a strut to defeat TeX's vertical adjustment.
+\def\@myop#1{\mathop{\mathstrut{#1}}\nolimits}
+
+% This underscore doesn't have the little kern --- you get an italic
+% correction anyway in math mode.
+\def\_{\leavevmode \vbox{\hrule width0.5em}}
+
+% Save \q as \xq for quantifiers q.
+\let\xforall=\forall
+\let\xexists=\exists
+\let\xlambda=\lambda
+\let\xmu=\mu
+
+% \p and \f make arrows with 1 and 2 crossings resp.
+\def\p#1{\mathrel{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\def\f#1{\mathrel{\ooalign{\hfil
+	$\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+
+\let\mc=\mathchardef
+
+\def	\pow		{\mbox{${\cal P}$}}
+\def	\po1		{\mbox{${\cal P}_1$}}
+\let	\cross		\times
+\def	\lambda		{\@myop{\xlambda}}
+\def	\lnot		{\neg\;}
+\def	\land		{\mathrel{\wedge}}
+\def	\lor		{\mathrel{\vee}}
+\let	\implies	\Rightarrow
+\let	\iff		\Leftrightarrow
+\def	\forall		{\@myop{\xforall}}
+\def	\exists		{\@myop{\xexists}}
+\def	\semi		{\mathrel{\comp}}
+\def	\ssemi		{\mathbin{\rm ;}}
+\let	\ensembleVide	\emptyset
+\let	\rel		\leftrightarrow
+\def	\dom		{\@myop{\sf dom}}
+\def	\ran		{\@myop{\sf ran}}
+\def	\id		{\@myop{\sf id}}
+\def	\comp		{\mathbin{\raise
+			0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle
+			\rm o$\hfil\cr\hfil$\scriptscriptstyle\rm 9$\hfil}}}}
+\def	\para		{\mbox{$\mid\mid$}}
+\mc	\dres		"2\fx43
+\mc	\rres		"2\fx42
+\def	\ndres		{\mathbin{{\dres} \llap{$-$}}}
+\def	\nrres		{\mathbin{{\rres}\llap{$-$}}}
+\def	\lover		{\mathbin{{\dres} \llap{$-\!\!\!\!-\!$}}}
+\def	\rover		{\mathbin{{\rres}\llap{$\!-\!\!\!-$}}}
+\let	\fun		\rightarrow
+\def	\pfun		{\p\fun}
+\def	\pinj		{\p\inj}
+\mc	\inj		"3\fx1A
+\def	\psurj		{\p\surj}
+\mc	\surj		"3\fx10
+\def	\bij		{\surj\!\!\!\!\!\!\!\inj}
+\def	\nat		{\mbox{${\cal N}$}}
+\def	\na1		{\mbox{${\cal N}_1$}}
+\def	\num		{\mbox{${\cal Z}$}}
+\def	\int		{\mbox{${\cal Z}$}}
+\def	\rat		{\mbox{${\cal Q}$}}
+\def	\div		{\mathbin{\rm /}}
+\def	\mod		{\mathbin{\bf mod}}
+\def	\upto		{\mathbin{\ldotp\ldotp}}
+\def	\finset		{\mbox{${\cal F}$}}
+\def	\finse1		{\mbox{${\cal F}_1$}}
+\def	\ffun		{\f\fun}
+\def	\finj		{\f\inj}
+\def	\seq		{\@myop{\rm seq}}
+\def	\cat		{\mathbin{\raise 0.8ex\hbox{$\mathchar"2\fx61$}}}
+\def	\sep		{\hspace*{.05in}}
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{0}
+
+%-------------------%
+% Debut du document %
+%-------------------%
+
+  
+
+\bf MACHINE
+
+\hspace*{0.10in}\it ALU
+
+\bf SEES
+
+\hspace*{0.10in}\it TYPES
+
+\bf CONSTANTS
+
+\hspace*{0.10in}\it parity\rm ,\it soma\rm ,\it bitget\rm ,\it bitset\rm ,\it bitclear\rm ,\it bitcomplement\rm ,\it bitput\rm ,\it pswcalc\rm ,\it accparity\rm ,\it add\rm ,\it diff\rm ,\it substract\rm ,\it and\rm ,\it ior\rm ,\it xor\rm ,\it \\complement\rm ,\it swap\rm ,\it rotateleft\rm ,\it rotateright
+
+\bf PROPERTIES
+
+\hspace*{0.10in}\it parity $\in$  \it WORD  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.10in} $\forall$ \it w1\rm .\rm (\it w1 $\in$  \it WORD  $\implies$  \it parity\rm (\it w1\rm ) \rm = \it BV8\_PAR\rm (\it WORD\_TO\_BV\rm (\it w1\rm )\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it soma $\in$  \it WORD $\times$ \it WORD  $\fun$  \it WORD $\times$ \it BIT  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it w1\rm ,\it w2\rm ,\it su\rm )\rm .\rm (\it w1 $\in$  \it WORD  $\land$  \it w2 $\in$  \it WORD  $\land$  \it su $\in$   $\nat$   $\land$  \it su \rm = \it w2\rm +\it w1  $\implies$  \rm (\it su $\leq$ \rm 2\rm 5\rm 5  $\implies$  \it soma\rm (\it w1\rm ,\it w2\rm ) \rm = \it su\rm ,\rm 0\rm )  $\land$  \rm (\it su $\geq$ \rm 2\rm 5\rm 6  $\implies$  \it soma\rm (\it w1\rm ,\it w2\rm ) \rm = \it su\rm -\rm 2\rm 5\rm 5\rm ,\rm 1\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it bitget $\in$  \it WORD $\times$ \it WORD\_POSITION  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it wd\rm ,\it ind\rm )\rm .\rm (\it wd $\in$  \it WORD  $\land$  \it ind $\in$  \it WORD\_POSITION  $\implies$  \it bitget\rm (\it wd\rm ,\it ind\rm ) \rm = \it WORD\_TO\_BV\rm (\it wd\rm )\rm (\it ind\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it bitset $\in$  \it WORD $\times$ \it WORD\_POSITION  $\fun$  \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it wd\rm ,\it ind\rm )\rm .\rm (\it wd $\in$  \it WORD  $\land$  \it ind $\in$  \it WORD\_POSITION  $\implies$  \it bitset\rm (\it wd\rm ,\it ind\rm ) \rm = \it BV\_TO\_WORD\rm (\it BV8\_SET\_BIT\rm (\it WORD\_TO\_BV\rm (\it wd\rm )\rm ,\it ind\rm ,\rm 1\rm )\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it bitclear $\in$  \it WORD $\times$ \it WORD\_POSITION  $\fun$  \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it wd\rm ,\it ind\rm ,\it bit\rm )\rm .\rm (\it wd $\in$  \it WORD  $\land$  \it ind $\in$  \it WORD\_POSITION  $\land$  \it bit $\in$  \it BIT  $\implies$  \it bitclear\rm (\it wd\rm ,\it ind\rm ) \rm = \it BV\_TO\_WORD\rm (\it BV8\_SET\_BIT\rm (\it WORD\_TO\_BV\rm (\it wd\rm )\rm ,\it ind\rm ,\rm 0\rm )\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it bitcomplement $\in$  \it WORD $\times$ \it WORD\_POSITION  $\fun$  \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it wd\rm ,\it ind\rm ,\it bit\rm )\rm .\rm (\it wd $\in$  \it WORD  $\land$  \it ind $\in$  \it WORD\_POSITION  $\land$  \it bit $\in$  \it BIT  $\land$  \it bit \rm = \it bitget\rm (\it wd\rm ,\it ind\rm )  $\implies$  \rm (\it bit \rm = \rm 1  $\implies$  \it bitcomplement\rm (\it wd\rm ,\it ind\rm ) \rm = \it bitclear\rm (\it wd\rm ,\it ind\rm )  $\land$  \it bit $\not =$ \rm 1  $\implies$  \it bitcomplement\rm (\it wd\rm ,\it ind\rm ) \rm = \it bitset\rm (\it wd\rm ,\it ind\rm )\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it bitput $\in$  \it WORD $\times$ \it WORD\_POSITION $\times$ \it BIT  $\fun$  \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it wd\rm ,\it ind\rm ,\it bit\rm )\rm .\rm (\it wd $\in$  \it WORD  $\land$  \it ind $\in$  \it WORD\_POSITION  $\land$  \it bit $\in$  \it BIT  $\implies$  \rm (\it bit \rm = \rm 0  $\implies$  \it bitput\rm (\it wd\rm ,\it ind\rm ,\it bit\rm ) \rm = \it bitclear\rm (\it wd\rm ,\it ind\rm )  $\land$  \it bit \rm = \rm 1  $\implies$  \it bitput\rm (\it wd\rm ,\it ind\rm ,\it bit\rm ) \rm = \it bitset\rm (\it wd\rm ,\it ind\rm )\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it pswcalc $\in$  \it WORD $\times$ \it WORD  $\fun$  \it BIT $\times$ \it BIT $\times$ \it BIT $\times$ \it BIT $\times$ \it BIT  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it psw\rm ,\it acc\rm ,\it psw\_new\rm )\rm .\rm (\it psw $\in$  \it WORD  $\land$  \it acc $\in$  \it WORD  $\land$  \it psw\_new $\in$  \it BV8  $\land$  \it psw\_new\rm (\rm 0\rm ) \rm = \it parity\rm (\it acc\rm )  $\land$  \it psw\_new\rm (\rm 1\rm ) \rm = \it bitget\rm (\it psw\rm ,\rm 1\rm )  $\land$  \it psw\_new\rm (\rm 3\rm ) \rm = \it bitget\rm (\it psw\rm ,\rm 3\rm )  $\land$  \it psw\_new\rm (\rm 4\rm ) \rm = \it bitget\rm (\it psw\rm ,\rm 4\rm )  $\land$  \it psw\_new\rm (\rm 5\rm ) \rm = \it bitget\rm (\it psw\rm ,\rm 5\rm )  $\implies$  \it pswcalc\rm (\it psw\rm ,\it acc\rm ) \rm = \it psw\_new\rm (\rm 0\rm )\rm ,\it psw\_new\rm (\rm 1\rm )\rm ,\it psw\_new\rm (\rm 3\rm )\rm ,\it psw\_new\rm (\rm 4\rm )\rm ,\it psw\_new\rm (\rm 5\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it accparity $\in$  \it WORD $\times$ \it WORD  $\fun$  \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it psw\rm ,\it acc\rm ,\it psw\_new\rm )\rm .\rm (\it psw $\in$  \it WORD  $\land$  \it psw\_new $\in$  \it BV8  $\land$  \it acc $\in$  \it WORD  $\land$  \it psw\_new\rm (\rm 0\rm )\rm ,\it psw\_new\rm (\rm 1\rm )\rm ,\it psw\_new\rm (\rm 3\rm )\rm ,\it psw\_new\rm (\rm 4\rm )\rm ,\it psw\_new\rm (\rm 5\rm ) \rm = \it pswcalc\rm (\it psw\rm ,\it acc\rm )  $\land$  \it psw\_new\rm (\rm 6\rm ) \rm = \it bitget\rm (\it psw\rm ,\rm 6\rm )  $\land$  \it psw\_new\rm (\rm 7\rm ) \rm = \it bitget\rm (\it psw\rm ,\rm 7\rm )  $\implies$  \it accparity\rm (\it acc\rm ,\it psw\rm ) \rm = \it BV\_TO\_WORD\rm (\it psw\_new\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it add $\in$  \it WORD $\times$ \it WORD $\times$ \it WORD  $\fun$  \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it ac\rm ,\it w2\rm ,\it psw\rm ,\it sun\rm ,\it psw\_new\rm )\rm .\rm (\it ac $\in$  \it WORD  $\land$  \it sun $\in$  \it WORD  $\land$  \it w2 $\in$  \it WORD  $\land$  \it psw $\in$  \it WORD  $\land$  \it psw\_new $\in$  \it BV8  $\land$  \it psw\_new\rm (\rm 6\rm ) \rm = \it BV8\_ADD\_AUX\_CARRY\rm (\it WORD\_TO\_BV\rm (\it ac\rm )\rm ,\it WORD\_TO\_BV\rm (\it w2\rm )\rm )  $\land$  \it sun\rm ,\it psw\_new\rm (\rm 7\rm ) \rm = \it soma\rm (\it ac\rm ,\it w2\rm )  $\land$  \it psw\_new\rm (\rm 0\rm )\rm ,\it psw\_new\rm (\rm 1\rm )\rm ,\it psw\_new\rm (\rm 3\rm )\rm ,\it psw\_new\rm (\rm 4\rm )\rm ,\it psw\_new\rm (\rm 5\rm ) \rm = \it pswcalc\rm (\it psw\rm ,\it sun\rm )  $\implies$  \it add\rm (\it ac\rm ,\it w2\rm ,\it psw\rm ) \rm = \it sun\rm ,\it BV\_TO\_WORD\rm (\it psw\_new\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it diff $\in$  \it WORD $\times$ \it WORD $\times$ \it BIT  $\fun$  \it WORD $\times$ \it BIT  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it ac\rm ,\it wd\rm ,\it ca\rm ,\it df\rm )\rm .\rm (\it ac $\in$  \it WORD  $\land$  \it wd $\in$  \it WORD  $\land$  \it ca $\in$  \it BIT  $\land$  \it df $\in$   $\int$   $\land$  \it df \rm = \it ac\rm -\rm (\it wd\rm +\it ca\rm )  $\implies$  \rm (\it df$<$\rm 0  $\implies$  \it diff\rm (\it ac\rm ,\it wd\rm ,\it ca\rm ) \rm = \it df\rm +\rm 2\rm 5\rm 5\rm ,\rm 1\rm )  $\land$  \rm (\it df $\geq$ \rm 0  $\implies$  \it diff\rm (\it ac\rm ,\it wd\rm ,\it ca\rm ) \rm = \it df\rm ,\rm 1\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it substract $\in$  \it WORD $\times$ \it WORD $\times$ \it WORD  $\fun$  \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it ac\rm ,\it w2\rm ,\it psw\rm ,\it psw\_new\rm ,\it df\rm )\rm .\rm (\it ac $\in$  \it WORD  $\land$  \it w2 $\in$  \it WORD  $\land$  \it psw $\in$  \it WORD  $\land$  \it psw\_new $\in$  \it BV8  $\land$  \it df $\in$  \it WORD  $\land$  \it psw\_new\rm (\rm 2\rm ) \rm = \it OVERFLOW\_SUB\rm (\it WORD\_TO\_COMP2\rm (\it ac\rm )\rm ,\it WORD\_TO\_COMP2\rm (\it w2\rm )\rm ,\it bitget\rm (\it psw\rm ,\rm 7\rm )\rm )  $\land$  \it psw\_new\rm (\rm 6\rm ) \rm = \it BV8\_SUB\_AUX\_CARRY\rm (\it WORD\_TO\_BV\rm (\it ac\rm )\rm ,\it WORD\_TO\_BV\rm (\it w2\rm )\rm ,\it bitget\rm (\it psw\rm ,\rm 7\rm )\rm )  $\land$  \it psw\_new\rm (\rm 7\rm )\rm ,\it df \rm = \it diff\rm (\it ac\rm ,\it w2\rm ,\it bitget\rm (\it psw\rm ,\rm 7\rm )\rm )  $\land$  \it psw\_new\rm (\rm 0\rm )\rm ,\it psw\_new\rm (\rm 1\rm )\rm ,\it psw\_new\rm (\rm 3\rm )\rm ,\it psw\_new\rm (\rm 4\rm )\rm ,\it psw\_new\rm (\rm 5\rm ) \rm = \it pswcalc\rm (\it psw\rm ,\it df\rm )  $\implies$  \it substract\rm (\it ac\rm ,\it w2\rm ,\it psw\rm ) \rm = \it df\rm ,\it BV\_TO\_WORD\rm (\it psw\_new\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it and $\in$  \it WORD $\times$ \it WORD  $\fun$  \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it w1\rm ,\it w2\rm ,\it wd\rm )\rm .\rm (\it w1 $\in$  \it WORD  $\land$  \it w2 $\in$  \it WORD  $\land$  \it wd $\in$  \it WORD  $\land$  \it wd \rm = \it BV\_TO\_WORD\rm (\it BV8\_AND\rm (\it WORD\_TO\_BV\rm (\it w1\rm )\rm ,\it WORD\_TO\_BV\rm (\it w2\rm )\rm )\rm )  $\implies$  \it and\rm (\it w1\rm ,\it w2\rm ) \rm = \it wd\rm )  $\land$ 
+
+\hspace*{0.10in}\it ior $\in$  \it WORD $\times$ \it WORD  $\fun$  \it WORD $\times$ \bf BOOL  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it w1\rm ,\it w2\rm ,\it wd\rm )\rm .\rm (\it w1 $\in$  \it WORD  $\land$  \it w2 $\in$  \it WORD  $\land$  \it wd $\in$  \it WORD  $\land$  \it wd \rm = \it BV\_TO\_WORD\rm (\it BV8\_IOR\rm (\it WORD\_TO\_BV\rm (\it w1\rm )\rm ,\it WORD\_TO\_BV\rm (\it w2\rm )\rm )\rm )  $\implies$  \it ior\rm (\it w1\rm ,\it w2\rm ) \rm = \it wd\rm ,\bf bool\rm (\it wd \rm = \rm 0\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it xor $\in$  \it WORD $\times$ \it WORD  $\fun$  \it WORD $\times$ \bf BOOL  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it w1\rm ,\it w2\rm ,\it wd\rm )\rm .\rm (\it w1 $\in$  \it WORD  $\land$  \it w2 $\in$  \it WORD  $\land$  \it wd $\in$  \it WORD  $\land$  \it wd \rm = \it BV\_TO\_WORD\rm (\it BV8\_XOR\rm (\it WORD\_TO\_BV\rm (\it w1\rm )\rm ,\it WORD\_TO\_BV\rm (\it w2\rm )\rm )\rm )  $\implies$  \it xor\rm (\it w1\rm ,\it w2\rm ) \rm = \it wd\rm ,\bf bool\rm (\it wd \rm = \rm 0\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it complement $\in$  \it WORD  $\fun$  \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \it wd\rm .\rm (\it wd $\in$  \it WORD  $\implies$  \it complement\rm (\it wd\rm ) \rm = \it BV\_TO\_WORD\rm (\it BV8\_COMPLEMENT\rm (\it WORD\_TO\_BV\rm (\it wd\rm )\rm )\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it swap $\in$  \it WORD  $\fun$  \it WORD  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it wd\rm ,\it bv\rm )\rm .\rm (\it wd $\in$  \it WORD  $\land$  \it bv $\in$  \it BV8  $\implies$  \rm (\it bv \rm = \it WORD\_TO\_BV\rm (\it wd\rm )  $\implies$  \it swap\rm (\it wd\rm ) \rm = \it BV\_TO\_WORD\rm (\rm \{\rm 0 $\mapsto$ \it bv\rm (\rm 4\rm )\rm ,\rm 1 $\mapsto$ \it bv\rm (\rm 5\rm )\rm ,\rm 2 $\mapsto$ \it bv\rm (\rm 6\rm )\rm ,\rm 3 $\mapsto$ \it bv\rm (\rm 7\rm )\rm ,\rm 4 $\mapsto$ \it bv\rm (\rm 0\rm )\rm ,\rm 5 $\mapsto$ \it bv\rm (\rm 1\rm )\rm ,\rm 6 $\mapsto$ \it bv\rm (\rm 2\rm )\rm ,\rm 7 $\mapsto$ \it bv\rm (\rm 3\rm )\rm \}\rm )\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it rotateleft $\in$  \it WORD  $\fun$  \it WORD $\times$ \bf BOOL  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it wd\rm ,\it bv\rm )\rm .\rm (\it wd $\in$  \it WORD  $\land$  \it bv $\in$  \it BV8  $\implies$  \rm (\it bv \rm = \it WORD\_TO\_BV\rm (\it wd\rm )  $\implies$  \it rotateleft\rm (\it wd\rm ) \rm = \it BV\_TO\_WORD\rm (\rm \{\rm 0 $\mapsto$ \it bv\rm (\rm 7\rm )\rm ,\rm 1 $\mapsto$ \it bv\rm (\rm 0\rm )\rm ,\rm 2 $\mapsto$ \it bv\rm (\rm 1\rm )\rm ,\rm 3 $\mapsto$ \it bv\rm (\rm 2\rm )\rm ,\rm 4 $\mapsto$ \it bv\rm (\rm 3\rm )\rm ,\rm 5 $\mapsto$ \it bv\rm (\rm 4\rm )\rm ,\rm 6 $\mapsto$ \it bv\rm (\rm 5\rm )\rm ,\rm 7 $\mapsto$ \it bv\rm (\rm 6\rm )\rm \}\rm )\rm ,\bf bool\rm (\it bv\rm (\rm 7\rm ) \rm = \rm 1\rm )\rm )\rm )  $\land$ 
+
+\hspace*{0.10in}\it rotateright $\in$  \it WORD  $\fun$  \it WORD $\times$ \bf BOOL  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it wd\rm ,\it bv\rm )\rm .\rm (\it wd $\in$  \it WORD  $\land$  \it bv $\in$  \it BV8  $\implies$  \rm (\it bv \rm = \it WORD\_TO\_BV\rm (\it wd\rm )  $\implies$  \it rotateright\rm (\it wd\rm ) \rm = \it BV\_TO\_WORD\rm (\rm \{\rm 0 $\mapsto$ \it bv\rm (\rm 1\rm )\rm ,\rm 1 $\mapsto$ \it bv\rm (\rm 2\rm )\rm ,\rm 2 $\mapsto$ \it bv\rm (\rm 3\rm )\rm ,\rm 3 $\mapsto$ \it bv\rm (\rm 4\rm )\rm ,\rm 4 $\mapsto$ \it bv\rm (\rm 5\rm )\rm ,\rm 5 $\mapsto$ \it bv\rm (\rm 6\rm )\rm ,\rm 6 $\mapsto$ \it bv\rm (\rm 7\rm )\rm ,\rm 7 $\mapsto$ \it bv\rm (\rm 0\rm )\rm \}\rm )\rm ,\bf bool\rm (\it bv\rm (\rm 0\rm ) \rm = \rm 1\rm )\rm )\rm )   
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}
+
+\bf ASSERTIONS
+
+\hspace*{0.10in}\bf dom\rm (\it parity\rm ) \rm = \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it parity\rm )  $\subseteq$  \it BIT  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it soma\rm ) \rm = \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it soma\rm )  $\subseteq$  \it WORD $\times$ \it BIT  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it bitget\rm ) \rm = \it WORD $\times$ \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it bitget\rm )  $\subseteq$  \it BIT  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it bitset\rm ) \rm = \it WORD $\times$ \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it bitset\rm )  $\subseteq$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it bitclear\rm ) \rm = \it WORD $\times$ \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it bitclear\rm )  $\subseteq$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it bitcomplement\rm ) \rm = \it WORD $\times$ \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it bitcomplement\rm )  $\subseteq$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it bitput\rm ) \rm = \it WORD $\times$ \it WORD\_POSITION $\times$ \it BIT  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it bitput\rm )  $\subseteq$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it pswcalc\rm ) \rm = \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it pswcalc\rm )  $\subseteq$  \it BIT $\times$ \it BIT $\times$ \it BIT $\times$ \it BIT $\times$ \it BIT  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it accparity\rm ) \rm = \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it accparity\rm )  $\subseteq$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it add\rm ) \rm = \it WORD $\times$ \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it add\rm )  $\subseteq$  \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it diff\rm ) \rm = \it WORD $\times$ \it WORD $\times$ \it BIT  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it diff\rm )  $\subseteq$  \it WORD $\times$ \it BIT  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it substract\rm ) \rm = \it WORD $\times$ \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it substract\rm )  $\subseteq$  \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it and\rm ) \rm = \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it and\rm )  $\subseteq$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it ior\rm ) \rm = \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it ior\rm )  $\subseteq$  \it WORD $\times$ \bf BOOL  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it xor\rm ) \rm = \it WORD $\times$ \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it xor\rm )  $\subseteq$  \it WORD $\times$ \bf BOOL  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it complement\rm ) \rm = \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it complement\rm )  $\subseteq$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it swap\rm ) \rm = \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it swap\rm )  $\subseteq$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it rotateleft\rm )  $\subseteq$  \it WORD $\times$ \bf BOOL  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it rotateleft\rm ) \rm = \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf dom\rm (\it rotateright\rm ) \rm = \it WORD  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it rotateright\rm )  $\subseteq$  \it WORD $\times$ \bf BOOL
+
+\bf END
+
+\newpage
+\end{sloppypar}\end{document}

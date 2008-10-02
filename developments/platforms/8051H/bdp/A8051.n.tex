@@ -1,0 +1,1515 @@
+\documentstyle[11pt,supertabular]{article}
+\setlength{\topmargin}{13mm}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\setlength{\textheight}{225mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\textwidth}{160mm}
+\input{psfig}
+
+\begin{document}
+\begin{sloppypar}
+
+% DEFINITION DES CARACTERES MATHEMATIQUES B
+%------------------------------------------
+\def\@setmcodes#1#2#3{{\count0=#1 \count1=#3
+	\loop \global\mathcode\count0=\count1 \ifnum \count0<#2
+	\advance\count0 by1 \advance\count1 by1 \repeat}}
+
+\@setmcodes{`A}{`Z}{"7441}
+\@setmcodes{`a}{`z}{"7461}
+
+\mathcode`\;="8000 % Makes ; active in math mode
+{\catcode`\;=\active \gdef;{\semicolon\;}}
+\mathchardef\semicolon="003B
+%    Nominal distance from top of paper to top of page
+\topmargin 0 pt
+\textheight 53\baselineskip
+
+%   Left margin on odd-numbered pages
+\oddsidemargin  0.15 in
+%   Left margin on even-numbered pages
+\evensidemargin 0.35 in
+%   Width of marginal notes.
+\marginparwidth 1 in
+%   Note that \oddsidemargin = \evensidemargin
+\oddsidemargin 0.25 in
+\evensidemargin 0.25 in
+\marginparwidth 0.75 in
+\textwidth 5.875 in % Width of text line.
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0ex}
+
+% DEFINITION DES FONTS
+%---------------------
+% The AMS extra symbol fonts are loaded.
+% Note: sometimes called euxm10
+\font\msx=msam10
+% Note: sometimes called euym10
+\font\msy=msbm10
+
+\newfam\msxfam \textfont\msxfam=\msx
+\newfam\msyfam \textfont\msyfam=\msy
+
+\def\famletter#1{\ifcase #1 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\edef\fx{\famletter\msxfam}
+\edef\fy{\famletter\msyfam}
+
+\def\bbold{\fam\msyfam \msy}
+
+% SYMBOLES B
+%-----------
+% makes a quoted expression in mathematical text
+\def\token#1{\hbox{`$#1$'}}
+% used for error messages in Z specs
+\def\report#1{\hbox{`{\tt #1}'}}
+
+% \@myop makes an operator, with a strut to defeat TeX's vertical adjustment.
+\def\@myop#1{\mathop{\mathstrut{#1}}\nolimits}
+
+% This underscore doesn't have the little kern --- you get an italic
+% correction anyway in math mode.
+\def\_{\leavevmode \vbox{\hrule width0.5em}}
+
+% Save \q as \xq for quantifiers q.
+\let\xforall=\forall
+\let\xexists=\exists
+\let\xlambda=\lambda
+\let\xmu=\mu
+
+% \p and \f make arrows with 1 and 2 crossings resp.
+\def\p#1{\mathrel{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\def\f#1{\mathrel{\ooalign{\hfil
+	$\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+
+\let\mc=\mathchardef
+
+\def	\pow		{\mbox{${\cal P}$}}
+\def	\po1		{\mbox{${\cal P}_1$}}
+\let	\cross		\times
+\def	\lambda		{\@myop{\xlambda}}
+\def	\lnot		{\neg\;}
+\def	\land		{\mathrel{\wedge}}
+\def	\lor		{\mathrel{\vee}}
+\let	\implies	\Rightarrow
+\let	\iff		\Leftrightarrow
+\def	\forall		{\@myop{\xforall}}
+\def	\exists		{\@myop{\xexists}}
+\def	\semi		{\mathrel{\comp}}
+\def	\ssemi		{\mathbin{\rm ;}}
+\let	\ensembleVide	\emptyset
+\let	\rel		\leftrightarrow
+\def	\dom		{\@myop{\sf dom}}
+\def	\ran		{\@myop{\sf ran}}
+\def	\id		{\@myop{\sf id}}
+\def	\comp		{\mathbin{\raise
+			0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle
+			\rm o$\hfil\cr\hfil$\scriptscriptstyle\rm 9$\hfil}}}}
+\def	\para		{\mbox{$\mid\mid$}}
+\mc	\dres		"2\fx43
+\mc	\rres		"2\fx42
+\def	\ndres		{\mathbin{{\dres} \llap{$-$}}}
+\def	\nrres		{\mathbin{{\rres}\llap{$-$}}}
+\def	\lover		{\mathbin{{\dres} \llap{$-\!\!\!\!-\!$}}}
+\def	\rover		{\mathbin{{\rres}\llap{$\!-\!\!\!-$}}}
+\let	\fun		\rightarrow
+\def	\pfun		{\p\fun}
+\def	\pinj		{\p\inj}
+\mc	\inj		"3\fx1A
+\def	\psurj		{\p\surj}
+\mc	\surj		"3\fx10
+\def	\bij		{\surj\!\!\!\!\!\!\!\inj}
+\def	\nat		{\mbox{${\cal N}$}}
+\def	\na1		{\mbox{${\cal N}_1$}}
+\def	\num		{\mbox{${\cal Z}$}}
+\def	\int		{\mbox{${\cal Z}$}}
+\def	\rat		{\mbox{${\cal Q}$}}
+\def	\div		{\mathbin{\rm /}}
+\def	\mod		{\mathbin{\bf mod}}
+\def	\upto		{\mathbin{\ldotp\ldotp}}
+\def	\finset		{\mbox{${\cal F}$}}
+\def	\finse1		{\mbox{${\cal F}_1$}}
+\def	\ffun		{\f\fun}
+\def	\finj		{\f\inj}
+\def	\seq		{\@myop{\rm seq}}
+\def	\cat		{\mathbin{\raise 0.8ex\hbox{$\mathchar"2\fx61$}}}
+\def	\sep		{\hspace*{.05in}}
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{0}
+
+%-------------------%
+% Debut du document %
+%-------------------%
+
+\bf MACHINE
+
+\hspace*{0.10in}\it A8051
+
+\bf SEES
+
+\hspace*{0.10in}\it TYPES\rm ,\it ALU\rm ,\it MEMORY
+
+\bf CONCRETE\_VARIABLES
+
+\hspace*{0.10in}\it mem\rm ,\it pc
+
+\bf INVARIANT
+
+\hspace*{0.10in}\it mem $\in$  \it MEM\_ADDR  $\pfun$  \it WORD  $\land$ 
+
+\hspace*{0.10in}\it pc $\in$  \it INSTRUCTION  $\land$ 
+
+\hspace*{0.10in}\it bitget\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 0\rm ) \rm = \it parity\rm (\it mem\rm (\it ACC\rm )\rm )
+
+\bf CONSTANTS
+
+\hspace*{0.10in}\it bitjump
+
+\bf PROPERTIES
+
+\hspace*{0.10in}\it bitjump $\in$  \it BIT $\times$ \it BIT $\times$ \it WORD $\times$ \it INSTRUCTION  $\fun$  \it INSTRUCTION  $\land$ 
+
+\hspace*{0.10in} $\forall$ \rm (\it bit\rm ,\it test\rm ,\it jump\rm ,\it pc\rm )\rm .\rm (\it bit $\in$  \it BIT  $\land$  \it test $\in$  \it BIT  $\land$  \it pc $\in$  \it INSTRUCTION  $\land$  \it jump $\in$  \it INSTRUCTION  $\implies$  \rm (\it bit \rm = \it test  $\implies$  \it bitjump\rm (\it bit\rm ,\it test\rm ,\it jump\rm ,\it pc\rm ) \rm = \it INSTRUCTION\_IJUMP\rm (\it pc\rm ,\it jump\rm )  $\land$  \it bit $\not =$ \it test  $\implies$  \it bitjump\rm (\it bit\rm ,\it test\rm ,\it jump\rm ,\it pc\rm ) \rm = \it INSTRUCTION\_NEXT\rm (\it pc\rm )\rm )\rm )
+
+\bf ASSERTIONS
+
+\hspace*{0.10in}\bf dom\rm (\it bitjump\rm ) \rm = \it BIT $\times$ \it BIT $\times$ \it WORD $\times$ \it INSTRUCTION  $\land$ 
+
+\hspace*{0.10in}\bf ran\rm (\it bitjump\rm ) \rm = \it INSTRUCTION
+
+\bf INITIALISATION
+
+\hspace*{0.10in}\it mem $:\in$  \it MEM\_ADDR  $\surj$  \it WORD  $\para$ 
+
+\hspace*{0.10in}\it pc\rm :=\rm 0
+
+\bf OPERATIONS
+
+\hspace*{0.10in}  
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}\bf INIT \rm = \bf BEGIN
+
+\hspace*{0.20in}\it pc\rm :=\rm 0
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}  
+
+\hspace*{0.10in}\bf CJNE\rm (\it addr\rm ,\it data\rm ,\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it data $\in$  \it WORD  $\land$ 
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf IF  $\neg$ \rm (\it mem\rm (\it addr\rm ) \rm = \it data\rm ) \bf THEN
+
+\hspace*{0.30in}\bf BEGIN
+
+\hspace*{0.40in}\bf IF \it mem\rm (\it addr\rm )$<$\it data \bf THEN
+
+\hspace*{0.50in}\bf mem\rm (\it PSW\rm )\rm :=\it bitset\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.40in}\bf ELSE
+
+\hspace*{0.50in}\bf mem\rm (\it PSW\rm )\rm :=\it bitclear\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.40in}\bf END
+
+\hspace*{0.30in}\bf END  $\para$ 
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_IJUMP\rm (\it pc\rm ,\it jump\rm )
+
+\hspace*{0.20in}\bf ELSE
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}  
+
+\hspace*{0.10in}\bf CJNEI\rm (\it Rn\rm ,\it data\rm ,\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it Rn $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it Rn \rm = \it R1  $\lor$  \it Rn \rm = \it R2\rm )  $\land$ 
+
+\hspace*{0.20in}\it data $\in$  \it WORD  $\land$ 
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it Rn\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it addr \rm = \it mem\rm (\it Rn\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF  $\neg$ \rm (\it mem\rm (\it addr\rm ) \rm = \it data\rm ) \bf THEN
+
+\hspace*{0.40in}\bf BEGIN
+
+\hspace*{0.50in}\bf IF \it mem\rm (\it addr\rm )$<$\it data \bf THEN
+
+\hspace*{0.60in}\bf mem\rm (\it PSW\rm )\rm :=\it bitset\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.50in}\bf ELSE
+
+\hspace*{0.60in}\bf mem\rm (\it PSW\rm )\rm :=\it bitclear\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.50in}\bf END
+
+\hspace*{0.40in}\bf END  $\para$ 
+
+\hspace*{0.40in}\it pc\rm :=\it INSTRUCTION\_IJUMP\rm (\it pc\rm ,\it jump\rm )
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf CJNEM\rm (\it dest\rm ,\it src\rm ,\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it dest $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it src $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf IF  $\neg$ \rm (\it mem\rm (\it dest\rm ) \rm = \it mem\rm (\it src\rm )\rm ) \bf THEN
+
+\hspace*{0.30in}\bf BEGIN
+
+\hspace*{0.40in}\bf IF \it mem\rm (\it dest\rm )$<$\it mem\rm (\it src\rm ) \bf THEN
+
+\hspace*{0.50in}\bf mem\rm (\it PSW\rm )\rm :=\it bitset\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.40in}\bf ELSE
+
+\hspace*{0.50in}\bf mem\rm (\it PSW\rm )\rm :=\it bitclear\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.40in}\bf END
+
+\hspace*{0.30in}\bf END  $\para$ 
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_IJUMP\rm (\it pc\rm ,\it jump\rm )
+
+\hspace*{0.20in}\bf ELSE
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf SJMP\rm (\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_IJUMP\rm (\it pc\rm ,\it jump\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf AJMP\rm (\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\it pc\rm :=\it jump
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in} 
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}  
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}\bf MOV\rm (\it dest\rm ,\it data\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it dest $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it data $\in$  \it WORD
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf IF \it dest \rm = \it ACC \bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it dest $\mapsto$ \it data\rm ,\it PSW $\mapsto$ \it accparity\rm (\it data\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.20in}\bf ELSE
+
+\hspace*{0.30in}\bf mem\rm (\it dest\rm )\rm :=\it data
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf MOVI\rm (\it Rn\rm ,\it data\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it Rn $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it Rn \rm = \it R1  $\lor$  \it Rn \rm = \it R2\rm )  $\land$ 
+
+\hspace*{0.20in}\it data $\in$  \it WORD  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it Rn\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it dest \bf WHERE
+
+\hspace*{0.30in}\it dest $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it dest \rm = \it mem\rm (\it Rn\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf mem\rm (\it dest\rm )\rm :=\it data  $\para$ 
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf MOVM\rm (\it dest\rm ,\it src\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it src $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it dest $\in$  \it MEM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf IF \it dest \rm = \it ACC \bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it mem\rm (\it src\rm )\rm ,\it PSW $\mapsto$ \it accparity\rm (\it mem\rm (\it src\rm )\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.20in}\bf ELSE
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it dest $\mapsto$ \it mem\rm (\it src\rm )\rm \}
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf MOVMI\rm (\it dest\rm ,\it Rn\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it dest $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it Rn $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it Rn \rm = \it R1  $\lor$  \it Rn \rm = \it R0\rm )  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it Rn\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it src \bf WHERE
+
+\hspace*{0.30in}\it src $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it src \rm = \it mem\rm (\it Rn\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it dest \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it mem\rm (\it src\rm )\rm ,\it PSW $\mapsto$ \it accparity\rm (\it mem\rm (\it src\rm )\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it dest $\mapsto$ \it mem\rm (\it src\rm )\rm \}
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf MOVIM\rm (\it Rn\rm ,\it src\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it Rn $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it src $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it Rn \rm = \it R1  $\lor$  \it Rn \rm = \it R2\rm )  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it Rn\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it dest \bf WHERE
+
+\hspace*{0.30in}\it dest $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it dest \rm = \it mem\rm (\it Rn\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it dest \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it mem\rm (\it src\rm )\rm ,\it PSW $\mapsto$ \it accparity\rm (\it mem\rm (\it src\rm )\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it dest $\mapsto$ \it mem\rm (\it src\rm )\rm \}
+
+\hspace*{0.30in}\bf END  $\para$ 
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf MOVB\rm (\it dest\rm ,\it src\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it dest $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it src $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\rm (\it dest \rm = \it CY  $\lor$  \it src \rm = \it CY\rm )
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr1\rm ,\it addr2\rm ,\it p1\rm ,\it p2\rm ,\it bit\rm ,\it data \bf WHERE
+
+\hspace*{0.30in}\it addr1 $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it addr2 $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it p1 $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it data $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it p2 $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it addr1\rm ,\it p1 \rm = \it dest  $\land$ 
+
+\hspace*{0.30in}\it addr2\rm ,\it p2 \rm = \it src  $\land$ 
+
+\hspace*{0.30in}\it bit \rm = \it bitget\rm (\it mem\rm (\it addr2\rm )\rm ,\it p2\rm )  $\land$ 
+
+\hspace*{0.30in}\it data $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it data \rm = \it bitput\rm (\it mem\rm (\it addr1\rm )\rm ,\it p1\rm ,\it bit\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it addr1 \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it data\rm ,\it PSW $\mapsto$ \it accparity\rm (\it data\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it addr1\rm )\rm :=\it data
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in} 
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}  
+
+\hspace*{0.10in}\bf ANL\rm (\it addr\rm ,\it data\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it data $\in$  \it WORD
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result \rm = \it and\rm (\it mem\rm (\it addr\rm )\rm ,\it data\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it addr \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it accparity\rm (\it result\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it addr\rm )\rm :=\it result
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf ANLI\rm (\it Rn\rm ,\it data\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it Rn $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it Rn \rm = \it R1  $\lor$  \it Rn \rm = \it R2\rm )  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it Rn\rm ) $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it data $\in$  \it WORD
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it addr \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it addr $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it addr \rm = \it mem\rm (\it Rn\rm )  $\land$ 
+
+\hspace*{0.30in}\it result \rm = \it and\rm (\it mem\rm (\it addr\rm )\rm ,\it data\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf mem\rm (\it addr\rm )\rm :=\it result
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf ANLM\rm (\it dest\rm ,\it src\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it dest $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it src $\in$  \it MEM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result \rm = \it and\rm (\it mem\rm (\it dest\rm )\rm ,\it mem\rm (\it src\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it dest \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it accparity\rm (\it result\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it dest\rm )\rm :=\it result
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf ANLMI\rm (\it dest\rm ,\it Rn\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it dest $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it Rn $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it Rn \rm = \it R1  $\lor$  \it Rn \rm = \it R2\rm )  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it Rn\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it src \bf WHERE
+
+\hspace*{0.30in}\it src $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it src \rm = \it mem\rm (\it Rn\rm )  $\land$ 
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result \rm = \it and\rm (\it mem\rm (\it dest\rm )\rm ,\it mem\rm (\it src\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it dest \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it accparity\rm (\it result\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it dest\rm )\rm :=\it result
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf ANLB\rm (\it ca\rm ,\it bit\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it bit $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it ca $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it ca \rm = \it CC
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps\rm ,\it bt \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it bit  $\land$ 
+
+\hspace*{0.30in}\it bt $\in$  \it BIT  $\land$ 
+
+\hspace*{0.30in}\it bt \rm = \it bitget\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it bt \rm = \rm 0 \bf THEN
+
+\hspace*{0.40in}\bf mem\rm (\it PSW\rm )\rm :=\it bitset\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it PSW\rm )\rm :=\it bitclear\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf ANLBC\rm (\it ca\rm ,\it bit\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it bit $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it ca $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it ca \rm = \it CY
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps\rm ,\it bt \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it bit  $\land$ 
+
+\hspace*{0.30in}\it bt $\in$  \it BIT  $\land$ 
+
+\hspace*{0.30in}\it bt \rm = \it bitget\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it bt \rm = \rm 1 \bf THEN
+
+\hspace*{0.40in}\bf mem\rm (\it PSW\rm )\rm :=\it bitset\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it PSW\rm )\rm :=\it bitclear\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}  
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}\bf ACALL\rm (\it inst\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it inst $\in$  \it INSTRUCTION  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it SP\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it sp\_new \bf WHERE
+
+\hspace*{0.30in}\it sp\_new $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it sp\_new \rm = \it SP\_INC\rm (\it mem\rm (\it SP\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it mem\rm (\it sp\_new\rm ) $\mapsto$ \it INSTRUCTION\_NEXT\rm (\it pc\rm )\rm ,\it SP $\mapsto$ \it sp\_new\rm \}  $\para$ 
+
+\hspace*{0.30in}\it pc\rm :=\it inst
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf RET \rm = \bf PRE
+
+\hspace*{0.20in}\it mem\rm (\it SP\rm ) $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it mem\rm (\it SP\rm )\rm ) $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it addr \rm = \it mem\rm (\it SP\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it pc\rm :=\it mem\rm (\it addr\rm )  $\para$ 
+
+\hspace*{0.30in}\bf mem\rm (\it SP\rm )\rm :=\it SP\_DEC\rm (\it mem\rm (\it SP\rm )\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf POP\rm (\it direct\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it direct $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it SP\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it data \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it addr \rm = \it mem\rm (\it SP\rm )  $\land$ 
+
+\hspace*{0.30in}\it data $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it data \rm = \it mem\rm (\it addr\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it direct \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\rm \{\it ACC $\mapsto$ \it data\rm ,\it SP $\mapsto$ \it SP\_DEC\rm (\it addr\rm )\rm ,\it PSW $\mapsto$ \it accparity\rm (\it data\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\it mem\rm :=\rm \{\it direct $\mapsto$ \it mem\rm (\it addr\rm )\rm ,\it SP $\mapsto$ \it SP\_DEC\rm (\it mem\rm (\it SP\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf PUSH\rm (\it direct\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it direct $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it SP\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it addr \rm = \it mem\rm (\it SP\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf mem\rm (\it addr\rm )\rm :=\it mem\rm (\it direct\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}  
+
+\hspace*{0.10in}\bf JB\rm (\it bit\rm ,\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it bit $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it bit
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it pc\rm :=\it bitjump\rm (\it bitget\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )\rm ,\rm 1\rm ,\it pc\rm ,\it jump\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf JBC\rm (\it bit\rm ,\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it bit $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps\rm ,\it bt\rm ,\it wd \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it bt $\in$  \it BIT  $\land$ 
+
+\hspace*{0.30in}\it wd $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it bit  $\land$ 
+
+\hspace*{0.30in}\it bt \rm = \it bitget\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )  $\land$ 
+
+\hspace*{0.30in}\it wd \rm = \it bitclear\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it addr \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it pc\rm :=\it bitjump\rm (\it bt\rm ,\rm 1\rm ,\it pc\rm ,\it jump\rm )  $\para$ 
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it wd\rm ,\it PSW $\mapsto$ \it accparity\rm (\it wd\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\it pc\rm :=\it bitjump\rm (\it bt\rm ,\rm 1\rm ,\it pc\rm ,\it jump\rm )  $\para$ 
+
+\hspace*{0.40in}\bf mem\rm (\it addr\rm )\rm :=\it wd
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf JC\rm (\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\it pc\rm :=\it bitjump\rm (\it bitget\rm (\it mem\rm (\it PSW\rm )\rm ,\rm 7\rm )\rm ,\rm 1\rm ,\it jump\rm ,\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf JNB\rm (\it bit\rm ,\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it bit $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it bit
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it pc\rm :=\it bitjump\rm (\it bitget\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )\rm ,\rm 0\rm ,\it jump\rm ,\it pc\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf JNC\rm (\it bit\rm ,\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it bit $\in$  \it BIT\_ADDRESS  $\land$ 
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps\rm ,\it bt \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it bt $\in$  \it BIT  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it bit  $\land$ 
+
+\hspace*{0.30in}\it bt \rm = \it bitget\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it pc\rm :=\it bitjump\rm (\it bt\rm ,\rm 0\rm ,\it jump\rm ,\it pc\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf JNZ\rm (\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf IF \it mem\rm (\it ACC\rm ) $\not =$ \rm 0 \bf THEN
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_IJUMP\rm (\it pc\rm ,\it jump\rm )
+
+\hspace*{0.20in}\bf ELSE
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf JZ\rm (\it jump\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it jump $\in$  \it INSTRUCTION
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf IF \it mem\rm (\it ACC\rm ) \rm = \rm 0 \bf THEN
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_IJUMP\rm (\it pc\rm ,\it jump\rm )
+
+\hspace*{0.20in}\bf ELSE
+
+\hspace*{0.30in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.20in}\bf END
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf CLR\rm (\it bt\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it bt $\in$  \it BIT\_ADDRESS
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps\rm ,\it data \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it data $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it bt  $\land$ 
+
+\hspace*{0.30in}\it data \rm = \it bitset\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it addr \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it data\rm ,\it PSW $\mapsto$ \it accparity\rm (\it data\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it addr\rm )\rm :=\it data
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf CLRA\rm (\it addr\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it addr $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it addr \rm = \it ACC
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \rm 0\rm ,\it PSW $\mapsto$ \it accparity\rm (\rm 0\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf CPL\rm (\it ca\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it ca $\in$  \it BIT\_ADDRESS
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps\rm ,\it result \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it ca  $\land$ 
+
+\hspace*{0.30in}\it result \rm = \it bitcomplement\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it addr \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it accparity\rm (\it result\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it addr\rm )\rm :=\it result
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf CPLA\rm (\it addr\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it addr $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it addr \rm = \it ACC
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result \rm = \it complement\rm (\it mem\rm (\it ACC\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it accparity\rm (\it result\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf SETB\rm (\it bit\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it bit $\in$  \it BIT\_ADDRESS
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it ps\rm ,\it data \bf WHERE
+
+\hspace*{0.30in}\it addr $\in$  \it MEM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it ps $\in$  \it WORD\_POSITION  $\land$ 
+
+\hspace*{0.30in}\it addr\rm ,\it ps \rm = \it bit  $\land$ 
+
+\hspace*{0.30in}\it data \rm = \it bitclear\rm (\it mem\rm (\it addr\rm )\rm ,\it ps\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it addr \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it data\rm ,\it PSW $\mapsto$ \it accparity\rm (\it data\rm ,\it mem\rm (\it PSW\rm )\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it addr\rm )\rm :=\it data
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}  
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}
+
+\hspace*{0.10in}\bf ADD\rm (\it ac\rm ,\it src\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it ac $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it ac \rm = \it AA  $\lor$  \it ac \rm = \it ACC\rm )  $\land$ 
+
+\hspace*{0.20in}\it src $\in$  \it MEM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it add\rm (\it mem\rm (\it ACC\rm )\rm ,\it mem\rm (\it src\rm )\rm ,\it mem\rm (\it PSW\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it psw\_new\rm \}
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf ADDI\rm (\it ac\rm ,\it reg\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it ac $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\it reg $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it ac \rm = \it AA  $\lor$  \it ac \rm = \it ACC\rm )  $\land$ 
+
+\hspace*{0.20in}\rm (\it reg \rm = \it R0  $\lor$  \it reg \rm = \it R1\rm )  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it reg\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it addr\rm ,\it result\rm ,\it psw\_new \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it addr \rm = \it mem\rm (\it reg\rm )  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it add\rm (\it mem\rm (\it ACC\rm )\rm ,\it mem\rm (\it addr\rm )\rm ,\it mem\rm (\it PSW\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it psw\_new\rm \}
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf ADDD\rm (\it ac\rm ,\it data\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it ac $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it ac \rm = \it AA  $\lor$  \it ac \rm = \it ACC\rm )  $\land$ 
+
+\hspace*{0.20in}\it data $\in$  \it WORD
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it add\rm (\it mem\rm (\it ACC\rm )\rm ,\it data\rm ,\it mem\rm (\it PSW\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it PSW $\mapsto$ \it psw\_new\rm ,\it ACC $\mapsto$ \it result\rm \}
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf SUBB\rm (\it ac\rm ,\it src\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it ac $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it ac \rm = \it AA  $\lor$  \it ac \rm = \it ACC\rm )  $\land$ 
+
+\hspace*{0.20in}\it src $\in$  \it MEM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it substract\rm (\it mem\rm (\it ACC\rm )\rm ,\it mem\rm (\it src\rm )\rm ,\it mem\rm (\it PSW\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it psw\_new\rm \}
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf SUBBI\rm (\it ac\rm ,\it reg\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it ac $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it ac \rm = \it AA  $\lor$  \it ac \rm = \it ACC\rm )  $\land$ 
+
+\hspace*{0.20in}\it reg $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it reg \rm = \it R0  $\lor$  \it reg \rm = \it R1\rm )  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it reg\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new\rm ,\it src \bf WHERE
+
+\hspace*{0.30in}\it src $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it src \rm = \it mem\rm (\it reg\rm )  $\land$ 
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it substract\rm (\it mem\rm (\it ACC\rm )\rm ,\it mem\rm (\it src\rm )\rm ,\it mem\rm (\it PSW\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it psw\_new\rm \}
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf SUBBD\rm (\it acc\rm ,\it data\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it acc $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it acc \rm = \it AA  $\lor$  \it acc \rm = \it ACC\rm )  $\land$ 
+
+\hspace*{0.20in}\it data $\in$  \it WORD
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it substract\rm (\it mem\rm (\it AA\rm )\rm ,\it data\rm ,\it mem\rm (\it PSW\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\it mem\rm :=\it mem $\lover$ \rm \{\it ACC $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it psw\_new\rm \}
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf INC\rm (\it src\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it src $\in$  \it MEM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it add\rm (\it mem\rm (\it src\rm )\rm ,\rm 1\rm ,\it mem\rm (\it PSW\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it src \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it src $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it accparity\rm (\it mem\rm (\it PSW\rm )\rm ,\it result\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it src\rm )\rm :=\it result
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf INCI\rm (\it Rn\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it Rn $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it Rn \rm = \it R0  $\lor$  \it Rn \rm = \it R1\rm )  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it Rn\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new\rm ,\it src \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it src $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it src \rm = \it mem\rm (\it Rn\rm )  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it add\rm (\it mem\rm (\it src\rm )\rm ,\rm 1\rm ,\it mem\rm (\it PSW\rm )\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it src \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it src $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it accparity\rm (\it mem\rm (\it PSW\rm )\rm ,\it result\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it src\rm )\rm :=\it result
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf DEC\rm (\it src\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it src $\in$  \it MEM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it substract\rm (\it mem\rm (\it src\rm )\rm ,\rm 1\rm ,\rm 0\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf IF \it src \rm = \it ACC \bf THEN
+
+\hspace*{0.40in}\it mem\rm :=\it mem $\lover$ \rm \{\it src $\mapsto$ \it result\rm ,\it PSW $\mapsto$ \it accparity\rm (\it mem\rm (\it PSW\rm )\rm ,\it result\rm )\rm \}
+
+\hspace*{0.30in}\bf ELSE
+
+\hspace*{0.40in}\bf mem\rm (\it src\rm )\rm :=\it result
+
+\hspace*{0.30in}\bf END
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END\rm ;
+
+\hspace*{0.10in}\bf DECI\rm (\it Rn\rm ) \rm = \bf PRE
+
+\hspace*{0.20in}\it Rn $\in$  \it SFR\_ADDR  $\land$ 
+
+\hspace*{0.20in}\rm (\it Rn \rm = \it R0  $\lor$  \it Rn \rm = \it R1\rm )  $\land$ 
+
+\hspace*{0.20in}\it mem\rm (\it Rn\rm ) $\in$  \it RAM\_ADDR
+
+\hspace*{0.10in}\bf THEN
+
+\hspace*{0.20in}\bf ANY \it result\rm ,\it psw\_new\rm ,\it src \bf WHERE
+
+\hspace*{0.30in}\it result $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it psw\_new $\in$  \it WORD  $\land$ 
+
+\hspace*{0.30in}\it src $\in$  \it RAM\_ADDR  $\land$ 
+
+\hspace*{0.30in}\it src \rm = \it mem\rm (\it Rn\rm )  $\land$ 
+
+\hspace*{0.30in}\it result\rm ,\it psw\_new \rm = \it substract\rm (\it mem\rm (\it src\rm )\rm ,\rm 1\rm ,\rm 0\rm )
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.30in}\bf mem\rm (\it src\rm )\rm :=\it result
+
+\hspace*{0.20in}\bf END  $\para$ 
+
+\hspace*{0.20in}\it pc\rm :=\it INSTRUCTION\_NEXT\rm (\it pc\rm )
+
+\hspace*{0.10in}\bf END
+
+\bf END
+
+\newpage
+\end{sloppypar}\end{document}
