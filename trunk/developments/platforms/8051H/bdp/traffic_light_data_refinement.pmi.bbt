@@ -1,0 +1,20 @@
+THEORY BBTTE IS
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | color_step(counter$1) = color_refine(3|->COLOR)) & cmd(1 | xp) & cmd(1 | eh(counter$1,{green|->0,yellow|->1,red|->2}(color),Goal)) & gol(1 | color_step(({1|->COLOR|->0}\/{2|->COLOR|->1}\/{3|->COLOR|->2})(color)) = color_refine(3|->COLOR)) & cmd(2 | ah(color = red)) & gol(2 | color_step(({1|->COLOR|->0}\/{2|->COLOR|->1}\/{3|->COLOR|->2})(3|->COLOR)) = color_refine(3|->COLOR)) & cmd(3 | ss) & cmd(3 | pr) & gol(0 | SUCCESS);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | pr);
+  cmd(0 | cl) & gol(0 | color = 2|->COLOR) & cmd(1 | xp) & gol(1 | 3|->COLOR = 2|->COLOR) & cmd(2 | ct) & gol(2 | bfalse) & cmd(3 | mh(not(red = green) & not(red = yellow) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green)))) & cmd(3 | rn(not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green)))) & cmd(3 | eh(counter$1,{green|->0,yellow|->1,red|->2}(color),Goal)) & cmd(3 | eh(color,red,Goal)) & cmd(3 | ss) & cmd(3 | pr) & gol(0 | SUCCESS);
+  cmd(0 | cl) & gol(0 | not(color = 3|->COLOR)) & cmd(1 | xp) & gol(1 | not(3|->COLOR = 3|->COLOR)) & cmd(2 | ct) & gol(2 | bfalse) & cmd(3 | mh(not(red = green) & not(red = yellow) => not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green)))) & cmd(3 | rn(not(color_step(counter$1) : INTEGER & 0<=color_step(counter$1) & color_step(counter$1) : 0..2 & color_step(counter$1) = color_refine(green)))) & cmd(3 | eh(counter$1,{green|->0,yellow|->1,red|->2}(color),Goal)) & cmd(3 | eh(color,red,Goal)) & cmd(3 | ss) & cmd(3 | pr) & gol(0 | SUCCESS);
+  cmd(0 | cl) & gol(0 | #(color$0).(color$0 : (1..3)*{COLOR} & 0 = color_refine(color$0))) & cmd(1 | xp) & cmd(1 | se(green)) & gol(1 | 1|->COLOR : (1..3)*{COLOR}) & cmd(2 | ss) & cmd(2 | pr) & gol(1 | 0 = color_refine(1|->COLOR)) & cmd(2 | ss) & cmd(2 | pr) & gol(0 | SUCCESS);
+  cmd(0 | pr)
+END

@@ -1,0 +1,63 @@
+THEORY OPOBalanceX IS
+  ALU,16;
+  AssertionLemmas,15;
+  Initialisation,1
+END
+&
+THEORY OPOProofList IS
+  _f(1) & _f(2) & AssertionLemmas.15,(_of(31) => _of(32));
+  _f(1) & _f(2) & AssertionLemmas.14,(_of(29) => _of(30));
+  _f(1) & _f(2) & AssertionLemmas.13,(_of(27) => _of(28));
+  _f(1) & _f(2) & AssertionLemmas.12,(_of(25) => _of(26));
+  _f(1) & _f(2) & AssertionLemmas.11,(_of(23) => _of(24));
+  _f(1) & _f(2) & AssertionLemmas.10,(_of(21) => _of(22));
+  _f(1) & _f(2) & AssertionLemmas.9,(_of(19) => _of(20));
+  _f(1) & _f(2) & AssertionLemmas.8,(_of(17) => _of(18));
+  _f(1) & _f(2) & AssertionLemmas.7,(_of(15) => _of(16));
+  _f(1) & _f(2) & AssertionLemmas.6,(_of(13) => _of(14));
+  _f(1) & _f(2) & AssertionLemmas.5,(_of(11) => _of(12));
+  _f(1) & _f(2) & AssertionLemmas.4,(_of(9) => _of(10));
+  _f(1) & _f(2) & AssertionLemmas.3,(_of(7) => _of(8));
+  _f(1) & _f(2) & AssertionLemmas.2,(_of(5) => _of(6));
+  _f(1) & _f(2) & AssertionLemmas.1,(_of(3) => _of(4));
+  _f(1) & _f(2) & Initialisation.1,(_of(1) => _of(2))
+END
+&
+THEORY OPOFormulas IS
+  "`Check that the invariant (btrue) is established by the initialisation - ref 3.3'";
+  (btrue);
+  "`Check assertion (dom(rotateright) = BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(rotateright) = BYTE);
+  "`Check assertion (dom(rotateleft) = BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(rotateleft) = BYTE);
+  "`Check assertion (dom(swap) = BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(swap) = BYTE);
+  "`Check assertion (dom(complement) = BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(complement) = BYTE);
+  "`Check assertion (dom(xor) = BYTE*BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(xor) = BYTE*BYTE);
+  "`Check assertion (dom(ior) = BYTE*BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(ior) = BYTE*BYTE);
+  "`Check assertion (dom(and) = BYTE*BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(and) = BYTE*BYTE);
+  "`Check assertion (dom(sub) = UCHAR*UCHAR*UCHAR) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(sub) = UCHAR*UCHAR*UCHAR);
+  "`Check assertion (dom(add) = UCHAR*UCHAR*UCHAR) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(add) = UCHAR*UCHAR*UCHAR);
+  "`Check assertion (dom(bitput) = BYTE*BYTE_INDEX*BIT) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(bitput) = BYTE*BYTE_INDEX*BIT);
+  "`Check assertion (dom(bitcomplement) = BYTE*BYTE_INDEX) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(bitcomplement) = BYTE*BYTE_INDEX);
+  "`Check assertion (dom(bitclear) = BYTE*BYTE_INDEX) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(bitclear) = BYTE*BYTE_INDEX);
+  "`Check assertion (dom(bitset) = BYTE*BYTE_INDEX) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(bitset) = BYTE*BYTE_INDEX);
+  "`Check assertion (dom(bitget) = BYTE*BYTE_INDEX) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(bitget) = BYTE*BYTE_INDEX);
+  "`Check assertion (dom(parity) = BYTE) deduction - ref 3.2, 4.2, 5.3'";
+  (dom(parity) = BYTE)
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(local_op == OK)
+END

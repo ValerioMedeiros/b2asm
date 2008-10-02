@@ -1,0 +1,128 @@
+/*************************************************************************
+Copyright (c) 2007, David Deharbe
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of the Universidade Federal do Rio Grande do Norte nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*************************************************************************/ 
+MACHINE
+  ALU
+SEES
+  TYPES
+CONSTANTS
+  parity,soma,bitget,bitset,bitclear,bitcomplement,bitput,pswcalc,accparity,add,diff,substract,and,ior,xor,complement,swap,rotateleft,rotateright
+PROPERTIES
+  parity: WORD --> BIT &
+  !w1.(w1: WORD => parity(w1) = BV8_PAR(WORD_TO_BV(w1))) &
+  soma: WORD*WORD --> WORD*BIT &
+  !(w1,w2,su).(w1: WORD & w2: WORD & su: NATURAL & su = w2+w1 => (su<=255 => soma(w1,w2) = su,0) & (su>=256 => soma(w1,w2) = su-255,1)) &
+  bitget: WORD*WORD_POSITION --> BIT &
+  !(wd,ind).(wd: WORD & ind: WORD_POSITION => bitget(wd,ind) = WORD_TO_BV(wd)(ind)) &
+  bitset: WORD*WORD_POSITION --> WORD &
+  !(wd,ind).(wd: WORD & ind: WORD_POSITION => bitset(wd,ind) = BV_TO_WORD(BV8_SET_BIT(WORD_TO_BV(wd),ind,1))) &
+  bitclear: WORD*WORD_POSITION --> WORD &
+  !(wd,ind,bit).(wd: WORD & ind: WORD_POSITION & bit: BIT => bitclear(wd,ind) = BV_TO_WORD(BV8_SET_BIT(WORD_TO_BV(wd),ind,0))) &
+  bitcomplement: WORD*WORD_POSITION --> WORD &
+  !(wd,ind,bit).(wd: WORD & ind: WORD_POSITION & bit: BIT & bit = bitget(wd,ind) => (bit = 1 => bitcomplement(wd,ind) = bitclear(wd,ind) & bit/=1 => bitcomplement(wd,ind) = bitset(wd,ind))) &
+  bitput: WORD*WORD_POSITION*BIT --> WORD &
+  !(wd,ind,bit).(wd: WORD & ind: WORD_POSITION & bit: BIT => (bit = 0 => bitput(wd,ind,bit) = bitclear(wd,ind) & bit = 1 => bitput(wd,ind,bit) = bitset(wd,ind))) &
+  pswcalc: WORD*WORD --> BIT*BIT*BIT*BIT*BIT &
+  !(psw,acc,psw_new).(psw: WORD & acc: WORD & psw_new: BV8 & psw_new(0) = parity(acc) & psw_new(1) = bitget(psw,1) & psw_new(3) = bitget(psw,3) & psw_new(4) = bitget(psw,4) & psw_new(5) = bitget(psw,5) => pswcalc(psw,acc) = psw_new(0),psw_new(1),psw_new(3),psw_new(4),psw_new(5)) &
+  accparity: WORD*WORD --> WORD &
+  !(psw,acc,psw_new).(psw: WORD & psw_new: BV8 & acc: WORD & psw_new(0),psw_new(1),psw_new(3),psw_new(4),psw_new(5) = pswcalc(psw,acc) & psw_new(6) = bitget(psw,6) & psw_new(7) = bitget(psw,7) => accparity(acc,psw) = BV_TO_WORD(psw_new)) &
+  add: WORD*WORD*WORD --> WORD*WORD &
+  !(ac,w2,psw,sun,psw_new).(ac: WORD & sun: WORD & w2: WORD & psw: WORD & psw_new: BV8 & psw_new(6) = BV8_ADD_AUX_CARRY(WORD_TO_BV(ac),WORD_TO_BV(w2)) & sun,psw_new(7) = soma(ac,w2) & psw_new(0),psw_new(1),psw_new(3),psw_new(4),psw_new(5) = pswcalc(psw,sun) => add(ac,w2,psw) = sun,BV_TO_WORD(psw_new)) &
+  diff: WORD*WORD*BIT --> WORD*BIT &
+  !(ac,wd,ca,df).(ac: WORD & wd: WORD & ca: BIT & df: INTEGER & df = ac-(wd+ca) => (df<0 => diff(ac,wd,ca) = df+255,1) & (df>=0 => diff(ac,wd,ca) = df,1)) &
+  substract: WORD*WORD*WORD --> WORD*WORD &
+  !(ac,w2,psw,psw_new,df).(ac: WORD & w2: WORD & psw: WORD & psw_new: BV8 & df: WORD & psw_new(2) = OVERFLOW_SUB(WORD_TO_COMP2(ac),WORD_TO_COMP2(w2),bitget(psw,7)) & psw_new(6) = BV8_SUB_AUX_CARRY(WORD_TO_BV(ac),WORD_TO_BV(w2),bitget(psw,7)) & psw_new(7),df = diff(ac,w2,bitget(psw,7)) & psw_new(0),psw_new(1),psw_new(3),psw_new(4),psw_new(5) = pswcalc(psw,df) => substract(ac,w2,psw) = df,BV_TO_WORD(psw_new)) &
+  and: WORD*WORD --> WORD &
+  !(w1,w2,wd).(w1: WORD & w2: WORD & wd: WORD & wd = BV_TO_WORD(BV8_AND(WORD_TO_BV(w1),WORD_TO_BV(w2))) => and(w1,w2) = wd) &
+  ior: WORD*WORD --> WORD*BOOL &
+  !(w1,w2,wd).(w1: WORD & w2: WORD & wd: WORD & wd = BV_TO_WORD(BV8_IOR(WORD_TO_BV(w1),WORD_TO_BV(w2))) => ior(w1,w2) = wd,bool(wd = 0)) &
+  xor: WORD*WORD --> WORD*BOOL &
+  !(w1,w2,wd).(w1: WORD & w2: WORD & wd: WORD & wd = BV_TO_WORD(BV8_XOR(WORD_TO_BV(w1),WORD_TO_BV(w2))) => xor(w1,w2) = wd,bool(wd = 0)) &
+  complement: WORD --> WORD &
+  !wd.(wd: WORD => complement(wd) = BV_TO_WORD(BV8_COMPLEMENT(WORD_TO_BV(wd)))) &
+  swap: WORD --> WORD &
+  !(wd,bv).(wd: WORD & bv: BV8 => (bv = WORD_TO_BV(wd) => swap(wd) = BV_TO_WORD({0|->bv(4),1|->bv(5),2|->bv(6),3|->bv(7),4|->bv(0),5|->bv(1),6|->bv(2),7|->bv(3)}))) &
+  rotateleft: WORD --> WORD*BOOL &
+  !(wd,bv).(wd: WORD & bv: BV8 => (bv = WORD_TO_BV(wd) => rotateleft(wd) = BV_TO_WORD({0|->bv(7),1|->bv(0),2|->bv(1),3|->bv(2),4|->bv(3),5|->bv(4),6|->bv(5),7|->bv(6)}),bool(bv(7) = 1))) &
+  rotateright: WORD --> WORD*BOOL &
+  !(wd,bv).(wd: WORD & bv: BV8 => (bv = WORD_TO_BV(wd) => rotateright(wd) = BV_TO_WORD({0|->bv(1),1|->bv(2),2|->bv(3),3|->bv(4),4|->bv(5),5|->bv(6),6|->bv(7),7|->bv(0)}),bool(bv(0) = 1))) /*
+  & dacarry : WORD*WORD*WORD --> WORD
+  &!(acc,value,psw,psw_new).(acc : WORD & value : WORD & psw : WORD 
+  & psw_new(7),s=soma(acc,value)
+  & psw_new(0),psw_new(1),psw_new(3),psw_new(4),psw_new(5)=pswcalc(psw,d)
+  & psw_new(2)
+  
+  & da : WORD * WORD --> WORD * WORD
+  & !(acc,psw,lw,hg,ac,cy).(acc : WORD & psw : WORD & lw : WORD & hg : WORD & ac : BIT & cy : BIT
+  & lw = BV_TO_WORD(BV8_LOWER(WORD_TO_BV(acc)))	
+  & hg = BV_TO_WORD(BV8_HIGH(WORD_TO_BV(acc)))	
+  & ac = bitget(psw,6)
+  & cy = bitget(psw,7) =>(
+  ((ac=1 or lw>9) & (cy=1 or hg>9)) => da(acc,psw)= (a+102
+  &((ac=1 or lw>9) & cy=0 &  hg<=9) => da(acc,psw)= (a+6
+  &(ac=0 & lw<=9 & (cy=1 or hg>9)) =>  da(acc,psw)= (a+96
+  &(ac=0 & lw<=9 & cy=0 &  hg<=9) =>  da(acc,psw)= (a
+  ))
+  
+  */ 
+  
+  
+ASSERTIONS
+  dom(parity) = WORD &
+  ran(parity) <: BIT &
+  dom(soma) = WORD*WORD &
+  ran(soma) <: WORD*BIT &
+  dom(bitget) = WORD*WORD_POSITION &
+  ran(bitget) <: BIT &
+  dom(bitset) = WORD*WORD_POSITION &
+  ran(bitset) <: WORD &
+  dom(bitclear) = WORD*WORD_POSITION &
+  ran(bitclear) <: WORD &
+  dom(bitcomplement) = WORD*WORD_POSITION &
+  ran(bitcomplement) <: WORD &
+  dom(bitput) = WORD*WORD_POSITION*BIT &
+  ran(bitput) <: WORD &
+  dom(pswcalc) = WORD*WORD &
+  ran(pswcalc) <: BIT*BIT*BIT*BIT*BIT &
+  dom(accparity) = WORD*WORD &
+  ran(accparity) <: WORD &
+  dom(add) = WORD*WORD*WORD &
+  ran(add) <: WORD*WORD &
+  dom(diff) = WORD*WORD*BIT &
+  ran(diff) <: WORD*BIT &
+  dom(substract) = WORD*WORD*WORD &
+  ran(substract) <: WORD*WORD &
+  dom(and) = WORD*WORD &
+  ran(and) <: WORD &
+  dom(ior) = WORD*WORD &
+  ran(ior) <: WORD*BOOL &
+  dom(xor) = WORD*WORD &
+  ran(xor) <: WORD*BOOL &
+  dom(complement) = WORD &
+  ran(complement) <: WORD &
+  dom(swap) = WORD &
+  ran(swap) <: WORD &
+  ran(rotateleft) <: WORD*BOOL &
+  dom(rotateleft) = WORD &
+  dom(rotateright) = WORD &
+  ran(rotateright) <: WORD*BOOL
+END
