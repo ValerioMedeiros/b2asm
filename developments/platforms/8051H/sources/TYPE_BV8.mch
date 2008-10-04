@@ -38,7 +38,7 @@ CONSTANTS
   , BYTE_OR
   , BYTE_XOR
   , BYTE_PAR
-  
+  , BYTE_ZERO
  
 
 PROPERTIES
@@ -83,6 +83,10 @@ PROPERTIES
   & BYTE_PAR : BYTE --> BIT
   & !(byte,none).(byte : BYTE & none : NATURAL & none = size(byte |> {1}) =>(
 		 (none mod 2 = 0) => BYTE_PAR(byte)=0 & (none mod 2 /=0) => BYTE_PAR(byte)=1))
+  &BYTE_ZERO : BYTE
+  &BYTE_ZERO= BYTE_INDEX*{0}
+  
+  
 
 
 

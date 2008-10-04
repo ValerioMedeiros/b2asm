@@ -27,6 +27,8 @@ ADDR_LEN
 ,INSTRUCTION
 ,INSTRUCTION_LEN
 ,INSTRUCTION_MAX
+,STACK_MAX
+,PSWUPDATE
 
 /* bit's address start with letter B and otherwise start with A */
 ,sbuf
@@ -202,6 +204,8 @@ ADDR_LEN
 ,ADDRCHANGE
 ,BITCHANGE
 ,INSTRUCTION_INCREMENT
+,SP_INCREMENT
+,SP_DECREMENT
 
 PROPERTIES
 
@@ -225,6 +229,11 @@ ADDR_LEN : NATURAL
  
 &INSTRUCTION_MAX = 2**INSTRUCTION_LEN 
 &INSTRUCTION = 0..(INSTRUCTION_MAX -1)
+&STACK_MAX:RAM_ADDR
+&STACK_MAX = RAM_MAX
+
+
+
 
 &sbuf = 153 
 &SP=109
@@ -551,12 +560,32 @@ ADDR_LEN : NATURAL
 &ADDRCHANGE = %(addr,data,psw).(addr:MEM_ADDR & data:BYTE & psw:BYTE & addr/=ACC & addr/= PSW|{addr|-> data})
 
 &BITCHANGE : MEM_ADDR * BYTE * BYTE_INDEX * BIT * BYTE  --> (MEM_ADDR +-> BYTE)
+
 &BITCHANGE = %(addr,data,ind,bit,psw).(addr:MEM_ADDR & data:BYTE & ind:BYTE_INDEX & bit:BIT & psw:BYTE & addr=ACC 
 									|ADDRCHANGE(addr,BYTE_SET_BIT(data,ind,bit),psw))
+
 &BITCHANGE = %(addr,data,ind,bit,psw).(addr:MEM_ADDR & data:BYTE & ind:BYTE_INDEX & bit:BIT & psw:BYTE & addr/=ACC 
 										|{addr|->BYTE_SET_BIT(data,ind,bit)})
 
+/* 
+SP só pode ser incrementado até o endereço A7, após isso, ocorre uma interrupção que direciona o PC para
+o endereço 1B e coloca o valor em SP o valor AA. Entretanto,valores maiores que AA podem ser colocados 
+diretamente no SP, através da instrução MOV.
 
+O comportamento da pilha para instruções ACALL RET ainda não foi estudado
+
+*/
+&SP_INCREMENT : BYTE   --> BYTE
+&SP_INCREMENT = % (sp).(sp:BYTE & byte_uchar(sp)< STACK_MAX |uchar_byte(byte_uchar(sp)+1))
+&SP_INCREMENT = % (sp).(sp:BYTE & byte_uchar(sp)>= STACK_MAX |uchar_byte(STACK_MAX))
+
+&SP_DECREMENT : BYTE   --> BYTE
+&SP_DECREMENT = % (sp).(sp:BYTE & byte_uchar(sp)>0|uchar_byte(byte_uchar(sp)-1))
+&SP_DECREMENT = % (sp).(sp:BYTE & byte_uchar(sp)<=0|uchar_byte(STACK_MAX))
+
+&PSWUPDATE : BYTE*BIT*BIT*BIT*BIT --> BYTE
+&PSWUPDATE = %(psw,Pa,Ov,Ac,Cy).(psw:BYTE & Pa:BIT & Ov:BIT & Ac:BIT & Cy:BIT|
+			BYTE_SET_BIT(BYTE_SET_BIT(BYTE_SET_BIT(BYTE_SET_BIT(psw,0,Pa),2,Ov),6,Ac),7,Cy))
 
 VARIABLES
 
@@ -570,7 +599,7 @@ mem : MEM_ADDR +-> BYTE
 
 
 INITIALISATION
-mem :: MEM_ADDR -->> BYTE
+mem :: MEM_ADDR --> BYTE
 
 OPERATIONS
 
@@ -630,15 +659,29 @@ THEN
   END	  
 END	  
 
+;
 
-/*
-pcIncrement(inc)=
-PRE
-  inc : INSTRUCTION
-THEN
-  pc:=INSTRUCTION_INCREMENT(pc,inc)
-END
-*/
+push(data)=
+ PRE data : BYTE
+ THEN
+   ANY new_sp WHERE new_sp:BYTE & new_sp = SP_INCREMENT(mem(SP))THEN 
+	mem:={byte_uchar(new_sp)|->data, SP|->new_sp}
+   END
+ END
+;
+
+
+pop(addr)=
+  PRE addr : MEM_ADDR
+  THEN mem:= mem <+ (ADDRCHANGE(addr,mem(SP),mem(PSW))\/ {SP|->SP_INCREMENT(mem(SP))})
+  END
+;
+
+update(acc,Pa,Ov,Ac,Cy)=
+ PRE acc:UCHAR & Pa:BIT & Ov:BIT & Ac:BIT & Cy:BIT
+ THEN mem := mem <+ {ACC|-> uchar_byte(acc),PSW|->PSWUPDATE(mem(PSW),Pa,Ov,Ac,Cy)}
+ END 
+
 
 ASSERTIONS
 
