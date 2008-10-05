@@ -24,7 +24,7 @@ MACHINE
    ALU
 
 SEES
-   TYPES,BIT_DEFINITION,BIT_VECTOR_DEFINITION,TYPE_BV8,TYPE_BIT
+   TYPES,BIT_DEFINITION, BIT_VECTOR_DEFINITION, BYTE_DEFINITION,BIT_VECTOR_ARITHMETICS
 
 CONSTANTS
    parity
@@ -73,8 +73,9 @@ PROPERTIES
   &bitput = %(bv,ind,bit).(bv:BYTE & ind:BYTE_INDEX & bit:BIT | BYTE_SET_BIT(bv,ind,bit))
 
 */
+
   parity : BYTE --> BIT
-  &parity = %(bv).(bv : BYTE | BYTE_PAR(bv))
+  &parity = %(bv).(bv : BYTE | bv_par(bv))
 
   &half: UCHAR --> UCHAR
   &half = %(v1).(v1 : UCHAR |v1 mod 2**4)
@@ -98,20 +99,20 @@ PROPERTIES
   
  
   & and : (BYTE * BYTE) --> BYTE
-  & and = %(bt1, bt2).(bt1:BYTE & bt2:BYTE | BYTE_AND(bt1,bt2))
+  & and = %(bt1, bt2).(bt1:BYTE & bt2:BYTE | bv_and(bt1,bt2))
 
   & and_bit : (BIT*BIT)-->BIT
   & and_bit = %(b1,b2).(b1:BIT & b2:BIT | bit_and(b1,b2))
 
 
   & ior : (BYTE * BYTE) --> BYTE
-  & ior = %(bt1, bt2).(bt1:BYTE & bt2:BYTE | BYTE_OR(bt1,bt2))
+  & ior = %(bt1, bt2).(bt1:BYTE & bt2:BYTE | bv_or(bt1,bt2))
 
   & xor : (BYTE * BYTE) --> BYTE
-  & xor = %(bt1, bt2).(bt1 : BYTE & bt2 : BYTE | BYTE_XOR(bt1,bt2))
+  & xor = %(bt1, bt2).(bt1 : BYTE & bt2 : BYTE | bv_xor(bt1,bt2))
 
   & complement : BYTE --> BYTE
-  & complement = %(bt).(bt : BYTE | BYTE_COMPLEMENT(bt))
+  & complement = %(bt).(bt : BYTE | bv_not(bt))
 
   & swap : BYTE --> BYTE
   & swap=%(bt).(bt:BYTE |{0|->bt(4), 1|->bt(5), 2|->bt(6), 3|->bt(7), 4|->bt(0), 5|->bt(1), 6|->bt(2), 7|->bt(3)})

@@ -12,7 +12,7 @@ MACHINE
    MEMORY
 
 SEES
-TYPE_BV8,BIT_DEFINITION,TYPES
+BYTE_DEFINITION,BIT_DEFINITION,TYPES,BIT_VECTOR_DEFINITION,BIT_VECTOR_ARITHMETICS
 
 CONSTANTS 
 
@@ -555,17 +555,17 @@ ADDR_LEN : NATURAL
 &ADDRCHANGE : MEM_ADDR * BYTE * BYTE --> (MEM_ADDR +-> BYTE)
 
 &ADDRCHANGE = %(addr,data,psw).(addr:MEM_ADDR & data:BYTE & psw:BYTE & addr=ACC 
-							|{addr|-> data,PSW|-> BYTE_SET_BIT(psw,0,BYTE_PAR(data))})
+							|{addr|-> data,PSW|-> bv_put(psw,0,bv_par(data))})
 
 &ADDRCHANGE = %(addr,data,psw).(addr:MEM_ADDR & data:BYTE & psw:BYTE & addr/=ACC & addr/= PSW|{addr|-> data})
 
 &BITCHANGE : MEM_ADDR * BYTE * BYTE_INDEX * BIT * BYTE  --> (MEM_ADDR +-> BYTE)
 
 &BITCHANGE = %(addr,data,ind,bit,psw).(addr:MEM_ADDR & data:BYTE & ind:BYTE_INDEX & bit:BIT & psw:BYTE & addr=ACC 
-									|ADDRCHANGE(addr,BYTE_SET_BIT(data,ind,bit),psw))
+									|ADDRCHANGE(addr,bv_put(data,ind,bit),psw))
 
 &BITCHANGE = %(addr,data,ind,bit,psw).(addr:MEM_ADDR & data:BYTE & ind:BYTE_INDEX & bit:BIT & psw:BYTE & addr/=ACC 
-										|{addr|->BYTE_SET_BIT(data,ind,bit)})
+										|{addr|->bv_put(data,ind,bit)})
 
 /* 
 SP só pode ser incrementado até o endereço A7, após isso, ocorre uma interrupção que direciona o PC para
@@ -585,7 +585,7 @@ O comportamento da pilha para instruções ACALL RET ainda não foi estudado
 
 &PSWUPDATE : BYTE*BIT*BIT*BIT*BIT --> BYTE
 &PSWUPDATE = %(psw,Pa,Ov,Ac,Cy).(psw:BYTE & Pa:BIT & Ov:BIT & Ac:BIT & Cy:BIT|
-			BYTE_SET_BIT(BYTE_SET_BIT(BYTE_SET_BIT(BYTE_SET_BIT(psw,0,Pa),2,Ov),6,Ac),7,Cy))
+			bv_put(bv_put(bv_put(bv_put(psw,0,Pa),2,Ov),6,Ac),7,Cy))
 
 VARIABLES
 
@@ -595,7 +595,7 @@ mem
 INVARIANT
 
 mem : MEM_ADDR +-> BYTE
-& mem(PSW)(0)=BYTE_PAR(mem(ACC))
+& mem(PSW)(0)=bv_par(mem(ACC))
 
 
 INITIALISATION

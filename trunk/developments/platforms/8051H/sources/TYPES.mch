@@ -2,7 +2,7 @@ MACHINE
    TYPES
 
 SEES
-TYPE_BV8,BIT_DEFINITION
+BYTE_DEFINITION,BIT_DEFINITION,BIT_VECTOR_ARITHMETICS
 
 CONSTANTS
 
@@ -35,7 +35,7 @@ UCHAR_MAX:NATURAL
 &SCHAR=SCHAR_MIN..SCHAR_MAX 
 
 &byte_uchar : BYTE --> UCHAR
-&byte_uchar = %(bv).(bv:BYTE | bv(7)*128+bv(6)*64+bv(5)*32+bv(4)*16+bv(3)*8+bv(2)*4+bv(1)*2+bv(0)*1)
+&byte_uchar = %(bv).(bv:BYTE | bv_to_nat(bv))
 &uchar_byte=byte_uchar~
 
 &byte_schar : BYTE --> SCHAR
