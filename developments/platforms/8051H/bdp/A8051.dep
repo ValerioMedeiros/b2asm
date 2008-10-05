@@ -1,6 +1,6 @@
-file:ddd2cc3b3f45c3d61522e4ed8574f9f5
+file:f8d3d7abce7923060beef0c418085e19
 incl:MEMORY
 sees:ALU
 sees:TYPES
-sees:TYPE_BV8
+sees:BYTE_DEFINITION
 sees:BIT_DEFINITION
