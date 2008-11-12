@@ -1,0 +1,135 @@
+THEORY BalanceX IS
+  MEMORY,35,13,0,21,0,0,0;
+  AssertionLemmas,11,0,0,10,0,0,0;
+  Initialisation,3,0,0,3,0,0,0;
+  bitGet,0,0,0,0,0,0,0;
+  setMem,3,0,0,3,0,0,0;
+  bitSet,3,3,0,0,0,0,0;
+  bitClear,3,3,0,0,0,0,0;
+  addrSetDirect,3,1,0,2,0,0,0;
+  addrSetIndirect,3,3,0,0,0,0,0;
+  push_two,3,2,0,1,0,0,0;
+  update,3,1,0,2,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  eh(PSWUPDATE) & eh(uchar_byte) & ss & pr & pr & pr;
+  pr;
+  pr;
+  eh(SP_INCREMENT) & eh(byte_uchar) & pr & pr & pr & eh(2**7) & eh(2**6) & eh(2**4) & eh(2**2) & eh(2**5) & eh(2**3) & pr & pr;
+  pr;
+  pr & ae(bv_to_nat(mem(109)),xx) & dd & pr & pr & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  pr;
+  pr & pr;
+  pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  dd & pr & pr & eh(SP_INCREMENT) & pr;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(3),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,local_op == OK);
+  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+END
