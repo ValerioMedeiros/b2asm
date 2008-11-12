@@ -1,0 +1,7 @@
+digraph {
+A8051 [ label=" A8051 " shape= box ]
+ALU [ label=" ALU " shape= box ]
+MEMORY [ label=" MEMORY " shape= box ]
+TYPES [ label=" TYPES " shape= box ]
+
+}

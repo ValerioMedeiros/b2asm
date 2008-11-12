@@ -1,0 +1,19 @@
+MACHINE
+        BIT_VECTOR8
+
+SEES
+        BIT_DEFINITION ,
+        BIT_VECTOR_DEFINITION
+
+CONCRETE_CONSTANTS
+        BV8 ,
+        BV8_INDEX ,
+        BV8_SIZE
+
+PROPERTIES
+        BV8_SIZE = 8
+        & BV8_INDEX = ( 1 .. ( BV8_SIZE ) )
+        & BV8 = { vv | vv : BIT_VECTOR & bv_size ( vv ) = BV8_SIZE }
+ASSERTIONS
+    BV8 <: BIT_VECTOR
+END
