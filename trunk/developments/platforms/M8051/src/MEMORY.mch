@@ -690,6 +690,7 @@ Bytes in SFR that are bit addressable
 
 
 
+
 & PP =(PSW,0)
 & OV =(PSW,2)
 & RS0 =(PSW,3)
@@ -756,7 +757,11 @@ Function to increment the pc
 &BIT_GET : BIT_ADDRESS * (MEM_ADDR +-> BYTE) --> BIT
 &!(bit,memory,addr,ind).(bit:BIT_ADDRESS & memory:(MEM_ADDR +-> BYTE) & addr:MEM_ADDR & ind:BYTE_INDEX & addr,ind=bit 
 										=> BIT_GET(bit,memory)=memory(addr)(ind))
-
+/*
+####################Antention#####################
+Put this for test
+PSW : SFR_BIT_ADDRESSABLE
+*/
     
 ASSERTIONS
 
@@ -832,6 +837,9 @@ THEN
 END
 ;
 
+/*
+Why it allowed change the parity bit without change the Accumalator?
+*/
 bitSet(bit)=
 PRE
   bit : BIT_ADDRESSABLE
@@ -843,6 +851,9 @@ THEN
 END
 ;
 
+/*
+Why it allowed change the parity bit without change the Accumalator?
+*/
 bitClear(bit)=
 PRE
   bit : BIT_ADDRESSABLE
