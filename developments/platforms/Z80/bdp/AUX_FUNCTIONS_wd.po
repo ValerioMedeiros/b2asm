@@ -1,0 +1,124 @@
+
+THEORY ProofList IS
+_f(5) & _f(4) & Properties.33,(_f(76) => _f(77));
+_f(5) & _f(4) & Properties.32,(_f(74) => _f(75));
+_f(5) & _f(4) & Properties.31,(_f(72) => _f(73));
+_f(5) & _f(4) & Properties.30,(_f(70) => _f(71));
+_f(5) & _f(4) & Properties.29,(_f(68) => _f(69));
+_f(5) & _f(4) & Properties.28,(_f(66) => _f(67));
+_f(5) & _f(4) & Properties.27,(_f(64) => _f(65));
+_f(5) & _f(4) & Properties.26,(_f(62) => _f(63));
+_f(5) & _f(4) & Properties.25,(_f(60) => _f(61));
+_f(5) & _f(4) & Properties.24,(_f(58) => _f(59));
+_f(5) & _f(4) & Properties.23,(_f(56) => _f(57));
+_f(5) & _f(4) & Properties.22,(_f(54) => _f(55));
+_f(5) & _f(4) & Properties.21,(_f(52) => _f(53));
+_f(5) & _f(4) & Properties.20,(_f(50) => _f(51));
+_f(5) & _f(4) & Properties.19,(_f(48) => _f(49));
+_f(5) & _f(4) & Properties.18,(_f(46) => _f(47));
+_f(5) & _f(4) & Properties.17,(_f(44) => _f(45));
+_f(5) & _f(4) & Properties.16,(_f(42) => _f(43));
+_f(5) & _f(4) & Properties.15,(_f(40) => _f(41));
+_f(5) & _f(4) & Properties.14,(_f(38) => _f(39));
+_f(5) & _f(4) & Properties.13,(_f(36) => _f(37));
+_f(5) & _f(4) & Properties.12,(_f(34) => _f(35));
+_f(5) & _f(4) & Properties.11,(_f(32) => _f(33));
+_f(5) & _f(4) & Properties.10,(_f(30) => _f(31));
+_f(5) & _f(4) & Properties.9,(_f(28) => _f(29));
+_f(5) & _f(4) & Properties.8,(_f(26) => _f(27));
+_f(5) & _f(4) & Properties.7,(_f(24) => _f(25));
+_f(5) & _f(4) & Properties.6,(_f(22) => _f(23));
+_f(5) & _f(4) & Properties.5,(_f(20) => _f(21));
+_f(5) & _f(4) & Properties.4,(_f(18) => _f(19));
+_f(5) & _f(4) & Properties.3,(_f(16) => _f(17));
+_f(5) & _f(4) & Properties.2,(_f(14) => _f(15));
+_f(5) & _f(4) & Properties.1,(_f(12) => _f(13))
+
+END
+&
+
+THEORY Formulas IS
+("`Component constraints'" & btrue);
+("`Used machines constraints'" & btrue);
+("`Component properties'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & !w1.(w1: WORD8 & WORD8_TO_BYTE(w1): BYTE => FUNC_INC_r(w1) = BYTE_TO_WORD8(WORD8_TO_BYTE(w1)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->bool_to_bit(bool(7<=WORD8_TO_BYTE(w1)(2)*4+WORD8_TO_BYTE(w1)(1)*2+WORD8_TO_BYTE(w1)(0)))}\/{2|->bool_to_bit(bool(w1 = 127))}\/{1|->0}))));
+("`Seen and used machines properties'" & WORD16_LENGTH: INTEGER & 0<=WORD16_LENGTH & WORD16_LENGTH = 16 & NB_WORD16S: INTEGER & 0<=NB_WORD16S & NB_WORD16S = 2**WORD16_LENGTH & WORD16 = -32768..32767 & WORD16_POSITION = 0..WORD16_LENGTH-1 & WORD8_LENGTH: INTEGER & 0<=WORD8_LENGTH & WORD8_LENGTH = 8 & NB_WORD8S: INTEGER & 0<=NB_WORD8S & NB_WORD8S = 2**WORD8_LENGTH & WORD8 = -128..127 & WORD8_POSITION = 0..WORD8_LENGTH-1 & VALUE8 = 0..255 & BV16: POW(BIT_VECTOR) & BV16 = SET(vv).(vv: BIT_VECTOR & size(vv) = WORD16_LENGTH) & BYTE_TO_VALUE8: BYTE +-> VALUE8 & dom(BYTE_TO_VALUE8) = BYTE & BYTE_TO_VALUE8 = %v0.(v0: BYTE | (-128)*v0(7)+64*v0(6)+32*v0(5)+16*v0(4)+8*v0(3)+4*v0(2)+2*v0(1)+v0(0)) & VALUE8_TO_BYTE: VALUE8 +-> BYTE & dom(VALUE8_TO_BYTE) = VALUE8 & VALUE8_TO_BYTE = BYTE_TO_VALUE8~ & VALUE16 = 0..65535 & NB_INSTRUCTIONS: INTEGER & 0<=NB_INSTRUCTIONS & INST_SZ: INTEGER & 0<=INST_SZ & INST_SZ = 16 & NB_INSTRUCTIONS = 2**INST_SZ & INSTRUCTION_MAX = NB_INSTRUCTIONS-1 & INSTRUCTION = VALUE16 & INSTRUCTION_NEXT: VALUE16 +-> VALUE16 & dom(INSTRUCTION_NEXT) = VALUE16 & INSTRUCTION_NEXT = SET(p0,q0).(p0: INSTRUCTION & q0: INSTRUCTION & 0<=p0 & p0+1<=NB_INSTRUCTIONS-1 & q0 = p0+1)\/{NB_INSTRUCTIONS-1|->0} & INSTRUCTION_JUMP = %(p0,e0).(p0: INSTRUCTION & e0: -126..129 | p0+e0) & BYTE_TO_WORD8: BYTE +-> WORD8 & dom(BYTE_TO_WORD8) = BYTE & BYTE_TO_WORD8 = %v0.(v0: BYTE | (-128)*v0(7)+64*v0(6)+32*v0(5)+16*v0(4)+8*v0(3)+4*v0(2)+2*v0(1)+v0(0)) & WORD8_TO_BYTE: WORD8 +-> BYTE & dom(WORD8_TO_BYTE) = WORD8 & WORD8_TO_BYTE = BYTE_TO_WORD8~ & BV16_TO_WORD16: BV16 +-> WORD16 & dom(BV16_TO_WORD16) = BV16 & BV16_TO_WORD16 = %v0.(v0: BV16 | (-32768)*v0(15)+16384*v0(14)+8192*v0(13)+4096*v0(12)+2048*v0(11)+1024*v0(10)+512*v0(9)+256*v0(8)+128*v0(7)+64*v0(6)+32*v0(5)+16*v0(4)+8*v0(3)+4*v0(2)+2*v0(1)+v0(0)) & WORD16_TO_BV16: WORD16 +-> BV16 & dom(WORD16_TO_BV16) = WORD16 & WORD16_TO_BV16 = BV16_TO_WORD16~ & BYTE_TO_BV16: BV16*BV16 +-> BV16 & dom(BYTE_TO_BV16) = BV16*BV16 & BYTE_TO_BV16 = %(v1,v2).(v1: BV16 & v2: BV16 | {0|->v2(0)}\/{1|->v2(1)}\/{2|->v2(2)}\/{3|->v2(3)}\/{4|->v2(4)}\/{5|->v2(5)}\/{6|->v2(6)}\/{7|->v2(7)}\/{8|->v1(0)}\/{9|->v1(1)}\/{10|->v1(2)}\/{11|->v1(3)}\/{12|->v1(4)}\/{13|->v1(5)}\/{14|->v1(6)}\/{15|->v1(7)}) & WORD8_TO_WORD16: WORD8*WORD8 +-> WORD16 & dom(WORD8_TO_WORD16) = WORD8*WORD8 & WORD8_TO_WORD16 = %(w1,w2).(w1: WORD8 & w2: WORD8 | BV16_TO_WORD16(BYTE_TO_BV16(WORD8_TO_BYTE(w1),WORD8_TO_BYTE(w2)))) & WORD16_TO_WORD8: WORD16 +-> WORD8*WORD8 & dom(WORD16_TO_WORD8) = WORD16 & WORD16_TO_WORD8 = WORD8_TO_WORD16~ & BV16_TO_VALUE16: BV16 +-> VALUE16 & dom(BV16_TO_VALUE16) = BV16 & BV16_TO_VALUE16 = %v0.(v0: BV16 | (-32768)*v0(15)+16384*v0(14)+8192*v0(13)+4096*v0(12)+2048*v0(11)+1024*v0(10)+512*v0(9)+256*v0(8)+128*v0(7)+64*v0(6)+32*v0(5)+16*v0(4)+8*v0(3)+4*v0(2)+2*v0(1)+v0(0)) & VALUE16_TO_BV16: VALUE16 +-> BV16 & dom(VALUE16_TO_BV16) = VALUE16 & VALUE16_TO_BV16 = BV16_TO_VALUE16~ & WORD16_TO_VALUE16: WORD16 +-> VALUE16 & dom(WORD16_TO_VALUE16) = WORD16 & WORD16_TO_VALUE16 = %v0.(v0: WORD16 | BV16_TO_VALUE16(WORD16_TO_BV16(v0))) & VALUE16_TO_WORD16: VALUE16 +-> WORD16 & dom(VALUE16_TO_WORD16) = VALUE16 & VALUE16_TO_WORD16 = WORD16_TO_VALUE16~ & BIT = 0..1 & bit_not: BIT +-> BIT & dom(bit_not) = BIT & !bb.(bb: BIT => bit_not(bb) = 1-bb) & bit_and: BIT*BIT +-> BIT & dom(bit_and) = BIT*BIT & !(b1,b2).(b1: BIT & b2: BIT => (bit_and(b1,b2) = 1 => b1 = 1) & (b1 = 1 => bit_and(b1,b2) = 1) & b2 = 1) & bit_or: BIT*BIT +-> BIT & dom(bit_or) = BIT*BIT & !(b1,b2).(b1: BIT & b2: BIT => (bit_or(b1,b2) = 1 => b1 = 1) & (b1 = 1 => bit_or(b1,b2) = 1) or b2 = 1) & bit_xor: BIT*BIT +-> BIT & dom(bit_xor) = BIT*BIT & !(b1,b2).(b1: BIT & b2: BIT => (bit_xor(b1,b2) = 1 => not(b1 = b2)) & (not(b1 = b2) => bit_xor(b1,b2) = 1)) & bool_to_bit: BOOL +-> BIT & dom(bool_to_bit) = BOOL & bool_to_bit = {TRUE|->1}\/{FALSE|->0} & bit_to_bool: BIT +-> BOOL & dom(bit_to_bool) = BIT & bit_to_bool = bool_to_bit~ & BIT_VECTOR = seq(BIT)-{{}} & bv_catenate: BIT_VECTOR*BIT_VECTOR +-> BIT_VECTOR & dom(bv_catenate) = BIT_VECTOR*BIT_VECTOR & bv_catenate = %(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR | v2^v1) & bv_sub: BIT_VECTOR*NATURAL*NATURAL +-> BIT_VECTOR & dom(bv_sub) = BIT_VECTOR*NATURAL*NATURAL & bv_sub = %(bv,low,high).(bv: BIT_VECTOR & low: INTEGER & 0<=low & high: INTEGER & 0<=high & low<=high | 0..high-low<|bv) & bv_zero: NATURAL-{0} +-> BIT_VECTOR & dom(bv_zero) = NATURAL-{0} & bv_zero = %sz.(sz: INTEGER & 0<=sz & not(sz = 0) | (1..sz)*{0}) & bv_one: NATURAL-{0} +-> BIT_VECTOR & dom(bv_one) = NATURAL-{0} & bv_one = %sz.(sz: INTEGER & 0<=sz & not(sz = 0) | (1..sz)*{1}) & bv_not: BIT_VECTOR +-> BIT_VECTOR & dom(bv_not) = BIT_VECTOR & bv_not = %v1.(v1: BIT_VECTOR | %idx.(idx: 1..size(v1) | bit_not(v1(idx)))) & bv_and: BIT_VECTOR*BIT_VECTOR +-> BIT_VECTOR & dom(bv_and) = BIT_VECTOR*BIT_VECTOR & bv_and = %(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) | %idx.(idx: 1..size(v1) | bit_and(v1(idx),v2(idx)))) & bv_or: BIT_VECTOR*BIT_VECTOR +-> BIT_VECTOR & dom(bv_or) = BIT_VECTOR*BIT_VECTOR & bv_or = %(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) | %idx.(idx: 1..size(v1) | bit_or(v1(idx),v2(idx)))) & bv_xor: BIT_VECTOR*BIT_VECTOR +-> BIT_VECTOR & dom(bv_xor) = BIT_VECTOR*BIT_VECTOR & bv_xor = %(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) | %idx.(idx: 1..size(v1) | bit_xor(v1(idx),v2(idx)))) & bv_at: BIT_VECTOR*NATURAL +-> BIT & dom(bv_at) = BIT_VECTOR*NATURAL & bv_at = %(v1,idx).(v1: BIT_VECTOR & idx: INTEGER & 0<=idx & idx+1<=size(v1) | v1(idx+1)) & bv_set: BIT_VECTOR*NATURAL +-> BIT_VECTOR & dom(bv_set) = BIT_VECTOR*NATURAL & bv_set = %(v1,idx).(v1: BIT_VECTOR & idx: INTEGER & 0<=idx & idx+1<=size(v1) | v1<+{idx+1|->1}) & bv_clear: BIT_VECTOR*NATURAL +-> BIT_VECTOR & dom(bv_clear) = BIT_VECTOR*NATURAL & bv_clear = %(v1,idx).(v1: BIT_VECTOR & idx: INTEGER & 0<=idx & idx+1<=size(v1) | v1<+{idx+1|->0}) & BYTE_WIDTH = 8 & BYTE_INDEX = 0..BYTE_WIDTH-1 & BYTE: POW(BIT_VECTOR) & BYTE = SET(vv).(vv: BIT_VECTOR & size(vv) = BYTE_WIDTH) & BYTE_ZERO: BYTE & BYTE_ZERO = BYTE_INDEX*{0});
+("`Included,imported and extended machines properties'" & btrue);
+("`Component invariant'" & btrue);
+("`Seen and used machines invariants'" & btrue);
+("`Included,imported and extended machines invariants'" & btrue);
+("`Component assertions'" & btrue);
+("`Seen and used machines assertions'" & NB_WORD8S = 256 & !n0.(n0: WORD8 => 0<=n0) & !n0.(n0: WORD8 => n0<=255) & 2**16 = 65536 & INSTRUCTION_NEXT: VALUE16 +-> VALUE16 & dom(INSTRUCTION_NEXT) = VALUE16 & 0 = WORD8_TO_WORD16(0,0) & bit_not(0) = 1 & bit_not(1) = 0 & !bb.(bb: BIT => bit_not(bit_not(bb)) = bb) & bit_and(0,0) = 0 & bit_and(0,1) = 0 & bit_and(1,0) = 0 & bit_and(1,1) = 1 & !(b1,b2).(b1: BIT & b2: BIT => bit_and(b1,b2) = bit_and(b2,b1)) & !(b1,b2,b3).(b1: BIT & b2: BIT & b3: BIT => bit_and(b1,bit_and(b2,b3)) = bit_and(bit_and(b1,b2),b3)) & !b1.(b1: BIT => bit_and(b1,1) = b1) & !b1.(b1: BIT => bit_and(b1,0) = 0) & bit_or(0,0) = 0 & bit_or(0,1) = 1 & bit_or(1,0) = 1 & bit_or(1,1) = 1 & !(b1,b2).(b1: BIT & b2: BIT => bit_or(b1,b2) = bit_or(b2,b1)) & !(b1,b2,b3).(b1: BIT & b2: BIT & b3: BIT => bit_or(b1,bit_or(b2,b3)) = bit_or(bit_or(b1,b2),b3)) & !b1.(b1: BIT => bit_or(b1,1) = 1) & !b1.(b1: BIT => bit_or(b1,0) = b1) & bit_xor(0,0) = 0 & bit_xor(0,1) = 1 & bit_xor(1,0) = 1 & bit_xor(1,1) = 0 & !(b1,b2).(b1: BIT & b2: BIT => bit_xor(b1,b2) = bit_xor(b2,b1)) & !(b1,b2,b3).(b1: BIT & b2: BIT & b3: BIT => bit_xor(b1,bit_xor(b2,b3)) = bit_xor(bit_xor(b1,b2),b3)) & !bb.(bb: BIT => bit_xor(bb,bb) = 0) & bool_to_bit(TRUE) = 1 & bool_to_bit(FALSE) = 0 & bit_to_bool(1) = TRUE & bit_to_bool(0) = FALSE & !bv.(bv: BIT_VECTOR => ran(bv): POW(BIT)) & !bv.(bv: BIT_VECTOR => bv: seq(BIT)) & !bv.(bv: BIT_VECTOR => size(bv_not(bv)) = size(bv)) & !bv.(bv: BIT_VECTOR => bv_not(bv_not(bv)) = bv) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR => size(bv_catenate(v1,v2)) = size(v1)+size(v2)) & !(bv,low,high).(bv: BIT_VECTOR & low: INTEGER & 0<=low & high: INTEGER & 0<=high & low<=high => size(bv_sub(bv,low,high)) = 1+high-low) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) => size(bv_and(v1,v2)) = size(v2)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) => bv_and(v1,v2) = bv_and(v2,v1)) & !(v1,v2,v3).(v1: BIT_VECTOR & v2: BIT_VECTOR & v3: BIT_VECTOR & size(v1) = size(v2) & size(v1) = size(v3) => bv_and(v1,bv_and(v2,v3)) = bv_and(bv_and(v1,v2),v3)) & !bv.(bv: BIT_VECTOR => bv_and(bv,bv_zero(size(bv))) = bv_zero(size(bv))) & !bv.(bv: BIT_VECTOR => bv_and(bv,bv_one(size(bv))) = bv) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) => size(bv_or(v1,v2)) = size(v1)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) => size(bv_or(v1,v2)) = size(v2)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) => bv_or(v1,v2) = bv_or(v2,v1)) & !(v1,v2,v3).(v1: BIT_VECTOR & v2: BIT_VECTOR & v3: BIT_VECTOR & size(v1) = size(v2) & size(v1) = size(v3) => bv_or(v1,bv_or(v2,v3)) = bv_or(bv_or(v1,v2),v3)) & !bv.(bv: BIT_VECTOR => bv_or(bv,bv_one(size(bv))) = bv_one(size(bv))) & !bv.(bv: BIT_VECTOR => bv_or(bv,bv_zero(size(bv))) = bv) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) => size(bv_xor(v1,v2)) = size(v1)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) => size(bv_xor(v1,v2)) = size(v2)) & !(v1,v2).(v1: BIT_VECTOR & v2: BIT_VECTOR & size(v1) = size(v2) => bv_xor(v1,v2) = bv_xor(v2,v1)) & !bv.(bv: BIT_VECTOR => bv_xor(bv,bv) = bv_zero(size(bv))));
+("`Included,imported and extended machines assertions'" & btrue);
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(w1,w2: dom(FUNC_IN_r_9C0));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(bool(w1+1<=0): dom(bool_to_bit));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(bool(w1 = 0): dom(bool_to_bit));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(7: dom(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2): dom(WORD8_TO_BYTE(w2)) +-> ran(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(6: dom(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2): dom(WORD8_TO_BYTE(w2)) +-> ran(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(5: dom(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2): dom(WORD8_TO_BYTE(w2)) +-> ran(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(4: dom(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2): dom(WORD8_TO_BYTE(w2)) +-> ran(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(3: dom(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2): dom(WORD8_TO_BYTE(w2)) +-> ran(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(2: dom(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2): dom(WORD8_TO_BYTE(w2)) +-> ran(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(1: dom(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2): dom(WORD8_TO_BYTE(w2)) +-> ran(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(0: dom(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2): dom(WORD8_TO_BYTE(w2)) +-> ran(WORD8_TO_BYTE(w2)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(0<=WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0): dom(bool_to_bit));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE);
+(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}): dom(BYTE_TO_WORD8));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(bool(w1+1<=0): dom(bool_to_bit));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(bool(w1 = 0): dom(bool_to_bit));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(2: dom(WORD8_TO_BYTE(w1)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(WORD8_TO_BYTE(w1): dom(WORD8_TO_BYTE(w1)) +-> ran(WORD8_TO_BYTE(w1)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(1: dom(WORD8_TO_BYTE(w1)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(WORD8_TO_BYTE(w1): dom(WORD8_TO_BYTE(w1)) +-> ran(WORD8_TO_BYTE(w1)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(0: dom(WORD8_TO_BYTE(w1)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(WORD8_TO_BYTE(w1): dom(WORD8_TO_BYTE(w1)) +-> ran(WORD8_TO_BYTE(w1)));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(bool(7<=WORD8_TO_BYTE(w1)(2)*4+WORD8_TO_BYTE(w1)(1)*2+WORD8_TO_BYTE(w1)(0)): dom(bool_to_bit));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(bool(w1 = 127): dom(bool_to_bit));
+("`Local hypotheses'" & FUNC_IN_r_9C0: WORD8*WORD8 +-> WORD8 & dom(FUNC_IN_r_9C0) = WORD8*WORD8 & !(w1,w2).(w1: WORD8 & w2: WORD8 & WORD8_TO_BYTE(w2): BYTE => FUNC_IN_r_9C0(w1,w2) = BYTE_TO_WORD8(WORD8_TO_BYTE(w2)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->0}\/{2|->bool_to_bit(bool((WORD8_TO_BYTE(w2)(7)+WORD8_TO_BYTE(w2)(6)+WORD8_TO_BYTE(w2)(5)+WORD8_TO_BYTE(w2)(4)+WORD8_TO_BYTE(w2)(3)+WORD8_TO_BYTE(w2)(2)+WORD8_TO_BYTE(w2)(1)+WORD8_TO_BYTE(w2)(0)) mod 2 = 0))}\/{1|->0}))) & FUNC_INC_r: WORD8 +-> WORD8 & dom(FUNC_INC_r) = WORD8 & w1: WORD8 & WORD8_TO_BYTE(w1): BYTE);
+(WORD8_TO_BYTE(w1)<+({7|->bool_to_bit(bool(w1+1<=0))}\/{6|->bool_to_bit(bool(w1 = 0))}\/{4|->bool_to_bit(bool(7<=WORD8_TO_BYTE(w1)(2)*4+WORD8_TO_BYTE(w1)(1)*2+WORD8_TO_BYTE(w1)(0)))}\/{2|->bool_to_bit(bool(w1 = 127))}\/{1|->0}): dom(BYTE_TO_WORD8))
+
+END
+&
+
+THEORY EnumerateX 
+
+END

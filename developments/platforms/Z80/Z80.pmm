@@ -1,0 +1,3 @@
+THEORY User_Pass IS
+Operation(IND) & ff(0) & dcs(mem(WORD16_TO_VALUE16(WORD8_TO_WORD16(rgs8(h0), rgs8(l0))))) & ae(mem(WORD16_TO_VALUE16(WORD8_TO_WORD16(rgs8(h0), rgs8(l0)))), aa)
+END
