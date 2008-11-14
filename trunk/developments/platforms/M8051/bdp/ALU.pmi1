@@ -50,6 +50,6 @@ THEORY ManForms
 END
 &
 THEORY Version IS
-  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,local_op == OK);
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, local_op == OK);
   PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
 END

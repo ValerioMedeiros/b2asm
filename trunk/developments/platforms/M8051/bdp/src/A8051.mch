@@ -15,6 +15,7 @@ MEMORY
 
 
 CONCRETE_VARIABLES
+/*Program Counter Register*/
 pc
 
 INVARIANT
@@ -26,7 +27,7 @@ pc := 0
 OPERATIONS
 
 /*
-This operation here aren't in 8051, but this is necessary in utilizing of 8051 Machine for other aplication
+This operation aren't in 8051, but this is necessary in utilizing of 8051 Machine for other aplication
 */
 INIT =
   BEGIN pc := 0 END
@@ -121,8 +122,8 @@ ADDD ( ac , data ) =
 
 /************************************************************************************************************************
 Set of operation ADDC that adds simultaneously the byte variables indicated (constant, indirect address, direct address), 
-the Accumulator and the carry leaving the result in the Accumulator .
-This operation affected the flag carry(CY), half-carry(AC) and overflow(OV).
+the Accumulator and the carry leaving the result in the Accumulator. This operation affected the flag carry(CY), 
+half-carry(AC) and overflow(OV).
 *************************************************************************************************************************/
 
 /*
@@ -162,6 +163,7 @@ ADDCI ( ac , Rn ) =
 
         END
 ;
+
 /*
 Represents the follow 8051's instruction :
 ADDC A,@Rn - Adds the value passed, the Accumulator and the carry.
@@ -181,9 +183,9 @@ ADDCD ( ac , data ) =
         END
 ;
 
-/*
-AJMP no implement
-*/
+/****************************************************************
+???AJMP no implement - I don't know how implement then???
+*****************************************************************/
 
 
 /************************************************************************************************************************
@@ -259,97 +261,408 @@ ANLDD ( dest , data ) =
           addrSetDirect ( dest , and ( mem ( dest ) , uchar_byte ( data ) ) )
           || pc := PC_INCREMENT ( pc , 1 )
         END
+;
+
+/*
+Represents the follow 8051's instruction :
+ANL C bit - Logic and between CY and bit passed, leaving the result in CY
+*/
+
+ANLB ( cy , bit ) =
+        PRE
+            cy = CY & bit : BIT_ADDRESS
+        THEN
+            IF BIT_GET ( bit , mem ) = 0 THEN bitClear ( CY ) END || pc := PC_INCREMENT ( pc , 1 )
+        END
+
+;
+
+/************************************************************************************************************************
+The set of CJNE compare the magnitude of the first two operations and branches if their are not equals. The branch 
+destination is formend for adds of the rel parameter and the location of next instruction. This instruction set the 
+carry CY if the unsigned value of the first parameter is less than second and clear otherwise.
+************************************************************************************************************************/
+
+/*
+Represents the follow 8051's instruction :
+CJNE A,direct,rel - Compare the value of Accumulator and the value of address passed
+*/
+CJNE ( acc , direct , jump ) =
+
+        PRE
+          acc = ACC & direct : MEM_ADDR & jump : ROM_ADDR
+        THEN
+          IF not ( byte_uchar ( mem ( ACC ) ) = byte_uchar ( mem ( direct ) ) )
+              THEN
+                  IF byte_uchar ( mem ( ACC ) ) < byte_uchar ( mem ( direct ) )
+                      THEN
+                              bitSet ( CY )
+                      ELSE
+                        bitClear ( CY )
+                  END || pc := PC_INCREMENT ( pc , jump + 1 )
+                    ELSE
+                           pc := PC_INCREMENT ( pc , 1 )
+          END
+        END
+;
+
+/*
+Represents the follow 8051's instruction :
+CJNE A,#data,rel - Compare the value of Accumulator and the value passed
+CJNE Rn,#data,rel - Compare the value of Register passed and the constant passed
+*/
+CJNED ( dest , data , jump ) =
+        PRE
+          dest : R0 .. R7 \/ { ACC } & data : UCHAR & jump : ROM_ADDR
+        THEN
+          IF not ( byte_uchar ( mem ( dest ) ) = data )
+              THEN
+                  IF ( byte_uchar ( mem ( dest ) ) < data )
+                      THEN
+                              bitSet ( CY )
+                      ELSE
+                        bitClear ( CY )
+                  END || pc := PC_INCREMENT ( pc , jump + 1 )
+                    ELSE
+                           pc := PC_INCREMENT ( pc , 1 )
+          END
+        END
+;
+
+/*
+Represents the follow 8051's instruction :
+CJNE @Rn,#data,rel - Compare the value of address indicate by the register passed and the constant passed
+*/
+CJNEI ( Rn , data , jump ) =
+        PRE
+           Rn : RAM_ADDR & ( Rn = R1 or Rn = R2 ) & data : UCHAR & jump : ROM_ADDR
+           & byte_uchar ( mem ( Rn ) ) : RAM_ADDR
+        THEN
+           ANY addr WHERE addr : RAM_ADDR & addr = byte_uchar ( mem ( Rn ) )
+           THEN
+               IF not ( byte_uchar ( mem ( addr ) ) = data )
+                   THEN
+                       IF ( byte_uchar ( mem ( addr ) ) < data )
+                           THEN bitSet ( CY )
+                           ELSE bitClear ( CY )
+                       END || pc := PC_INCREMENT ( pc , jump + 1 )
+                          ELSE
+                            pc := PC_INCREMENT ( pc , 1 )
+               END
+           END
+    END
+;
+
+
+/************************************************************************************************************************
+The set of CLR clear the Accumulator or the bit passed. No flags are affected
+************************************************************************************************************************/
+
+/*
+Represents the follow 8051's instruction :
+CLR bt - Clear the bit passed (if i clear the parity bit ? - The 8051 allowed clear the parity bit, but its generate a inconsistence)
+CLR C - Clear the CY
+*/
+CLR ( bt ) =
+        PRE
+          bt : BIT_ADDRESS
+        THEN
+          bitClear ( bt ) || pc := PC_INCREMENT ( pc , 1 )
+        END
+;
+
+/*
+Represents the follow 8051's instruction :
+CLR ACC - Clear the Accumulator
+*/
+CLRA ( addr ) =
+        PRE
+          addr = ACC
+        THEN
+          addrSetDirect ( ACC , uchar_byte ( 0 ) ) || pc := PC_INCREMENT ( pc , 1 )
+        END
+;
+/************************************************************************************************************************
+The set of CPL make the complement of Accumulator or a bit addressable passed and put the result in both. 
+No flags are affect
+************************************************************************************************************************/
+
+/*
+Represents the follows 8051's instructions :
+CPL bit - Complement the bit passed
+CPL C - Complement the Carry CY
+*/
+CPL ( bit ) =
+        PRE
+            bit : BIT_ADDRESS
+        THEN
+            IF BIT_GET ( bit , mem ) = 0 THEN bitSet ( bit ) ELSE bitClear ( bit ) END || pc := PC_INCREMENT ( pc , 1 )
+    END
+;
+
+/*
+Represents the follow 8051's instruction:
+CPL A - Complement the accumulator
+*/
+CPLA ( acc ) =
+        PRE
+            acc = ACC
+        THEN
+            addrSetDirect ( ACC , complement ( mem ( ACC ) ) ) || pc := PC_INCREMENT ( pc , 1 )
+    END
+;
+
+
+
+/************************************************************************************************************************
+The set of DEC decrement by 1 the bytes indicates. No flags are affected 
+************************************************************************************************************************/
+
+/*
+Represents the follows 8051's instructions:
+DEC A - Decrement the value of accumulator
+DEC Rn - Decrement the value of register passed
+DEC direct - Decrement the value of the address passed
+*/
+DEC ( src ) =
+        PRE
+          src : MEM_ADDR
+        THEN
+           ANY acc , Pa , Cy , Ac , Ov
+           WHERE
+               acc : UCHAR & Pa : BIT & Cy : BIT & Ac : BIT & Ov : BIT
+               & acc , Pa , Ov , Ac , Cy = sub ( byte_uchar ( mem ( src ) ) , 1 , 0 )
+           THEN
+               addrSetDirect ( src , uchar_byte ( acc ) )
+           END || pc := PC_INCREMENT ( pc , 1 )
+        END
+;
+
+/*
+Represents the follow 8051's instruction:
+DEC @Rn - Decrement the value of the address indicate for register passed
+*/
+DECI ( Rn ) =
+        PRE
+            Rn : SFR_ADDR & ( Rn = R0 or Rn = R1 ) & byte_uchar ( mem ( Rn ) ) : RAM_ADDR
+    THEN
+        ANY        acc , Pa , Cy , Ac , Ov , src
+                  WHERE
+                           acc : UCHAR & Pa : BIT & Cy : BIT & Ac : BIT & Ov : BIT & src : RAM_ADDR & src = byte_uchar ( mem ( Rn ) )
+                           & acc , Pa , Ov , Ac , Cy = sub ( byte_uchar ( mem ( src ) ) , 1 , 0 )
+                  THEN
+                           addrSetDirect ( src , uchar_byte ( acc ) )
+                  END || pc := PC_INCREMENT ( pc , 1 )
+        END
+;
+
+
+
+
+/************************************************************************************************************************
+The DJNZ decrement by 1 the value indicates and branche to relative adrress, formed for adds between next 
+instruction address and jump passed, if the result is not zero, otherwise set the pc to next instruction.
+No flags are affected
+************************************************************************************************************************/
+/*
+Represents the follows 8051's instructions:
+DJNZ Rn, rel - Decrement the value of the indicate Register of working
+DJNZ direct, rel - Decrement the value of the address indicate and branches if the result is not zero
+*/
+DJNZ ( direct , jump ) =
+        PRE
+            direct : RAM_ADDR & jump : ROM_ADDR
+        THEN
+            ANY        result , Pa , Cy , Ac , Ov
+                  WHERE
+                           result : UCHAR & Pa : BIT & Cy : BIT & Ac : BIT & Ov : BIT
+                           & result , Pa , Ov , Ac , Cy = sub ( byte_uchar ( mem ( direct ) ) , 1 , 0 )
+                  THEN
+                      addrSetDirect ( direct , uchar_byte ( result ) ) ||
+                      IF not ( result = 0 ) THEN pc := PC_INCREMENT ( pc , jump + 1 ) ELSE pc := PC_INCREMENT ( pc , 1 ) END
+                  END
+        END
+;
+
+/************************************************************************************************************************
+The set of INC instructions increment the indicate variable by 1. No flags are affected
+************************************************************************************************************************/
+/*
+Represents the follows 8051's instructions:
+INC A - Increment the value of accumulator
+INC Rn - Increment the value of register passed
+INC direct - Increment the value of the address passed
+*/
+INC ( src ) =
+        PRE
+            src : MEM_ADDR
+        THEN
+            ANY
+                acc , Pa , Cy , Ac , Ov
+        WHERE
+            acc : UCHAR & Pa : BIT & Cy : BIT & Ac : BIT & Ov : BIT
+                    & acc , Pa , Ov , Ac , Cy = add ( byte_uchar ( mem ( src ) ) , 1 , 0 )
+                  THEN
+                       addrSetDirect ( src , uchar_byte ( acc ) )
+        END || pc := PC_INCREMENT ( pc , 1 )
+        END
+;
+
+/*
+Represents the follow 8051's instruction:
+INC @Ri - Increment the value of address indicate for register passed
+*/
+INCI ( Rn ) =
+        PRE
+            Rn : SFR_ADDR & ( Rn = R0 or Rn = R1 ) & byte_uchar ( mem ( Rn ) ) : RAM_ADDR
+        THEN
+            ANY
+                acc , Pa , Cy , Ac , Ov , src
+                 WHERE
+                     acc : UCHAR & Pa : BIT & Cy : BIT & Ac : BIT & Ov : BIT & src : RAM_ADDR & src = byte_uchar ( mem ( Rn ) )
+                          & acc , Pa , Ov , Ac , Cy = add ( byte_uchar ( mem ( src ) ) , 1 , 0 )
+                 THEN
+                       addrSetDirect ( src , uchar_byte ( acc ) )
+                 END || pc := PC_INCREMENT ( pc , 1 )
+
+        END
+;
+
+/************************************************************************************************************************
+The JB instruction jum to the relative addres, formed for adds of addr passed and the addres of next instuction, if the
+bit passed is one, otherwise it go to next instruction. No flags are affected and the bit tested is not modified
+************************************************************************************************************************/
+/*
+Represents the follow 8051's instruction:
+JB bit,rel - make a relative jump if then bit is one
+*/
+JB ( bit , jump ) =
+   PRE
+       bit : BIT_ADDRESS & jump : ROM_ADDR
+   THEN
+       IF BIT_GET ( bit , mem ) = 1
+           THEN pc := PC_INCREMENT ( pc , jump + 1 )
+                  ELSE pc := PC_INCREMENT ( pc , 1 )
+       END
+   END
+;
+
+/************************************************************************************************************************
+The JBC instruction jum to the relative address, formed for adds of addr passed and the addres of next instuction, if the
+bit passed is one and clear then, otherwise it go to next instruction with midified the bit passed. No flags are affected. 
+************************************************************************************************************************/
+/*
+Represents the follow 8051's instruction:
+JBC bit,rel - make a relative jump if then bit passed is one and clear then
+*/
+JBC ( bit , jump ) =
+   PRE
+       bit : BIT_ADDRESS & jump : ROM_ADDR
+   THEN
+       IF BIT_GET ( bit , mem ) = 1
+           THEN bitClear ( bit ) || pc := PC_INCREMENT ( pc , jump + 1 )
+           ELSE pc := PC_INCREMENT ( pc , jump + 1 )
+       END
+   END
+;
+
+/************************************************************************************************************************
+The JC instruction jum to the relative addres, formed for adds of addr passed and the addres of next instuction, if the
+carry (CY) is one, otherwise it go to next instruction. No flags are affected.
+************************************************************************************************************************/
+/*
+Represents the follow 8051's instruction:
+JC rel - make a relative jump if then bit if the carry is one
+*/
+JC ( jump ) =
+   PRE
+       jump : ROM_ADDR
+   THEN
+       IF BIT_GET ( CY , mem ) = 1
+                  THEN pc := PC_INCREMENT ( pc , 1 + jump )
+           ELSE pc := PC_INCREMENT ( pc , 1 )
+       END
+   END
+;
+
+/************************************************************************************************************************
+The JNB instruction jum to the relative addres, formed for adds of addr passed and the addres of next instuction, if the
+bit passed is not one, otherwise it go to next instruction. No flags are affected and the bit tested is not modified
+************************************************************************************************************************/
+/*
+Represents the follow 8051's instruction:
+JNB bit,rel - make a relative jump if then bit is not one
+*/
+JNB ( bit , jump ) =
+        PRE
+            bit : BIT_ADDRESS & jump : ROM_ADDR
+        THEN
+            IF BIT_GET ( bit , mem ) = 0
+                    THEN pc := PC_INCREMENT ( pc , jump + 1 )
+                ELSE pc := PC_INCREMENT ( pc , 1 )
+            END
+        END
+;
+
+/************************************************************************************************************************
+The JC instruction jum to the relative addres, formed for adds of addr passed and the addres of next instuction, if the
+carry (CY) is not one, otherwise it go to next instruction. No flags are affected.
+************************************************************************************************************************/
+/*
+Represents the follow 8051's instruction:
+JNC rel - make a relative jump if then bit if the carry is not one
+*/
+JNC ( bit , jump ) =
+        PRE
+          bit : BIT_ADDRESS & jump : ROM_ADDR
+        THEN
+            IF BIT_GET ( bit , mem ) = 0
+                    THEN bitClear ( bit ) || pc := PC_INCREMENT ( pc , jump + 1 )
+                ELSE pc := PC_INCREMENT ( pc , 1 )
+                  END
+        END
+
+;
+/************************************************************************************************************************
+The JNZ instruction jum to the relative addres, formed for adds of addr passed and the addres of next instuction, if any 
+bit of the accumulator is one, otherwise it go to next instruction. No flags are affected.
+************************************************************************************************************************/
+/*
+Represents the follow 8051's instruction:
+JNZ rel - make a relative jump if then bit if the carry is one
+*/
+JNZ ( jump ) =
+        PRE
+            jump : ROM_ADDR
+        THEN
+            IF byte_uchar ( mem ( ACC ) ) /= 0
+                    THEN pc := PC_INCREMENT ( pc , jump + 1 )
+                ELSE pc := PC_INCREMENT ( pc , 1 )
+            END
+        END
+;
+
+/************************************************************************************************************************
+The JZ instruction jum to the relative addres, formed for adds of addr passed and the addres of next instuction, if all 
+bits of the accumulator is one, otherwise it go to next instruction. No flags are affected.
+************************************************************************************************************************/
+/*
+Represents the follow 8051's instruction:
+JNZ rel - make a relative jump if then bit if the carry is one
+*/
+JZ ( jump ) =
+        PRE
+            jump : ROM_ADDR
+        THEN
+            IF byte_uchar ( mem ( ACC ) ) = 1
+                THEN pc := PC_INCREMENT ( pc , jump + 1 )
+                         ELSE pc := PC_INCREMENT ( pc , 1 )
+                 END
+        END
 
 
 END
-
-
-
-
-
-/*CJNE A,#data,rel --- Direct Adrres */
-/*CJNE Rn,#data,rel --- Direct Adrres */
 /*
-CJNE(addr,data,jump)=
-
-	PRE 
-	  addr : MEM_ADDR  & 
-	  data : UCHAR & 
-	  jump : INSTRUCTION
-
-	THEN 
-	  IF (not(mem(addr)=uchar_byte(data)))THEN
-            BEGIN
-	      IF(byte_uchar(mem(addr))<data)THEN
-	    	bitSet(CY)
-	      ELSE 
-	    	bitClear(CY)
-	      END 
-	    END ||pc:= INSTRUCTION_INCREMENT(pc,jump+1)
-	  ELSE	
-	   pc:= INSTRUCTION_INCREMENT(pc,1)
-	  END 
-	END
-;
-*/
-/*CJNE @Ri,<data>,rel ----- Indirect */
-
-/*
-CJNEI(Rn,data,jump)=
-	PRE 
-	   Rn : RAM_ADDR &	
-	  (Rn=R1 or  Rn=R2)&
-	  data : UCHAR&
-	  jump : INSTRUCTION &
-	  byte_uchar(mem(Rn)) : RAM_ADDR
-
-	THEN 
-	   ANY addr WHERE addr : RAM_ADDR & addr = byte_uchar(mem(Rn))
-	     THEN
-	  	IF (not(mem(addr)=uchar_byte(data)))THEN
-                  BEGIN
-	            IF(byte_uchar(mem(addr))< data)THEN
-	    	      bitSet(CY)
-	            ELSE 
-	    	      bitClear(CY)
-	            END 
-	          END || pc := INSTRUCTION_INCREMENT(pc,jump+1)			
-	       ELSE	
-	         pc:=INSTRUCTION_INCREMENT(pc,1)			
-	       END 
-	     END
-       END
-
-
-;
-
-
-*/
-
-/*CJNE A,direct,rel ---- jump Direct */
-/*
-CJNEM(dest,src,jump)=
-
-	PRE 
-	  dest : MEM_ADDR  &
-	  dest = ACC & 
-	  src : MEM_ADDR & 
-	  jump : INSTRUCTION
-
-	THEN 
-	  IF (not(mem(dest)=mem(src)))THEN
-            BEGIN
-	      IF(byte_uchar(mem(dest))< byte_uchar(mem(src)))THEN
-	    	bitSet(CY)
-	      ELSE 
-	    	bitClear(CY)
-	      END 
-	    END || pc := INSTRUCTION_INCREMENT(pc,jump+1)			
-	  ELSE	
-	    pc:= INSTRUCTION_INCREMENT(pc,1)
-	  END 
-	END
-;
 
 SJMP(jump)=
 	PRE 
@@ -423,49 +736,6 @@ MOVIM(Rn,src)=
 
 
 
-JNZ(jump)=
-	PRE
-	  jump : INSTRUCTION
-	THEN
-	 IF byte_uchar(mem(ACC))/=0 
-	  THEN pc:= INSTRUCTION_INCREMENT(pc,jump+1)
-	  ELSE pc:=INSTRUCTION_INCREMENT(pc,1)
-	 END
-	END
-
-;
-JZ(jump)=
-	PRE
-	  jump : INSTRUCTION
-	THEN
-	 IF byte_uchar(mem(ACC))= 0 
-	 THEN pc:= INSTRUCTION_INCREMENT(pc,jump+1)
-	 ELSE pc:=INSTRUCTION_INCREMENT(pc,1)
-	 END
-	END
-;
-
-
-CLR(bt)=
-
-	PRE
-	  bt : BIT_ADDRESS
-	THEN
-	  bitClear(bt)
-	END
-
-
-;
-CLRA(addr)=
-
-	PRE
-	  addr : SFR_ADDR & addr = ACC
-	THEN
-	  addrSetDirect(addr,uchar_byte(0))||pc:= INSTRUCTION_INCREMENT(pc,1)	
-	END
-
-;
-
 CPLA(addr)=
    PRE addr : SFR_ADDR & addr = ACC
    THEN addrSetDirect(addr,complement(mem(ACC))) ||pc:= INSTRUCTION_INCREMENT(pc,1)
@@ -529,78 +799,9 @@ SUBBD(dest,data)=
           END ||pc:=INSTRUCTION_INCREMENT(pc,1)
 	END 
 ;
-INC(src) =
-	PRE
-	  src : MEM_ADDR
-	THEN
-	  ANY 
-            acc,Pa,Cy,Ac,Ov
-	  WHERE 
-	    acc: UCHAR & Pa:BIT & Cy:BIT & Ac:BIT & Ov:BIT 
-	    &acc,Pa,Ov,Ac,Cy =add( byte_uchar(mem(src)),1,0)
-	  THEN  
-   	    addrSetDirect(src,uchar_byte(acc))
-          END ||pc:= INSTRUCTION_INCREMENT(pc,1)
-	END
-;
-INCI(Rn)=
-	PRE
-	Rn : SFR_ADDR & (Rn = R0 or Rn = R1) & byte_uchar(mem(Rn)) : RAM_ADDR
-	THEN
-	 ANY 
-	  acc,Pa,Cy,Ac,Ov,src
-	 WHERE
-	  acc: UCHAR & Pa:BIT & Cy:BIT & Ac:BIT & Ov:BIT & src:RAM_ADDR & src = byte_uchar(mem(Rn))
-	  & acc,Pa,Ov,Ac,Cy =add(byte_uchar(mem(src)),1,0)
-	 THEN
-   	    addrSetDirect(src,uchar_byte(acc))	  
-	 END||pc:= INSTRUCTION_INCREMENT(pc,1)
-
-	END
 
 
-;
-DEC(src)=
-	PRE
-	  src : MEM_ADDR
-	THEN
-	   ANY acc,Pa,Cy,Ac,Ov
-	   WHERE
-	    acc: UCHAR & Pa:BIT & Cy:BIT & Ac:BIT & Ov:BIT 
-	    & acc,Pa,Ov,Ac,Cy =sub(byte_uchar(mem(src)),1,0)	
-	   THEN
-             addrSetDirect(src,uchar_byte(acc))	  
-	   END|| pc := INSTRUCTION_INCREMENT(pc,1)
-	END
-;
-DECI(Rn)=
-	PRE 
-	  Rn : SFR_ADDR &(Rn= R0 or Rn = R1) & byte_uchar(mem(Rn)): RAM_ADDR
-	
-        THEN
-	  ANY
-	   acc,Pa,Cy,Ac,Ov,src
-	  WHERE 
-	   acc: UCHAR & Pa:BIT & Cy:BIT & Ac:BIT & Ov:BIT & src:RAM_ADDR & src=byte_uchar(mem(Rn))
-	   & acc,Pa,Ov,Ac,Cy =sub(byte_uchar(mem(src)),1,0)	
-	  THEN
-	   addrSetDirect(src,uchar_byte(acc))	  
-	  END||pc := INSTRUCTION_INCREMENT(pc,1)
-	END
-;
 
-CPL(ca) = 
-	PRE
-	 ca : BIT_ADDRESS 
-	THEN 
-	 
-	  IF BIT_GET(ca,mem)=0 THEN bitSet(ca)ELSE bitClear(ca)
-	  END||pc:= INSTRUCTION_INCREMENT(pc,1)	
-         
-        END
-
-
-;
 
 MOVB(dest,src)=
 	PRE
@@ -610,53 +811,17 @@ MOVB(dest,src)=
 	END
 ;
 
-JBC(bit,jump)=
-   PRE
-    bit : BIT_ADDRESS & jump :  INSTRUCTION
-   THEN
-    IF BIT_GET(bit,mem)=1 
-     THEN bitClear(bit)||pc:=INSTRUCTION_INCREMENT(pc,jump+1)
-     ELSE pc:=INSTRUCTION_INCREMENT(pc,jump+1)
-    END
-   END
-;
-
-
-JB(bit,jump)=
-   PRE
-    bit : BIT_ADDRESS & jump : INSTRUCTION 
-   THEN 
-     IF BIT_GET(bit,mem)=1 THEN pc:=INSTRUCTION_INCREMENT(pc,jump+1) 
-      ELSE pc:=INSTRUCTION_INCREMENT(pc,1)
-     END  
-   END
-;
 
 
 
 
-JNB(bit,jump)=
-	PRE 
-	  bit : BIT_ADDRESS & jump : INSTRUCTION
-	THEN 
-	  IF BIT_GET(bit,mem)=0 
-	   THEN pc:= INSTRUCTION_INCREMENT(pc,jump+1) 
-	   ELSE pc:= INSTRUCTION_INCREMENT(pc,1) 
-	  END
-	END
-;
 
 
-JNC(bit,jump)=
-	PRE
-	  bit : BIT_ADDRESS & jump : INSTRUCTION
-	THEN
-	  IF BIT_GET(bit,mem)=0
-	   THEN bitClear(bit)||pc:=INSTRUCTION_INCREMENT(pc,jump+1)
-	   ELSE pc:=INSTRUCTION_INCREMENT(pc,1)
-	  END
-	END
-;
+
+
+
+
+
 SWAP(addr)=
 	PRE
   	  addr : MEM_ADDR
@@ -666,14 +831,7 @@ SWAP(addr)=
 
 ;
 
-JC(jump)=	
-   PRE
-    jump : INSTRUCTION
-   THEN
-    pc:= bitjump(bitget(mem(PSW),7),1,jump,pc)
-   END
 
-END
 */
 /*D�vidas
 

@@ -1,5 +1,5 @@
 THEORY BalanceX IS
-  A8051,22,0,0,22,0,0,0;
+  A8051,52,16,0,36,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
   Initialisation,1,0,0,1,0,0,0;
   INIT,1,0,0,1,0,0,0;
@@ -14,10 +14,48 @@ THEORY BalanceX IS
   ANLI,3,0,0,3,0,0,0;
   ANLD,3,0,0,3,0,0,0;
   ANLDA,2,0,0,2,0,0,0;
-  ANLDD,2,0,0,2,0,0,0
+  ANLDD,2,0,0,2,0,0,0;
+  ANLB,3,1,0,2,0,0,0;
+  CJNE,5,2,0,3,0,0,0;
+  CJNED,5,2,0,3,0,0,0;
+  CJNEI,5,2,0,3,0,0,0;
+  CLR,2,1,0,1,0,0,0;
+  CLRA,3,1,0,2,0,0,0;
+  CPL,4,4,0,0,0,0,0;
+  CPLA,3,3,0,0,0,0,0
 END
 &
 THEORY ProofState IS
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -43,6 +81,36 @@ THEORY ProofState IS
 END
 &
 THEORY MethodList IS
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  pr;
+  pr;
+  dd & pr;
+  pr;
+  pr;
+  dd & pr;
+  pr;
+  dd & pr;
+  pr;
+  pr;
+  dd & pr;
+  pr;
+  dd & pr;
+  pr;
+  pr;
+  dd & pr;
+  pr;
+  dd & pr;
+  pr;
+  pr;
+  dd & pr;
+  pr;
   pr;
   pr;
   pr;
@@ -68,6 +136,36 @@ THEORY MethodList IS
 END
 &
 THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0);
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;

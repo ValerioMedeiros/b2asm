@@ -77,11 +77,11 @@ PROPERTIES
 
    /*((ACC),Data,(bit))= (Diff,P,Ov,AC,Cy)*/
   & sub : UCHAR * UCHAR * UCHAR --> UCHAR * BIT * BIT * BIT * BIT
-  & sub = % ( v1 , v2 , ca ) . ( v1 : UCHAR & v2 : UCHAR & ca : UCHAR | ( bool_to_bit ( bool ( v1 < ( v2 + ca ) ) ) * 256 ) + v1 - v2 - ca
-                                                      , parity ( uchar_byte ( ( bool_to_bit ( bool ( v1 < ( v2 + ca ) ) ) * 256 ) + v1 - v2 - ca ) )
-                                                      , bool_to_bit ( bool ( ( uchar_schar ( v1 ) - uchar_schar ( v2 ) - ca ) /: SCHAR ) )
-                                                      , bool_to_bit ( bool ( half ( v1 ) < ( half ( v2 ) - ca ) ) )
-                                                      , bool_to_bit ( bool ( ( v1 - v2 - ca ) /: UCHAR ) ) )
+  & sub = % ( v1 , v2 , ca ) . ( v1 : UCHAR & v2 : UCHAR & ca : UCHAR | ( bool_to_bit ( bool ( v1 < ( v2 + ca ) ) ) * 256 ) + v1 - v2 - ca /*Sun- Results less than zero are adds to (UCHAR_MAX+1) */
+                                                      , parity ( uchar_byte ( ( bool_to_bit ( bool ( v1 < ( v2 + ca ) ) ) * 256 ) + v1 - v2 - ca ) ) /*Parity*/
+                                                      , bool_to_bit ( bool ( ( uchar_schar ( v1 ) - uchar_schar ( v2 ) - ca ) /: SCHAR ) ) /*Overflow*/
+                                                      , bool_to_bit ( bool ( half ( v1 ) < ( half ( v2 ) + ca ) ) ) /*Half-carry*/
+                                                      , bool_to_bit ( bool ( ( v1 - v2 - ca ) /: UCHAR ) ) ) /*Carry*/
 
 
   & and : ( BYTE * BYTE ) --> BYTE

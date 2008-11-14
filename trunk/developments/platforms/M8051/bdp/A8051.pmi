@@ -1,7 +1,7 @@
 THEORY BalanceX IS
-  A8051,22,0,0,22,0,0,0;
+  A8051,82,59,0,23,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  Initialisation,1,0,0,1,0,0,0;
+  Initialisation,1,1,0,0,0,0,0;
   INIT,1,0,0,1,0,0,0;
   ACALL,1,0,0,1,0,0,0;
   ADD,1,0,0,1,0,0,0;
@@ -14,10 +14,89 @@ THEORY BalanceX IS
   ANLI,3,0,0,3,0,0,0;
   ANLD,3,0,0,3,0,0,0;
   ANLDA,2,0,0,2,0,0,0;
-  ANLDD,2,0,0,2,0,0,0
+  ANLDD,2,0,0,2,0,0,0;
+  ANLB,3,1,0,2,0,0,0;
+  CJNE,5,5,0,0,0,0,0;
+  CJNED,5,5,0,0,0,0,0;
+  CJNEI,5,5,0,0,0,0,0;
+  CLR,2,2,0,0,0,0,0;
+  CLRA,3,3,0,0,0,0,0;
+  CPL,4,4,0,0,0,0,0;
+  CPLA,3,3,0,0,0,0,0;
+  DEC,2,2,0,0,0,0,0;
+  DECI,3,3,0,0,0,0,0;
+  DJNZ,4,4,0,0,0,0,0;
+  INC,2,2,0,0,0,0,0;
+  INCI,3,3,0,0,0,0,0;
+  JB,2,2,0,0,0,0,0;
+  JBC,3,3,0,0,0,0,0;
+  JC,2,2,0,0,0,0,0;
+  JNB,2,2,0,0,0,0,0;
+  JNC,3,3,0,0,0,0,0;
+  JNZ,2,2,0,0,0,0,0;
+  JZ,2,2,0,0,0,0,0
 END
 &
 THEORY ProofState IS
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
@@ -39,10 +118,70 @@ THEORY ProofState IS
   Proved(0);
   Proved(0);
   Proved(0);
-  Proved(0)
+  Proved(0);
+  Proved(Util)
 END
 &
 THEORY MethodList IS
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  dd & pr;
+  pr;
+  dd & pr;
   pr;
   pr;
   pr;
@@ -64,10 +203,71 @@ THEORY MethodList IS
   pr;
   pr;
   pr;
-  pr
+  pr;
+  dd & pr
 END
 &
 THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -96,6 +296,6 @@ THEORY ManForms
 END
 &
 THEORY Version IS
-  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, local_op == OK);
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,local_op == OK);
   PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
 END
