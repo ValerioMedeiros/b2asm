@@ -889,23 +889,22 @@ push_two(data1,data2)=
      mem:=mem<+{SP_INCREMENT(mem(SP),1)|->data1, SP_INCREMENT(mem(SP),2)|->data2, SP|-> uchar_byte(SP_INCREMENT(mem(SP),2))} 
  END
 ;
-/*
+
 push(data)=
  PRE data : BYTE
  THEN
-   ANY new_sp WHERE new_sp:BYTE & new_sp = SP_INCREMENT(mem(SP))THEN 
-	mem:={byte_uchar(new_sp)|->data, SP|->new_sp}
-   END
+	mem(SP_INCREMENT(mem(SP),1)):=data
  END
 ;
 
 
 pop(addr)=
   PRE addr : MEM_ADDR
-  THEN mem:= mem <+ (ADDRCHANGE(addr,mem(SP),mem(PSW))\/ {SP|->SP_INCREMENT(mem(SP))})
+  THEN 
+      mem:= mem <+ (ADDRCHANGE(addr,mem(SP),mem(PSW))\/ {SP|->uchar_byte(SP_DECREMENT(mem(SP),1))})
   END
 ;
-*/
+
 
 /*
 Instruction that update the bits Pa,Ov,Ac,Cy  and the value of ACC after a arithmetic operation, 

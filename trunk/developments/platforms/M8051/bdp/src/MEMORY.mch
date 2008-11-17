@@ -690,6 +690,7 @@ Bytes in SFR that are bit addressable
 
 
 
+
 & PP = ( PSW , 0 )
 & OV = ( PSW , 2 )
 & RS0 = ( PSW , 3 )
@@ -756,7 +757,11 @@ Function to increment the pc
 & BIT_GET : BIT_ADDRESS * ( MEM_ADDR +-> BYTE ) --> BIT
 & ! ( bit , memory , addr , ind ) . ( bit : BIT_ADDRESS & memory : ( MEM_ADDR +-> BYTE ) & addr : MEM_ADDR & ind : BYTE_INDEX & addr , ind = bit
                                                                                 => BIT_GET ( bit , memory ) = memory ( addr ) ( ind ) )
-
+/*
+####################Antention#####################
+Put this for test
+PSW : SFR_BIT_ADDRESSABLE
+*/
 
 ASSERTIONS
 
@@ -832,6 +837,9 @@ THEN
 END
 ;
 
+/*
+Why it allowed change the parity bit without change the Accumalator?
+*/
 bitSet ( bit ) =
 PRE
   bit : BIT_ADDRESSABLE
@@ -843,6 +851,9 @@ THEN
 END
 ;
 
+/*
+Why it allowed change the parity bit without change the Accumalator?
+*/
 bitClear ( bit ) =
 PRE
   bit : BIT_ADDRESSABLE
@@ -878,23 +889,22 @@ push_two ( data1 , data2 ) =
      mem := mem <+ { SP_INCREMENT ( mem ( SP ) , 1 ) |-> data1 , SP_INCREMENT ( mem ( SP ) , 2 ) |-> data2 , SP |-> uchar_byte ( SP_INCREMENT ( mem ( SP ) , 2 ) ) }
  END
 ;
-/*
-push(data)=
+
+push ( data ) =
  PRE data : BYTE
  THEN
-   ANY new_sp WHERE new_sp:BYTE & new_sp = SP_INCREMENT(mem(SP))THEN 
-	mem:={byte_uchar(new_sp)|->data, SP|->new_sp}
-   END
+        mem ( SP_INCREMENT ( mem ( SP ) , 1 ) ) := data
  END
 ;
 
 
-pop(addr)=
+pop ( addr ) =
   PRE addr : MEM_ADDR
-  THEN mem:= mem <+ (ADDRCHANGE(addr,mem(SP),mem(PSW))\/ {SP|->SP_INCREMENT(mem(SP))})
+  THEN
+      mem := mem <+ ( ADDRCHANGE ( addr , mem ( SP ) , mem ( PSW ) ) \/ { SP |-> uchar_byte ( SP_DECREMENT ( mem ( SP ) , 1 ) ) } )
   END
 ;
-*/
+
 
 /*
 Instruction that update the bits Pa,Ov,Ac,Cy  and the value of ACC after a arithmetic operation, 
