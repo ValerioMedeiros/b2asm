@@ -92,8 +92,8 @@ THEORY ListConstraintsX IS
 END
 &
 THEORY ListOperationsX IS
-  Internal_List_Operations(Machine(MEMORY))==(bitGet,setMem,bitSet,bitClear,addrSetDirect,addrSetIndirect,push_two,update);
-  List_Operations(Machine(MEMORY))==(bitGet,setMem,bitSet,bitClear,addrSetDirect,addrSetIndirect,push_two,update)
+  Internal_List_Operations(Machine(MEMORY))==(bitGet,setMem,bitSet,bitClear,addrSetDirect,addrSetIndirect,push_two,push,pop,update);
+  List_Operations(Machine(MEMORY))==(bitGet,setMem,bitSet,bitClear,addrSetDirect,addrSetIndirect,push_two,push,pop,update)
 END
 &
 THEORY ListInputX IS
@@ -104,6 +104,8 @@ THEORY ListInputX IS
   List_Input(Machine(MEMORY),addrSetDirect)==(addr,data);
   List_Input(Machine(MEMORY),addrSetIndirect)==(Rn,data);
   List_Input(Machine(MEMORY),push_two)==(data1,data2);
+  List_Input(Machine(MEMORY),push)==(data);
+  List_Input(Machine(MEMORY),pop)==(addr);
   List_Input(Machine(MEMORY),update)==(acc,Pa,Ov,Ac,Cy)
 END
 &
@@ -115,6 +117,8 @@ THEORY ListOutputX IS
   List_Output(Machine(MEMORY),addrSetDirect)==(?);
   List_Output(Machine(MEMORY),addrSetIndirect)==(?);
   List_Output(Machine(MEMORY),push_two)==(?);
+  List_Output(Machine(MEMORY),push)==(?);
+  List_Output(Machine(MEMORY),pop)==(?);
   List_Output(Machine(MEMORY),update)==(?)
 END
 &
@@ -126,6 +130,8 @@ THEORY ListHeaderX IS
   List_Header(Machine(MEMORY),addrSetDirect)==(addrSetDirect(addr,data));
   List_Header(Machine(MEMORY),addrSetIndirect)==(addrSetIndirect(Rn,data));
   List_Header(Machine(MEMORY),push_two)==(push_two(data1,data2));
+  List_Header(Machine(MEMORY),push)==(push(data));
+  List_Header(Machine(MEMORY),pop)==(pop(addr));
   List_Header(Machine(MEMORY),update)==(update(acc,Pa,Ov,Ac,Cy))
 END
 &
@@ -139,11 +145,15 @@ THEORY ListPreconditionX IS
   List_Precondition(Machine(MEMORY),addrSetDirect)==(addr: MEM_ADDR & data: BYTE);
   List_Precondition(Machine(MEMORY),addrSetIndirect)==(Rn: RAM_ADDR & (Rn = R1 or Rn = R2) & data: BYTE & byte_uchar(mem(Rn)): RAM_ADDR);
   List_Precondition(Machine(MEMORY),push_two)==(data1: BYTE & data2: BYTE & mem(SP): BYTE);
+  List_Precondition(Machine(MEMORY),push)==(data: BYTE);
+  List_Precondition(Machine(MEMORY),pop)==(addr: MEM_ADDR);
   List_Precondition(Machine(MEMORY),update)==(acc: UCHAR & Pa: BIT & Ov: BIT & Ac: BIT & Cy: BIT)
 END
 &
 THEORY ListSubstitutionX IS
   Expanded_List_Substitution(Machine(MEMORY),update)==(acc: UCHAR & Pa: BIT & Ov: BIT & Ac: BIT & Cy: BIT | mem:=mem<+{ACC|->uchar_byte(acc),PSW|->PSWUPDATE(mem(PSW),Pa,Ov,Ac,Cy)});
+  Expanded_List_Substitution(Machine(MEMORY),pop)==(addr: MEM_ADDR | mem:=mem<+(ADDRCHANGE(addr,mem(SP),mem(PSW))\/{SP|->uchar_byte(SP_DECREMENT(mem(SP),1))}));
+  Expanded_List_Substitution(Machine(MEMORY),push)==(data: BYTE | mem:=mem<+{SP_INCREMENT(mem(SP),1)|->data});
   Expanded_List_Substitution(Machine(MEMORY),push_two)==(data1: BYTE & data2: BYTE & mem(SP): BYTE | mem:=mem<+{SP_INCREMENT(mem(SP),1)|->data1,SP_INCREMENT(mem(SP),2)|->data2,SP|->uchar_byte(SP_INCREMENT(mem(SP),2))});
   Expanded_List_Substitution(Machine(MEMORY),addrSetIndirect)==(Rn: RAM_ADDR & (Rn = R1 or Rn = R2) & data: BYTE & byte_uchar(mem(Rn)): RAM_ADDR | @any(addr).(addr: RAM_ADDR & addr = byte_uchar(mem(Rn)) ==> mem:=mem<+ADDRCHANGE(addr,data,mem(PSW))));
   Expanded_List_Substitution(Machine(MEMORY),addrSetDirect)==(addr: MEM_ADDR & data: BYTE | mem:=ADDRCHANGE(addr,data,mem(PSW)));
@@ -158,6 +168,8 @@ THEORY ListSubstitutionX IS
   List_Substitution(Machine(MEMORY),addrSetDirect)==(mem:=ADDRCHANGE(addr,data,mem(PSW)));
   List_Substitution(Machine(MEMORY),addrSetIndirect)==(ANY addr WHERE addr: RAM_ADDR & addr = byte_uchar(mem(Rn)) THEN mem:=mem<+ADDRCHANGE(addr,data,mem(PSW)) END);
   List_Substitution(Machine(MEMORY),push_two)==(mem:=mem<+{SP_INCREMENT(mem(SP),1)|->data1,SP_INCREMENT(mem(SP),2)|->data2,SP|->uchar_byte(SP_INCREMENT(mem(SP),2))});
+  List_Substitution(Machine(MEMORY),push)==(mem(SP_INCREMENT(mem(SP),1)):=data);
+  List_Substitution(Machine(MEMORY),pop)==(mem:=mem<+(ADDRCHANGE(addr,mem(SP),mem(PSW))\/{SP|->uchar_byte(SP_DECREMENT(mem(SP),1))}));
   List_Substitution(Machine(MEMORY),update)==(mem:=mem<+{ACC|->uchar_byte(acc),PSW|->PSWUPDATE(mem(PSW),Pa,Ov,Ac,Cy)})
 END
 &
@@ -228,12 +240,14 @@ THEORY ListANYVarX IS
   List_ANY_Var(Machine(MEMORY),addrSetDirect)==(?);
   List_ANY_Var(Machine(MEMORY),addrSetIndirect)==(Var(addr) == btype(INTEGER,?,?));
   List_ANY_Var(Machine(MEMORY),push_two)==(?);
+  List_ANY_Var(Machine(MEMORY),push)==(?);
+  List_ANY_Var(Machine(MEMORY),pop)==(?);
   List_ANY_Var(Machine(MEMORY),update)==(?);
   List_ANY_Var(Machine(MEMORY),?)==(?)
 END
 &
 THEORY ListOfIdsX IS
-  List_Of_Ids(Machine(MEMORY)) == (ROM_LENGTH,ROM_ADDR,ROM_ADDR_MAX,MEM_ADDR,RAM_ADDR,RAM_MIN,RAM_MAX,RAM_BIT_ADDRESSABLE,SFR_ADDR,SFR_MIN,SFR_MAX,SFR_BIT_ADDRESSABLE,BIT_ADDRESS,BIT_ADDRESSABLE,STACK_MAX,PSWUPDATE,BIT_GET,SBUF,PCON,SP,SCON,B98,B99,B9A,B9B,B9C,B9D,B9E,B9F,SCON_0,SCON_1,SCON_2,SCON_3,SCON_4,SCON_5,SCON_6,SCON_7,RI,TI,RB8,TB8,REN,SM2,SM1,SM0,R0,R1,R2,R3,R4,R5,R6,R7,AA,ACC,BE0,BE1,BE2,BE3,BE4,BE5,BE6,BE7,BB,BF0,BF1,BF2,BF3,BF4,BF5,BF6,BF7,P0,P0_0,P0_1,P0_2,P0_3,P0_4,P0_5,P0_6,P0_7,B80,B81,B82,B83,B84,B85,B86,B87,P1,P1_0,P1_1,P1_2,P1_3,P1_4,P1_5,P1_6,P1_7,B90,B91,B92,B93,B94,B95,B96,B97,P2,P2_0,P2_1,P2_2,P2_3,P2_4,P2_5,P2_6,P2_7,BA0,BA1,BA2,BA3,BA4,BA5,BA6,BA7,P3,P3_0,P3_1,P3_2,P3_3,P3_4,P3_5,P3_6,P3_7,BB0,BB1,BB2,BB3,BB4,BB5,BB6,BB7,PSW,PP,OV,RS0,RS1,F0,AC,CY,CC,BD0,BD1,BD2,BD3,BD4,BD5,BD6,BD7,PSW_0,PSW_1,PSW_2,PSW_3,PSW_4,PSW_5,PSW_6,PSW_7,ADDRCHANGE,BITCHANGE,PC_INCREMENT,SP_INCREMENT,SP_DECREMENT | ? | mem | ? | bitGet,setMem,bitSet,bitClear,addrSetDirect,addrSetIndirect,push_two,update | ? | seen(Machine(BYTE_DEFINITION)),seen(Machine(BIT_DEFINITION)),seen(Machine(TYPES)),seen(Machine(BIT_VECTOR_DEFINITION)),seen(Machine(BIT_VECTOR_ARITHMETICS)),seen(Machine(POWER2)) | ? | MEMORY);
+  List_Of_Ids(Machine(MEMORY)) == (ROM_LENGTH,ROM_ADDR,ROM_ADDR_MAX,MEM_ADDR,RAM_ADDR,RAM_MIN,RAM_MAX,RAM_BIT_ADDRESSABLE,SFR_ADDR,SFR_MIN,SFR_MAX,SFR_BIT_ADDRESSABLE,BIT_ADDRESS,BIT_ADDRESSABLE,STACK_MAX,PSWUPDATE,BIT_GET,SBUF,PCON,SP,SCON,B98,B99,B9A,B9B,B9C,B9D,B9E,B9F,SCON_0,SCON_1,SCON_2,SCON_3,SCON_4,SCON_5,SCON_6,SCON_7,RI,TI,RB8,TB8,REN,SM2,SM1,SM0,R0,R1,R2,R3,R4,R5,R6,R7,AA,ACC,BE0,BE1,BE2,BE3,BE4,BE5,BE6,BE7,BB,BF0,BF1,BF2,BF3,BF4,BF5,BF6,BF7,P0,P0_0,P0_1,P0_2,P0_3,P0_4,P0_5,P0_6,P0_7,B80,B81,B82,B83,B84,B85,B86,B87,P1,P1_0,P1_1,P1_2,P1_3,P1_4,P1_5,P1_6,P1_7,B90,B91,B92,B93,B94,B95,B96,B97,P2,P2_0,P2_1,P2_2,P2_3,P2_4,P2_5,P2_6,P2_7,BA0,BA1,BA2,BA3,BA4,BA5,BA6,BA7,P3,P3_0,P3_1,P3_2,P3_3,P3_4,P3_5,P3_6,P3_7,BB0,BB1,BB2,BB3,BB4,BB5,BB6,BB7,PSW,PP,OV,RS0,RS1,F0,AC,CY,CC,BD0,BD1,BD2,BD3,BD4,BD5,BD6,BD7,PSW_0,PSW_1,PSW_2,PSW_3,PSW_4,PSW_5,PSW_6,PSW_7,ADDRCHANGE,BITCHANGE,PC_INCREMENT,SP_INCREMENT,SP_DECREMENT | ? | mem | ? | bitGet,setMem,bitSet,bitClear,addrSetDirect,addrSetIndirect,push_two,push,pop,update | ? | seen(Machine(BYTE_DEFINITION)),seen(Machine(BIT_DEFINITION)),seen(Machine(TYPES)),seen(Machine(BIT_VECTOR_DEFINITION)),seen(Machine(BIT_VECTOR_ARITHMETICS)),seen(Machine(POWER2)) | ? | MEMORY);
   List_Of_HiddenCst_Ids(Machine(MEMORY)) == (? | ?);
   List_Of_VisibleCst_Ids(Machine(MEMORY)) == (ROM_LENGTH,ROM_ADDR,ROM_ADDR_MAX,MEM_ADDR,RAM_ADDR,RAM_MIN,RAM_MAX,RAM_BIT_ADDRESSABLE,SFR_ADDR,SFR_MIN,SFR_MAX,SFR_BIT_ADDRESSABLE,BIT_ADDRESS,BIT_ADDRESSABLE,STACK_MAX,PSWUPDATE,BIT_GET,SBUF,PCON,SP,SCON,B98,B99,B9A,B9B,B9C,B9D,B9E,B9F,SCON_0,SCON_1,SCON_2,SCON_3,SCON_4,SCON_5,SCON_6,SCON_7,RI,TI,RB8,TB8,REN,SM2,SM1,SM0,R0,R1,R2,R3,R4,R5,R6,R7,AA,ACC,BE0,BE1,BE2,BE3,BE4,BE5,BE6,BE7,BB,BF0,BF1,BF2,BF3,BF4,BF5,BF6,BF7,P0,P0_0,P0_1,P0_2,P0_3,P0_4,P0_5,P0_6,P0_7,B80,B81,B82,B83,B84,B85,B86,B87,P1,P1_0,P1_1,P1_2,P1_3,P1_4,P1_5,P1_6,P1_7,B90,B91,B92,B93,B94,B95,B96,B97,P2,P2_0,P2_1,P2_2,P2_3,P2_4,P2_5,P2_6,P2_7,BA0,BA1,BA2,BA3,BA4,BA5,BA6,BA7,P3,P3_0,P3_1,P3_2,P3_3,P3_4,P3_5,P3_6,P3_7,BB0,BB1,BB2,BB3,BB4,BB5,BB6,BB7,PSW,PP,OV,RS0,RS1,F0,AC,CY,CC,BD0,BD1,BD2,BD3,BD4,BD5,BD6,BD7,PSW_0,PSW_1,PSW_2,PSW_3,PSW_4,PSW_5,PSW_6,PSW_7,ADDRCHANGE,BITCHANGE,PC_INCREMENT,SP_INCREMENT,SP_DECREMENT);
   List_Of_VisibleVar_Ids(Machine(MEMORY)) == (? | ?);
@@ -289,7 +303,7 @@ THEORY VariablesEnvX IS
 END
 &
 THEORY OperationsEnvX IS
-  Operations(Machine(MEMORY)) == (Type(update) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?)*btype(INTEGER,?,?)*btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(push_two) == Cst(No_type,SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?))*SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(addrSetIndirect) == Cst(No_type,btype(INTEGER,?,?)*SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(addrSetDirect) == Cst(No_type,btype(INTEGER,?,?)*SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(bitClear) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(bitSet) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(setMem) == Cst(No_type,btype(INTEGER,?,?)*SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(bitGet) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?)*btype(INTEGER,?,?)));
+  Operations(Machine(MEMORY)) == (Type(update) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?)*btype(INTEGER,?,?)*btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(pop) == Cst(No_type,btype(INTEGER,?,?));Type(push) == Cst(No_type,SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(push_two) == Cst(No_type,SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?))*SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(addrSetIndirect) == Cst(No_type,btype(INTEGER,?,?)*SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(addrSetDirect) == Cst(No_type,btype(INTEGER,?,?)*SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(bitClear) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(bitSet) == Cst(No_type,btype(INTEGER,?,?)*btype(INTEGER,?,?));Type(setMem) == Cst(No_type,btype(INTEGER,?,?)*SetOf(btype(INTEGER,?,?)*btype(INTEGER,?,?)));Type(bitGet) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?)*btype(INTEGER,?,?)));
   Observers(Machine(MEMORY)) == (Type(bitGet) == Cst(btype(INTEGER,?,?),btype(INTEGER,?,?)*btype(INTEGER,?,?)))
 END
 &

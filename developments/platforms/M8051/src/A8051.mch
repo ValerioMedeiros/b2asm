@@ -1,8 +1,13 @@
 /**
 TO DO:
 - Pass the rest off instruction for the new impletation (Doing)
+- Set of DIV instructions
 **/
 
+/**
+This machine implement the set of 8051's instructions. However, some features as wide of instruction and implementation of data memory
+not was necessary for this specification.
+**/
 MACHINE
    A8051
 
@@ -36,12 +41,13 @@ INIT =
 /************************************************************************************************************************
 Unconditionally call a subroutine located at the indicated address.This increment pc, take the next instrution address,
 and put than in stack, low bits first and upper bits after, just the pc have length of 16 bits. For this is necessary 
-increment the SP twice
+increment the SP twice.The destination address is obtained by successively concatenating the five high-order.....
+see in manual
 ************************************************************************************************************************/
 /*
 Represents the follow 8051's operations :
 	ACALL addr - Set pc to address of the ROM passed
-*/
+
 ACALL(paddr)=
 	PRE 
 	    paddr:ROM_ADDR 
@@ -56,6 +62,7 @@ ACALL(paddr)=
 	    END
 	END
 ;
+*/
 
 /************************************************************************************************************************
 Set of operation ADD that adds the byte variables indicated (constant, indirect address, direct address) and the Accumulator, 
@@ -659,98 +666,314 @@ JZ(jump)=
 	 		ELSE pc:=PC_INCREMENT(pc,1)
 	 	END
 	END
+;
 
 
-END
+
+
+/************************************************************************************************************************
+The LCALL instruction loaded the PC with the subroutine locate at the indicated address. It put the address of next
+instruction in the stack. For this, it increment the PC by 1 and the SP by 2, putting the first low bytes of PC first
+************************************************************************************************************************/
 /*
+Represents the follow 8051's instruction:
+LCALL addr16 - calls a subroutine in the passed address
+*/
+LCALL(rom_addr)=
+PRE
+    rom_addr : ROM_ADDR
+THEN
+    ANY upper_pc,lower_pc
+	WHERE upper_pc,lower_pc:BYTE*BYTE & upper_pc,lower_pc=usint_byte(PC_INCREMENT(pc,1))
+	THEN
+	    push_two(lower_pc,upper_pc)
+	    || pc:=rom_addr
+	END
+END
+;
 
-SJMP(jump)=
+/************************************************************************************************************************
+The LJMP causes an unconditional branch to the indicate address. No flags are affected in this instruction
+Obs: I think that this instruction can be used for replace the INIT instruction, because when I calls LJMP(0) 
+have the same effects that calls INIT
+************************************************************************************************************************/
+/*
+Represents the follow 8051's instruction:
+LJMP addr16 - branch to the indicate address
+*/
+
+LJMP(rom_addr)=
+PRE
+    rom_addr : ROM_ADDR
+THEN
+    pc:= rom_addr
+END
+;
+
+/************************************************************************************************************************
+The set of MOV the by far the most flexible operation set, this permit fiveteen combination mode. This copie the value
+indicate for second operation in the first operation.
+************************************************************************************************************************/
+
+/*
+Represent the follows 8051's instructions
+MOV A, Rn - Copie the value of registe Rn to the accumulator
+MOV A, direct - Copie the value of passed addres ( direct) to the accumulator
+MOV Rn, A - Copie the value of the accumulator to register Rn
+MOV Rn,direct - Copie the value of the direct addres passed to the register Rn
+MOV direct, A - Copie the value of accumulator to the direct addres passed
+MOV direct, Rn - Copie the value of the register Rn to the direct address passed
+MOV direct, direct - Copie the value of the second direct addres to the first direct address
+*/
+MOV(direct_d,direct_s)=
 	PRE 
-	  jump : INSTRUCTION
+	    direct_d:RAM_ADDR & direct_s:RAM_ADDR
 	THEN
-	  pc:=INSTRUCTION_INCREMENT(pc,jump+1)			
+	    addrSetDirect(direct_d,mem(direct_s)) || pc:= PC_INCREMENT(pc,1)
 	END
 ;
 
-AJMP(jump)=
-	PRE
-	  jump : INSTRUCTION	
-	THEN
-	  pc:=jump
-	END
-;
-
-MOV(dest,data)=
+/*
+Represent the follows 8051's instructions:
+MOV A,data - Copie the constant passed to the accumulator
+MOV direct,data - Copie the constant passed to the direct address indicate
+*/
+MOVD(direct,data)=
 	PRE 
-	  dest : MEM_ADDR & data:UCHAR	
+	    direct:MEM_ADDR & data:UCHAR
 	THEN
-	  addrSetDirect(dest,uchar_byte(data)) || pc:= INSTRUCTION_INCREMENT(pc,1)
+	    addrSetDirect(direct,uchar_byte(data)) || pc:= PC_INCREMENT(pc,1)
 	END
-
-
 ;
 
-MOVI(Rn,data)=
+/*
+Represent the follows 8051's instructions:
+MOV A,@Ri- Copie the value of the addres indicate for register to the accumulator
+MOV direct,data - Copie the value of the addres indicate for register to the direct address
+*/
+MOVDI(direct,Rn)=
 	PRE 
-	    Rn : RAM_ADDR &(Rn=R1 or Rn=R2) & data : UCHAR & byte_uchar(mem(Rn)): RAM_ADDR
+	    direct:MEM_ADDR & Rn:RAM_ADDR & (Rn=R1 or Rn=R2) & byte_uchar(mem(Rn)):RAM_ADDR
 	THEN
-	   addrSetIndirect(Rn,uchar_byte(data))||pc:= INSTRUCTION_INCREMENT(pc,1)
+	    ANY src WHERE src:RAM_ADDR & src =byte_uchar(mem(Rn))
+	    THEN
+	        addrSetDirect(direct,mem(src)) || pc:= PC_INCREMENT(pc,1)
+	    END
 	END
-
 ;
-MOVM(dest,src)=
+
+/*
+Represent the follows 8051's instructions:
+MOV @Ri, A - Copie the value of the accumulator to the address indicate for the register passed
+MOV @Ri, direct - Copie the value of the direct addres to the address indicate for the register passed
+*/
+MOVI(Rn,direct)=
+	PRE 
+	    Rn:RAM_ADDR &(Rn=R1 or Rn=R2) & byte_uchar(mem(Rn)):RAM_ADDR & direct:MEM_ADDR
+	THEN	    
+	    addrSetIndirect(Rn,mem(direct))||pc:= PC_INCREMENT(pc,1)
+	END
+;
+
+/*
+Represent the follow 8051's instruction:
+MOV @Ri, data - Copie the value of the constant to the address indicate for the register passed
+*/
+MOVID(Rn,data)=
+	PRE 
+	    Rn:RAM_ADDR &(Rn=R1 or Rn=R2) & byte_uchar(mem(Rn)):RAM_ADDR & data:UCHAR
+	THEN	    
+	    addrSetIndirect(Rn,uchar_byte(data))||pc:= PC_INCREMENT(pc,1)
+	END
+;
+
+/************************************************************************************************************************
+The set of MOV with bit, copie the bit indicate for the second operation into the location indicate for the first
+operation. One of bits passed must be the Carry. No flags are affected in this instruction
+************************************************************************************************************************/
+/*
+Represent the follows 8051's instructions:
+MOV bit, C - Copie the value of the carry to the bit passed
+MOV C, bit - Copie the value of the bit passed to the carry 
+*/
+MOVB(dest,src)=
 	PRE
-	  src : MEM_ADDR & dest : MEM_ADDR 
+	  dest : BIT_ADDRESS & src : BIT_ADDRESS & (dest=CY or src=CY)
 	THEN
-	  addrSetDirect(dest,mem(src))|| pc := INSTRUCTION_INCREMENT(pc,1)
-	END
-
-;
-
-MOVMI(dest,Rn)=
-	PRE
-	   dest : MEM_ADDR & Rn : RAM_ADDR & (Rn=R1 or Rn =R0) & byte_uchar(mem(Rn)) : RAM_ADDR
-	THEN
-	  ANY src
-	  WHERE src : RAM_ADDR & src = byte_uchar(mem(Rn))
-	  THEN
-	    addrSetDirect(dest,mem(src))||pc := INSTRUCTION_INCREMENT(pc,1)
-	  END
-	END
-
-;
-
-MOVIM(Rn,src)=
-	PRE
-	  Rn : RAM_ADDR & src : MEM_ADDR & (Rn = R1 or Rn = R2)
-	  & byte_uchar(mem(Rn)) : RAM_ADDR
-	THEN
-	   addrSetIndirect(Rn,mem(src))|| pc := INSTRUCTION_INCREMENT(pc,1)
-	  
+	    IF BIT_GET(src,mem)=1 THEN bitSet(src)ELSE bitClear(src)END ||pc := PC_INCREMENT(pc,1)
 	END
 ;
 
-
-
-
-
-
-
-CPLA(addr)=
-   PRE addr : SFR_ADDR & addr = ACC
-   THEN addrSetDirect(addr,complement(mem(ACC))) ||pc:= INSTRUCTION_INCREMENT(pc,1)
-   END
-
+/************************************************************************************************************************
+This instruction do nothink more tha jump to next instruction
+************************************************************************************************************************/
+/*
+Represent the follows 8051's instructions:
+NOP
+*/
+NOP=
+	BEGIN
+	    pc:=PC_INCREMENT(pc,1)
+	END
 ;
+/************************************************************************************************************************
+The set of ORL instruction performace a bitwise logical-OR operation between the indicates bytes and leave the result
+into the byte indicate for the first operation. No flags are affected in this instruction
+************************************************************************************************************************/
+/*
+Represent the follows 8051's instructions:
+ORL A,Rn - bitwise logical-OR between the accumulator and the register passed
+ORL A,direct - logical-OR between the accumulator and the address passed
+ORL direct,A - logical-OR between the direct address and the accumulator
+*/
+ORL(dest,src)=
+PRE
+	dest:MEM_ADDR  &  src:MEM_ADDR  &  (dest=ACC or src=ACC)
+THEN
+    addrSetDirect(dest,ior(mem(dest),mem(src)))||pc:=PC_INCREMENT(pc,1)
+END
+;
+
+/*
+Represent the follows 8051's instructions:
+ORL A,#data - bitwise logical-OR between the accumulator and the data passed
+ORL direct,#data - logical-OR between the direct address and the data passed
+*/
+ORLD(dest,data)=
+PRE
+	dest:MEM_ADDR  &  data:UCHAR
+THEN
+    addrSetDirect(dest,ior(mem(dest),uchar_byte(data)))||pc:=PC_INCREMENT(pc,1)
+END
+;
+
+/*
+Represent the follow 8051's instruction:
+ORL A,@Ri - bitwise logical-OR between the accumulator and the byte indicate for the register passed
+*/
+ORLI(dest,Rn)=
+PRE
+	dest:MEM_ADDR  &  Rn:RAM_ADDR & (Rn = R0 or Rn= R1) & byte_uchar(mem(Rn)):RAM_ADDR
+THEN
+    ANY src WHERE src:RAM_ADDR & src = byte_uchar(mem(Rn))
+        THEN
+    		addrSetDirect(dest,ior(mem(dest),mem(src)))||pc:=PC_INCREMENT(pc,1)
+    	END
+END
+;
+
+/*
+Represent the follows 8051's instructions:
+ORL C,bit - logical or between the carry and the bit passed, leave the result in the carry
+ORL bit,C - logial or between the carry and the bit passed, leave the result in the bit address passed as first operation
+*/
+ORLB(dest,src)=
+PRE
+	dest:BIT_ADDRESS & src:BIT_ADDRESS & (src=CY or dest = CY)
+THEN
+    IF BIT_GET(src,mem)=1 THEN bitSet(src)END ||pc := PC_INCREMENT(pc,1)
+END
+;
+/************************************************************************************************************************
+The POP instruction copie the byte in the address indicate for SP (stack point) to the address passed and decrements 
+the SP by 1.
+************************************************************************************************************************/
+/*
+Represent the follows 8051's instructions:
+POP direct - copie the value in the top of stack for the passed address
+*/
+POP(direct)=
+PRE
+    direct: MEM_ADDR
+THEN
+    pop(direct)
+END
+;
+
+/************************************************************************************************************************
+The PUSH instruction incement the stack point (SP), and copie the content of the passed addres to the address indicate
+for the SP register. No flags are affected in this operation
+************************************************************************************************************************/
+/*
+Represent the follow 8051's instruction:
+PUSH direct - Put the contents of the address into the stack
+*/
+PUSH(direct)=
+PRE
+    direct : MEM_ADDR
+THEN
+    push(mem(direct))||pc:=PC_INCREMENT(pc,1)
+END
+;
+
+/************************************************************************************************************************
+The RL represent the rotate left of the accumulator bits, bit 7 is rotated into the bit 0, bit 6 into the 1, and so on
+************************************************************************************************************************/
+/*
+Represent the follow 8051's instruction:
+RL A - rotate left the accumulator bytes
+*/
+RL(acc)=
+PRE
+    acc=ACC
+THEN
+    addrSetDirect(ACC,rotateleft(mem(ACC)))||pc:=PC_INCREMENT(pc,1)
+END
+;
+
+
+/************************************************************************************************************************
+The RR represent the rotate right of the accumulator bits, bit 0 is rotated into the bit 7, bit 1 into the 6, and so on
+************************************************************************************************************************/
+/*
+Represent the follow 8051's instruction:
+RR A - rotate right the accumulator bytes
+*/
+RR(acc)=
+PRE
+    acc=ACC
+THEN
+    addrSetDirect(ACC,rotateright(mem(ACC)))||pc:=PC_INCREMENT(pc,1)
+END
+;
+
+/************************************************************************************************************************
+The SETB sets the bit indicate to one. No flags are affect in this operation
+************************************************************************************************************************/
+/*
+Represent the follow 8051's instruction:
+SETB C - set the passed bit
+SETB bit - set the carry
+*/
 
 SETB(bit)=
    PRE bit : BIT_ADDRESS  
-   THEN  bitSet(bit)||pc:= INSTRUCTION_INCREMENT(pc,1)
+   THEN  bitSet(bit)||pc:= PC_INCREMENT(pc,1)
    END
-
 ;
 
 
+/************************************************************************************************************************
+The SJMP braches unconditionally to the addrress computed by the adds of increments pc by 1 and the jump passed
+************************************************************************************************************************/
+/*
+SJMP rel - jump the numbers of address passed
+*/
+SJMP(jump)=
+	PRE 
+	  jump : ROM_ADDR
+	THEN
+	  pc:=PC_INCREMENT(pc,jump+1)			
+	END
+
+END
+
+
+
+
+
+
+/*
 SUBB(ac,src)=
 	PRE
 	  ac : SFR_ADDR & (ac = AA or ac=ACC) & src : MEM_ADDR
@@ -802,26 +1025,6 @@ SUBBD(dest,data)=
 
 
 
-
-MOVB(dest,src)=
-	PRE
-	  dest : BIT_ADDRESS & src : BIT_ADDRESS & (dest=CY or src=CY)
-	THEN
-	    IF BIT_GET(src,mem)=1 THEN bitSet(src)ELSE bitClear(src)END ||pc := INSTRUCTION_INCREMENT(pc,1)
-	END
-;
-
-
-
-
-
-
-
-
-
-
-
-
 SWAP(addr)=
 	PRE
   	  addr : MEM_ADDR
@@ -831,26 +1034,8 @@ SWAP(addr)=
 
 ;
 
-
 */
 /*D�vidas
-
-
-
-ANLBN(ca,bit)=
-   PRE 
-    bit : BIT_ADDRESS & ca  : BIT_ADDRESS &(ca = CY)
-   THEN
-    bitSet(CY,and_bit(bitGet(CY),bitGet(bit)))
-   END
-
-
-ANLB(ca,bit)=
-   PRE 
-    bit : BIT_ADDRESS & ca  : BIT_ADDRESS & (ca = CC)
-   THEN
-    bitSet(CY,and_bit(BIT_GET(CY,mem),BIT_GET(bit,mem)))
-   END
 
 
 RET =
