@@ -1,15 +1,15 @@
 THEORY BalanceX IS
-  TYPES,4,0,0,0,0,0,0;
+  TYPES,4,1,0,3,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  AssertionLemmas,4,0,0,0,0,0,0;
+  AssertionLemmas,4,1,0,3,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
-  Unproved;
-  Unproved;
-  Unproved;
-  Unproved
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util)
 END
 &
 THEORY MethodList IS
@@ -30,6 +30,6 @@ THEORY ManForms
 END
 &
 THEORY Version IS
-  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, local_op == OK);
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,local_op == OK);
   PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
 END
