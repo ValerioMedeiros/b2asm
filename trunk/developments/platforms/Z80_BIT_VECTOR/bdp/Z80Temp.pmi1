@@ -1,13 +1,11 @@
 THEORY BalanceX IS
-  Z80Temp,32,0,0,0,0,0,0;
+  Z80Temp,30,0,0,0,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  AssertionLemmas,32,0,0,0,0,0,0;
+  AssertionLemmas,30,0,0,0,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
-  Unproved;
-  Unproved;
   Unproved;
   Unproved;
   Unproved;
@@ -70,14 +68,10 @@ THEORY MethodList IS
   ?;
   ?;
   ?;
-  ?;
-  ?;
   ?
 END
 &
 THEORY PassList IS
-  Force(0),?;
-  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;
