@@ -1,0 +1,26 @@
+THEORY User_Pass IS
+Pattern(a(b,c,d): e) & ff(0) & pr;
+Pattern(a(b,c): d) & ff(0) & pr;
+Pattern(a(b): c) & ff(0) & pr;
+Pattern(a(b(c(d),a(b(e,f)))): g) & ff(0) & pr;
+Pattern(a(b(c(d|->e),c(f|->e))): g) & ff(0) & pr;
+Pattern(a(b) = c) & ff(0) & pr;
+Pattern(ran(a): POW(b)) & ff(0) & pr;
+Pattern(dom(a<+({b|->c|->(d<+e)}\/{f(g,h)})) = (b..i)*{c}) & ff(0) & pr;
+Pattern(dom(a<+({b|->c|->d(e)}\/{f(g,h)})) = (b..i)*{c}) & ff(0) & pr;
+Pattern(dom(a<+({b|->c}\/{d(e,f)})) = (g..h)*{i}) & ff(0) & pr;
+Pattern(a(b(c|->d),b(e|->d)): f) & ff(0) & pr;
+Pattern({a(b(c|->d),b(e|->d))|->f}: g +-> h) & ff(0) & pr;
+Pattern(({a(b(c),b(d))|->e})~: f +-> g) & ff(0) & pr;
+Pattern(dom(a(b,c,d(e),f,d(g(h),f))) = (c..i)*{j}) & ff(0) & pr;
+Pattern(a<+{b|->c(a(b),d)}: (e..f)*{g} +-> h) & ff(0) & pr;
+Pattern(dom(a<+{b|->c(d,e)}) = (f..g)*{h}) & ff(0) & pr;
+Pattern(a: b) & ff(0) & pr;
+Pattern(a<+{b|->c|->d(a(b|->c))}: (e..f)*{c} +-> g) & ff(0) & pr;
+Pattern(dom(a<+{b|->c|->d(a(e))}) = (f..g)*{c}) & ff(0) & pr;
+Pattern(a(b,c,d,e(f,g),h,e(i(g|->j),h)): (d..k)*{j} +-> l) & ff(0) & eh(update_flag_register_SZ_H_PvNC,_h,Goal) & ss & eh(bitget,_h,Goal) & ss;
+Pattern(dom(a<+({b|->c|->d(e)}\/{f(g,h)})) = (b..i)*{c}) & ff(0) & eh(get_new_flag_register_SZ_H_PvNC,_h,Goal) & ss & eh(dom(rgs8),_h,Goal) & ss & pr;
+Pattern(a<+({b|->c|->(d(e)<+{f})}\/{g(h,i,j(k))}): (b..l)*{c} +-> m) & ff(0) & eh(get_new_flag_register_SZ_H_PvNC,_h,Goal) & ss & pr & pr;
+Pattern(a(b,c,d,e(f,g),h,e(i(g|->j),h)): (d..k)*{j} +-> l) & ff(0) & eh(update_flag_register_SZ_H_PvNC,_h,Goal) & ss & eh(bitget,_h,Goal) & ss & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr;
+Pattern(a<+({b|->c|->d(a(e))}\/{f(g,h,i(j))}): (b..k)*{c} +-> l) & ff(0) & eh(rotateleft,_h,Goal) & eh(get_new_flag_register_SZ_H_PvNC,_h,Goal) & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & ss & eh(BYTE_INDEX,_h,Goal) & pr & pr & eh(BYTE_INDEX,_h,Goal) & pr & pr & pr & pr
+END

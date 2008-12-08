@@ -1,0 +1,6 @@
+THEORY User_Pass IS
+Operation(AssertionLemmas) & Pattern(a(b(c) + d) = e(f(g(h), i))) & ff(3) & eh(UCHAR_TO_BYTE) & ss & eh(add8UCHAR) & ss & ah(ran(BYTE_TO_UCHAR) <: 0 .. 255) & pr & ae(1 + BYTE_TO_UCHAR(w1), aa) & pr & pr & ah(BYTE_TO_UCHAR : BYTE +-> 0 .. 255) & pr & dc(not(((BYTE_TO_UCHAR)~)(aa) = ((BYTE_TO_UCHAR)~)(aa mod 256))) & pr & pr & pr & pr & pr;
+Operation(AssertionLemmas) & Pattern(ran(a) : POW(b * c * d * e * f)) & ff(0) & pr;
+Operation(AssertionLemmas) & Pattern(ran(a) : POW(b)) & ff(0) & pr;
+Operation(AssertionLemmas) & Pattern(a(b, c) = d(e)) & ff(0) & pr
+END
