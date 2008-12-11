@@ -1,20 +1,20 @@
 THEORY BalanceX IS
-  MEMORY,11,0,0,8,0,0,0;
+  MEMORY,11,2,0,8,0,0,0;
   AssertionLemmas,2,0,0,2,0,0,0;
   Initialisation,0,0,0,0,0,0,0;
   updateMem,3,0,0,2,0,0,0;
   updateAddressMem,0,0,0,0,0,0,0;
-  updateStack,3,0,0,2,0,0,0;
+  updateStack,3,1,0,2,0,0,0;
   updateAddressStack,0,0,0,0,0,0,0;
-  pop,3,0,0,2,0,0,0
+  pop,3,1,0,2,0,0,0
 END
 &
 THEORY ProofState IS
-  Unproved;
+  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
-  Unproved;
+  Proved(Util);
   Proved(0);
   Proved(0);
   Unproved;
@@ -38,14 +38,14 @@ THEORY MethodList IS
 END
 &
 THEORY PassList IS
-  Force(0),(?;0);
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),(?;0);
   Force(0),?;
   Force(0),?;
-  Force(0),(?;0);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?
