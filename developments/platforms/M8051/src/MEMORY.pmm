@@ -1,0 +1,35 @@
+THEORY User_Pass IS
+Pattern(MEM_ADDR*{BYTE_ZERO}: MEM_ADDR +-> BYTE) & ff(0) & pr;
+Pattern(dom(MEM_ADDR*{BYTE_ZERO}) = MEM_ADDR) & ff(0) & pr;
+Pattern((MEM_ADDR*{BYTE_ZERO})(PSW)(0) = parity((MEM_ADDR*{BYTE_ZERO})(ACC))) & ff(0) & pr;
+Pattern((mem$0<+ACC_CHANGE(data$0,psw$0))(PSW)(0) = parity((mem$0<+ACC_CHANGE(data$0,psw$0))(ACC))) & ff(0) & pr;
+Pattern(PC_INCREMENT(xx,yy) = xx+yy-(ROM_ADDR_MAX+1)) & ff(0) & pr;
+Pattern(PC_INCREMENT(xx,yy) = xx+yy) & ff(0) & pr;
+Pattern(ROM_ADDR: POW(USHORT_INT)) & ff(0) & pr;
+Pattern(RAM_ADDR\/SFR_ADDR = MEM_ADDR) & ff(0) & pr;
+Pattern(SFR_ADDR: POW(MEM_ADDR)) & ff(0) & pr;
+Pattern(RAM_ADDR: POW(MEM_ADDR)) & ff(0) & pr;
+Pattern(not(ACC: RAM_ADDR)) & ff(0) & pr;
+Pattern(mem<+{addr|->mem(ACC)}: MEM_ADDR +-> BYTE) & ff(0) & pr;
+Pattern(dom(mem<+{addr|->mem(ACC)}) = MEM_ADDR) & ff(0) & pr;
+Pattern((mem<+{addr|->mem(ACC)})(PSW)(0) = parity((mem<+{addr|->mem(ACC)})(ACC))) & ff(0) & pr;
+Pattern(mem<+ACC_CHANGE(data,mem(PSW)): MEM_ADDR +-> BYTE) & ff(0) & pr;
+Pattern(dom(mem<+ACC_CHANGE(data,mem(PSW))) = MEM_ADDR) & ff(0) & pr;
+Pattern(mem<+{addr|->data}: MEM_ADDR +-> BYTE) & ff(0) & pr;
+Pattern(dom(mem<+{addr|->data}) = MEM_ADDR) & ff(0) & pr;
+Pattern((mem<+{addr|->data})(PSW)(0) = parity((mem<+{addr|->data})(ACC))) & ff(0) & pr;
+Pattern((mem<+ACC_CHANGE(data,mem(PSW)))(PSW)(0) = parity((mem<+ACC_CHANGE(data,mem(PSW)))(ACC))) & ff(0) & pr;
+Pattern(dom(mem<+({SP_INCREMENT(mem(SP),1)|->data1}\/{SP_INCREMENT(mem(SP),2)|->data2}\/{SP|->uchar_byte(SP_INCREMENT(mem(SP),2))})) = MEM_ADDR) & ff(0) & pr;
+Pattern((mem<+({SP_INCREMENT(mem(SP),1)|->data1}\/{SP_INCREMENT(mem(SP),2)|->data2}\/{SP|->uchar_byte(SP_INCREMENT(mem(SP),2))}))(PSW)(0) = parity((mem<+({SP_INCREMENT(mem(SP),1)|->data1}\/{SP_INCREMENT(mem(SP),2)|->data2}\/{SP|->uchar_byte(SP_INCREMENT(mem(SP),2))}))(ACC))) & ff(0) & pr;
+Pattern(mem<+{SP_INCREMENT(mem(SP),1)|->data}: MEM_ADDR +-> BYTE) & ff(0) & pr;
+Pattern(dom(mem<+{SP_INCREMENT(mem(SP),1)|->data}) = MEM_ADDR) & ff(0) & pr;
+Pattern((mem<+{SP_INCREMENT(mem(SP),1)|->data})(PSW)(0) = parity((mem<+{SP_INCREMENT(mem(SP),1)|->data})(ACC))) & ff(0) & pr;
+Pattern(mem<+ACC_CHANGE(data,mem(PSW))<+{SP|->uchar_byte(SP_DECREMENT(mem(SP),1))}: MEM_ADDR +-> BYTE) & ff(0) & pr;
+Pattern(dom(mem<+ACC_CHANGE(data,mem(PSW))<+{SP|->uchar_byte(SP_DECREMENT(mem(SP),1))}) = MEM_ADDR) & ff(0) & pr;
+Pattern(mem<+({addr|->mem(PSW)}\/{SP|->uchar_byte(SP_DECREMENT(mem(SP),1))}): MEM_ADDR +-> BYTE) & ff(0) & dd & pr;
+Pattern(dom(mem<+({addr|->mem(PSW)}\/{SP|->uchar_byte(SP_DECREMENT(mem(SP),1))})) = MEM_ADDR) & ff(0) & dd & pr;
+Pattern((mem<+ACC_CHANGE(data,mem(PSW))<+{SP|->uchar_byte(SP_DECREMENT(mem(SP),1))})(PSW)(0) = parity((mem<+ACC_CHANGE(data,mem(PSW))<+{SP|->uchar_byte(SP_DECREMENT(mem(SP),1))})(ACC))) & ff(0) & dd & eh(SP_DECREMENT,_h,Goal) & ss & pr;
+Pattern(mem<+({SP_INCREMENT(mem(SP),1)|->data1}\/{SP_INCREMENT(mem(SP),2)|->data2}\/{SP|->uchar_byte(SP_INCREMENT(mem(SP),2))}): MEM_ADDR +-> BYTE) & ff(0) & pr & pr & pr & pr;
+Pattern((mem<+ACC_CHANGE(data,mem(PSW)))(PSW)(0) = parity((mem<+ACC_CHANGE(data,mem(PSW)))(ACC))) & ff(0) & dd & ah(size(data) = 8) & pr & dd & ph(mem,data,mem(PSW),!(mem,data,psw).(mem: UCHAR +-> BYTE & dom(mem) = UCHAR & data: BYTE & psw: BYTE & (mem<+{224|->data})(224) = data & (mem<+{208|->psw})(208)(0) = parity(data) => (mem<+ACC_CHANGE(data,psw))(208)(0) = parity((mem<+ACC_CHANGE(data,psw))(224)))) & pr & pr & pr & pr & pr & pr & eh(PSW,_h,Goal) & eh(ACC,_h,Goal);
+Pattern((mem<+ACC_CHANGE(data,mem(PSW)))(PSW)(0) = parity((mem<+ACC_CHANGE(data,mem(PSW)))(ACC))) & ff(0) & dd & ah(!(mem,data,psw).(mem: MEM_ADDR --> BYTE & data: BYTE & psw: BYTE & (mem<+{ACC|->data})(ACC) = data & (mem<+{PSW|->psw})(PSW)(0) = parity(data) => (mem<+ACC_CHANGE(data,psw))(PSW)(0) = parity((mem<+ACC_CHANGE(data,psw))(ACC)))) & pr & pr & dd & ph(mem,data,mem(PSW),!(mem,data,psw).(mem: MEM_ADDR --> BYTE & data: BYTE & psw: BYTE & (mem<+{ACC|->data})(ACC) = data & (mem<+{PSW|->psw})(PSW)(0) = parity(data) => (mem<+ACC_CHANGE(data,psw))(PSW)(0) = parity((mem<+ACC_CHANGE(data,psw))(ACC)))) & pr & pr & pr & pr & pr
+END
