@@ -1,0 +1,213 @@
+THEORY BalanceX IS
+  MEMORY,60,6,0,45,0,0,0;
+  AssertionLemmas,9,0,0,8,0,0,0;
+  Initialisation,3,0,0,3,0,0,0;
+  exChange,3,0,0,3,0,0,0;
+  bitSet,6,1,0,5,0,0,0;
+  bitClear,6,0,0,6,0,0,0;
+  addrSetDirect,6,1,0,5,0,0,0;
+  addrSetIndirect,6,0,0,6,0,0,0;
+  push_two,3,1,0,2,0,0,0;
+  push,3,0,0,3,0,0,0;
+  pop,6,3,0,2,0,0,0;
+  update,3,0,0,2,0,0,0;
+  update_div,3,0,0,0,0,0,0;
+  decrement_sp,3,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  pr;
+  pr;
+  ?;
+  dd & pr;
+  dd & pr;
+  dd & eh(SP_DECREMENT,_h,Goal) & ss & pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr & pr & pr & pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  dd & ah(!(mem,data,psw).(mem: MEM_ADDR --> BYTE & data: BYTE & psw: BYTE & (mem<+{ACC|->data})(ACC) = data & (mem<+{PSW|->psw})(PSW)(0) = parity(data) => (mem<+ACC_CHANGE(data,psw))(PSW)(0) = parity((mem<+ACC_CHANGE(data,psw))(ACC)))) & pr & pr & dd & ph(mem,data,mem(PSW),!(mem,data,psw).(mem: MEM_ADDR --> BYTE & data: BYTE & psw: BYTE & (mem<+{ACC|->data})(ACC) = data & (mem<+{PSW|->psw})(PSW)(0) = parity(data) => (mem<+ACC_CHANGE(data,psw))(PSW)(0) = parity((mem<+ACC_CHANGE(data,psw))(ACC)))) & pr & pr & pr & pr & pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  dd & ah(size(data) = 8) & pr & dd & ph(mem,data,mem(PSW),!(mem,data,psw).(mem: UCHAR +-> BYTE & dom(mem) = UCHAR & data: BYTE & psw: BYTE & (mem<+{224|->data})(224) = data & (mem<+{208|->psw})(208)(0) = parity(data) => (mem<+ACC_CHANGE(data,psw))(208)(0) = parity((mem<+ACC_CHANGE(data,psw))(224)))) & pr & pr & pr & pr & pr & pr & eh(PSW,_h,Goal) & eh(ACC,_h,Goal);
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  ?;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,genDivergencePO == KO,local_op == OK);
+  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+END
