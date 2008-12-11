@@ -9,25 +9,6 @@ SEES
         TYPES
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 CONCRETE_CONSTANTS
 
 
@@ -71,11 +52,11 @@ PROPERTIES
 
 
         halfSCHAR : SCHAR --> UCHAR &
-        halfSCHAR = % ( ww ) . ( ww : SCHAR | ( ww + 128 ) mod 16 ) &
+        halfSCHAR = % ( ww ) . ( ww : SCHAR | ( ww + 128 ) mod 2 ** 4 ) &
 
 
         add8UCHAR : ( UCHAR * UCHAR ) --> ( UCHAR ) &
-        add8UCHAR = % ( w1 , w2 ) . ( w1 : UCHAR & w2 : UCHAR | ( w1 + w2 ) mod 256 ) &
+        add8UCHAR = % ( w1 , w2 ) . ( w1 : UCHAR & w2 : UCHAR | ( w1 + w2 ) mod 2 ** 8 ) &
 
 
 
@@ -92,7 +73,7 @@ PROPERTIES
                    ( ( ( carry + w1 + w2 ) mod 128 ) , /*pg 96 manual pdf - la parece esta errado o overflow superior da soma  */
                   bool_to_bit ( bool ( carry + w1 + w2 < 0 ) )  ,
                   bool_to_bit ( bool ( carry + w1 + w2 > 127 ) ) ,
-                  bool_to_bit ( bool ( halfSCHAR ( w1 ) + halfSCHAR ( w2 ) >= 16 ) ) ,
+                  bool_to_bit ( bool ( halfSCHAR ( w1 ) + halfSCHAR ( w2 ) >= 2 ** 4 ) ) ,
                   bool_to_bit ( bool ( ( carry + w1 + w2 ) mod 128 = 0 ) ) ) ) &
 
         /* substract8SCHAR (w1, w2) = (result, is_negative, carry, half_carry, zero) */
@@ -101,7 +82,7 @@ PROPERTIES
                    ( 256 - ( w1 - w2 - carry ) ,
                   bool_to_bit ( bool ( w1 - w2 - carry < 0 ) )   ,
                   1 ,
-                  bool_to_bit ( bool ( halfSCHAR ( w1 ) - halfSCHAR ( w2 ) >= 16 ) ) ,
+                  bool_to_bit ( bool ( halfSCHAR ( w1 ) - halfSCHAR ( w2 ) >= 2 ** 4 ) ) ,
                   0 ) )
          \/ % ( carry , w1 , w2 ) . ( carry : BIT & w1 : SCHAR & w2 : SCHAR & not ( carry + w1 - w2 < - 128 ) |
                  ( ( ( w1 - w2 - carry ) mod 128 ) , /*pg 96 manual pdf - la  parece estar errado o overflow superior da soma  */

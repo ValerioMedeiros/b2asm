@@ -1,25 +1,46 @@
 THEORY BalanceX IS
-  TYPES,4,1,0,3,0,0,0;
+  TYPES,11,3,0,8,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  AssertionLemmas,4,1,0,3,0,0,0;
+  AssertionLemmas,11,3,0,8,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
   Proved(0);
   Proved(0);
   Proved(0);
-  Proved(Util)
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0)
 END
 &
 THEORY MethodList IS
+  eh(NB_SCHARS,_h,Goal);
+  pr;
+  eh(SCHAR,_h,Goal) & pr;
+  eh(SCHAR_TO_SSHORTINT,_h,Goal) & eh(BV16_TO_SSHORTINT,_h,Goal) & ss & eh(BYTE_TO_BV16) & eh(SCHAR_TO_BYTE) & eh(BYTE_TO_SCHAR) & ss & pr;
   pr;
   pr;
   pr;
-  eh(SCHAR_TO_SSHORTINT) & eh(BV16_TO_SSHORTINT) & eh(BYTE_TO_BV16) & eh(SCHAR_TO_BYTE) & eh(BYTE_TO_SCHAR) & ss & pr
+  pr;
+  pr;
+  pr;
+  pr
 END
 &
 THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -30,6 +51,6 @@ THEORY ManForms
 END
 &
 THEORY Version IS
-  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,local_op == OK);
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,genDivergencePO == KO,local_op == OK);
   PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
 END

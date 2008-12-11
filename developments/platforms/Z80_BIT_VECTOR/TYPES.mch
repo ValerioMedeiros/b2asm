@@ -4,7 +4,9 @@ MACHINE
 INCLUDES
    BIT_DEFINITION ,
    BIT_VECTOR_DEFINITION,
-   BYTE_DEFINITION
+   BYTE_DEFINITION,
+   BIT_VECTOR16_DEFINITION
+   
  
 SEES
     POWER2 
@@ -25,13 +27,13 @@ CONCRETE_CONSTANTS
    BYTE_TO_UCHAR, 
 
    
-   BV16,
    SSHORTINT ,
    SSHORTINT_LENGTH ,
    SSHORTINT_POSITION ,
    NB_SSHORTINTS ,
    BV16_TO_SSHORTINT ,
    SSHORTINT_TO_BV16 ,
+   
 
    INST_SZ ,
    INSTRUCTION ,
@@ -40,12 +42,12 @@ CONCRETE_CONSTANTS
    INSTRUCTION_NEXT ,
    INSTRUCTION_JUMP ,
 
+
    BYTE_TO_BV16 ,
    BV16_TO_BYTE ,
    SCHAR_TO_SSHORTINT ,
-   SSHORTINT_TO_SCHAR ,
-   
-   parity_bit_from_BYTE,
+   SSHORTINT_TO_SCHAR , 
+
 
    USHORTINT ,
    BV16_TO_USHORTINT ,
@@ -62,31 +64,28 @@ PROPERTIES
    SCHAR_LENGTH = 8 &
    NB_SCHARS : NATURAL &
    NB_SCHARS = 2 ** SCHAR_LENGTH &
-   SCHAR = - 128 .. 127 &
+   SCHAR = (-2**7)..(2**7-1) &
    SCHAR_POSITION = 0 .. ( SCHAR_LENGTH - 1 ) &
-   UCHAR = ( 0 .. 255 ) &
+   UCHAR = ( 0 .. (2**8-1) ) &
 
 
    SSHORTINT_LENGTH : NATURAL &
    SSHORTINT_LENGTH = 16 &
    NB_SSHORTINTS : NATURAL &
    NB_SSHORTINTS = 2 ** SSHORTINT_LENGTH &
-   SSHORTINT = - 32768 .. 32767 &
+   SSHORTINT = (-2**15).. (2**15-1) &
    SSHORTINT_POSITION = 0 .. ( SSHORTINT_LENGTH - 1 ) &
 
-
-   BV16 <: BIT_VECTOR &
-   BV16 = { vv | vv : BIT_VECTOR & size(vv) = SSHORTINT_LENGTH } &  
-   
+  
 
    BYTE_TO_UCHAR : BYTE  -->  UCHAR &
    BYTE_TO_UCHAR =  % ( v0 ) . 
-   ( v0 : BYTE | 128 * v0 ( 7 ) + 64 * v0 ( 6 ) + 32 * v0 ( 5 ) + 16 * v0 ( 4 ) + 8 * v0 ( 3 ) + 4 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) ) &
+   ( v0 : BYTE |  2**7*v0 (7 ) + 2**6 * v0 ( 6 ) + 2**5 * v0 ( 5 ) + 2**4 * v0 ( 4 ) + 2**3 * v0 ( 3 ) + 2**2 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) ) &
    UCHAR_TO_BYTE :  UCHAR  -->  BYTE &
    UCHAR_TO_BYTE = BYTE_TO_UCHAR ~ &
    
    
-   USHORTINT = ( 0 .. 65535 ) &
+   USHORTINT = ( 0 .. (2**16-1) ) &
 
 
    NB_INSTRUCTIONS : NATURAL &
@@ -102,14 +101,13 @@ PROPERTIES
    INSTRUCTION_JUMP = % ( p0 , e0 ) . ( p0 : INSTRUCTION & e0 : - 126 .. 129 | (p0 + e0) mod  65535 ) &
 
    BYTE_TO_SCHAR : BYTE --> SCHAR &
-   BYTE_TO_SCHAR = % ( v0 ) . ( v0 : BYTE | - 128 * v0 ( 7 ) + 64 * v0 ( 6 ) + 32 * v0 ( 5 ) + 16 * v0 ( 4 ) + 8 * v0 ( 3 ) + 4 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) ) &
+   BYTE_TO_SCHAR = % ( v0 ) . ( v0 : BYTE | (- 2**7) * v0 ( 7 ) + 2**6 * v0 ( 6 ) + 2**5 * v0 ( 5 ) + 2**4 * v0 ( 4 ) + 2**3 * v0 ( 3 ) + 2**2 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) ) &
    SCHAR_TO_BYTE : SCHAR --> BYTE &
    SCHAR_TO_BYTE = BYTE_TO_SCHAR ~ &
 
    BV16_TO_SSHORTINT : BV16 --> SSHORTINT &
-   BV16_TO_SSHORTINT =
-        % ( v0 ) . ( v0 : BV16 | - 32768 * v0 ( 15 ) + 16384 * v0 ( 14 ) + 8192 * v0 ( 13 ) + 4096 * v0 ( 12 ) + 2048 * v0 ( 11 ) + 1024 * v0 ( 10 ) + 512 * v0 ( 9 ) + 256 * v0 ( 8 ) +
-                128 * v0 ( 7 ) + 64 * v0 ( 6 ) + 32 * v0 ( 5 ) + 16 * v0 ( 4 ) + 8 * v0 ( 3 ) + 4 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) ) &
+   BV16_TO_SSHORTINT = % ( v0 ) . ( v0 : BV16 | - 2**15 * v0 ( 15 ) + 2**14 * v0 ( 14 ) + 2**13 * v0 ( 13 ) + 2**12 * v0 ( 12 ) + 2**11 * v0 ( 11 ) + 2**10 * v0 ( 10 ) + 2**9 * v0 ( 9 ) + 2**8 * v0 ( 8 ) + 2**7 * v0 ( 7 ) + 2**6 * v0 ( 6 ) + 2**5 * v0 ( 5 ) + 2**4 * v0 ( 4 ) + 2**3 * v0 ( 3 ) + 2**2 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) )  
+   &
    SSHORTINT_TO_BV16 : SSHORTINT --> BV16 &
    SSHORTINT_TO_BV16 = BV16_TO_SSHORTINT ~ &
 
@@ -130,15 +128,12 @@ PROPERTIES
 
 
    BV16_TO_USHORTINT : BV16  -->  USHORTINT &
-   BV16_TO_USHORTINT = % ( v0 ) . ( v0 : BV16 |
-                 32768 * v0 ( 15 ) + 16384 * v0 ( 14 ) + 8192 * v0 ( 13 ) + 4096 * v0 ( 12 ) + 2048 * v0 ( 11 ) + 1024 * v0 ( 10 ) + 512 * v0 ( 9 ) + 256 * v0 ( 8 ) +
-                128 * v0 ( 7 ) + 64 * v0 ( 6 ) + 32 * v0 ( 5 ) + 16 * v0 ( 4 ) + 8 * v0 ( 3 ) + 4 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) ) &
+   BV16_TO_USHORTINT = % ( v0 ) . 
+   ( v0 : BV16 | 2**15 * v0 ( 15 ) + 2**14 * v0 ( 14 ) + 2**13 * v0 ( 13 ) + 2**12 * v0 ( 12 ) + 2**11 * v0 ( 11 ) + 2**10 * v0 ( 10 ) + 2**9 * v0 ( 9 ) + 2**8 * v0 ( 8 ) + 2**7 * v0 ( 7 ) + 2**6 * v0 ( 6 ) + 2**5 * v0 ( 5 ) + 2**4 * v0 ( 4 ) + 2**3 * v0 ( 3 ) + 2**2 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) ) &
    USHORTINT_TO_BV16 :  USHORTINT  -->  BV16 &
    USHORTINT_TO_BV16 = BV16_TO_USHORTINT ~ &
    
    
-   	parity_bit_from_BYTE : BIT_VECTOR --> BIT 
-	&parity_bit_from_BYTE = % (bv). (bv : BIT_VECTOR | (SIGMA idx . (idx : dom(bv) | bv(idx) )) mod 2 )&
 
 
    SSHORTINT_TO_USHORTINT : SSHORTINT --> USHORTINT &
@@ -149,20 +144,23 @@ PROPERTIES
 
 
 ASSERTIONS
-   NB_SCHARS = 256 &
-   ! ( n0 ) . ( n0 : SCHAR => 0 <= n0 ) &
-   ! ( n0 ) . ( n0 : SCHAR => n0 <= 255 ) &
-   2 ** 16 = 65536 &
-   INSTRUCTION_NEXT : USHORTINT -->  USHORTINT &
    0 = SCHAR_TO_SSHORTINT ( 0 , 0 ) &
+   NB_SCHARS = 256 &
    
-   !(xx).( xx : BYTE => BYTE_TO_UCHAR(xx) : UCHAR) &
+   /* Por algum motivo que desconheco consegui provar
+    (   ! ( n0 ) . ( n0 : SCHAR => 0 <= n0 ) & ) , estranho... */
+
+   ! ( n0 ) . ( n0 : UCHAR => 0 <= n0 ) &  
+   ! ( n0 ) . ( n0 : UCHAR => n0 <= 255 ) &
+
+   INSTRUCTION_NEXT : USHORTINT -->  USHORTINT &
+
    
+   !(xx).( xx : BYTE => BYTE_TO_UCHAR(xx) : UCHAR) &   
    !(xx).( xx : UCHAR => UCHAR_TO_BYTE(xx) : BYTE ) &
    
    
    !(xx).( xx : BYTE => BYTE_TO_SCHAR(xx) : SCHAR) &
-   
    !(xx).( xx : SCHAR => SCHAR_TO_BYTE(xx) : BYTE ) &
    
 
@@ -174,3 +172,4 @@ ASSERTIONS
 
 
 END
+
