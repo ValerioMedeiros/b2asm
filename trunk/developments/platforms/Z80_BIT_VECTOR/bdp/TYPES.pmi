@@ -1,26 +1,26 @@
 THEORY BalanceX IS
-  TYPES,11,1,0,7,0,0,0;
+  TYPES,11,0,0,1,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  AssertionLemmas,11,1,0,7,0,0,0;
+  AssertionLemmas,11,0,0,1,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
   Unproved;
   Unproved;
+  Proved(0);
   Unproved;
-  Proved(Util);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0)
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved
 END
 &
 THEORY MethodList IS
-  pr;
+  eh(NB_SCHARS,_h,Goal);
   pr;
   pr;
   eh(SCHAR_TO_SSHORTINT,_h,Goal) & eh(BV16_TO_SSHORTINT,_h,Goal) & ss & eh(BYTE_TO_BV16) & eh(SCHAR_TO_BYTE) & eh(BYTE_TO_SCHAR) & ss & pr;
