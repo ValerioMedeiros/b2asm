@@ -41,7 +41,8 @@ PROPERTIES
     & bv_index = %(v1) . (v1 : BIT_VECTOR | 0..(bv_size(v1)-1)) 
    
     & bv_sub : BIT_VECTOR * NATURAL * NATURAL --> BIT_VECTOR 
-    & bv_sub = %(bv,low,high) . (bv : BIT_VECTOR & low: NATURAL & high:NATURAL & low<=high | %(i0).(i0: 1..(high-low+1) | bv(i0 + low) ) ) 
+    & bv_sub = %(bv,low,high) . (bv : BIT_VECTOR & low: 0..(bv_size(bv)-1) & high:low..(bv_size(bv)-1)
+        							| %(i0).(i0: 1..(high-low+1) | bv(i0+low) )) 
 
     & bv_zero : NATURAL1 --> BIT_VECTOR 
     & bv_zero = %(sz) . (sz : NATURAL1 | (1..sz) * {0}) 
@@ -80,8 +81,11 @@ PROPERTIES
 
 ASSERTIONS
     ! bv.(bv : BIT_VECTOR => bv_size(bv_not(bv)) = bv_size(bv));
-   
+   	/*
     ! (bv,indx).(bv : BIT_VECTOR & indx : 0..(bv_size(bv)-1) => (bv_not(bv_not(bv))(indx) = bv_get(bv,indx) ));
+    */
+    
+    ! (bv,indx).(bv : BIT_VECTOR & indx : 0..(bv_size(bv)-1) => (bv_get(bv_not(bv_not(bv)),indx) = bv_get(bv,indx) ));
 
     ! (v1,v2). (v1 : BIT_VECTOR & v2 : BIT_VECTOR =>
             		bv_size(bv_catenate(v1, v2)) = bv_size(v1) + bv_size(v2));
