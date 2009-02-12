@@ -1,8 +1,8 @@
 digraph {
 BIT_DEFINITION [ label=" BIT_DEFINITION " shape= box ]
-BIT_VECTOR16_DEFINITION [ label=" BIT_VECTOR16_DEFINITION " shape= box ]
 BIT_VECTOR_ARITHMETICS [ label=" BIT_VECTOR_ARITHMETICS " shape= box ]
 BIT_VECTOR_DEFINITION [ label=" BIT_VECTOR_DEFINITION " shape= box ]
+BV16_DEFINITION [ label=" BV16_DEFINITION " shape= box ]
 BYTE_DEFINITION [ label=" BYTE_DEFINITION " shape= box ]
 
 }

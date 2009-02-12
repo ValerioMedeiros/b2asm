@@ -7,14 +7,14 @@
         <component_file path="/home/atelierb/Projetos/Hardware_Library/src" name="BIT_DEFINITION" suffix="mch" user="atelierb">
             <component name="BIT_DEFINITION" type="specification" />
         </component_file>
-        <component_file path="/home/atelierb/Projetos/Hardware_Library/src" name="BIT_VECTOR16_DEFINITION" suffix="mch" user="atelierb">
-            <component name="BIT_VECTOR16_DEFINITION" type="specification" />
-        </component_file>
         <component_file path="/home/atelierb/Projetos/Hardware_Library/src" name="BIT_VECTOR_ARITHMETICS" suffix="mch" user="atelierb">
             <component name="BIT_VECTOR_ARITHMETICS" type="specification" />
         </component_file>
         <component_file path="/home/atelierb/Projetos/Hardware_Library/src" name="BIT_VECTOR_DEFINITION" suffix="mch" user="atelierb">
             <component name="BIT_VECTOR_DEFINITION" type="specification" />
+        </component_file>
+        <component_file path="/home/atelierb/Projetos/Hardware_Library/src" name="BV16_DEFINITION" suffix="mch" user="atelierb">
+            <component name="BV16_DEFINITION" type="specification" />
         </component_file>
         <component_file path="/home/atelierb/Projetos/Hardware_Library/src" name="BYTE_DEFINITION" suffix="mch" user="atelierb">
             <component name="BYTE_DEFINITION" type="specification" />
