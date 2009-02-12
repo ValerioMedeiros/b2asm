@@ -1,29 +1,33 @@
 THEORY BalanceX IS
-  TYPES,11,0,0,1,0,0,0;
+  TYPES,13,0,0,9,0,0,0;
   InstanciatedConstraintsLemmas,0,0,0,0,0,0,0;
-  AssertionLemmas,11,0,0,1,0,0,0;
+  AssertionLemmas,13,0,0,9,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
   Unproved;
-  Unproved;
   Proved(0);
   Unproved;
-  Unproved;
-  Unproved;
-  Unproved;
-  Unproved;
-  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
   Unproved;
   Unproved
 END
 &
 THEORY MethodList IS
-  eh(NB_SCHARS,_h,Goal);
+  ?;
+  pr;
+  ?;
   pr;
   pr;
-  eh(SCHAR_TO_SSHORTINT,_h,Goal) & eh(BV16_TO_SSHORTINT,_h,Goal) & ss & eh(BYTE_TO_BV16) & eh(SCHAR_TO_BYTE) & eh(BYTE_TO_SCHAR) & ss & pr;
+  pr;
   pr;
   pr;
   pr;
@@ -34,6 +38,9 @@ THEORY MethodList IS
 END
 &
 THEORY PassList IS
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),(?;0);
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -42,9 +49,8 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),?;
-  Force(0),?;
-  Force(0),?
+  Force(0),(?;0);
+  Force(0),(?;0)
 END
 &
 THEORY ManForms 

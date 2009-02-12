@@ -4,9 +4,9 @@ Copyright (c) 2008, Valerio Medeiros Jr, David Deharbe
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the Universidade Federal do Rio Grande do Norte nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name of the Universidade Federal do Rio Grande do Norte nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,34 +25,35 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 MACHINE
    Z80
 INCLUDES
-    MEMORY
+   MEMORY
 
 SEES
-TYPES ,
-ALU ,
-POWER2
+   TYPES ,
+   ALU ,
+   POWER2
 
 
 
 
 
 SETS
- id_reg_8 = { a0 , f0 , f_0 , a_0 ,
-                 b0 , c0 , b_0 , c_0 ,
-                 d0 , e0 , d_0 , e_0 ,
-                 h0 , l0 , h_0 , l_0 ,
-                 i0 , r0 } ;
+   id_reg_8 = { a0 , f0 , f_0 , a_0 ,
+      b0 , c0 , b_0 , c_0 ,
+      d0 , e0 , d_0 , e_0 ,
+      h0 , l0 , h_0 , l_0 ,
+      i0 , r0 } ;
 
- id_reg_16 = { BC , DE , HL , SP , AF }
+   id_reg_16 = { BC , DE , HL , SP , AF }
 
 
 ABSTRACT_VARIABLES
    rgs8 ,
-  /* mem,
-   stack,*/
+
 
    pc , sp , ix , iy ,
-   /*not implemented yet - i,r */
+   i_ , r_ ,
+   iff1 , iff2 ,
+   im ,
    i_o_ports
 
 
@@ -61,13 +62,13 @@ ABSTRACT_VARIABLES
 
 
 INVARIANT
-   stack : BV16  --> BYTE &
+
    rgs8 : id_reg_8 --> BYTE &
    pc : INSTRUCTION & sp : BV16 & ix : BV16 & iy : BV16 &
+   i_ : BYTE & r_  : BYTE &
+   iff1 : BIT &  iff2 : BIT &
+   im : ( BIT * BIT ) &
    i_o_ports  : BYTE --> BYTE
-   /*   --- Nao seria interessante colocar uma variavel para avaliar estoura da pilha e overflow?  
-     									Ex: ( block_stack_overflow =>  )
-  */
 
 
 
@@ -102,18 +103,17 @@ INVARIANT
 
 CONCRETE_CONSTANTS
 
- get_bv_reg16 ,
- REG16_TO_REG8 ,
- REG8_TO_REG16 ,
+   get_bv_reg16 ,
+   REG16_TO_REG8 ,
+   REG8_TO_REG16 ,
 
- update_flag_register_SZ_H_PvNC ,
- get_new_flag_register_SZ_H_PvNC ,
+   update_flag_register_SZ_H_PvNC ,
+   get_new_flag_register_SZ_H_PvNC ,
 
+   bv_ireg_plus_d ,
+   bv_9ireg_plus_d0 ,
 
- bv_IX_plus_d ,
- bv_IY_plus_d ,
- bv_9IX_plus_d0 ,
- bv_9IY_plus_d0
+   daa_function
 
 
 
@@ -121,65 +121,87 @@ CONCRETE_CONSTANTS
 PROPERTIES
 
 
-  get_bv_reg16 : ( BV16 * ( id_reg_8 --> BYTE ) * id_reg_16 ) --> ( BV16 )
-  & ! ( sp_ , rgs8_ , r1 ) .
-  ( sp_ :  BV16 & rgs8_ : ( id_reg_8 --> BYTE ) & r1 : id_reg_16
-   => ( r1 = BC =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = BYTE_TO_BV16 ( rgs8_ ( b0 ) , rgs8_ ( c0 ) ) ) &
-      ( r1 = DE =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = BYTE_TO_BV16 ( rgs8_ ( d0 ) , rgs8_ ( e0 ) ) ) &
-      ( r1 = HL =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = BYTE_TO_BV16 ( rgs8_ ( h0 ) , rgs8_ ( l0 ) ) ) &
+   get_bv_reg16 : ( BV16 * ( id_reg_8 --> BYTE ) * id_reg_16 ) --> ( BV16 )
+   & ! ( sp_ , rgs8_ , r1 ) .
+   ( sp_ :  BV16 & rgs8_ : ( id_reg_8 --> BYTE ) & r1 : id_reg_16
+      => ( r1 = BC =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_to_bv16 ( rgs8_ ( b0 ) , rgs8_ ( c0 ) ) ) &
+      ( r1 = DE =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_to_bv16 ( rgs8_ ( d0 ) , rgs8_ ( e0 ) ) ) &
+      ( r1 = HL =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_to_bv16 ( rgs8_ ( h0 ) , rgs8_ ( l0 ) ) ) &
       ( r1 = SP =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = sp_ ) &
-      ( r1 = AF =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = BYTE_TO_BV16 ( rgs8_ ( a0 ) , rgs8_ ( f0 ) ) )
+      ( r1 = AF =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_to_bv16 ( rgs8_ ( a0 ) , rgs8_ ( f0 ) ) )
    ) &
 
 
-  REG16_TO_REG8 : id_reg_16 --> ( id_reg_8 * id_reg_8 )
-  & ! ( r1 ) .
-  ( r1 : id_reg_16
-   => ( r1 = BC =>  REG16_TO_REG8 ( r1 ) = ( b0 , c0 ) ) &
-      ( r1 = DE =>  REG16_TO_REG8 ( r1 ) = ( d0 , e0 ) ) &
-      ( r1 = HL =>  REG16_TO_REG8 ( r1 ) = ( h0 , l0 ) ) &
-      ( r1 = AF =>  REG16_TO_REG8 ( r1 ) = ( a0 , f0 ) )
-   )
-  &
-  REG8_TO_REG16 = REG16_TO_REG8 ~ &
+   REG16_TO_REG8 : id_reg_16 --> ( id_reg_8 * id_reg_8 ) &
+      REG16_TO_REG8 ( BC ) = ( b0 , c0 )  &
+      REG16_TO_REG8 ( DE ) = ( d0 , e0 )  &
+      REG16_TO_REG8 ( HL ) = ( h0 , l0 )  &
+      REG16_TO_REG8 ( AF ) = ( a0 , f0 )
 
-  update_flag_register_SZ_H_PvNC = % ( rgs8_ , s7 , z6 , h4 , pv2 , n_add_sub , c0 ) .
-  ( rgs8_ : id_reg_8 --> BYTE & s7 : BIT & z6  : BIT &   h4 : BIT  & pv2 : BIT & n_add_sub : BIT & c0 : BIT |
+   &
+   REG8_TO_REG16 = REG16_TO_REG8 ~ &
+
+   update_flag_register_SZ_H_PvNC = % ( rgs8_ , s7 , z6 , h4 , pv2 , n_add_sub , c0 ) .
+   ( rgs8_ : id_reg_8 --> BYTE & s7 : BIT & z6  : BIT &   h4 : BIT  & pv2 : BIT & n_add_sub : BIT & c0 : BIT |
       rgs8_ <+ { ( f0 |-> {
-                     ( 7 |-> s7 ) ,
-                                       ( 6 |-> z6 ) ,
+                       ( 7 |-> s7 ) ,
+                             ( 6 |-> z6 ) ,
 
-                                       ( 4 |-> h4 ) ,
+                             ( 4 |-> h4 ) ,
 
-                                 ( 2 |-> pv2 ) ,
-                                       ( 1 |-> n_add_sub ) ,
-                                       ( 0 |-> c0 ) } ) } )
+                       ( 2 |-> pv2 ) ,
+                             ( 1 |-> n_add_sub ) ,
+                             ( 0 |-> c0 ) } ) } )
 
-        &
+   &
 
-        get_new_flag_register_SZ_H_PvNC = % ( rgs8_ , s7 , z6 , h4 , pv2 , n_add_sub , c0 ) .
-        ( rgs8_ : id_reg_8 --> BYTE & s7 : BIT & z6  : BIT &   h4 : BIT  & pv2 : BIT & n_add_sub : BIT & c0 : BIT |
-        ( f0 |-> {
-                     ( 7 |-> s7 ) ,
-                                       ( 6 |-> z6 ) ,
+   get_new_flag_register_SZ_H_PvNC = % ( rgs8_ , s7 , z6 , h4 , pv2 , n_add_sub , c0 ) .
+   ( rgs8_ : id_reg_8 --> BYTE & s7 : BIT & z6  : BIT &   h4 : BIT  & pv2 : BIT & n_add_sub : BIT & c0 : BIT |
+      ( f0 |-> {
+                    ( 7 |-> s7 ) ,
+                          ( 6 |-> z6 ) ,
 
-                                       ( 4 |-> h4 ) ,
+                          ( 4 |-> h4 ) ,
 
-                                 ( 2 |-> pv2 ) ,
-                                       ( 1 |-> n_add_sub ) ,
-                                       ( 0 |-> c0 ) } ) ) &
+                    ( 2 |-> pv2 ) ,
+                          ( 1 |-> n_add_sub ) ,
+                          ( 0 |-> c0 ) } ) ) &
 
-         bv_IX_plus_d         = % ( ix , desloc ) . ( ix : BV16 & desloc : SCHAR |
-             USHORTINT_TO_BV16 ( BV16_TO_USHORTINT ( ix ) + desloc ) ) &
+   bv_ireg_plus_d = % ( ix_iy , desloc ) . ( ix_iy : BV16 & desloc : SCHAR |
+      ushortint_to_bv16 ( ( bv16_to_ushortint ( ix_iy ) + desloc ) mod 65536 ) ) &
 
-         bv_IY_plus_d = % ( iy , desloc ) . ( iy : BV16 & desloc : SCHAR |
-             USHORTINT_TO_BV16 ( BV16_TO_USHORTINT ( iy ) + desloc ) ) &
+   bv_9ireg_plus_d0 = % ( mem , ix_iy , desloc ) . ( mem : ( BV16 --> BYTE ) & ix_iy : BV16 & desloc : SCHAR |
+      mem ( bv_ireg_plus_d ( ix_iy , desloc ) ) ) &
 
-        bv_9IX_plus_d0 = % ( mem , ix , desloc ) . ( mem : ( BV16 --> BYTE ) & ix : BV16 & desloc : SCHAR |
-            mem ( USHORTINT_TO_BV16 ( ( BV16_TO_USHORTINT ( ix ) + desloc ) mod 65536 ) ) ) &
+   daa_function : ( BIT * BIT * BYTE * BIT ) --> ( BYTE * BIT * BIT ) &
+   ! ( zn , c0 , value , h0 ) . ( zn : BIT & c0 : BIT & value : BYTE & h0 : BIT =>
+      (  (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( value , 0 , 0 ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 8 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 6 ) ) , 0 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 6 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 6 ) ) , 0 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 6 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 10 .. 15 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 96 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 96 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 9 .. 15 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 102 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 10 .. 15 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 102 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 2 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 96 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 96 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 2 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 102 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 3 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 102 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
 
-        bv_9IY_plus_d0 = % ( mem , iy , desloc ) . ( mem : ( BV16 --> BYTE ) & iy : BV16 & desloc : SCHAR |
-            mem ( USHORTINT_TO_BV16 ( ( BV16_TO_USHORTINT ( iy ) + desloc ) mod 65536 ) ) )
+         (  zn = 1 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( value , 0 , 0 ) ) &
+         (  zn = 1 & c0 = 0 & get_upper_digit ( value ) : 0 .. 8 & h0 = 1 & get_lower_digit ( value ) : 6 .. 15 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 250 ) ) , 0 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 250 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 1 & c0 = 1 & get_upper_digit ( value ) : 7 .. 15 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 160 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 160 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 1 & c0 = 1 & get_upper_digit ( value ) : 6 .. 7 & h0 = 1 & get_lower_digit ( value ) : 6 .. 15 =>
+                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 154 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 154 ) >= 2 ** 4 ) ) ) ) ) )
 
 
 ASSERTIONS
@@ -189,1043 +211,1048 @@ ASSERTIONS
    dom ( mem ) = BV16 &
    ran ( rgs8 ) <: BYTE &
    dom ( rgs8 ) = id_reg_8 &
-   INSTRUCTION_NEXT ( 0 ) = 1 &
-   INSTRUCTION_NEXT ( 1 ) = 2 &
-   INSTRUCTION_NEXT ( 2 ) = 3 &
-   INSTRUCTION_NEXT ( 3 ) = 4 &
-   INSTRUCTION_NEXT ( 4 ) = 5 &
-   INSTRUCTION_NEXT ( 5 ) = 6 &
-   INSTRUCTION_NEXT ( 6 ) = 7 &
-   INSTRUCTION_NEXT ( 7 ) = 8 &
-   INSTRUCTION_NEXT ( 8 ) = 9 &
-   INSTRUCTION_NEXT ( 9 ) = 10 &
-   INSTRUCTION_NEXT ( 10 ) = 11 &
-   INSTRUCTION_NEXT ( 11 ) = 12 &
-   INSTRUCTION_NEXT ( 12 ) = 13 &
-   INSTRUCTION_NEXT ( 13 ) = 14 &
+   instruction_next ( 0 ) = 1 &
+   instruction_next ( 1 ) = 2 &
+   instruction_next ( 2 ) = 3 &
+   instruction_next ( 3 ) = 4 &
+   instruction_next ( 4 ) = 5 &
+   instruction_next ( 5 ) = 6 &
+   instruction_next ( 6 ) = 7 &
+   instruction_next ( 7 ) = 8 &
+   instruction_next ( 8 ) = 9 &
+   instruction_next ( 9 ) = 10 &
+   instruction_next ( 10 ) = 11 &
+   instruction_next ( 11 ) = 12 &
+   instruction_next ( 12 ) = 13 &
+   instruction_next ( 13 ) = 14 &
 
-/*   !(vec,in0).(vec : BYTE & in0 : 0..7 
-   =>  bitget(BYTE_TO_SCHAR(vec),in0) = vec(in0) ) &*/
-
-   mem ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) : BYTE & mem ( BYTE_TO_BV16 ( SCHAR_TO_BYTE ( 0 ) , mem ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) ) ) : BYTE &
-   mem ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) : BYTE & mem ( BYTE_TO_BV16 ( SCHAR_TO_BYTE ( 0 ) , mem ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) ) : BYTE &
-   mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) : BYTE & mem ( BYTE_TO_BV16 ( SCHAR_TO_BYTE ( 0 ) , mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) : BYTE &
-   mem ( BYTE_TO_BV16 ( rgs8 ( a0 ) , rgs8 ( f0 ) ) ) : BYTE & mem ( BYTE_TO_BV16 ( SCHAR_TO_BYTE ( 0 ) , mem ( BYTE_TO_BV16 ( rgs8 ( a0 ) , rgs8 ( f0 ) ) ) ) ) : BYTE &
+   mem ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) : BYTE & mem ( byte_to_bv16 ( schar_to_byte ( 0 ) , mem ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) ) ) : BYTE &
+   mem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) : BYTE & mem ( byte_to_bv16 ( schar_to_byte ( 0 ) , mem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) ) : BYTE &
+   mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) : BYTE & mem ( byte_to_bv16 ( schar_to_byte ( 0 ) , mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) : BYTE &
+   mem ( byte_to_bv16 ( rgs8 ( a0 ) , rgs8 ( f0 ) ) ) : BYTE & mem ( byte_to_bv16 ( schar_to_byte ( 0 ) , mem ( byte_to_bv16 ( rgs8 ( a0 ) , rgs8 ( f0 ) ) ) ) ) : BYTE &
 
    mem ( sp ) : BYTE &
    mem ( ix ) : BYTE &
    mem ( iy ) : BYTE &
 
-   ! ( ii , des ) . ( ii : BV16 & des : SCHAR => bv_IX_plus_d ( ii , des ) : BV16 ) &
-   ! ( ii , des ) . ( ii : BV16 & des : SCHAR => bv_IY_plus_d ( ii , des ) : BV16 ) &
+   ! ( ii , des ) . ( ii : BV16 & des : SCHAR => bv_ireg_plus_d ( ii , des ) : BV16 ) &
 
-   ! ( mmm , ii , des ) . ( mmm : BV16 >-> BYTE & ii : BV16 & des : SCHAR => bv_9IX_plus_d0 ( mmm , ii , des ) : BYTE ) &
-   ! ( mmm , ii , des ) . ( mmm : BV16 >-> BYTE & ii : BV16 & des : SCHAR => bv_9IY_plus_d0 ( mmm , ii , des ) : BYTE )
+   ! ( mmm , ii , des ) . ( mmm : BV16 >-> BYTE & ii : BV16 & des : SCHAR => bv_9ireg_plus_d0 ( mmm , ii , des ) : BYTE ) &
+
+   ! ( zn , c0 , value , h0 ) . ( zn : BIT & c0 : BIT & value : BYTE & h0 : BIT =>
+          daa_function ( zn , c0 , value , h0 ) : ( BYTE * BIT * BIT ) )
 
 INITIALISATION
 
    rgs8 :: id_reg_8 --> BYTE ||
    pc :: INSTRUCTION || sp :: BV16 || ix :: BV16 || iy :: BV16 ||
-   i_o_ports  :: BYTE --> BYTE
+   i_ :: BYTE || r_  :: BYTE ||
+   i_o_ports  :: BYTE --> BYTE ||
+   iff1 :: BIT  ||  iff2 :: BIT ||
+   im :: ( BIT * BIT )
 
 
 OPERATIONS
 
- LD_r_r_ ( rr , rr_ ) =
-     PRE rr : id_reg_8 & rr_ : id_reg_8  THEN
-                rgs8 ( rr ) := rgs8 ( rr_ ) ||
-        pc := INSTRUCTION_NEXT ( pc )
-     END
-;
+   LD_r_r_ ( rr , rr_ ) =
+   PRE rr : id_reg_8 & rr_ : id_reg_8  THEN
+      rgs8 ( rr ) := rgs8 ( rr_ ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
- LD_r_n_ ( rr , n0 ) =
-     PRE rr : id_reg_8 & n0 : SCHAR  THEN
-        rgs8 ( rr ) := SCHAR_TO_BYTE ( n0 ) ||
-        pc := INSTRUCTION_NEXT ( pc )
-     END
-;
+   LD_r_n_ ( rr , n0 ) =
+   PRE rr : id_reg_8 & n0 : SCHAR  THEN
+      rgs8 ( rr ) := schar_to_byte ( n0 ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
- LD_r_9HL0 ( rr ) =
-    PRE rr : id_reg_8 THEN
-         ANY address WHERE address : BV16 &
-            address =  BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) )
+   LD_r_9HL0 ( rr ) =
+   PRE rr : id_reg_8 THEN
+      ANY address WHERE address : BV16 &
+         address =  byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) )
+      THEN
+         rgs8 ( rr ) := mem ( address ) ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+      END
+   END
+   ;
+
+
+   LD_r_9IX_d0 ( rr , desloc ) =
+   PRE rr : id_reg_8 & desloc : SCHAR
+   THEN
+      rgs8 ( rr ) := bv_9ireg_plus_d0 ( mem , ix , desloc ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+   LD_r_9IY_d0 ( rr , desloc ) =
+   PRE rr : id_reg_8 & desloc : SCHAR
+   THEN
+      rgs8 ( rr ) := bv_9ireg_plus_d0 ( mem , iy , desloc ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+   LD_9HL0_r ( rr ) =
+   PRE rr : id_reg_8 & byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) /: dom ( stack ) THEN
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , rgs8 ( rr ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+
+   LD_9IX_d0_r ( desloc , rr ) =
+   PRE  desloc : SCHAR & rr : id_reg_8 & bv_ireg_plus_d ( ix , desloc ) /: dom ( stack ) THEN
+      updateAddressMem ( bv_ireg_plus_d ( ix , desloc ) , rgs8 ( rr ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_9IY_d0_r ( desloc , rr ) =
+   PRE  desloc : SCHAR & rr : id_reg_8 & bv_ireg_plus_d ( iy , desloc ) /: dom ( stack ) THEN
+      updateAddressMem ( bv_ireg_plus_d ( iy , desloc ) , rgs8 ( rr ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_9HL0_n ( n0 ) =
+   PRE n0 : SCHAR & byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) /: dom ( stack ) THEN
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , schar_to_byte ( n0 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_9IX_d0_n ( desloc , n0 ) =
+   PRE  desloc : SCHAR & n0 : SCHAR &  bv_ireg_plus_d ( ix , desloc ) /: dom ( stack ) THEN
+      updateAddressMem ( bv_ireg_plus_d ( ix , desloc ) , schar_to_byte ( n0 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_9IY_d0_n ( desloc , n0 ) =
+   PRE  desloc : SCHAR & n0 : SCHAR & bv_ireg_plus_d ( iy , desloc ) /: dom ( stack ) THEN
+      updateAddressMem ( bv_ireg_plus_d ( iy , desloc ) , schar_to_byte ( n0 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_A_9BC0  =
+   BEGIN
+      rgs8 ( a0 ) := mem ( mem ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_A_9DE0  =
+   BEGIN
+      rgs8 ( a0 ) := mem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_A_9nn0 ( nn ) =
+   PRE nn :  USHORTINT
+   THEN
+      rgs8 ( a0 ) := mem ( ushortint_to_bv16 ( nn ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_9BC0_A  =
+   PRE           byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) /: dom ( stack )
+   THEN
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) , rgs8 ( a0 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+
+   LD_9DE0_A  =
+   PRE mem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) /: dom ( stack )
+   THEN
+      updateAddressMem ( ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) , rgs8 ( a0 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_9nn0_A ( nn ) =
+   PRE nn : USHORTINT
+      & ushortint_to_bv16 ( nn ) /: dom ( stack )
+   THEN
+      updateAddressMem ( ushortint_to_bv16 ( nn ) , rgs8 ( a0 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   /* Interrupctio*/
+   LD_A_I =
+   ANY  new_interrupt
+   WHERE new_interrupt : BYTE
+   THEN
+      i_ := new_interrupt ||
+      rgs8 := rgs8  <+ { a0 |-> new_interrupt , get_new_flag_register_SZ_H_PvNC ( rgs8 , is_negative ( new_interrupt ) , is_zero ( new_interrupt ) , 0 , iff2 , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+   LD_A_R =
+   BEGIN
+      rgs8 := rgs8  <+ { a0 |-> r_ , get_new_flag_register_SZ_H_PvNC ( rgs8 , is_negative ( r_ ) , is_zero ( r_ ) , 0 , iff2 , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+   LD_I_A =
+   BEGIN
+      i_ := rgs8 ( a0 ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+   LD_R_A =
+   BEGIN
+      r_ := rgs8 ( a0 ) ||
+      pc := instruction_next ( pc )
+   END
+   ;
+
+
+   LD_dd_nn ( dd , nn ) =
+   PRE dd : id_reg_16 & nn : USHORTINT  & dd /= AF
+   THEN
+      IF dd = SP THEN  sp := ushortint_to_bv16 ( nn )
+      ELSE
+         ANY rh , rl , w1 , w2 WHERE
+            rh : id_reg_8 &  rl : id_reg_8 &
+            w1 : BYTE & w2 : BYTE &
+            rh , rl = REG16_TO_REG8 ( dd ) &
+            bv16_to_byte ( ushortint_to_bv16 ( nn ) ) = w1 , w2
          THEN
-                        rgs8 ( rr ) := mem ( address ) ||
-                        pc := INSTRUCTION_NEXT ( pc )
-                END
-        END
-;
-
-
- LD_r_9IX_d0 ( rr , desloc ) =
-      PRE rr : id_reg_8 & desloc : SCHAR
-      THEN
-          rgs8 ( rr ) := bv_9IX_plus_d0 ( mem , ix , desloc ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
- LD_r_9IY_d0 ( rr , desloc ) =
-      PRE rr : id_reg_8 & desloc : SCHAR
-      THEN
-          rgs8 ( rr ) := bv_9IY_plus_d0 ( mem , iy , desloc ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
- LD_9HL0_r ( rr ) =
-      PRE rr : id_reg_8 & BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) /: dom ( stack ) THEN
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , rgs8 ( rr ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
-
- LD_9IX_d0_r ( desloc , rr ) =
-      PRE  desloc : SCHAR & rr : id_reg_8 & bv_IX_plus_d ( ix , desloc ) /: dom ( stack ) THEN
-                    updateAddressMem ( bv_IX_plus_d ( ix , desloc ) , rgs8 ( rr ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_9IY_d0_r ( desloc , rr ) =
-      PRE  desloc : SCHAR & rr : id_reg_8 & bv_IY_plus_d ( iy , desloc ) /: dom ( stack ) THEN
-                    updateAddressMem ( bv_IY_plus_d ( iy , desloc ) , rgs8 ( rr ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_9HL0_n ( n0 ) =
-      PRE n0 : SCHAR & BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) /: dom ( stack ) THEN
-                    updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , SCHAR_TO_BYTE ( n0 ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_9IX_d0_n ( desloc , n0 ) =
-      PRE  desloc : SCHAR & n0 : SCHAR &  bv_IX_plus_d ( ix , desloc ) /: dom ( stack ) THEN
-                    updateAddressMem ( bv_IX_plus_d ( ix , desloc ) , SCHAR_TO_BYTE ( n0 ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_9IY_d0_n ( desloc , n0 ) =
-      PRE  desloc : SCHAR & n0 : SCHAR & bv_IY_plus_d ( iy , desloc ) /: dom ( stack ) THEN
-                          updateAddressMem ( bv_IY_plus_d ( iy , desloc ) , SCHAR_TO_BYTE ( n0 ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_A_9BC0  =
-         BEGIN
-                rgs8 ( a0 ) := mem ( mem ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) ) ||
-        pc := INSTRUCTION_NEXT ( pc )
-        END
-;
-
- LD_A_9DE0  =
-         BEGIN
-         rgs8 ( a0 ) := mem ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ||
-         pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_A_9nn0 ( nn ) =
-      PRE nn :  USHORTINT
-      THEN
-                rgs8 ( a0 ) := mem ( USHORTINT_TO_BV16 ( nn ) ) ||
-                pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_9BC0_A  =
-      PRE           BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) /: dom ( stack )
-      THEN
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) , rgs8 ( a0 ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
-
- LD_9DE0_A  =
-      PRE mem ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) /: dom ( stack )
-      THEN
-          updateAddressMem ( ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) , rgs8 ( a0 ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_9nn0_A ( nn ) =
-      PRE nn : USHORTINT
-        & USHORTINT_TO_BV16 ( nn ) /: dom ( stack )
-      THEN
-           updateAddressMem ( USHORTINT_TO_BV16 ( nn ) , rgs8 ( a0 ) ) ||
-           pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
-/* Interrupcao
-LD_A_I=
-
-*/
-
-/*
-LD_A_R=
-
-*/
-
-/*
-LD_I_A=
-
-*/
-
-/*
-LD_A0=
-
-*/
-
-
- LD_dd_nn ( dd , nn ) =
-      PRE dd : id_reg_16 & nn : USHORTINT  & dd /= AF
-      THEN
-        IF dd = SP THEN  sp := USHORTINT_TO_BV16 ( nn )
-        ELSE
-           ANY rh , rl , w1 , w2 WHERE
-               rh : id_reg_8 &  rl : id_reg_8 &
-               w1 : BYTE & w2 : BYTE &
-               rh , rl = REG16_TO_REG8 ( dd ) &
-               BV16_TO_BYTE ( USHORTINT_TO_BV16 ( nn ) ) = w1 , w2
-           THEN
-                    rgs8 := rgs8 <+ { rh |-> w1 , rl |-> w2 } ||
-            pc := INSTRUCTION_NEXT ( pc )
-           END
-        END
-     END
-;
-
- LD_IX_nn ( nn ) =
-      PRE   nn : USHORTINT
-      THEN
-                ix := USHORTINT_TO_BV16 ( nn ) ||
-                pc := INSTRUCTION_NEXT ( pc )
-      END
-;
- LD_IY_nn ( nn ) =
-      PRE   nn : USHORTINT
-      THEN
-                iy := USHORTINT_TO_BV16 ( nn ) ||
-                pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_HL_9nn0 ( nn ) =
-      PRE   nn : USHORTINT
-      THEN
-                    rgs8 := rgs8 <+ { h0 |-> mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) , l0 |-> mem ( USHORTINT_TO_BV16 ( nn ) ) } ||
-          pc := INSTRUCTION_NEXT ( pc )
-      END
-;
-
- LD_dd_9nn0 ( dd , nn ) =
-      PRE dd : id_reg_16 & nn : USHORTINT  & dd /= AF
-      THEN
-        IF dd = SP THEN
-        sp := BYTE_TO_BV16 ( mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) , mem ( USHORTINT_TO_BV16 ( nn ) ) )
-        ELSE
-           ANY rh , rl , w1 , w2 WHERE
-               rh : id_reg_8 &  rl : id_reg_8 &
-               w1 : BYTE & w2 : BYTE &
-               rh , rl = REG16_TO_REG8 ( dd ) &
-               w1 = mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) &
-               w2 = mem ( USHORTINT_TO_BV16 ( nn ) )
-           THEN
             rgs8 := rgs8 <+ { rh |-> w1 , rl |-> w2 } ||
-            pc := INSTRUCTION_NEXT ( pc )
-           END
-        END
-     END
-;
+            pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+         END
+      END
+   END
+   ;
+
+   LD_IX_nn ( nn ) =
+   PRE   nn : USHORTINT
+   THEN
+      ix := ushortint_to_bv16 ( nn ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+   LD_IY_nn ( nn ) =
+   PRE   nn : USHORTINT
+   THEN
+      iy := ushortint_to_bv16 ( nn ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_HL_9nn0 ( nn ) =
+   PRE   nn : USHORTINT
+   THEN
+      rgs8 := rgs8 <+ { h0 |-> mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) , l0 |-> mem ( ushortint_to_bv16 ( nn ) ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_dd_9nn0 ( dd , nn ) =
+   PRE dd : id_reg_16 & nn : USHORTINT  & dd /= AF
+   THEN
+      r_ := update_refresh_reg ( r_ ) ||
+      IF dd = SP THEN
+         sp := byte_to_bv16 ( mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) , mem ( ushortint_to_bv16 ( nn ) ) )
+      ELSE
+         ANY rh , rl , w1 , w2 WHERE
+            rh : id_reg_8 &  rl : id_reg_8 &
+            w1 : BYTE & w2 : BYTE &
+            rh , rl = REG16_TO_REG8 ( dd ) &
+            w1 = mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) &
+            w2 = mem ( ushortint_to_bv16 ( nn ) )
+         THEN
+            rgs8 := rgs8 <+ { rh |-> w1 , rl |-> w2 } ||
+            pc := instruction_next ( pc )
+         END
+      END
+   END
+   ;
 
 
 
- LD_IX_9nn0 ( nn ) =
-      PRE   nn : USHORTINT
+   LD_IX_9nn0 ( nn ) =
+   PRE   nn : USHORTINT
+   THEN
+      ix := byte_to_bv16 ( mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) , mem ( ushortint_to_bv16 ( nn ) ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_IY_9nn0 ( nn ) =
+   PRE   nn : USHORTINT
+   THEN
+      iy := byte_to_bv16 ( mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) , mem ( ushortint_to_bv16 ( nn ) ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LD_9nn0_HL ( nn ) =
+   PRE   nn : USHORTINT &
+      ushortint_to_bv16 ( nn ) /: dom ( stack ) & ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) /: dom ( stack )
+   THEN
+      updateMem ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> rgs8 ( h0 ) , ushortint_to_bv16 ( nn ) |-> rgs8 ( l0 ) } ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+
+
+   LD_9nn0_dd ( nn , dd ) =
+   PRE dd : id_reg_16 &  dd /= AF & nn : USHORTINT  &
+      schar_to_byte ( nn ) /: dom ( stack ) &  inc_BYTE ( schar_to_byte ( nn ) ) /: dom ( stack )
+   THEN
+      IF dd = SP
       THEN
-                    ix := BYTE_TO_BV16 ( mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) , mem ( USHORTINT_TO_BV16 ( nn ) ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-
+         ANY vh , vl WHERE
+            vh : BYTE & vl : BYTE &
+            bv16_to_byte ( sp ) = vh , vl &
+            { ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> vh , ushortint_to_bv16 ( nn ) |-> vl } : BV16 >-> BYTE
+         THEN
+            updateMem ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> vh , ushortint_to_bv16 ( nn ) |-> vl } )
+            || r_ := update_refresh_reg ( r_ )
+         END
+      ELSE
+         ANY rh , rl , w1 , w2 WHERE
+            rh : id_reg_8 &  rl : id_reg_8 &
+            w1 : SCHAR & w2 : BYTE &
+            rh , rl = REG16_TO_REG8 ( dd ) &
+            { ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> rgs8 ( rh ) , ushortint_to_bv16 ( nn ) |-> rgs8 ( rl ) } : BV16 >-> BYTE
+         THEN
+            updateMem ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> rgs8 ( rh ) , ushortint_to_bv16 ( nn ) |-> rgs8 ( rl ) } ) ||
+            pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+         END
       END
-;
+   END
+   ;
 
- LD_IY_9nn0 ( nn ) =
-      PRE   nn : USHORTINT
+
+   LD_9nn0_IX ( nn ) =
+   PRE   nn : USHORTINT THEN
+      ANY h_ix , l_ix WHERE
+         h_ix : BYTE & l_ix : BYTE &
+         h_ix , l_ix = bv16_to_byte ( ix )
+         & ushortint_to_bv16 ( nn ) /: dom ( stack ) & ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) /: dom ( stack )
       THEN
-          iy := BYTE_TO_BV16 ( mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) ) , mem ( USHORTINT_TO_BV16 ( nn ) ) ) ||
-          pc := INSTRUCTION_NEXT ( pc )
+         updateMem ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> h_ix , ushortint_to_bv16 ( nn ) |-> l_ix } ) ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
-;
+   END
+   ;
 
- LD_9nn0_HL ( nn ) =
-      PRE   nn : USHORTINT &
-            USHORTINT_TO_BV16 ( nn ) /: dom ( stack ) & USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) /: dom ( stack )
+   LD_9nn0_IY ( nn ) =
+   PRE   nn : USHORTINT   THEN
+      ANY h_iy , l_iy WHERE
+         h_iy : BYTE & l_iy : BYTE &
+         h_iy , l_iy = bv16_to_byte ( iy ) &
+         ushortint_to_bv16 ( nn ) /: dom ( stack ) & ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) /: dom ( stack )
       THEN
-                  updateMem ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> rgs8 ( h0 ) , USHORTINT_TO_BV16 ( nn ) |-> rgs8 ( l0 ) } ) ||
-          pc := INSTRUCTION_NEXT ( pc )
+         updateMem ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> h_iy , ushortint_to_bv16 ( nn ) |-> l_iy } ) ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
-;
+   END
+   ;
+
+   LD_SP_HL  =
+   BEGIN
+      sp := byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+
+   ;
+
+   LD_SP_IX  =
+   BEGIN
+      sp := ix ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+
+   ;
+
+   LD_SP_IY  =
+   BEGIN
+      sp := iy ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+
+   ;
 
 
-
- LD_9nn0_dd ( nn , dd ) =
-      PRE dd : id_reg_16 &  dd /= AF & nn : USHORTINT  & /* USHORTINT_TO_BV16( add16USHORTINT(0,nn,1) ) : USHORTINT  &*/
-          SCHAR_TO_BYTE ( nn ) /: dom ( stack )
+   PUSH_qq ( qq ) =
+   PRE  qq : id_reg_16 & qq /= SP
+   THEN
+      ANY
+         qqh , qql
+      WHERE qqh : id_reg_8 & qql : id_reg_8 &
+         REG16_TO_REG8 ( qq ) = qqh , qql &
+         { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) |-> rgs8 ( qql ) ,
+            ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 1 ) ) |-> rgs8 ( qqh ) } : BV16 --> BYTE
       THEN
-        IF dd = SP
-        THEN
-           ANY vh , vl WHERE
-                vh : BYTE & vl : BYTE &
-                                BV16_TO_BYTE ( sp ) = vh , vl &
-                { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> vh , USHORTINT_TO_BV16 ( nn ) |-> vl } : BV16 >-> BYTE
-           THEN
-                              updateMem ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> vh , USHORTINT_TO_BV16 ( nn ) |-> vl } )
-           END
-        ELSE
-           ANY rh , rl , w1 , w2 WHERE
-               rh : id_reg_8 &  rl : id_reg_8 &
-               w1 : SCHAR & w2 : BYTE &
-               rh , rl = REG16_TO_REG8 ( dd ) &
-               { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> rgs8 ( rh ) , USHORTINT_TO_BV16 ( nn ) |-> rgs8 ( rl ) } : BV16 >-> BYTE
-           THEN
-               updateMem ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> rgs8 ( rh ) , USHORTINT_TO_BV16 ( nn ) |-> rgs8 ( rl ) } ) ||
-               pc := INSTRUCTION_NEXT ( pc )
-           END
-        END
-     END
-;
-
-
- LD_9nn0_IX ( nn ) =
-      PRE   nn : USHORTINT                          THEN
-        ANY h_ix , l_ix WHERE
-            h_ix : BYTE & l_ix : BYTE &
-            h_ix , l_ix = BV16_TO_BYTE ( ix )
-           & USHORTINT_TO_BV16 ( nn ) /: dom ( stack ) & USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) /: dom ( stack )
-        THEN
-                  updateMem ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> h_ix , USHORTINT_TO_BV16 ( nn ) |-> l_ix } ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-        END
+         updateStack ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) |-> rgs8 ( qql ) ,
+               ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 1 ) ) |-> rgs8 ( qqh ) } ) ||
+         sp := ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
-;
+   END
+   ;
 
- LD_9nn0_IY ( nn ) =
-      PRE   nn : USHORTINT   THEN
-        ANY h_iy , l_iy WHERE
-            h_iy : BYTE & l_iy : BYTE &
-            h_iy , l_iy = BV16_TO_BYTE ( iy ) &
-            USHORTINT_TO_BV16 ( nn ) /: dom ( stack ) & USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) /: dom ( stack )
-        THEN
-                          updateMem ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , nn , 1 ) ) |-> h_iy , USHORTINT_TO_BV16 ( nn ) |-> l_iy } ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-        END
-      END
-;
+   PUSH_IX  =
+   ANY
+      wh , wl
+   WHERE wh : BYTE & wl : BYTE &
+      bv16_to_byte ( ix ) = wh , wl &
+      { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) |-> wl , ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 1 ) ) |-> wh } : BV16 --> BYTE
+   THEN
+      updateStack ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) |-> wl ,
+            ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 1 ) ) |-> wh } ) ||
+      sp := ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
 
- LD_SP_HL  =
-      BEGIN
-                sp := BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ||
-                pc := INSTRUCTION_NEXT ( pc )
-      END
+   ;
 
-;
+   PUSH_IY  =
+   ANY
+      wh , wl
+   WHERE wh : BYTE & wl : BYTE &
+      bv16_to_byte ( iy ) = wh , wl &
+      { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) |-> wl , ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 1 ) ) |-> wh } : BV16 --> BYTE
+   THEN
+      updateStack ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) |-> wl ,
+            ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 1 ) ) |-> wh } ) ||
+      sp := ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
- LD_SP_IX  =
-      BEGIN
-                sp := ix ||
-                pc := INSTRUCTION_NEXT ( pc )
-      END
-
-;
-
- LD_SP_IY  =
-      BEGIN
-                sp := iy ||
-                pc := INSTRUCTION_NEXT ( pc )
-      END
-
-;
-
-
- PUSH_qq ( qq ) =
-      PRE  qq : id_reg_16 & qq /= SP
+   POP_qq ( qq ) =
+   PRE  qq : id_reg_16 & qq /= SP
+   THEN
+      ANY
+         qqh , qql
+      WHERE qqh : id_reg_8 & qql : id_reg_8 &
+         REG16_TO_REG8 ( qq ) = qqh , qql &
+         { qql |-> mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 2 ) ) ) , qqh |-> mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) ) } : id_reg_8 --> BYTE
       THEN
-        ANY
-            qqh , qql
-        WHERE qqh : id_reg_8 & qql : id_reg_8 &
-              REG16_TO_REG8 ( qq ) = qqh , qql &
-              { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) |-> rgs8 ( qql ) ,
-                                USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 1 ) ) |-> rgs8 ( qqh ) } : BV16 --> BYTE
-        THEN
-             updateStack ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) |-> rgs8 ( qql ) ,
-                             USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 1 ) ) |-> rgs8 ( qqh ) } ) ||
-             sp := USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) ||
-             pc := INSTRUCTION_NEXT ( pc )
-        END
+         rgs8 := rgs8 <+ { qql |-> mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 2 ) ) ) , qqh |-> mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) ) } ||
+         sp := ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 2 ) ) ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
-;
+   END
+   ;
 
- PUSH_IX  =
-
-       ANY
-           wh , wl
-       WHERE wh : BYTE & wl : BYTE &
-             BV16_TO_BYTE ( ix ) = wh , wl &
-             { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) |-> wl , USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 1 ) ) |-> wh } : BV16 --> BYTE
-       THEN
-             updateStack ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) |-> wl ,
-                                                         USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 1 ) ) |-> wh } ) ||
-             sp := USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) ||
-             pc := INSTRUCTION_NEXT ( pc )
-       END
-/*     END*/
-;
-
- PUSH_IY  =
-       ANY
-           wh , wl
-       WHERE wh : BYTE & wl : BYTE &
-             BV16_TO_BYTE ( iy ) = wh , wl &
-             { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) |-> wl , USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 1 ) ) |-> wh } : BV16 --> BYTE
-       THEN
-             updateStack ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) |-> wl ,
-                                                        USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 1 ) ) |-> wh } ) ||
-             sp := USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , - 2 ) ) ||
-             pc := INSTRUCTION_NEXT ( pc )
-       END
-;
-
- POP_qq ( qq ) =
-      PRE  qq : id_reg_16 & qq /= SP
+   POP_IX  =
+   PRE   sp : BV16
+   THEN
+      ANY
+         nw8
+      WHERE nw8 : BYTE  &
+         byte_to_bv16 ( mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) ) , mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 2 ) ) ) ) = nw8
       THEN
-        ANY
-            qqh , qql
-        WHERE qqh : id_reg_8 & qql : id_reg_8 &
-              REG16_TO_REG8 ( qq ) = qqh , qql &
-              { qql |-> mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 2 ) ) ) , qqh |-> mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) ) } : id_reg_8 --> BYTE
-        THEN
-              rgs8 := rgs8 <+ { qql |-> mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 2 ) ) ) , qqh |-> mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) ) } ||
-              sp := USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 2 ) ) ||
-              pc := INSTRUCTION_NEXT ( pc )
-        END
+         ix := nw8 ||
+         sp := ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 2 ) ) ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
-;
+   END
+   ;
 
- POP_IX  =
-      PRE   sp : BV16
+
+   POP_IY  =
+   PRE   sp : BV16
+   THEN
+      ANY
+         nw8
+      WHERE nw8 : BYTE  &
+         byte_to_bv16 ( mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) ) , mem ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 2 ) ) ) ) = nw8
       THEN
-       ANY
-           nw8
-       WHERE nw8 : BYTE  &
-             BYTE_TO_BV16 ( mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) ) , mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 2 ) ) ) ) = nw8
-       THEN
-             ix := nw8 ||
-             sp := USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 2 ) ) ||
-             pc := INSTRUCTION_NEXT ( pc )
-       END
-     END
-;
-
-
- POP_IY  =
-      PRE   sp : BV16
-      THEN
-       ANY
-           nw8
-       WHERE nw8 : BYTE  &
-             BYTE_TO_BV16 ( mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) ) , mem ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 2 ) ) ) ) = nw8
-       THEN
-             iy := nw8 ||
-             sp := USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 2 ) ) ||
-             pc := INSTRUCTION_NEXT ( pc )
-       END
-     END
-;
-
- EX_DE_HL =
-
-      BEGIN
-       rgs8 := rgs8 <+ { d0 |-> rgs8 ( h0 ) , e0 |-> rgs8 ( l0 ) , h0 |-> rgs8 ( d0 ) , l0 |-> rgs8 ( e0 ) } ||
-       pc := INSTRUCTION_NEXT ( pc )
+         iy := nw8 ||
+         sp := ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 2 ) ) ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
-;
+   END
+   ;
+
+   EX_DE_HL =
+   BEGIN
+      rgs8 := rgs8 <+ { d0 |-> rgs8 ( h0 ) , e0 |-> rgs8 ( l0 ) , h0 |-> rgs8 ( d0 ) , l0 |-> rgs8 ( e0 ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
 
- EX_AF_AF_ =
+   EX_AF_AF_ =
+   BEGIN
+      rgs8 := rgs8 <+ { a0 |-> rgs8 ( a_0 ) , f0 |-> rgs8 ( f_0 ) , a_0 |-> rgs8 ( a0 ) , f_0 |-> rgs8 ( f0 ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
-      BEGIN
-       rgs8 := rgs8 <+ { a0 |-> rgs8 ( a_0 ) , f0 |-> rgs8 ( f_0 ) , a_0 |-> rgs8 ( a0 ) , f_0 |-> rgs8 ( f0 ) } ||
-       pc := INSTRUCTION_NEXT ( pc )
+
+   EXX =
+   BEGIN
+      rgs8 := rgs8 <+ { b0 |-> rgs8 ( b_0 ) , c0 |-> rgs8 ( c_0 ) , d0 |-> rgs8 ( d_0 ) , e0 |-> rgs8 ( e_0 ) , h0 |-> rgs8 ( h_0 ) , l0 |-> rgs8 ( l_0 ) ,
+         b_0 |-> rgs8 ( b0 ) , c_0 |-> rgs8 ( c0 ) , d_0 |-> rgs8 ( d0 ) , e_0 |-> rgs8 ( e0 ) , h_0 |-> rgs8 ( h0 ) , l_0 |-> rgs8 ( l0 ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   EX_9SP0_HL =
+   PRE
+      stack <+ { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) |-> rgs8 ( h0 ) , sp |-> rgs8 ( l0 ) } <: mem
+   THEN
+      rgs8 := rgs8 <+ { h0 |-> stack ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) ) , l0 |-> stack ( sp ) } ||
+      updateStack ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) |-> rgs8 ( h0 ) , sp |-> rgs8 ( l0 ) } ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   EX_9SP0_IX =
+   ANY wh , wl
+   WHERE wh : BYTE & wl : BYTE &
+      bv16_to_byte ( ix ) = wh , wl &
+      { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) |-> wh , sp |-> wl } : BV16 --> BYTE &
+      stack <+ { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) |-> wh , sp |-> wl } <: mem
+   THEN
+      ix := byte_to_bv16 ( stack ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) ) , stack ( sp ) ) ||
+      updateStack ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) |-> wh , sp |-> wl } ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   EX_9SP0_IY =
+   ANY wh , wl
+   WHERE wh : BYTE & wl : BYTE &
+      bv16_to_byte ( iy ) = wh , wl &
+      { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) |-> wh , sp |-> wl } : BV16 --> BYTE &
+      stack <+ { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) |-> wh , sp |-> wl } <: mem
+   THEN
+      iy := byte_to_bv16 ( stack ( ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) ) , stack ( sp ) ) ||
+      updateStack ( { ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) |-> wh , sp |-> wl } ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+
+   LDI =
+   ANY  hvn , lvn , dvn , evn , bvn , cvn
+   WHERE
+      hvn , lvn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      dvn , evn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) &
+      bvn , cvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
+   THEN
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) , mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) ,
+         ( d0 |-> dvn ) , ( e0 |-> evn ) ,
+         ( b0 |-> bvn ) , ( c0 |-> cvn ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 0 , bit_not ( is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+
+   ;
+
+   LDIR =
+   ANY  hvn , lvn , dvn , evn , bvn , cvn
+   WHERE
+      hvn , lvn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      dvn , evn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) &
+      bvn , cvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
+   THEN
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) , mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) ,
+         ( d0 |-> dvn ) , ( e0 |-> evn ) ,
+         ( b0 |-> bvn ) , ( c0 |-> cvn ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 0 , 0 , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) }
+      || r_ := update_refresh_reg ( r_ ) ||
+      IF  is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) = 0 THEN pc := instruction_next ( pc ) END
+   END
+   ;
+
+   LDD =
+   ANY  hvn , lvn , dvn , evn , bvn , cvn
+   WHERE
+      hvn , lvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      dvn , evn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) &
+      bvn , cvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
+   THEN
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) , mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) ,
+         ( d0 |-> dvn ) , ( e0 |-> evn ) ,
+         ( b0 |-> bvn ) , ( c0 |-> cvn ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 0 , bit_not ( is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   LDDR =
+   ANY  hvn , lvn , dvn , evn , bvn , cvn
+   WHERE
+      hvn , lvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      dvn , evn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) &
+      bvn , cvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
+
+   THEN
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) , mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) ,
+         ( d0 |-> dvn ) , ( e0 |-> evn ) ,
+         ( b0 |-> bvn ) , ( c0 |-> cvn ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 0 , 0 , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) }
+      || r_ := update_refresh_reg ( r_ ) ||
+      IF  is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) = 0 THEN pc := instruction_next ( pc ) END
+
+   END
+
+   ;
+
+
+   CPI =
+   ANY
+      sum , negative , carry , half_carry , zero ,
+      hvn , lvn , bvn , cvn
+   WHERE
+      sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) = sum , negative , carry , half_carry , zero &
+      hvn , lvn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      bvn , cvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
+
+   THEN
+      IF zero = 1 THEN
+         rgs8 := { h0 |-> hvn , l0 |-> lvn , b0 |-> bvn , c0 |-> cvn
+            , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry
+               , bit_not ( is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) }
+
       END
-;
+      ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
+   CPIR =
+   ANY
+      sum , negative , carry , half_carry , zero ,
+      hvn , lvn , bvn , cvn
+   WHERE
+      sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) = sum , negative , carry , half_carry , zero &
+      hvn , lvn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      bvn , cvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
 
- EXX =
-      BEGIN
-       rgs8 := rgs8 <+ { b0 |-> rgs8 ( b_0 ) , c0 |-> rgs8 ( c_0 ) , d0 |-> rgs8 ( d_0 ) , e0 |-> rgs8 ( e_0 ) , h0 |-> rgs8 ( h_0 ) , l0 |-> rgs8 ( l_0 ) ,
-                        b_0 |-> rgs8 ( b0 ) , c_0 |-> rgs8 ( c0 ) , d_0 |-> rgs8 ( d0 ) , e_0 |-> rgs8 ( e0 ) , h_0 |-> rgs8 ( h0 ) , l_0 |-> rgs8 ( l0 ) } ||
-       pc := INSTRUCTION_NEXT ( pc )
+   THEN
+      IF zero = 1 THEN
+         rgs8 := { h0 |-> hvn , l0 |-> lvn , b0 |-> bvn , c0 |-> cvn
+            , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry
+               , bit_not ( is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) }
+
       END
-;
+       || r_ := update_refresh_reg ( r_ ) ||
+      IF  is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) = 0 or ( zero = 1 ) THEN pc := instruction_next ( pc ) END
+   END
+   ;
 
- EX_9SP0_HL =
-      PRE
-          stack <+ { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) |-> rgs8 ( h0 ) , sp |-> rgs8 ( l0 ) } <: mem
-      THEN
-       rgs8 := rgs8 <+ { h0 |-> stack ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) ) , l0 |-> stack ( sp ) } ||
-       updateStack ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) |-> rgs8 ( h0 ) , sp |-> rgs8 ( l0 ) } ) ||
-       pc := INSTRUCTION_NEXT ( pc )
+   CPD =
+   ANY
+      sum , negative , carry , half_carry , zero ,
+      hvn , lvn , bvn , cvn
+   WHERE
+      sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) = sum , negative , carry , half_carry , zero &
+      hvn , lvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      bvn , cvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
+
+   THEN
+      IF zero = 1 THEN
+         rgs8 := { h0 |-> hvn , l0 |-> lvn , b0 |-> bvn , c0 |-> cvn
+            , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry
+               , bit_not ( is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) }
+
       END
-;
+      ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
- EX_9SP0_IX =
-      ANY wh , wl
-      WHERE wh : BYTE & wl : BYTE &
-            BV16_TO_BYTE ( ix ) = wh , wl &
-            { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) |-> wh , sp |-> wl } : BV16 --> BYTE &
-            stack <+ { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) |-> wh , sp |-> wl } <: mem
-      THEN
-       ix := BYTE_TO_BV16 ( stack ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) ) , stack ( sp ) ) ||
-       updateStack ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) |-> wh , sp |-> wl } ) ||
-       pc := INSTRUCTION_NEXT ( pc )
+   CPDR =
+   ANY
+      sum , negative , carry , half_carry , zero ,
+      hvn , lvn , bvn , cvn
+   WHERE
+      sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) = sum , negative , carry , half_carry , zero &
+      hvn , lvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      bvn , cvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
+
+   THEN
+      IF zero = 1 THEN
+         rgs8 := { h0 |-> hvn , l0 |-> lvn , b0 |-> bvn , c0 |-> cvn
+            , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry
+               , bit_not ( is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) }
       END
- ;
+      || IF  is_zeroUSHORTINT ( bv16_to_ushortint ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) = 0 or ( zero = 1 ) THEN pc := instruction_next ( pc ) END ||
+      r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
- EX_9SP0_IY =
-      ANY wh , wl
-      WHERE wh : BYTE & wl : BYTE &
-            BV16_TO_BYTE ( iy ) = wh , wl &
-            { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) |-> wh , sp |-> wl } : BV16 --> BYTE &
-            stack <+ { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) |-> wh , sp |-> wl } <: mem
-      THEN
-       iy := BYTE_TO_BV16 ( stack ( USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) ) , stack ( sp ) ) ||
-       updateStack ( { USHORTINT_TO_BV16 ( add16USHORTINT ( 0 , BV16_TO_USHORTINT ( sp ) , 1 ) ) |-> wh , sp |-> wl } ) ||
-       pc := INSTRUCTION_NEXT ( pc )
+   /************************************************************************************** 
+   ****** Arithmetic and Logic Intructions are in the module Z80LoAri - 8 and 16 bits
+   ***************************************************************************************/
+
+
+
+   /************************************************************************************** 
+   ****** General Purpose Arithmetic and CPU control 
+   ***************************************************************************************/
+
+   DAA =
+   ANY
+      result , s0 , z0 , h0 , pv0 , n0 , c0
+   WHERE
+      result : BYTE & s0 : BIT & z0 : BIT & h0 : BIT & pv0 : BIT & n0 : BIT & c0 : BIT &
+      daa_function ( bitget ( rgs8 ( f0 ) , 1 ) , bitget ( rgs8 ( f0 ) , 0 ) , rgs8 ( a0 ) , bitget ( rgs8 ( f0 ) , 4 ) ) = ( result , c0 , h0 ) &
+      s0 = bv_get ( result , 7 ) &
+      z0 = is_zero ( result ) &
+      pv0 = parity_even_BYTE ( result ) &
+      n0 = bitget ( rgs8 ( f0 ) , 1 )
+   THEN
+      rgs8 :=  rgs8 <+ { a0 |-> result , get_new_flag_register_SZ_H_PvNC ( rgs8 , s0 , z0 , h0 , pv0 , n0 , c0 ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
+
+   CPL =
+   ANY  result
+   WHERE result : BYTE  & result = complement ( rgs8 ( a0 ) )
+   THEN
+      rgs8 :=   rgs8 <+ {  ( a0 |-> result ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 1 , bitget ( rgs8 ( f0 ) , 2 ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+
+   END ;
+
+   NEG =
+   ANY
+      sum , negative , carry , half_carry , zero
+   WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
+      sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , 0 , byte_to_uchar ( rgs8 ( a0 ) ) )
+   THEN
+      rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+
+   CCF =
+   BEGIN
+      rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , bitget ( rgs8 ( f0 ) , 4 ) , bitget ( rgs8 ( f0 ) , 2 ) , 0 , bit_not ( bitget ( rgs8 ( f0 ) , 0 ) ) ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+
+   SCF =
+   BEGIN
+      rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , bitget ( rgs8 ( f0 ) , 4 ) , bitget ( rgs8 ( f0 ) , 2 ) , 0 , 1 ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+
+   NOP =
+   BEGIN
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+
+   HALT =   BEGIN
+      r_ := update_refresh_reg ( r_ )
+   END  ;
+
+   DI =
+   BEGIN
+      iff1 := 0 || iff2 := 0  ||   pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+   EI =
+   BEGIN
+      iff1 := 1 || iff2 := 1  ||   pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+
+   IM0 =
+   BEGIN
+      im := ( 0 |-> 0 ) ||   pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+
+   IM1 =
+   BEGIN
+      im := ( 1 |-> 0 ) ||  pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+
+   IM2 =
+   BEGIN
+            im := ( 1 |-> 1 ) ||   pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END ;
+
+   /*
+   
+   Rotate and SHIFT GROUP in Z80Man_bitControl
+   
+   
+   */
+
+   /*
+   
+   IN_A_9n0_(nn,k_in)= COMENT** Informando algo sobre o valor de entrada, pode passar uma constante definida em properties**COMENT_CLOSE
+   PRE nn : UCHAR & k_in : SCHAR   THEN
+   ANY data_in WHERE data_in : SCHAR THEN
+   i_o_ports (nn) := data_in ||
+   rgs8(a0) :=   k_in ||
+   pc := instruction_next(pc)
+   END
+   END*/
+
+
+   /************************************************************************************** 
+   ****** Input an Output Group
+   ***************************************************************************************/
+
+   IN_A_9n0 ( nn ) =
+   PRE nn : UCHAR    THEN
+      ANY data_in WHERE data_in : SCHAR THEN
+         i_o_ports ( uchar_to_byte ( nn ) ) := schar_to_byte ( data_in ) ||
+         rgs8 ( a0 ) := schar_to_byte ( data_in ) ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
- ;
-
-
-LDI =
-    ANY  hvn , lvn , dvn , evn , bvn , cvn
-    WHERE
-          hvn , lvn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-          dvn , evn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) &
-          bvn , cvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
-
-    THEN
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) , mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) ,
-                           ( d0 |-> dvn ) , ( e0 |-> evn ) ,
-                           ( b0 |-> bvn ) , ( c0 |-> cvn ) ,
-                           get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 0 , bit_not ( is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
-          pc := INSTRUCTION_NEXT ( pc )
-
-    END
-
-;
-
- LDIR =
-    ANY  hvn , lvn , dvn , evn , bvn , cvn
-    WHERE
-          hvn , lvn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-          dvn , evn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) &
-          bvn , cvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
-
-    THEN
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) , mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) ,
-                           ( d0 |-> dvn ) , ( e0 |-> evn ) ,
-                           ( b0 |-> bvn ) , ( c0 |-> cvn ) ,
-                           get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 0 , 0 , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
-           IF  is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) = 0 THEN pc := INSTRUCTION_NEXT ( pc ) END
-
-    END
-
-
-;
-
-LDD =
-
-        ANY  hvn , lvn , dvn , evn , bvn , cvn
-    WHERE
-          hvn , lvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-          dvn , evn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) &
-          bvn , cvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
-
-    THEN
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) , mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) ,
-                           ( d0 |-> dvn ) , ( e0 |-> evn ) ,
-                           ( b0 |-> bvn ) , ( c0 |-> cvn ) ,
-                           get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 0 , bit_not ( is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
-           pc := INSTRUCTION_NEXT ( pc )
-
-    END
-
-
-;
-
-
-LDDR =
-        ANY  hvn , lvn , dvn , evn , bvn , cvn
-    WHERE
-          hvn , lvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-          dvn , evn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ) &
-          bvn , cvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
-
-    THEN
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) , mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) ,
-                           ( d0 |-> dvn ) , ( e0 |-> evn ) ,
-                           ( b0 |-> bvn ) , ( c0 |-> cvn ) ,
-                           get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 0 , 0 , 0 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
-           IF  is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) = 0 THEN pc := INSTRUCTION_NEXT ( pc ) END
-
-    END
-
-;
-
-
-CPI =
-        ANY
-            sum , negative , carry , half_carry , zero ,
-            hvn , lvn , bvn , cvn
-        WHERE
-            sum : SCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-            substract8SCHAR ( 0 , BYTE_TO_SCHAR ( rgs8 ( a0 ) ) , BYTE_TO_SCHAR ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) = sum , negative , carry , half_carry , zero &
-            hvn , lvn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-            bvn , cvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
-
-        THEN
-            IF zero = 1 THEN
-                        rgs8 := { h0 |-> hvn , l0 |-> lvn , b0 |-> bvn , c0 |-> cvn
-                                     , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry
-                                         , bit_not ( is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) }
-
-                END
-                ||
-          pc := INSTRUCTION_NEXT ( pc )
-        END
-;
-
-CPIR =
-        ANY
-            sum , negative , carry , half_carry , zero ,
-            hvn , lvn , bvn , cvn
-        WHERE
-            sum : SCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-            substract8SCHAR ( 0 , BYTE_TO_SCHAR ( rgs8 ( a0 ) ) , BYTE_TO_SCHAR ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) = sum , negative , carry , half_carry , zero &
-            hvn , lvn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-            bvn , cvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
-
-        THEN
-            IF zero = 1 THEN
-                        rgs8 := { h0 |-> hvn , l0 |-> lvn , b0 |-> bvn , c0 |-> cvn
-                                     , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry
-                                         , bit_not ( is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) }
-
-                END
-                ||
-         IF  is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) = 0 or ( zero = 1 ) THEN pc := INSTRUCTION_NEXT ( pc ) END
-        END
-;
-
-CPD =
-        ANY
-            sum , negative , carry , half_carry , zero ,
-            hvn , lvn , bvn , cvn
-        WHERE
-            sum : SCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-            substract8SCHAR ( 0 , BYTE_TO_SCHAR ( rgs8 ( a0 ) ) , BYTE_TO_SCHAR ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) = sum , negative , carry , half_carry , zero &
-            hvn , lvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-            bvn , cvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
-
-        THEN
-            IF zero = 1 THEN
-                        rgs8 := { h0 |-> hvn , l0 |-> lvn , b0 |-> bvn , c0 |-> cvn
-                                     , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry
-                                         , bit_not ( is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) }
-
-                END
-                ||
-          pc := INSTRUCTION_NEXT ( pc )
-        END
-;
-
-CPDR =
-        ANY
-            sum , negative , carry , half_carry , zero ,
-            hvn , lvn , bvn , cvn
-        WHERE
-            sum : SCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-            substract8SCHAR ( 0 , BYTE_TO_SCHAR ( rgs8 ( a0 ) ) , BYTE_TO_SCHAR ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) ) = sum , negative , carry , half_carry , zero &
-            hvn , lvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-            bvn , cvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) )
-
-        THEN
-            IF zero = 1 THEN
-                        rgs8 := { h0 |-> hvn , l0 |-> lvn , b0 |-> bvn , c0 |-> cvn
-                                     , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry
-                                         , bit_not ( is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) }
-
-                END
-                || IF  is_zeroUSHORTINT ( BV16_TO_USHORTINT ( BYTE_TO_BV16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) - 1 ) = 0 or ( zero = 1 ) THEN pc := INSTRUCTION_NEXT ( pc ) END
-        END
-;
-
-/************************************************************************************** 
-****** Arithmetic and Logic Intructions are in the module Z80LoAri - 8 and 16 bits
-***************************************************************************************/
-
-
-
-/************************************************************************************** 
-****** General Purpose Arithmetic and CPU control 
-***************************************************************************************/
-
- DAA = /* Not implemented yet */
- BEGIN
-   rgs8 ( a0 ) :=  rgs8 ( a0 ) ||
-   pc := INSTRUCTION_NEXT ( pc )
- END
- ;
-
- CPL =
- ANY  result
- WHERE result : BYTE  & result = complement ( rgs8 ( a0 ) )
- THEN
-     rgs8 :=   rgs8 <+ {  ( a0 |-> result ) ,
-                           get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , 1 , bitget ( rgs8 ( f0 ) , 2 ) , 1 , bitget ( rgs8 ( f0 ) , 0 ) ) } ||
-     pc := INSTRUCTION_NEXT ( pc )
-
- END ;
-
- NEG =
- ANY
-     sum , negative , carry , half_carry , zero
- WHERE  sum : SCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-     sum , negative , carry , half_carry , zero = substract8SCHAR ( 0 , 0 , BYTE_TO_SCHAR ( rgs8 ( a0 ) ) )
- THEN
-    rgs8 := rgs8 <+ { a0 |-> SCHAR_TO_BYTE ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
-    pc := INSTRUCTION_NEXT ( pc )
- END ;
-
- CCF =
- BEGIN
-  rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , bitget ( rgs8 ( f0 ) , 4 ) , bitget ( rgs8 ( f0 ) , 2 ) , 0 , bit_not ( bitget ( rgs8 ( f0 ) , 0 ) ) ) } ||
-  pc := INSTRUCTION_NEXT ( pc )
- END ;
-
- SCF =
- BEGIN
-  rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , bitget ( rgs8 ( f0 ) , 7 ) , bitget ( rgs8 ( f0 ) , 6 ) , bitget ( rgs8 ( f0 ) , 4 ) , bitget ( rgs8 ( f0 ) , 2 ) , 0 , 1 ) } ||
-  pc := INSTRUCTION_NEXT ( pc )
- END ;
-
- NOP =
- BEGIN
-  pc := INSTRUCTION_NEXT ( pc )
- END ;
-
- HALT =
- BEGIN
-  /* Not implemented yet */
-  pc := INSTRUCTION_NEXT ( pc )
- END  ;
-
-/*
-
-DI=
-BEGIN
-END;
-
-
-EI=
-BEGIN
-END;
-
-IM0=
-BEGIN
-END;
-
-IM1=
-BEGIN
-END;
-
-IM2=
-BEGIN
-END;
-
-
-*/
-
-
-/*
-
-Rotate and SHIFT GROUP
-
-
-*/
-
-/*
-
- IN_A_9n0_(nn,k_in)= COMENT** Informando algo sobre o valor de entrada, pode passar uma constante definida em properties**COMENT_CLOSE
-    PRE nn : UCHAR & k_in : SCHAR   THEN
-     ANY data_in WHERE data_in : SCHAR THEN
-	  i_o_ports (nn) := data_in ||
-          rgs8(a0) :=   k_in ||
-          pc := INSTRUCTION_NEXT(pc)
-     END
-    END*/
-
-
-/************************************************************************************** 
-****** Input an Output Group
-***************************************************************************************/
-
- IN_A_9n0 ( nn ) =
-    PRE nn : UCHAR    THEN
-     ANY data_in WHERE data_in : SCHAR THEN
-                    i_o_ports ( UCHAR_TO_BYTE ( nn ) ) := SCHAR_TO_BYTE ( data_in ) ||
-          rgs8 ( a0 ) := SCHAR_TO_BYTE ( data_in ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-     END
-    END
-;
- IN_r_9C0 ( rr ) =
-    PRE rr : id_reg_8    THEN
-     ANY data_in ,
-                  negative , zero , half_carry , pv , add_sub , carry
-         WHERE data_in : BYTE &
-             negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-                 negative = is_negative ( data_in ) &
+   END
+   ;
+   IN_r_9C0 ( rr ) =
+   PRE rr : id_reg_8    THEN
+      ANY data_in ,
+         negative , zero , half_carry , pv , add_sub , carry
+      WHERE data_in : BYTE &
+         negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+         negative = is_negative ( data_in ) &
          zero = is_zero ( data_in ) &
          half_carry = 0 &
          pv = parity_even_BYTE ( data_in )   &
          add_sub =  0 &
          carry = bitget ( rgs8 ( f0 ) , 0 )
 
-         THEN
-          i_o_ports ( rgs8 ( c0 ) ) := data_in ||
-          rgs8 := rgs8 <+ { ( rr |-> data_in ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          pc := INSTRUCTION_NEXT ( pc )
-     END
-    END
-;
+      THEN
+         i_o_ports ( rgs8 ( c0 ) ) := data_in ||
+         rgs8 := rgs8 <+ { ( rr |-> data_in ) ,
+            get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+         pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+      END
+   END
+   ;
 
- INI =
+   INI =
    ANY data_in , hvn , lvn ,
-                negative , zero , half_carry , pv , add_sub , carry
+      negative , zero , half_carry , pv , add_sub , carry
    WHERE data_in : BYTE &
-         negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-         hvn , lvn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      hvn , lvn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
 
-                 negative = is_negative ( data_in ) &
-         zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
-         half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
-         pv = parity_even_BYTE ( data_in )   &
-         add_sub =  1 &
-         carry = bitget ( rgs8 ( f0 ) , 0 )
+      negative = is_negative ( data_in ) &
+      zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
+      half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
+      pv = parity_even_BYTE ( data_in )   &
+      add_sub =  1 &
+      carry = bitget ( rgs8 ( f0 ) , 0 )
 
    THEN
-          i_o_ports ( rgs8 ( c0 ) ) := data_in ||
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          pc := INSTRUCTION_NEXT ( pc )
+      i_o_ports ( rgs8 ( c0 ) ) := data_in ||
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
 
    END
-;
+   ;
 
-INIR =
+   INIR =
 
-    ANY data_in , hvn , lvn ,
-          negative , zero , half_carry , pv , add_sub , carry
-    WHERE data_in : BYTE &
-          negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-          hvn , lvn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+   ANY data_in , hvn , lvn ,
+      negative , zero , half_carry , pv , add_sub , carry
+   WHERE data_in : BYTE &
+      negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      hvn , lvn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
 
-                  negative = is_negative ( data_in ) &
-          zero = 1  &
-          half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
-          pv = parity_even_BYTE ( data_in )   &
-          add_sub =  1 &
-          carry = bitget ( rgs8 ( f0 ) , 0 )
-    THEN
-          i_o_ports ( rgs8 ( c0 ) ) := data_in ||
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , data_in ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          IF  is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) = 1 THEN pc := INSTRUCTION_NEXT ( pc ) END
-
-
-    END
-;
-
-IND =
-
-    ANY data_in , hvn , lvn ,
-          negative , zero , half_carry , pv , add_sub , carry
-    WHERE data_in : BYTE &
-          negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-          hvn , lvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-
-                  negative = is_negative ( data_in ) &
-          zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
-          half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
-          pv = parity_even_BYTE ( data_in )   &
-          add_sub =  1 &
-          carry = bitget ( rgs8 ( f0 ) , 0 )
-    THEN
-          i_o_ports ( rgs8 ( c0 ) ) := data_in ||
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , data_in ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          pc := INSTRUCTION_NEXT ( pc )
+      negative = is_negative ( data_in ) &
+      zero = 1  &
+      half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
+      pv = parity_even_BYTE ( data_in )   &
+      add_sub =  1 &
+      carry = bitget ( rgs8 ( f0 ) , 0 )
+   THEN
+      i_o_ports ( rgs8 ( c0 ) ) := data_in ||
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , data_in ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+      r_ := update_refresh_reg ( r_ ) ||
+      IF  is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) = 1 THEN pc := instruction_next ( pc )  END
 
 
-    END
-;
-INDR =
+   END
+   ;
 
-    ANY data_in , hvn , lvn ,
-          negative , zero , half_carry , pv , add_sub , carry
-    WHERE data_in : BYTE &
-          negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-          hvn , lvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+   IND =
 
-                  negative = is_negative ( data_in ) &
-          zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
-          half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
-          pv = parity_even_BYTE ( data_in )   &
-          add_sub =  1 &
-          carry = bitget ( rgs8 ( f0 ) , 0 )
-    THEN
-          i_o_ports ( rgs8 ( c0 ) ) := data_in ||
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , data_in ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          IF  is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) = 1 THEN pc := INSTRUCTION_NEXT ( pc ) END
+   ANY data_in , hvn , lvn ,
+      negative , zero , half_carry , pv , add_sub , carry
+   WHERE data_in : BYTE &
+      negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      hvn , lvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+
+      negative = is_negative ( data_in ) &
+      zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
+      half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
+      pv = parity_even_BYTE ( data_in )   &
+      add_sub =  1 &
+      carry = bitget ( rgs8 ( f0 ) , 0 )
+   THEN
+      i_o_ports ( rgs8 ( c0 ) ) := data_in ||
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , data_in ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
 
 
-    END
+   END
+   ;
+   INDR =
 
-;
+   ANY data_in , hvn , lvn ,
+      negative , zero , half_carry , pv , add_sub , carry
+   WHERE data_in : BYTE &
+      negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      hvn , lvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
 
- OUT_9n0_A ( nn ) =
+      negative = is_negative ( data_in ) &
+      zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
+      half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
+      pv = parity_even_BYTE ( data_in )   &
+      add_sub =  1 &
+      carry = bitget ( rgs8 ( f0 ) , 0 )
+   THEN
+      i_o_ports ( rgs8 ( c0 ) ) := data_in ||
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , data_in ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+      IF  is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) = 1 THEN pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ ) END
+
+
+   END
+
+   ;
+
+   OUT_9n0_A ( nn ) =
    PRE nn : UCHAR    THEN
-          i_o_ports ( UCHAR_TO_BYTE ( nn ) ) := rgs8 ( a0 ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-    END
+      i_o_ports ( uchar_to_byte ( nn ) ) := rgs8 ( a0 ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
 
-;
+   ;
 
- OUT_9C0_r ( rr ) =
+   OUT_9C0_r ( rr ) =
    PRE rr : id_reg_8   THEN
-          i_o_ports ( rgs8 ( rr ) ) := rgs8 ( c0 ) ||
-          pc := INSTRUCTION_NEXT ( pc )
-    END
-;
+      i_o_ports ( rgs8 ( rr ) ) := rgs8 ( c0 ) ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+   END
+   ;
 
- OUTI =
+   OUTI =
    ANY  hvn , lvn ,
-                negative , zero , half_carry , pv , add_sub , carry
+      negative , zero , half_carry , pv , add_sub , carry
    WHERE
-         negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-         hvn , lvn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      hvn , lvn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
 
-                 negative = is_negative ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-         zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
-         half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
-         pv = parity_even_BYTE ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-         add_sub =  1 &
-         carry = bitget ( rgs8 ( f0 ) , 0 )
+      negative = is_negative ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
+      half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
+      pv = parity_even_BYTE ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      add_sub =  1 &
+      carry = bitget ( rgs8 ( f0 ) , 0 )
 
    THEN
-          i_o_ports ( rgs8 ( c0 ) ) := mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ||
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          pc := INSTRUCTION_NEXT ( pc )
+      i_o_ports ( rgs8 ( c0 ) ) := mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ||
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
 
    END
-;
+   ;
 
- OUTIR =
+   OUTIR =
    ANY  hvn , lvn ,
-                negative , zero , half_carry , pv , add_sub , carry
+      negative , zero , half_carry , pv , add_sub , carry
    WHERE
-         negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-         hvn , lvn = BV16_TO_BYTE ( inc_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      hvn , lvn = bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
 
-                 negative = is_negative ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-         zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
-         half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
-         pv = parity_even_BYTE ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-         add_sub =  1 &
-         carry = bitget ( rgs8 ( f0 ) , 0 )
+      negative = is_negative ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
+      half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
+      pv = parity_even_BYTE ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      add_sub =  1 &
+      carry = bitget ( rgs8 ( f0 ) , 0 )
 
    THEN
-          i_o_ports ( rgs8 ( c0 ) ) := mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ||
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          IF  is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) = 1 THEN pc := INSTRUCTION_NEXT ( pc ) END
+      i_o_ports ( rgs8 ( c0 ) ) := mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ||
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+      r_ := update_refresh_reg ( r_ ) ||
+      IF  is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) = 1 THEN pc := instruction_next ( pc )  END
 
    END
- ;
+   ;
 
- OUTD =
+   OUTD =
    ANY  hvn , lvn ,
-                negative , zero , half_carry , pv , add_sub , carry
+      negative , zero , half_carry , pv , add_sub , carry
    WHERE
-         negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-         hvn , lvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      hvn , lvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
 
-                 negative = is_negative ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-         zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
-         half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
-         pv = parity_even_BYTE ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-         add_sub =  1 &
-         carry = bitget ( rgs8 ( f0 ) , 0 )
+      negative = is_negative ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
+      half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
+      pv = parity_even_BYTE ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      add_sub =  1 &
+      carry = bitget ( rgs8 ( f0 ) , 0 )
 
    THEN
-          i_o_ports ( rgs8 ( c0 ) ) := mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ||
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          pc := INSTRUCTION_NEXT ( pc )
+      i_o_ports ( rgs8 ( c0 ) ) := mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ||
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+      pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
 
    END
-;
+   ;
 
- OUTDR =
+   OUTDR =
    ANY  hvn , lvn ,
-                negative , zero , half_carry , pv , add_sub , carry
+      negative , zero , half_carry , pv , add_sub , carry
    WHERE
-         negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
-         hvn , lvn = BV16_TO_BYTE ( dec_BV16 ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      negative : BIT & carry : BIT & half_carry : BIT & zero : BIT     &
+      hvn , lvn = bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
 
-         negative = is_negative ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-         zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
-         half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
-         pv = parity_even_BYTE ( mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
-         add_sub =  1 &
-         carry = bitget ( rgs8 ( f0 ) , 0 )
+      negative = is_negative ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      zero = is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) &
+      half_carry = bitget ( rgs8 ( f0 ) , 4 ) &
+      pv = parity_even_BYTE ( mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ) &
+      add_sub =  1 &
+      carry = bitget ( rgs8 ( f0 ) , 0 )
 
    THEN
-          i_o_ports ( rgs8 ( c0 ) ) := mem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ||
-          updateAddressMem ( BYTE_TO_BV16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
-          rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
-          get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
-          IF  is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) = 1 THEN pc := INSTRUCTION_NEXT ( pc ) END
+      i_o_ports ( rgs8 ( c0 ) ) := mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ||
+      updateAddressMem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) , i_o_ports ( rgs8 ( c0 ) ) ) ||
+      rgs8 :=  rgs8 <+ { ( h0 |-> hvn ) , ( l0 |-> lvn ) , ( b0 |-> dec_BYTE ( rgs8 ( b0 ) ) ) ,
+         get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , pv , add_sub , carry ) } ||
+      r_ := update_refresh_reg ( r_ ) ||
+      IF  is_zero ( dec_BYTE ( rgs8 ( b0 ) ) ) = 1 THEN pc := instruction_next ( pc )  END
 
    END
 
