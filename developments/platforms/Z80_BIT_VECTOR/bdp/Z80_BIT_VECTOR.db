@@ -13,6 +13,9 @@
         <component_file path="/home/atelierb/Projetos/Z80_BIT_VECTOR" name="TYPES" suffix="mch" user="valerio">
             <component name="TYPES" type="specification" />
         </component_file>
+        <component_file path="/home/atelierb/Projetos/Z80_BIT_VECTOR" name="Test" suffix="mch" user="atelierb">
+            <component name="Test" type="specification" />
+        </component_file>
         <component_file path="/home/atelierb/Projetos/Z80_BIT_VECTOR" name="Z80" suffix="mch" user="valerio">
             <component name="Z80" type="specification" />
         </component_file>

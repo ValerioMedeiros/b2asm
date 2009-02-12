@@ -1,25 +1,20 @@
 THEORY BalanceX IS
-  Z80Temp,1,0,0,0,0,0,0;
-  AssertionLemmas,1,0,0,0,0,0,0;
+  Z80Temp,0,0,0,0,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
-THEORY ProofState IS
-  Unproved
+THEORY ProofState
 END
 &
-THEORY MethodList IS
-  ?
+THEORY MethodList
 END
 &
-THEORY PassList IS
-  Force(0),?
+THEORY PassList
 END
 &
 THEORY ManForms 
 END
 &
 THEORY Version IS
-  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, genDivergencePO == KO, local_op == OK);
-  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, genDivergencePO == KO, local_op == OK)
 END
