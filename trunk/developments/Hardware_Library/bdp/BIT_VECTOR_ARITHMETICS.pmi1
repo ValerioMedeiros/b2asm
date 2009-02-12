@@ -1,21 +1,18 @@
 THEORY BalanceX IS
-  BIT_VECTOR_ARITHMETICS,2,0,0,0,0,0,0;
-  AssertionLemmas,2,0,0,0,0,0,0;
+  BIT_VECTOR_ARITHMETICS,1,0,0,0,0,0,0;
+  AssertionLemmas,1,0,0,0,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
-  Unproved;
   Unproved
 END
 &
 THEORY MethodList IS
-  ?;
   eh(bv_par,_h,Goal) & eh(bv_zero,_h,Goal) & ss & pr
 END
 &
 THEORY PassList IS
-  Force(0),?;
   Force(0),?
 END
 &
