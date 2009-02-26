@@ -18,7 +18,7 @@ CONCRETE_CONSTANTS
         bit_and ,
         bit_or ,
         bit_xor ,
-        bool_to_bit
+        bool_bit
 
 PROPERTIES
         BIT = 0 .. 1
@@ -53,8 +53,8 @@ PROPERTIES
 	& bit_xor = %(b1,b2).(b1:BIT & b2:BIT & not(b1 = b2)| 1) \/
 			    %(b1,b2).(b1:BIT & b2:BIT & (b1 = b2 )| 0)
 	*/
-        & bool_to_bit : BOOL --> BIT
-        & bool_to_bit = { TRUE |-> 1 , FALSE |-> 0 }
+        & bool_bit : BOOL --> BIT
+        & bool_bit = { TRUE |-> 1 , FALSE |-> 0 }
 
 ASSERTIONS
 
@@ -110,8 +110,8 @@ ASSERTIONS
 
         & ! ( bb ) . ( bb : BIT => bit_xor ( bb , bb ) = 0 )
 
-        & bool_to_bit ( TRUE ) = 1
-        & bool_to_bit ( FALSE ) = 0
+        & bool_bit ( TRUE ) = 1
+        & bool_bit ( FALSE ) = 0
 
         & ! ( bb ) . ( bb : BIT => bb = 0 or bb = 1 )
         & ! ( bb ) . ( bb : BIT & not ( bb = 0 ) => bb = 1 )
