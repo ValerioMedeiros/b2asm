@@ -14,8 +14,10 @@ CONCRETE_CONSTANTS
         BYTE_INDEX ,
         BYTE_ZERO ,
         REAL_BYTE_INDEX ,
-        byte_bit_get /*Mudar o nome*/
+        byte_bit_get , /*Mudar o nome*/
 
+   get_upper_digit ,
+   get_lower_digit
 
 PROPERTIES
 
@@ -27,7 +29,12 @@ PROPERTIES
 
 
         byte_bit_get : ( BYTE * REAL_BYTE_INDEX ) --> BIT &
-        byte_bit_get = % ( bt , ind ) . ( bt : BYTE & ind : REAL_BYTE_INDEX | bt ( ind + 1 ) )
+        byte_bit_get = % ( bt , ind ) . ( bt : BYTE & ind : REAL_BYTE_INDEX | bt ( ind + 1 ) ) &
+
+   get_upper_digit = % ( by ) . ( by : BYTE | 2 ** 3 * by ( 8 ) + 2 ** 2 * by ( 7 ) + 2 * by ( 6 ) + by ( 5 ) ) &
+   get_lower_digit = % ( by ) . ( by : BYTE | 2 ** 3 * by ( 4 ) + 2 ** 2 * by ( 3 ) + 2 * by ( 2 ) + by ( 1 ) )
+
+
 
 
 

@@ -81,10 +81,7 @@ PROPERTIES
 
 ASSERTIONS
     ! bv.(bv : BIT_VECTOR => bv_size(bv_not(bv)) = bv_size(bv));
-   	/*
-    ! (bv,indx).(bv : BIT_VECTOR & indx : 0..(bv_size(bv)-1) => (bv_not(bv_not(bv))(indx) = bv_get(bv,indx) ));
-    */
-    
+   	    
     ! (bv,indx).(bv : BIT_VECTOR & indx : 0..(bv_size(bv)-1) => (bv_get(bv_not(bv_not(bv)),indx) = bv_get(bv,indx) ));
 
     ! (v1,v2). (v1 : BIT_VECTOR & v2 : BIT_VECTOR =>
