@@ -11,7 +11,8 @@ SEES
 
 DEFINITIONS
         SCHAR_MAX == ( 2 ** 7 - 1 ) ;
-           SCHAR_MIN == ( - 2 ** 7 )
+           SCHAR_MIN == ( - 2 ** 7 ) ;
+    UCHAR_MAX == 2 ** 8 - 1
 
 CONCRETE_CONSTANTS
    SCHAR ,

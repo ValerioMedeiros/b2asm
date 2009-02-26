@@ -1,0 +1,14 @@
+THEORY ProofList
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & BV16_INDX = 1..16 & REAL_BV16_INDX = 0..15 & BV16 = SET(bt).(bt: BIT_VECTOR & bv_size(bt) = 16) & BV16_ZERO = BV16_INDX*{0} & bv16_byte: BV16 +-> BYTE*BYTE & dom(bv16_byte) = BV16 & bv16_byte = %bv.(bv: BV16 | {0|->bv(8)}\/{1|->bv(9)}\/{2|->bv(10)}\/{3|->bv(11)}\/{4|->bv(12)}\/{5|->bv(13)}\/{6|->bv(14)}\/{7|->bv(15)},{0|->bv(0)}\/{1|->bv(1)}\/{2|->bv(2)}\/{3|->bv(3)}\/{4|->bv(4)}\/{5|->bv(5)}\/{6|->bv(6)}\/{7|->bv(7)}) & byte_bv16 = bv16_byte~ & bv16_bit_get: BYTE*BV16_INDX +-> BIT & dom(bv16_bit_get) = BYTE*BV16_INDX & byte_bit_get = %(bt,ind).(bt: BYTE & ind: REAL_BYTE_INDEX | bt(ind+1)) & "`Component properties'" & USHORT = 0..2**16-1 & bv16_ushort: BV16 +-> USHORT & dom(bv16_ushort) = BV16 & bv16_ushort = %v0.(v0: BV16 | 32768*v0(15)+16384*v0(14)+8192*v0(13)+4096*v0(12)+2048*v0(11)+1024*v0(10)+512*v0(9)+256*v0(8)+128*v0(7)+64*v0(6)+32*v0(5)+16*v0(4)+8*v0(3)+4*v0(2)+2*v0(1)+v0(0)) & ushort_bv16 = bv16_ushort~);
+  ("`Seen and used machines assertions'" & BV16_ZERO: BV16 & BV16: POW(BIT_VECTOR) & BV16_ZERO: BIT_VECTOR)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, genDivergencePO == KO, local_op == OK)
+END

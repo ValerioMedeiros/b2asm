@@ -11,12 +11,13 @@ MACHINE
     SSHORT_DEFINITION
 
 SEES
+    POWER2 ,
     BV16_DEFINITION ,
     SCHAR_DEFINITION
 
 DEFINITIONS
 
-   SSHORT_MIN == ( - 2 ** 15 ) ;
+   SSHORT_MIN == - ( 2 ** 15 ) ;
    SSHORT_MAX == ( 2 ** 15 - 1 )
 
 
@@ -49,8 +50,6 @@ PROPERTIES
    sshort_schar = schar_sshort ~
 
 ASSERTIONS
-    SSHORT_MIN : NATURAL ;
-           SSHORT_MAX : NATURAL ;
 
            SSHORT_MIN : SSHORT ;
            SSHORT_MAX : SSHORT

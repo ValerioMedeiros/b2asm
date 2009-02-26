@@ -1,0 +1,18 @@
+THEORY ProofList IS
+  _f(1) & _f(2) & AssertionLemmas.1,(_f(3) => _f(4))
+END
+&
+THEORY Formulas IS
+  ("`Seen and used machines properties'" & BYTE_INDEX = 1..8 & REAL_BYTE_INDEX = 0..7 & BYTE = SET(bt).(bt: BIT_VECTOR & bv_size(bt) = 8) & BYTE_ZERO: BYTE & BYTE_ZERO = BYTE_INDEX*{0} & byte_bit_get: BYTE*REAL_BYTE_INDEX +-> BIT & dom(byte_bit_get) = BYTE*REAL_BYTE_INDEX & byte_bit_get = %(bt,ind).(bt: BYTE & ind: REAL_BYTE_INDEX | bt(ind+1)) & get_upper_digit = %by.(by: BYTE | 2**3*by(8)+2**2*by(7)+2*by(6)+by(5)) & get_lower_digit = %by.(by: BYTE | 2**3*by(4)+2**2*by(3)+2*by(2)+by(1)) & "`Component properties'" & UCHAR = 0..2**8-1 & byte_uchar: BYTE +-> UCHAR & dom(byte_uchar) = BYTE & byte_uchar = %v0.(v0: BYTE | 2**7*v0(7)+2**6*v0(6)+2**5*v0(5)+2**4*v0(4)+2**3*v0(3)+2**2*v0(2)+2*v0(1)+v0(0)) & uchar_byte: UCHAR +-> BYTE & dom(uchar_byte) = UCHAR & uchar_byte = byte_uchar~);
+  ("`Seen and used machines assertions'" & !bt.(bt: BYTE => size(bt) = 8) & size(BYTE_ZERO) = 8 & BYTE: POW(BIT_VECTOR) & BYTE_ZERO: BIT_VECTOR & first(BYTE_ZERO) = 0 & 8: INTEGER);
+  "`Check assertion (2**8-1: INTEGER) deduction - ref 3.2, 4.2, 5.3'";
+  (2**8-1: INTEGER);
+  ("`Component assertions'" & 2**8-1: INTEGER & 0: INTEGER)
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, genDivergencePO == KO, local_op == OK)
+END
