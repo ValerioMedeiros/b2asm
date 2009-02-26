@@ -45,38 +45,38 @@ THEORY ProofState IS
 END
 &
 THEORY MethodList IS
-  pr;
-  ss & pp(rt.0);
-  dd & mp & ae(dec_BV16(sp),aa) & ah(dec_BV16(sp): BV16) & eh(dec_BV16,_h,Goal) & ss & pr & pr;
-  pr;
-  dd & ah(not(stack = mem)) & pp(rt.0);
-  dd & ah(stack <: mem) & pp(rt.0);
-  pr;
-  pr;
-  pr;
-  pr;
-  dd & ah(not(stack = mem)) & pp(rt.0);
-  dd & ah(stack <: mem) & pp(rt.0);
-  pr;
-  pr;
-  ss & ss & eh(dom(mem),_h,Goal) & ss & pr;
-  ss & pr;
-  dd & ah(not(address|->value: stack) & not(stack = mem)) & pr & pr & pp(rt.0);
-  ss & pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?
 END
 &
 THEORY PassList IS
@@ -118,6 +118,6 @@ THEORY ManForms
 END
 &
 THEORY Version IS
-  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, genDivergencePO == KO, local_op == OK);
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,genDivergencePO == KO,local_op == OK);
   PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
 END

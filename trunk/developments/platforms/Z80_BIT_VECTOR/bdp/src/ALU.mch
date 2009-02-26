@@ -1,26 +1,40 @@
-
 MACHINE
    ALU
 
 SEES
-   TYPES
+   BIT_DEFINITION ,
+   BIT_VECTOR_DEFINITION ,
+   BYTE_DEFINITION ,
+   BV16_DEFINITION ,
+
+   UCHAR_DEFINITION ,
+   SCHAR_DEFINITION ,
+   SSHORT_DEFINITION ,
+   USHORT_DEFINITION ,
+   POWER2
+
+
+
+
+
+
 
 CONCRETE_CONSTANTS
 
    is_zero ,
-   is_zeroUSHORTINT ,
+   is_zeroUSHORT ,
    is_negative ,
 
    half ,
    simple_add8UCHAR ,
    add8UCHAR , substract8UCHAR ,
 
-   add16USHORTINT ,
-   add_carryUSHORTINT ,
-   add_halfcarryUSHORTINT ,
-   sub16USHORTINT ,
-   sub_carryUSHORTINT ,
-   sub_halfcarryUSHORTINT ,
+   add16USHORT ,
+   add_carryUSHORT ,
+   add_halfcarryUSHORT ,
+   sub16USHORT ,
+   sub_carryUSHORT ,
+   sub_halfcarryUSHORT ,
 
    inc_BYTE ,
    dec_BYTE ,
@@ -31,14 +45,26 @@ CONCRETE_CONSTANTS
 
    and , ior , xor ,
    bitclear , bitset , bitget ,
-   complement , swap , rotateleft , rotateright
+   complement , swap , rotateleft , rotateright ,
+
+
+     update_refresh_reg ,
+
+   INST_SZ ,
+   INSTRUCTION ,
+   NB_INSTRUCTIONS ,
+   INSTRUCTION_MAX ,
+   instruction_next ,
+   instruction_jump ,
+
+   daa_function
 
 PROPERTIES
    is_zero : BYTE --> BIT &
-   is_zero = % ( w1 ) . ( w1 : BYTE | bool_to_bit ( bool ( w1 ( 0 ) + w1 ( 1 ) + w1 ( 2 ) + w1 ( 3 ) + w1 ( 4 ) + w1 ( 5 ) + w1 ( 6 ) + w1 ( 7 ) = 0 ) ) ) &
+   is_zero = % ( w1 ) . ( w1 : BYTE | bool_bit ( bool ( w1 ( 0 ) + w1 ( 1 ) + w1 ( 2 ) + w1 ( 3 ) + w1 ( 4 ) + w1 ( 5 ) + w1 ( 6 ) + w1 ( 7 ) = 0 ) ) ) &
 
-   is_zeroUSHORTINT : USHORTINT --> BIT &
-   is_zeroUSHORTINT = % ( nat1 ) . ( nat1 : USHORTINT | bool_to_bit ( bool ( nat1 = 0 ) ) ) &
+   is_zeroUSHORT : USHORT --> BIT &
+   is_zeroUSHORT = % ( nat1 ) . ( nat1 : USHORT | bool_bit ( bool ( nat1 = 0 ) ) ) &
 
    is_negative : BYTE --> BIT &
    is_negative = % ( w1 ) . ( w1 : BYTE | w1 ( 7 ) ) &
@@ -56,58 +82,58 @@ PROPERTIES
    add8UCHAR : ( BIT * UCHAR * UCHAR ) --> ( UCHAR * BIT * BIT * BIT * BIT ) &
    add8UCHAR = % ( carry , w1 , w2 ) . ( carry : BIT & w1 : UCHAR & w2 : UCHAR |
       ( ( ( carry + w1 + w2 ) mod 256 ) ,
-      bool_to_bit ( bool ( carry + uchar_schar ( w1 ) + uchar_schar ( w2 ) < 0 ) ) ,
-      bool_to_bit ( bool ( carry + w1 + w2 > UCHAR_MAX ) ) ,
-      bool_to_bit ( bool ( carry + half ( w1 ) + half ( w2 ) >= 2 ** 4 ) ) ,
-      bool_to_bit ( bool ( ( ( carry + w1 + w2 ) mod UCHAR_MAX - 1 ) = 0 ) ) ) ) &
+      bool_bit ( bool ( carry + uchar_schar ( w1 ) + uchar_schar ( w2 ) < 0 ) ) ,
+      bool_bit ( bool ( carry + w1 + w2 > 2 ** 8 - 1 ) ) ,
+      bool_bit ( bool ( carry + half ( w1 ) + half ( w2 ) >= 2 ** 4 ) ) ,
+      bool_bit ( bool ( ( ( carry + w1 + w2 ) mod 2 ** 8 - 1 - 1 ) = 0 ) ) ) ) &
 
 
    /* substract8UCHAR (w1, w2) = (result, is_negative, carry, half_carry, zero) */
    substract8UCHAR : ( BIT * UCHAR * UCHAR ) --> ( UCHAR * BIT * BIT * BIT * BIT ) &
    substract8UCHAR = % ( carry , w1 , w2 ) . ( carry : BIT & w1 : UCHAR & w2 : UCHAR |
       ( ( ( carry + w1 - w2 ) mod 256 )  ,
-      bool_to_bit ( bool ( carry + uchar_schar ( w1 ) - uchar_schar ( w2 ) < 0 ) ) ,
-      bool_to_bit ( bool ( carry + w1 - w2 > UCHAR_MAX ) ) ,
-      bool_to_bit ( bool ( carry + half ( w1 ) - half ( w2 ) >= 2 ** 4 ) ) ,
-      bool_to_bit ( bool ( ( ( carry + w1 - w2 ) mod UCHAR_MAX - 1 ) = 0 ) ) ) ) &
+      bool_bit ( bool ( carry + uchar_schar ( w1 ) - uchar_schar ( w2 ) < 0 ) ) ,
+      bool_bit ( bool ( carry + w1 - w2 > 2 ** 8 - 1 ) ) ,
+      bool_bit ( bool ( carry + half ( w1 ) - half ( w2 ) >= 2 ** 4 ) ) ,
+      bool_bit ( bool ( ( ( carry + w1 - w2 ) mod 2 ** 8 - 1 - 1 ) = 0 ) ) ) ) &
 
 
-   add16USHORTINT : ( BIT * USHORTINT * USHORTINT ) --> ( USHORTINT ) &
-   add16USHORTINT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORTINT & w2 : USHORTINT | ( b1 + w1 + w2 ) mod 65536 ) &
+   add16USHORT : ( BIT * USHORT * USHORT ) --> ( USHORT ) &
+   add16USHORT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORT & w2 : USHORT | ( b1 + w1 + w2 ) mod 65536 ) &
 
-   add_carryUSHORTINT : ( BIT * USHORTINT * USHORTINT ) --> BIT &
-   add_carryUSHORTINT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORTINT & w2 : USHORTINT |
-      bool_to_bit ( bool ( ( b1 + w1 + w2 ) > 2 ** 16 ) ) ) &
+   add_carryUSHORT : ( BIT * USHORT * USHORT ) --> BIT &
+   add_carryUSHORT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORT & w2 : USHORT |
+      bool_bit ( bool ( ( b1 + w1 + w2 ) > 2 ** 16 ) ) ) &
 
-   add_halfcarryUSHORTINT : ( BIT * USHORTINT * USHORTINT ) --> BIT &
-   add_halfcarryUSHORTINT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORTINT & w2 : USHORTINT |
-      bool_to_bit ( bool ( ( b1 + ( w1 ) mod 2 ** 12 + ( w2 ) mod 2 ** 12 ) > 2 ** 12 ) ) ) &
+   add_halfcarryUSHORT : ( BIT * USHORT * USHORT ) --> BIT &
+   add_halfcarryUSHORT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORT & w2 : USHORT |
+      bool_bit ( bool ( ( b1 + ( w1 ) mod 2 ** 12 + ( w2 ) mod 2 ** 12 ) > 2 ** 12 ) ) ) &
 
-   sub16USHORTINT : ( BIT * USHORTINT * USHORTINT ) --> ( USHORTINT ) &
-   sub16USHORTINT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORTINT & w2 : USHORTINT | ( w1 - w2 - b1 ) mod 65536 ) &
+   sub16USHORT : ( BIT * USHORT * USHORT ) --> ( USHORT ) &
+   sub16USHORT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORT & w2 : USHORT | ( w1 - w2 - b1 ) mod 65536 ) &
 
-   sub_carryUSHORTINT : ( BIT * USHORTINT * USHORTINT ) --> BIT &
-   sub_carryUSHORTINT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORTINT & w2 : USHORTINT |
-      bool_to_bit ( bool ( ( w1 - w2 - b1 ) > 2 ** 16 ) ) ) &
+   sub_carryUSHORT : ( BIT * USHORT * USHORT ) --> BIT &
+   sub_carryUSHORT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORT & w2 : USHORT |
+      bool_bit ( bool ( ( w1 - w2 - b1 ) > 2 ** 16 ) ) ) &
 
-   sub_halfcarryUSHORTINT : ( BIT * USHORTINT * USHORTINT ) --> BIT &
-   sub_halfcarryUSHORTINT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORTINT & w2 : USHORTINT |
-      bool_to_bit ( bool ( ( ( w1 ) mod 2 ** 12 - ( w2 ) mod 2 ** 12 ) - b1 > 2 ** 12 ) ) ) &
+   sub_halfcarryUSHORT : ( BIT * USHORT * USHORT ) --> BIT &
+   sub_halfcarryUSHORT = % ( b1 , w1 , w2 ) . ( b1 : BIT & w1 : USHORT & w2 : USHORT |
+      bool_bit ( bool ( ( ( w1 ) mod 2 ** 12 - ( w2 ) mod 2 ** 12 ) - b1 > 2 ** 12 ) ) ) &
 
 
 
    inc_BYTE :  BYTE  --> BYTE &
-   inc_BYTE = % ( w1 ) . ( w1 : BYTE | uchar_to_byte ( ( byte_to_uchar ( w1 ) + 1 ) mod 256 ) ) &
+   inc_BYTE = % ( w1 ) . ( w1 : BYTE | uchar_byte ( ( byte_uchar ( w1 ) + 1 ) mod 256 ) ) &
 
    dec_BYTE :  BYTE  --> BYTE &
-   dec_BYTE = % ( w1 ) . ( w1 : BYTE | uchar_to_byte ( ( byte_to_uchar ( w1 ) - 1 ) mod 256 ) ) &
+   dec_BYTE = % ( w1 ) . ( w1 : BYTE | uchar_byte ( ( byte_uchar ( w1 ) - 1 ) mod 256 ) ) &
 
 
    inc_BV16 :  BV16  --> BV16 &
-   inc_BV16 = % ( w1 ) . ( w1 : BV16 | ushortint_to_bv16 ( ( bv16_to_ushortint ( w1 ) + 1 ) mod 65536 ) ) &
+   inc_BV16 = % ( w1 ) . ( w1 : BV16 | ushort_bv16 ( ( bv16_ushort ( w1 ) + 1 ) mod 65536 ) ) &
 
    dec_BV16 :  BYTE  --> BYTE &
-   dec_BV16 = % ( w1 ) . ( w1 : BV16 | ushortint_to_bv16 ( ( bv16_to_ushortint ( w1 ) - 1 ) mod 65536 ) ) &
+   dec_BV16 = % ( w1 ) . ( w1 : BV16 | ushort_bv16 ( ( bv16_ushort ( w1 ) - 1 ) mod 65536 ) ) &
 
 
    parity_even_BYTE : BIT_VECTOR --> BIT        &
@@ -146,7 +172,60 @@ PROPERTIES
 
 
    rotateright : BYTE --> BYTE  &
-   rotateright = % ( bv ) . ( bv : BYTE | { 0 |-> bv ( 1 ) , 1 |-> bv ( 2 ) , 2 |-> bv ( 3 ) , 3 |-> bv ( 4 ) , 4 |-> bv ( 5 ) , 5 |-> bv ( 6 ) , 6 |-> bv ( 7 ) , 7 |-> bv ( 0 ) } )
+   rotateright = % ( bv ) . ( bv : BYTE | { 0 |-> bv ( 1 ) , 1 |-> bv ( 2 ) , 2 |-> bv ( 3 ) , 3 |-> bv ( 4 ) , 4 |-> bv ( 5 ) , 5 |-> bv ( 6 ) , 6 |-> bv ( 7 ) , 7 |-> bv ( 0 ) } ) &
+
+
+
+   update_refresh_reg   : BYTE --> BYTE &
+   update_refresh_reg =  % ( v0 ) .  ( v0 : BYTE | uchar_byte ( 2 ** 7 * v0 ( 7 ) + ( ( 2 ** 6 * v0 ( 6 ) + 2 ** 5 * v0 ( 5 ) + 2 ** 4 * v0 ( 4 ) +
+                2 ** 3 * v0 ( 3 ) + 2 ** 2 * v0 ( 2 ) + 2 * v0 ( 1 ) + v0 ( 0 ) ) mod 64 ) ) ) &
+
+   NB_INSTRUCTIONS : NATURAL &
+   INST_SZ : NATURAL &
+   INST_SZ = 16 &
+   NB_INSTRUCTIONS = 2 ** INST_SZ &
+   INSTRUCTION_MAX = NB_INSTRUCTIONS - 1 &
+   INSTRUCTION = USHORT  &
+   instruction_next : USHORT --> USHORT &
+   instruction_next =
+   % ( w1 ) . ( w1 : USHORT | ( w1 + 1 ) mod 65535 ) &
+
+   instruction_jump = % ( p0 , e0 ) . ( p0 : INSTRUCTION & e0 : - 126 .. 129 | ( p0 + e0 ) mod 65535 ) &
+
+
+   daa_function : ( BIT * BIT * BIT * BYTE ) --> ( BYTE * BIT * BIT ) &
+   ! ( zn , c0 , h0 , value ) . ( zn : BIT & c0 : BIT & h0 : BIT & value : BYTE =>
+      (  (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( value , 0 , 0 ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 8 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 6 ) ) , 0 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 6 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 6 ) ) , 0 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 6 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 10 .. 15 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 96 ) ) , 1 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 96 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 9 .. 15 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 102 ) ) , 1 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 10 .. 15 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 102 ) ) , 1 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 2 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 96 ) ) , 1 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 96 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 2 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 102 ) ) , 1 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 3 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 102 ) ) , 1 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
+
+         (  zn = 1 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( value , 0 , 0 ) ) &
+         (  zn = 1 & c0 = 0 & get_upper_digit ( value ) : 0 .. 8 & h0 = 1 & get_lower_digit ( value ) : 6 .. 15 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 250 ) ) , 0 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 250 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 1 & c0 = 1 & get_upper_digit ( value ) : 7 .. 15 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 160 ) ) , 1 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 160 ) >= 2 ** 4 ) ) ) ) &
+         (  zn = 1 & c0 = 1 & get_upper_digit ( value ) : 6 .. 7 & h0 = 1 & get_lower_digit ( value ) : 6 .. 15 =>
+                                daa_function ( zn , c0 , h0 , value ) = ( uchar_byte ( simple_add8UCHAR ( byte_uchar ( value ) , 154 ) ) , 1 , bool_bit ( bool ( half ( byte_uchar ( value ) ) + half ( 154 ) >= 2 ** 4 ) ) ) ) ) )
+
+
+
+
 
 
 
@@ -182,7 +261,41 @@ ASSERTIONS
    ! ( vec , in0 ) . ( vec : BYTE & in0 : 0 .. 7
       =>  bitget ( vec , in0 ) = vec ( in0 ) ) &
 
-   ! ( x0 , x1 ) . ( x0 : UCHAR & x1 : UCHAR => simple_add8UCHAR ( x0 , x1 ) : UCHAR )
+   ! ( x0 , x1 ) . ( x0 : UCHAR & x1 : UCHAR => simple_add8UCHAR ( x0 , x1 ) : UCHAR ) &
+
+
+  0 = schar_sshort ( 0 , 0 ) &
+
+
+   /* Por algum motivo que desconheco consegui provar
+   (   ! ( n0 ) . ( n0 : SCHAR => 0 <= n0 ) & ) , estranho... */
+
+   ! ( n0 ) . ( n0 : UCHAR => 0 <= n0 ) &
+   ! ( n0 ) . ( n0 : UCHAR => n0 <= 255 ) &
+
+   instruction_next : USHORT -->  USHORT &
+
+
+   ! ( xx ) . ( xx : BYTE => byte_uchar ( xx ) : UCHAR ) &
+   ! ( xx ) . ( xx : UCHAR => uchar_byte ( xx ) : BYTE ) &
+
+  ! ( xx ) . ( xx : BYTE => update_refresh_reg ( xx ) : BYTE ) &
+
+   ! ( xx ) . ( xx : BYTE => byte_schar ( xx ) : SCHAR ) &
+   ! ( xx ) . ( xx : SCHAR => schar_byte ( xx ) : BYTE ) &
+
+
+   ! ( xx , yy ) . ( xx : BYTE & yy : BYTE => byte_bv16 ( xx , yy ) : BV16 ) &
+   ! ( xx , yy ) . ( xx : BYTE & yy : BYTE => # ( zz ) . ( zz : BV16 & byte_bv16 ( xx , yy ) = zz ) ) &
+
+   ! ( xx ) . ( xx : BV16 => bv16_ushort ( xx ) : USHORT ) &
+   ! ( xx ) . ( xx : USHORT => ushort_bv16 ( xx ) : BV16 ) &
+
+   ! ( xx ) . ( xx : BYTE => get_upper_digit ( xx ) : 0 .. 16 ) &
+      ! ( xx ) . ( xx : BYTE => get_lower_digit ( xx ) : 0 .. 16 ) &
+
+    ! ( zn , c0 , value , h0 ) . ( zn : BIT & c0 : BIT & value : BYTE & h0 : BIT =>
+          daa_function ( zn , c0 , h0 , value ) : ( BYTE * BIT * BIT ) )
 
 
 END

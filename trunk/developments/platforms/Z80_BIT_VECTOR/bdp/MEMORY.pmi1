@@ -1,9 +1,9 @@
 THEORY BalanceX IS
-  MEMORY,32,0,0,12,0,0,0;
-  AssertionLemmas,6,0,0,6,0,0,0;
-  Initialisation,2,0,0,1,0,0,0;
-  updateMem,4,0,0,3,0,0,0;
-  updateAddressMem,4,0,0,2,0,0,0;
+  MEMORY,32,0,0,0,0,0,0;
+  AssertionLemmas,6,0,0,0,0,0,0;
+  Initialisation,2,0,0,0,0,0,0;
+  updateMem,4,0,0,0,0,0,0;
+  updateAddressMem,4,0,0,0,0,0,0;
   updateStack,6,0,0,0,0,0,0;
   updateAddressStack,6,0,0,0,0,0,0;
   pop,4,0,0,0,0,0,0
@@ -28,55 +28,55 @@ THEORY ProofState IS
   Unproved;
   Unproved;
   Unproved;
-  Proved(0);
-  Proved(0);
   Unproved;
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
-  Proved(0);
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
   Unproved
 END
 &
 THEORY MethodList IS
-  pr;
-  ss & pp(rt.0);
-  dd & mp & ae(dec_BV16(sp),aa) & ah(dec_BV16(sp): BV16) & eh(dec_BV16,_h,Goal) & ss & pr & pr;
-  pr;
-  dd & ah(not(stack = mem)) & pp(rt.0);
-  dd & ah(stack <: mem) & pp(rt.0);
-  pr;
-  pr;
-  pr;
-  pr;
-  dd & ah(not(stack = mem)) & pp(rt.0);
-  dd & ah(stack <: mem) & pp(rt.0);
-  pr;
-  pr;
-  ss & ss & eh(dom(mem),_h,Goal) & ss & pr;
-  ss & pr;
-  dd & ah(not(address|->value: stack) & not(stack = mem)) & pr & pr & pp(rt.0);
-  ss & pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr;
-  pr
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?
 END
 &
 THEORY PassList IS
@@ -100,7 +100,6 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),(?;0);
   Force(0),?;
   Force(0),?;
   Force(0),?;
@@ -111,13 +110,13 @@ THEORY PassList IS
   Force(0),?;
   Force(0),?;
   Force(0),?;
-  Force(0),(?;0)
+  Force(0),?;
+  Force(0),?
 END
 &
 THEORY ManForms 
 END
 &
 THEORY Version IS
-  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,genDivergencePO == KO,local_op == OK);
-  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, genDivergencePO == KO, local_op == OK)
 END
