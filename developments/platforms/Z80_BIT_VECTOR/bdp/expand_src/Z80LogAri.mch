@@ -25,237 +25,191 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 MACHINE
    Z80LogAri
 INCLUDES
-   MEMORY
-
+    MEMORY
 SEES
-   TYPES ,
-   ALU ,
-   POWER2
+    ALU ,
+    BIT_DEFINITION ,
+    BIT_VECTOR_DEFINITION ,
+    BYTE_DEFINITION ,
+    BV16_DEFINITION ,
 
-
-
-
-
+    UCHAR_DEFINITION ,
+    SCHAR_DEFINITION ,
+    SSHORT_DEFINITION ,
+    USHORT_DEFINITION ,
+    POWER2
 SETS
-   id_reg_8 = { a0 , f0 , f_0 , a_0 ,
-      b0 , c0 , b_0 , c_0 ,
-      d0 , e0 , d_0 , e_0 ,
-      h0 , l0 , h_0 , l_0 ,
-      i0 , r0 } ;
-
-   id_reg_16 = { BC , DE , HL , SP , AF }
-
-
+    id_reg_8 = { a0 , f0 , f_0 , a_0 ,
+        b0 , c0 , b_0 , c_0 ,
+        d0 , e0 , d_0 , e_0 ,
+        h0 , l0 , h_0 , l_0 } ;
+    id_reg_16 = { BC , DE , HL , SP , AF }
 ABSTRACT_VARIABLES
-   rgs8 ,
-
-
-   pc , sp , ix , iy ,
-   i_ , r_ ,
-   iff1 , iff2 ,
-   im ,
-   i_o_ports
-
-
-
-
-
-
+    rgs8 ,
+    pc , sp , ix , iy ,
+    i_ , r_ ,
+    iff1 , iff2 ,
+    im ,
+    i_o_ports
 INVARIANT
-
-   rgs8 : id_reg_8 --> BYTE &
-   pc : INSTRUCTION & sp : BV16 & ix : BV16 & iy : BV16 &
-   i_ : BYTE & r_  : BYTE &
-   iff1 : BIT &  iff2 : BIT &
-   im : ( BIT * BIT ) &
-   i_o_ports  : BYTE --> BYTE
-
-
+    rgs8 : id_reg_8 --> BYTE &
+    pc : INSTRUCTION & sp : BV16 & ix : BV16 & iy : BV16 &
+    i_ : BYTE & r_  : BYTE &
+    iff1 : BIT &  iff2 : BIT &
+    im : ( BIT * BIT ) &
+    i_o_ports  : BYTE --> BYTE
 DEFINITIONS
-   bv_BC == byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ;
-   bv_HL == byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ;
-   bv_DE == byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ;
-   bv_AF == byte_to_bv16 ( rgs8 ( a0 ) , rgs8 ( f0 ) ) ;
+    bv_BC == byte_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ;
+    bv_HL == byte_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ;
+    bv_DE == byte_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ;
+    bv_AF == byte_bv16 ( rgs8 ( a0 ) , rgs8 ( f0 ) ) ;
 
-   bv_9BC0 == mem ( byte_to_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) ;
-   bv_9DE0 == mem ( byte_to_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ;
-   bv_9HL0 == mem ( byte_to_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ;
-   bv_9AF0 == mem ( byte_to_bv16 ( rgs8 ( a0 ) , rgs8 ( f0 ) ) ) ;
+    bv_9BC0 == mem ( byte_bv16 ( rgs8 ( b0 ) , rgs8 ( c0 ) ) ) ;
+    bv_9DE0 == mem ( byte_bv16 ( rgs8 ( d0 ) , rgs8 ( e0 ) ) ) ;
+    bv_9HL0 == mem ( byte_bv16 ( rgs8 ( h0 ) , rgs8 ( l0 ) ) ) ;
+    bv_9AF0 == mem ( byte_bv16 ( rgs8 ( a0 ) , rgs8 ( f0 ) ) ) ;
 
-   bv_9SP0 == mem ( sp ) ;
-   bv_9IX0 == mem ( ix ) ;
-   bv_9IY0 == mem ( iy ) ;
+    bv_9SP0 == mem ( sp ) ;
+    bv_9IX0 == mem ( ix ) ;
+    bv_9IY0 == mem ( iy ) ;
 
-   sp_plus_one == ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 1 ) ) ;
-   sp_plus_two == ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , 2 ) ) ;
-   sp_minus_one == ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 1 ) ) ;
-   sp_minus_two == ushortint_to_bv16 ( add16USHORTINT ( 0 , bv16_to_ushortint ( sp ) , - 2 ) ) ;
+    sp_plus_one == ushort_bv16 ( add16USHORT ( 0 , bv16_ushort ( sp ) , 1 ) ) ;
+    sp_plus_two == ushort_bv16 ( add16USHORT ( 0 , bv16_ushort ( sp ) , 2 ) ) ;
+    sp_minus_one == ushort_bv16 ( add16USHORT ( 0 , bv16_ushort ( sp ) , - 1 ) ) ;
+    sp_minus_two == ushort_bv16 ( add16USHORT ( 0 , bv16_ushort ( sp ) , - 2 ) ) ;
 
-
-   z_s  == bitget ( rgs8 ( f0 ) , 7 ) ;
-   z_z  == bitget ( rgs8 ( f0 ) , 6 ) ;
-   z_00 == bitget ( rgs8 ( f0 ) , 5 ) ;
-   z_h  == bitget ( rgs8 ( f0 ) , 4 ) ;
-   z_01 == bitget ( rgs8 ( f0 ) , 3 ) ;
-   z_p  == bitget ( rgs8 ( f0 ) , 2 ) ;
-   z_n  == bitget ( rgs8 ( f0 ) , 1 ) ;
-   z_c  == bitget ( rgs8 ( f0 ) , 0 )
-
+    z_s  == bitget ( rgs8 ( f0 ) , 7 ) ;
+    z_z  == bitget ( rgs8 ( f0 ) , 6 ) ;
+    z_00 == bitget ( rgs8 ( f0 ) , 5 ) ;
+    z_h  == bitget ( rgs8 ( f0 ) , 4 ) ;
+    z_01 == bitget ( rgs8 ( f0 ) , 3 ) ;
+    z_p  == bitget ( rgs8 ( f0 ) , 2 ) ;
+    z_n  == bitget ( rgs8 ( f0 ) , 1 ) ;
+    z_c  == bitget ( rgs8 ( f0 ) , 0 )
 CONCRETE_CONSTANTS
+    get_bv_reg16 ,
+    REG16_TO_REG8 ,
+    REG8_TO_REG16 ,
 
-   get_bv_reg16 ,
-   REG16_TO_REG8 ,
-   REG8_TO_REG16 ,
+    update_flag_register_SZ_H_PvNC ,
+    get_new_flag_register_SZ_H_PvNC ,
 
-   update_flag_register_SZ_H_PvNC ,
-   get_new_flag_register_SZ_H_PvNC ,
+    bv_ireg_plus_d ,
+    bv_9ireg_plus_d0 ,
 
-   bv_ireg_plus_d ,
-   bv_9ireg_plus_d0 ,
-
-   daa_function
-
-
-
-
+    cc_get
 PROPERTIES
 
 
-   get_bv_reg16 : ( BV16 * ( id_reg_8 --> BYTE ) * id_reg_16 ) --> ( BV16 )
-   & ! ( sp_ , rgs8_ , r1 ) .
-   ( sp_ :  BV16 & rgs8_ : ( id_reg_8 --> BYTE ) & r1 : id_reg_16
-      => ( r1 = BC =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_to_bv16 ( rgs8_ ( b0 ) , rgs8_ ( c0 ) ) ) &
-      ( r1 = DE =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_to_bv16 ( rgs8_ ( d0 ) , rgs8_ ( e0 ) ) ) &
-      ( r1 = HL =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_to_bv16 ( rgs8_ ( h0 ) , rgs8_ ( l0 ) ) ) &
-      ( r1 = SP =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = sp_ ) &
-      ( r1 = AF =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_to_bv16 ( rgs8_ ( a0 ) , rgs8_ ( f0 ) ) )
-   ) &
+    get_bv_reg16 : ( BV16 * ( id_reg_8 --> BYTE ) * id_reg_16 ) --> ( BV16 )
+    & ! ( sp_ , rgs8_ , r1 ) .
+    ( sp_ :  BV16 & rgs8_ : ( id_reg_8 --> BYTE ) & r1 : id_reg_16
+        => ( r1 = BC =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_bv16 ( rgs8_ ( b0 ) , rgs8_ ( c0 ) ) ) &
+        ( r1 = DE =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_bv16 ( rgs8_ ( d0 ) , rgs8_ ( e0 ) ) ) &
+        ( r1 = HL =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_bv16 ( rgs8_ ( h0 ) , rgs8_ ( l0 ) ) ) &
+        ( r1 = SP =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = sp_ ) &
+        ( r1 = AF =>  get_bv_reg16 ( sp_ , rgs8_ , r1 ) = byte_bv16 ( rgs8_ ( a0 ) , rgs8_ ( f0 ) ) )
+    ) &
 
 
-   REG16_TO_REG8 : id_reg_16 --> ( id_reg_8 * id_reg_8 )
-   & ! ( r1 ) .
-   ( r1 : id_reg_16
-      => ( r1 = BC =>  REG16_TO_REG8 ( r1 ) = ( b0 , c0 ) ) &
-      ( r1 = DE =>  REG16_TO_REG8 ( r1 ) = ( d0 , e0 ) ) &
-      ( r1 = HL =>  REG16_TO_REG8 ( r1 ) = ( h0 , l0 ) ) &
-      ( r1 = AF =>  REG16_TO_REG8 ( r1 ) = ( a0 , f0 ) )
-   )
-   &
-   REG8_TO_REG16 = REG16_TO_REG8 ~ &
+    REG16_TO_REG8 : id_reg_16 --> ( id_reg_8 * id_reg_8 ) &
+    REG16_TO_REG8 ( BC ) = ( b0 , c0 )  &
+    REG16_TO_REG8 ( DE ) = ( d0 , e0 )  &
+    REG16_TO_REG8 ( HL ) = ( h0 , l0 )  &
+    REG16_TO_REG8 ( AF ) = ( a0 , f0 )
 
-   update_flag_register_SZ_H_PvNC = % ( rgs8_ , s7 , z6 , h4 , pv2 , n_add_sub , c0 ) .
-   ( rgs8_ : id_reg_8 --> BYTE & s7 : BIT & z6  : BIT &   h4 : BIT  & pv2 : BIT & n_add_sub : BIT & c0 : BIT |
-      rgs8_ <+ { ( f0 |-> {
-               /*S*/   ( 7 |-> s7 ) ,
-               /*Z*/         ( 6 |-> z6 ) ,
-               /*(5 |-> rgs8_(f0)(5) ),*/
-               /*H*/         ( 4 |-> h4 ) ,
-               /*(3 |-> rgs8_(f0)(3) ),*/
-               /*P/V*/ ( 2 |-> pv2 ) ,
-               /*N*/         ( 1 |-> n_add_sub ) ,
-               /*C*/         ( 0 |-> c0 ) } ) } )
+    &
+    REG8_TO_REG16 = REG16_TO_REG8 ~ &
 
-   &
+    update_flag_register_SZ_H_PvNC = % ( rgs8_ , s7 , z6 , h4 , pv2 , n_add_sub , c0 ) .
+    ( rgs8_ : id_reg_8 --> BYTE & s7 : BIT & z6  : BIT &   h4 : BIT  & pv2 : BIT & n_add_sub : BIT & c0 : BIT |
+        rgs8_ <+ { ( f0 |-> {
+                    /*S*/         ( 7 |-> s7 ) ,
+                    /*Z*/         ( 6 |-> z6 ) ,
+                    /*(5 |-> rgs8_(f0)(5) ),*/
+                    /*H*/         ( 4 |-> h4 ) ,
+                    /*(3 |-> rgs8_(f0)(3) ),*/
+                    /*P/V*/       ( 2 |-> pv2 ) ,
+                    /*N*/         ( 1 |-> n_add_sub ) ,
+                    /*C*/         ( 0 |-> c0 ) } ) } )
 
-   get_new_flag_register_SZ_H_PvNC = % ( rgs8_ , s7 , z6 , h4 , pv2 , n_add_sub , c0 ) .
-   ( rgs8_ : id_reg_8 --> BYTE & s7 : BIT & z6  : BIT &   h4 : BIT  & pv2 : BIT & n_add_sub : BIT & c0 : BIT |
-      ( f0 |-> {
-            /*S*/   ( 7 |-> s7 ) ,
-            /*Z*/         ( 6 |-> z6 ) ,
-            /*(5 |-> rgs8_(f0)(5) ),*/
-            /*H*/         ( 4 |-> h4 ) ,
-            /*(3 |-> rgs8_(f0)(3) ),*/
-            /*P/V*/ ( 2 |-> pv2 ) ,
-            /*N*/         ( 1 |-> n_add_sub ) ,
-            /*C*/         ( 0 |-> c0 ) } ) ) &
+    &
 
-   bv_ireg_plus_d = % ( ix_iy , desloc ) . ( ix_iy : BV16 & desloc : SCHAR |
-      ushortint_to_bv16 ( ( bv16_to_ushortint ( ix_iy ) + desloc ) mod 65536 ) ) &
+    get_new_flag_register_SZ_H_PvNC = % ( rgs8_ , s7 , z6 , h4 , pv2 , n_add_sub , c0 ) .
+    ( rgs8_ : id_reg_8 --> BYTE & s7 : BIT & z6  : BIT &   h4 : BIT  & pv2 : BIT & n_add_sub : BIT & c0 : BIT |
+        ( f0 |-> {
+                /*S*/         ( 7 |-> s7 ) ,
+                /*Z*/         ( 6 |-> z6 ) ,
+                /*(5 |-> rgs8_(f0)(5) ),*/
+                /*H*/         ( 4 |-> h4 ) ,
+                /*(3 |-> rgs8_(f0)(3) ),*/
+                /*P/V*/       ( 2 |-> pv2 ) ,
+                /*N*/         ( 1 |-> n_add_sub ) ,
+                /*C*/         ( 0 |-> c0 ) } ) ) &
 
-   bv_9ireg_plus_d0 = % ( mem , ix_iy , desloc ) . ( mem : ( BV16 --> BYTE ) & ix_iy : BV16 & desloc : SCHAR |
-      mem ( ushortint_to_bv16 ( ( bv16_to_ushortint ( ix_iy ) + desloc ) mod 65536 ) ) ) &
+    bv_ireg_plus_d = % ( ix_iy , desloc ) . ( ix_iy : BV16 & desloc : SCHAR |
+        ushort_bv16 ( ( bv16_ushort ( ix_iy ) + desloc ) mod 65536 ) ) &
 
-   daa_function : ( BIT * BIT * BYTE * BIT ) --> ( BYTE * BIT * BIT ) &
-   ! ( zn , c0 , value , h0 ) . ( zn : BIT & c0 : BIT & value : BYTE & h0 : BIT =>
-      (  (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( value , 0 , 0 ) ) &
-         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 8 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 6 ) ) , 0 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 6 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 6 ) ) , 0 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 6 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 10 .. 15 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 96 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 96 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 9 .. 15 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 102 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 0 & c0 = 0 & get_upper_digit ( value ) : 10 .. 15 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 102 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 2 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 96 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 96 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 2 & h0 = 0 & get_lower_digit ( value ) : 10 .. 15 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 102 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 0 & c0 = 1 & get_upper_digit ( value ) : 0 .. 3 & h0 = 1 & get_lower_digit ( value ) : 0 .. 3 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 102 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 102 ) >= 2 ** 4 ) ) ) ) &
+    bv_9ireg_plus_d0 = % ( mem , ix_iy , desloc ) . ( mem : ( BV16 --> BYTE ) & ix_iy : BV16 & desloc : SCHAR |
+        mem ( bv_ireg_plus_d ( ix_iy , desloc ) ) ) &
 
-         (  zn = 1 & c0 = 0 & get_upper_digit ( value ) : 0 .. 9 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( value , 0 , 0 ) ) &
-         (  zn = 1 & c0 = 0 & get_upper_digit ( value ) : 0 .. 8 & h0 = 1 & get_lower_digit ( value ) : 6 .. 15 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 250 ) ) , 0 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 250 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 1 & c0 = 1 & get_upper_digit ( value ) : 7 .. 15 & h0 = 0 & get_lower_digit ( value ) : 0 .. 9 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 160 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 160 ) >= 2 ** 4 ) ) ) ) &
-         (  zn = 1 & c0 = 1 & get_upper_digit ( value ) : 6 .. 7 & h0 = 1 & get_lower_digit ( value ) : 6 .. 15 =>
-                                daa_function ( zn , c0 , value , h0 ) = ( uchar_to_byte ( simple_add8UCHAR ( byte_to_uchar ( value ) , 154 ) ) , 1 , bool_to_bit ( bool ( half ( byte_to_uchar ( value ) ) + half ( 154 ) >= 2 ** 4 ) ) ) ) ) )
-
+    cc_get : ( ( id_reg_8 --> BYTE ) * ( 0 .. 8 ) ) --> BIT &
+    ! ( rgs8_ ) . ( rgs8_ : id_reg_8 --> BYTE =>    cc_get ( rgs8_ , 0 ) = 1 - bitget ( rgs8_ ( f0 ) , 6 ) &
+        cc_get ( rgs8_ , 1 ) = bitget ( rgs8_ ( f0 ) , 6 ) &
+        cc_get ( rgs8_ , 2 ) = 1 - bitget ( rgs8_ ( f0 ) , 0 ) &
+        cc_get ( rgs8_ , 3 ) = bitget ( rgs8_ ( f0 ) , 0 )  &
+        cc_get ( rgs8_ , 4 ) = 1 - bitget ( rgs8_ ( f0 ) , 2 ) &
+        cc_get ( rgs8_ , 5 ) = bitget ( rgs8_ ( f0 ) , 2 )  &
+        cc_get ( rgs8_ , 6 ) = 1 - bitget ( rgs8_ ( f0 ) , 7 ) &
+        cc_get ( rgs8_ , 7 ) = bitget ( rgs8_ ( f0 ) , 7 ) )
 
 ASSERTIONS
-   dom ( stack ) = BV16 &
-   ran ( stack ) <: BYTE &
-   ran ( mem ) <: BYTE &
-   dom ( mem ) = BV16 &
-   ran ( rgs8 ) <: BYTE &
-   dom ( rgs8 ) = id_reg_8 &
-   instruction_next ( 0 ) = 1 &
-   instruction_next ( 1 ) = 2 &
-   instruction_next ( 2 ) = 3 &
-   instruction_next ( 3 ) = 4 &
-   instruction_next ( 4 ) = 5 &
-   instruction_next ( 5 ) = 6 &
-   instruction_next ( 6 ) = 7 &
-   instruction_next ( 7 ) = 8 &
-   instruction_next ( 8 ) = 9 &
-   instruction_next ( 9 ) = 10 &
-   instruction_next ( 10 ) = 11 &
-   instruction_next ( 11 ) = 12 &
-   instruction_next ( 12 ) = 13 &
-   instruction_next ( 13 ) = 14 &
+    dom ( stack ) = BV16 &
+    ran ( stack ) <: BYTE &
+    ran ( mem ) <: BYTE &
+    dom ( mem ) = BV16 &
+    ran ( rgs8 ) <: BYTE &
+    dom ( rgs8 ) = id_reg_8 &
+    instruction_next ( 0 ) = 1 &
+    instruction_next ( 1 ) = 2 &
+    instruction_next ( 2 ) = 3 &
+    instruction_next ( 3 ) = 4 &
+    instruction_next ( 4 ) = 5 &
+    instruction_next ( 5 ) = 6 &
+    instruction_next ( 6 ) = 7 &
+    instruction_next ( 7 ) = 8 &
+    instruction_next ( 8 ) = 9 &
+    instruction_next ( 9 ) = 10 &
+    instruction_next ( 10 ) = 11 &
+    instruction_next ( 11 ) = 12 &
+    instruction_next ( 12 ) = 13 &
+    instruction_next ( 13 ) = 14 &
 
-   bv_9BC0 : BYTE  & mem ( byte_to_bv16 ( schar_to_byte ( 0 ) , bv_9BC0 ) ) : BYTE &
-   bv_9DE0 : BYTE  & mem ( byte_to_bv16 ( schar_to_byte ( 0 ) , bv_9DE0 ) ) : BYTE &
-   bv_9HL0 : BYTE  & mem ( byte_to_bv16 ( schar_to_byte ( 0 ) , bv_9HL0 ) ) : BYTE &
-   bv_9AF0 : BYTE  & mem ( byte_to_bv16 ( schar_to_byte ( 0 ) , bv_9AF0 ) ) : BYTE &
+    bv_9BC0 : BYTE  & mem ( byte_bv16 ( schar_byte ( 0 ) , bv_9BC0 ) ) : BYTE &
+    bv_9DE0 : BYTE  & mem ( byte_bv16 ( schar_byte ( 0 ) , bv_9DE0 ) ) : BYTE &
+    bv_9HL0 : BYTE  & mem ( byte_bv16 ( schar_byte ( 0 ) , bv_9HL0 ) ) : BYTE &
+    bv_9AF0 : BYTE  & mem ( byte_bv16 ( schar_byte ( 0 ) , bv_9AF0 ) ) : BYTE &
 
-   bv_9SP0 : BYTE  &
-   bv_9IX0 : BYTE  &
-   bv_9IY0 : BYTE &
+    bv_9SP0 : BYTE  &
+    bv_9IX0 : BYTE  &
+    bv_9IY0 : BYTE &
 
-   ! ( ii , des ) . ( ii : BV16 & des : SCHAR => bv_ireg_plus_d ( ii , des ) : BV16 ) &
+    ! ( ii , des ) . ( ii : BV16 & des : SCHAR => bv_ireg_plus_d ( ii , des ) : BV16 ) &
 
-   ! ( mmm , ii , des ) . ( mmm : BV16 >-> BYTE & ii : BV16 & des : SCHAR => bv_9ireg_plus_d0 ( mmm , ii , des ) : BYTE ) &
-
-   ! ( zn , c0 , value , h0 ) . ( zn : BIT & c0 : BIT & value : BYTE & h0 : BIT =>
-          daa_function ( zn , c0 , value , h0 ) : ( BYTE * BIT * BIT ) )
+    ! ( mmm , ii , des ) . ( mmm : BV16 >-> BYTE & ii : BV16 & des : SCHAR => bv_9ireg_plus_d0 ( mmm , ii , des ) : BYTE )
 
 INITIALISATION
 
-   rgs8 :: id_reg_8 --> BYTE ||
-   pc :: INSTRUCTION || sp :: BV16 || ix :: BV16 || iy :: BV16 ||
-   i_ :: BYTE || r_  :: BYTE ||
-   i_o_ports  :: BYTE --> BYTE ||
-   iff1 :: BIT  ||  iff2 :: BIT ||
-   im :: ( BIT * BIT )
+    rgs8 := { ( a0 |-> uchar_byte ( 255 ) ) , ( f0 |-> uchar_byte ( 255 ) ) , ( f_0 |-> uchar_byte ( 255 ) ) , ( a_0 |-> uchar_byte ( 255 ) ) ,
+        ( b0 |-> uchar_byte ( 255 ) ) , ( c0 |-> uchar_byte ( 255 ) ) , ( b_0 |-> uchar_byte ( 255 ) ) , ( c_0 |-> uchar_byte ( 255 ) ) ,
+        ( d0 |-> uchar_byte ( 255 ) ) , ( e0 |-> uchar_byte ( 255 ) ) , ( d_0 |-> uchar_byte ( 255 ) ) , ( e_0 |-> uchar_byte ( 255 ) ) ,
+        ( h0 |-> uchar_byte ( 255 ) ) , ( l0 |-> uchar_byte ( 255 ) ) , ( h_0 |-> uchar_byte ( 255 ) ) , ( l_0 |-> uchar_byte ( 255 ) ) } ||
 
-
-
-
+    pc := 0 || sp := ushort_bv16 ( 65535 ) || ix := ushort_bv16 ( 65535 ) || iy := ushort_bv16 ( 65535 ) ||
+    i_ := uchar_byte ( 0 ) || r_ := uchar_byte ( 0 ) ||
+    i_o_ports  :: ( BYTE --> { uchar_byte ( 0 ) } ) ||
+    iff1 := 0 ||  iff2 := 0 ||
+    im := ( 0 |-> 0 )
 
 OPERATIONS
 
@@ -267,9 +221,9 @@ OPERATIONS
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( rgs8 ( rr ) ) )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( rgs8 ( rr ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , ( get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) ) }         ||  pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , ( get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) ) }         ||  pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
 
@@ -282,9 +236,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , schar_uchar ( n1 ) )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , schar_uchar ( n1 ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -296,9 +250,9 @@ OPERATIONS
 
    WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-      sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9HL0 ) )
+      sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9HL0 ) )
    THEN
-      rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+      rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
       pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
    END
 
@@ -311,9 +265,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -327,9 +281,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -344,9 +298,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( rgs8 ( rr ) ) )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( rgs8 ( rr ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -360,9 +314,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , schar_uchar ( n1 ) )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , schar_uchar ( n1 ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -372,9 +326,9 @@ OPERATIONS
    ANY
       sum , negative , carry , half_carry , zero
    WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-      sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9HL0 ) )
+      sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9HL0 ) )
    THEN
-      rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+      rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
       pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
    END
 
@@ -385,9 +339,9 @@ OPERATIONS
       ANY
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-         sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -400,9 +354,9 @@ OPERATIONS
       ANY
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-         sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -416,9 +370,9 @@ OPERATIONS
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( rgs8 ( rr ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( rgs8 ( rr ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -432,9 +386,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , schar_uchar ( n1 ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , schar_uchar ( n1 ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -444,9 +398,9 @@ OPERATIONS
    ANY
       sum , negative , carry , half_carry , zero
    WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-      sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9HL0 ) )
+      sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9HL0 ) )
    THEN
-      rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+      rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
       pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
    END
 
@@ -457,9 +411,9 @@ OPERATIONS
       ANY
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -471,9 +425,9 @@ OPERATIONS
       ANY
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -488,9 +442,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( rgs8 ( rr ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( rgs8 ( rr ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -504,9 +458,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , n1 )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , n1 )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -516,9 +470,9 @@ OPERATIONS
    ANY
       sum , negative , carry , half_carry , zero
    WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-      sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9HL0 ) )
+      sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9HL0 ) )
    THEN
-      rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+      rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
       pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
    END
 
@@ -529,9 +483,9 @@ OPERATIONS
       ANY
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -543,9 +497,9 @@ OPERATIONS
       ANY
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( z_c , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
       THEN
-         rgs8 := rgs8 <+ { a0 |-> uchar_to_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
+         rgs8 := rgs8 <+ { a0 |-> uchar_byte ( sum ) , get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -586,7 +540,7 @@ OPERATIONS
          result  , negative , zero , half_carry , pv , add_sub , carry
       WHERE  result : BYTE & negative : BIT & zero : BIT & half_carry : BIT
          & pv : BIT & add_sub : BIT & carry : BIT &
-         result = and ( rgs8 ( a0 ) , schar_to_byte ( n1 ) ) &
+         result = and ( rgs8 ( a0 ) , schar_byte ( n1 ) ) &
          negative = is_negative ( result ) &
          zero = is_zero ( result ) &
          half_carry = 0 &
@@ -694,7 +648,7 @@ OPERATIONS
          result  , negative , zero , half_carry , pv , add_sub , carry
       WHERE  result : BYTE & negative : BIT & zero : BIT & half_carry : BIT
          & pv : BIT & add_sub : BIT & carry : BIT &
-         result = ior ( rgs8 ( a0 ) , schar_to_byte ( n1 ) ) &
+         result = ior ( rgs8 ( a0 ) , schar_byte ( n1 ) ) &
          negative = is_negative ( result ) &
          zero = is_zero ( result ) &
          half_carry = 0 &
@@ -800,7 +754,7 @@ OPERATIONS
          result  , negative , zero , half_carry , pv , add_sub , carry
       WHERE  result : BYTE & negative : BIT & zero : BIT & half_carry : BIT
          & pv : BIT & add_sub : BIT & carry : BIT &
-         result = xor ( rgs8 ( a0 ) , schar_to_byte ( n1 ) ) &
+         result = xor ( rgs8 ( a0 ) , schar_byte ( n1 ) ) &
          negative = is_negative ( result ) &
          zero = is_zero ( result ) &
          half_carry = 0 &
@@ -884,7 +838,7 @@ OPERATIONS
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( rgs8 ( rr ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( rgs8 ( rr ) ) )
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
@@ -900,7 +854,7 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , schar_uchar ( n1 ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , schar_uchar ( n1 ) )
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
@@ -912,7 +866,7 @@ OPERATIONS
    ANY
       sum , negative , carry , half_carry , zero
    WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-      sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9HL0 ) )
+      sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9HL0 ) )
    THEN
       rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
       pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
@@ -925,7 +879,7 @@ OPERATIONS
       ANY
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) )
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
@@ -939,7 +893,7 @@ OPERATIONS
       ANY
          sum , negative , carry , half_carry , zero
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( a0 ) ) , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( a0 ) ) , byte_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) )
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
@@ -958,9 +912,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( rgs8 ( rr ) ) , 1 )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( rgs8 ( rr ) ) , 1 )
       THEN
-         rgs8 := rgs8 <+ { ( rr |-> uchar_to_byte ( sum ) ) ,
+         rgs8 := rgs8 <+ { ( rr |-> uchar_byte ( sum ) ) ,
             get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
@@ -973,11 +927,11 @@ OPERATIONS
 
    WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-      sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( bv_9HL0 ) , 1 )
+      sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( bv_9HL0 ) , 1 )
 
    THEN
       rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
-      updateAddressMem ( bv_HL , uchar_to_byte ( sum ) ) ||
+      updateAddressMem ( bv_HL , uchar_byte ( sum ) ) ||
       pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
    END
 
@@ -990,11 +944,11 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) , 1 )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) , 1 )
 
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
-         updateAddressMem ( bv_ireg_plus_d ( ix , desloc ) , uchar_to_byte ( sum ) ) ||
+         updateAddressMem ( bv_ireg_plus_d ( ix , desloc ) , uchar_byte ( sum ) ) ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -1007,11 +961,11 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) , 1 )
+         sum , negative , carry , half_carry , zero = add8UCHAR ( 0 , byte_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) , 1 )
 
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 0 , carry ) } ||
-         updateAddressMem ( bv_ireg_plus_d ( iy , desloc ) , uchar_to_byte ( sum ) ) ||
+         updateAddressMem ( bv_ireg_plus_d ( iy , desloc ) , uchar_byte ( sum ) ) ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -1028,9 +982,9 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( rgs8 ( rr ) ) , 1 )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( rgs8 ( rr ) ) , 1 )
       THEN
-         rgs8 := rgs8 <+ { ( rr |-> uchar_to_byte ( sum ) ) ,
+         rgs8 := rgs8 <+ { ( rr |-> uchar_byte ( sum ) ) ,
             get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , z_c ) } ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
@@ -1043,11 +997,11 @@ OPERATIONS
 
    WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-      sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( bv_9HL0 ) , 1 )
+      sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( bv_9HL0 ) , 1 )
 
    THEN
       rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , z_c ) } ||
-      updateAddressMem ( bv_HL , uchar_to_byte ( sum ) ) ||
+      updateAddressMem ( bv_HL , uchar_byte ( sum ) ) ||
       pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
    END
 
@@ -1060,11 +1014,11 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) , 1 )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( bv_9ireg_plus_d0 ( mem , ix , desloc ) ) , 1 )
 
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , z_c ) } ||
-         updateAddressMem ( bv_ireg_plus_d ( ix , desloc ) , uchar_to_byte ( sum ) ) ||
+         updateAddressMem ( bv_ireg_plus_d ( ix , desloc ) , uchar_byte ( sum ) ) ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -1077,11 +1031,11 @@ OPERATIONS
 
       WHERE  sum : UCHAR & negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
-         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_to_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) , 1 )
+         sum , negative , carry , half_carry , zero = substract8UCHAR ( 0 , byte_uchar ( bv_9ireg_plus_d0 ( mem , iy , desloc ) ) , 1 )
 
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , carry , 1 , z_c ) } ||
-         updateAddressMem ( bv_ireg_plus_d ( iy , desloc ) , uchar_to_byte ( sum ) ) ||
+         updateAddressMem ( bv_ireg_plus_d ( iy , desloc ) , uchar_byte ( sum ) ) ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END ;
@@ -1096,15 +1050,15 @@ OPERATIONS
 
       WHERE
 
-         result : USHORTINT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
+         result : USHORT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
          negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
          get_bv_reg16 ( sp , rgs8 , ss ) = bv_value &
-         result = add16USHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
-         bvh , bvl = bv16_to_byte ( ushortint_to_bv16 ( result ) ) &
+         result = add16USHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
+         bvh , bvl = bv16_byte ( ushort_bv16 ( result ) ) &
          negative = z_s &
          zero = z_z &
-         half_carry = add_halfcarryUSHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
-         carry =  add_carryUSHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) )
+         half_carry = add_halfcarryUSHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
+         carry =  add_carryUSHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) )
 
       THEN
          rgs8 := rgs8 <+ { h0 |-> bvh , l0 |-> bvl ,
@@ -1122,16 +1076,16 @@ OPERATIONS
          negative , carry , half_carry , zero
 
       WHERE
-         result : USHORTINT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
+         result : USHORT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
          negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
          get_bv_reg16 ( sp , rgs8 , ss ) = bv_value &
 
-         result = add16USHORTINT ( z_c , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
+         result = add16USHORT ( z_c , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
          negative = 1 &
-         zero = is_zeroUSHORTINT ( result ) &
-         half_carry = add_halfcarryUSHORTINT ( z_c , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
-         carry =  add_carryUSHORTINT ( z_c , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) )
+         zero = is_zeroUSHORT ( result ) &
+         half_carry = add_halfcarryUSHORT ( z_c , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
+         carry =  add_carryUSHORT ( z_c , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) )
 
       THEN
          rgs8 := rgs8 <+ { h0 |-> bvh , l0 |-> bvl ,
@@ -1152,16 +1106,16 @@ OPERATIONS
          negative , carry , half_carry , zero
 
       WHERE
-         result : USHORTINT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
+         result : USHORT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
          negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
          get_bv_reg16 ( sp , rgs8 , ss ) = bv_value &
 
-         result = add16USHORTINT ( z_c , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
+         result = add16USHORT ( z_c , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
          negative = 1 &
-         zero = is_zeroUSHORTINT ( result ) &
-         half_carry = sub_halfcarryUSHORTINT ( z_c , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
-         carry =  sub_carryUSHORTINT ( z_c , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) )
+         zero = is_zeroUSHORT ( result ) &
+         half_carry = sub_halfcarryUSHORT ( z_c , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
+         carry =  sub_carryUSHORT ( z_c , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) )
 
       THEN
          rgs8 := rgs8 <+ { h0 |-> bvh , l0 |-> bvl ,
@@ -1180,21 +1134,21 @@ OPERATIONS
 
       WHERE
 
-         result : USHORTINT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
+         result : USHORT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
          negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
          get_bv_reg16 ( sp , rgs8 , ss ) = bv_value &
 
-         result = add16USHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
-         bvh , bvl = bv16_to_byte ( ushortint_to_bv16 ( result ) ) &
+         result = add16USHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
+         bvh , bvl = bv16_byte ( ushort_bv16 ( result ) ) &
          negative = z_s &
          zero = z_z &
-         half_carry = add_halfcarryUSHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
-         carry =  add_carryUSHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) )
+         half_carry = add_halfcarryUSHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
+         carry =  add_carryUSHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) )
 
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , z_p , 0 , carry ) } ||
-         ix :=  ushortint_to_bv16 ( result ) ||
+         ix :=  ushort_bv16 ( result ) ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -1208,21 +1162,21 @@ OPERATIONS
 
       WHERE
 
-         result : USHORTINT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
+         result : USHORT & bv_value : BYTE  &  bvh : BYTE &   bvl : BYTE &
          negative : BIT & carry : BIT & half_carry : BIT & zero : BIT &
 
          get_bv_reg16 ( sp , rgs8 , ss ) = bv_value &
 
-         result = add16USHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
-         bvh , bvl = bv16_to_byte ( ushortint_to_bv16 ( result ) ) &
+         result = add16USHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
+         bvh , bvl = bv16_byte ( ushort_bv16 ( result ) ) &
          negative = z_s &
          zero = z_z &
-         half_carry = add_halfcarryUSHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) ) &
-         carry =  add_carryUSHORTINT ( 0 , bv16_to_ushortint ( bv_HL ) , bv16_to_ushortint ( bv_value ) )
+         half_carry = add_halfcarryUSHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) ) &
+         carry =  add_carryUSHORT ( 0 , bv16_ushort ( bv_HL ) , bv16_ushort ( bv_value ) )
 
       THEN
          rgs8 := rgs8 <+ { get_new_flag_register_SZ_H_PvNC ( rgs8 , negative , zero , half_carry , z_p , 0 , carry ) } ||
-         iy :=  ushortint_to_bv16 ( result ) ||
+         iy :=  ushort_bv16 ( result ) ||
          pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
       END
    END
@@ -1237,7 +1191,7 @@ OPERATIONS
             rh , rl , vh , vl
          WHERE rh : id_reg_8 & rl : id_reg_8 & vh : BYTE &  vl : BYTE &
             REG16_TO_REG8 ( ss ) = rh , rl &
-            bv16_to_byte ( inc_BV16 ( byte_to_bv16 ( rgs8 ( rh ) , rgs8 ( rl ) ) ) ) = vh , vl
+            bv16_byte ( inc_BV16 ( byte_bv16 ( rgs8 ( rh ) , rgs8 ( rl ) ) ) ) = vh , vl
          THEN
             rgs8 := rgs8 <+ { rh |-> vh , rl |-> vl }
          END
@@ -1270,7 +1224,7 @@ OPERATIONS
             rh , rl , vh , vl
          WHERE rh : id_reg_8 & rl : id_reg_8 & vh : BYTE &  vl : BYTE &
             REG16_TO_REG8 ( ss ) = rh , rl &
-            bv16_to_byte ( dec_BV16 ( byte_to_bv16 ( rgs8 ( rh ) , rgs8 ( rl ) ) ) ) = vh , vl
+            bv16_byte ( dec_BV16 ( byte_bv16 ( rgs8 ( rh ) , rgs8 ( rl ) ) ) ) = vh , vl
          THEN
             rgs8 := rgs8 <+ { rh |-> vh , rl |-> vl }     ||                pc := instruction_next ( pc ) || r_ := update_refresh_reg ( r_ )
          END
