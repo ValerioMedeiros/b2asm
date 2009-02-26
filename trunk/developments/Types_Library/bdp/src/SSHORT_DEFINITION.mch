@@ -11,6 +11,7 @@ MACHINE
     SSHORT_DEFINITION
 
 SEES
+    POWER2 ,
     BV16_DEFINITION ,
     SCHAR_DEFINITION
 
@@ -32,7 +33,7 @@ CONCRETE_CONSTANTS
 
 PROPERTIES
 
-    SSHORT = ( - 2 ** 15 ) .. ( 2 ** 15 - 1 ) &
+    SSHORT = - ( 2 ** 15 ) .. ( 2 ** 15 - 1 ) &
     bv16_sshort : BV16 --> SSHORT &
     bv16_sshort = % ( v0 ) . ( v0 : BV16 | - 2 ** 15 * v0 ( 15 ) + 2 ** 14 * v0 ( 14 ) + 2 ** 13 * v0 ( 13 ) + 2 ** 12 *
                                                 v0 ( 12 ) + 2 ** 11 * v0 ( 11 ) + 2 ** 10 * v0 ( 10 ) + 2 ** 9 * v0 ( 9 ) + 2 ** 8 * v0 ( 8 ) + 2 ** 7 *
@@ -49,10 +50,8 @@ PROPERTIES
    sshort_schar = schar_sshort ~
 
 ASSERTIONS
-    ( - 2 ** 15 ) : NATURAL ;
-           ( 2 ** 15 - 1 ) : NATURAL ;
 
-           ( - 2 ** 15 ) : SSHORT ;
+           - ( 2 ** 15 ) : SSHORT ;
            ( 2 ** 15 - 1 ) : SSHORT
 
 END

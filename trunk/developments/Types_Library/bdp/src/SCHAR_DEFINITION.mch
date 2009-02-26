@@ -13,6 +13,7 @@ SEES
 
 
 
+
 CONCRETE_CONSTANTS
    SCHAR ,
 
@@ -33,7 +34,7 @@ PROPERTIES
 
    uchar_schar : UCHAR --> SCHAR &
    uchar_schar = % ( v1 ) . ( v1 : UCHAR & v1 <= ( 2 ** 7 - 1 ) | v1 ) &
-   uchar_schar = % ( v1 ) . ( v1 : UCHAR & not ( v1 <= ( 2 ** 7 - 1 ) ) | v1 - UCHAR_MAX + 1 ) &
+   uchar_schar = % ( v1 ) . ( v1 : UCHAR & not ( v1 <= ( 2 ** 7 - 1 ) ) | v1 - 2 ** 8 - 1 + 1 ) &
    schar_uchar : SCHAR --> UCHAR &
    schar_uchar = uchar_schar ~
 
