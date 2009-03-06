@@ -1,22 +1,16 @@
 THEORY BalanceX IS
-  POWER,6,0,0,2,0,0,0;
-  AssertionLemmas,6,0,0,2,0,0,0;
+  POWER,3,0,0,2,0,0,0;
+  AssertionLemmas,3,0,0,2,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
   Unproved;
   Proved(0);
-  Unproved;
-  Unproved;
-  Proved(0);
-  Unproved
+  Proved(0)
 END
 &
 THEORY MethodList IS
-  dd & pr & dc(pp = 2) & pr & dc(nn = 2) & pr;
-  pr;
-  ?;
   dd & pr & dc(pp = 2) & pr & dc(nn = 2) & pr;
   pr;
   pr
@@ -25,10 +19,7 @@ END
 THEORY PassList IS
   Force(0),(?;0);
   Force(0),?;
-  Force(0),(?;0);
-  Force(0),(?;0);
-  Force(0),?;
-  Force(0),(?;0)
+  Force(0),?
 END
 &
 THEORY ManForms 

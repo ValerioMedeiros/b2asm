@@ -1,28 +1,22 @@
 THEORY BalanceX IS
-  POWER,5,0,0,2,0,0,0;
-  AssertionLemmas,5,0,0,2,0,0,0;
+  POWER,3,1,0,2,0,0,0;
+  AssertionLemmas,3,1,0,2,0,0,0;
   Initialisation,0,0,0,0,0,0,0
 END
 &
 THEORY ProofState IS
-  Unproved;
-  Unproved;
-  Unproved;
+  Proved(Util);
   Proved(0);
   Proved(0)
 END
 &
 THEORY MethodList IS
-  dd & pr & dc(pp = 2) & pr & dc(nn = 2) & pr;
-  ?;
-  pr;
+  pr(Tac(SimplifyIntPower));
   pr;
   pr
 END
 &
 THEORY PassList IS
-  Force(0),(?;0);
-  Force(0),(?;0);
   Force(0),(?;0);
   Force(0),?;
   Force(0),?
