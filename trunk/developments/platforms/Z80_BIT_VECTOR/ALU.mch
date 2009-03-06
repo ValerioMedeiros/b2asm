@@ -288,8 +288,8 @@ ASSERTIONS
    !(xx).( xx : BV16  => bv16_ushort(xx) : USHORT) &
    !(xx).( xx : USHORT => ushort_bv16(xx) : BV16 ) &
    
-   !(xx).( xx : BYTE  =>  get_upper_digit (xx) : 0..16) &
-      !(xx).( xx : BYTE  =>  get_lower_digit (xx) : 0..16) &
+   !(xx).( xx : BYTE  =>  get_upper_digit (xx) : 0..15) &
+      !(xx).( xx : BYTE  =>  get_lower_digit (xx) : 0..15) &
    
     !(zn, c0 , value , h0 ) .(zn : BIT & c0 : BIT & value : BYTE & h0 : BIT => 
           daa_function(zn, c0 , h0 , value ) : ( BYTE * BIT *BIT ) )   

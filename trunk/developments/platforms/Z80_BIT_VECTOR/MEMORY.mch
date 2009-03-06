@@ -18,69 +18,68 @@ SEES
    USHORT_DEFINITION,
    POWER2 
 CONSTANTS
-   RESERVED_ADDRESS
+   PROGRAM_R_ADR ,
+   DATA_R_ADR ,
+   STACK_R_ADR 
+
 PROPERTIES
-   RESERVED_ADDRESS = 0..16384   
+    
+   /* Real mode */
+   PROGRAM_R_ADR = 0..65536 &
+   DATA_R_ADR = 0..65536 &
+   STACK_R_ADR = 0..65536 
+    
+   /* More security mode 
+   PROGRAM_R_ADR = 0..16384 &
+   DATA_R_ADR = 16385..49151 &
+   STACK_R_ADR = 49152..65536 */
+   
 
 ABSTRACT_VARIABLES
    
-   mem,
-   stack 
+   mem
    
 INVARIANT
 
-   mem : BV16 --> BYTE  &
-   stack : BV16 --> BYTE &    
-   stack <<: mem
-   
+   mem : BV16 --> BYTE 
+
    
 ASSERTIONS
    
-   dom(stack)= BV16&
-   ran(stack)<: BYTE& 
    ran(mem) <: BYTE &
    dom(mem) = BV16 &
-   !(address,value).( address : BV16 & value : BYTE =>    mem <+ { address |-> value } : BV16 --> BYTE ) &
-   !(address,value).( address : BV16 & value : BYTE =>    stack <+ { address |-> value } : BV16 --> BYTE ) 
+   !(address,value).( address : BV16 & value : BYTE =>    mem <+ { address |-> value } : BV16 --> BYTE ) 
+   
+   /*  More security mode & PROGRAM_R_ADR /\ DATA_R_ADR /\ STACK_R_ADR = {}  */
 
    
 INITIALISATION
-   mem :: BV16 --> BYTE ||
-   stack :: BV16  --> BYTE 
-   
+   mem :: BV16 --> BYTE   
    
 OPERATIONS
    
    updateMem(NewValues) =
-   PRE NewValues : BV16 --> BYTE  &  dom(NewValues) /\ dom(stack) = {} 
+   PRE NewValues : BV16 --> BYTE  & !(elem).( elem : dom(NewValues) => bv16_ushort(elem) : PROGRAM_R_ADR)
    THEN
       mem:= mem <+ NewValues 
    END;
   
    updateAddressMem(address, value) =
-   PRE   address : BV16 & value : BYTE & 
-				 dom({ address |-> value}) /\ dom(stack) = {}  & not(address|->value: stack)
+   PRE   address : BV16 & value : BYTE & bv16_ushort(address) : PROGRAM_R_ADR
    THEN
       mem:= mem <+ { address |-> value }
    END;
    
    updateStack(NewValues) =
-   PRE NewValues : BV16 --> BYTE  
+   PRE NewValues : BV16 --> BYTE  &  !(elem).( elem : dom(NewValues) => bv16_ushort(elem) : STACK_R_ADR)
    THEN
-      stack:= stack <+ NewValues ||       mem:= mem <+ NewValues 
+      mem:= mem <+ NewValues 
    END;
    
    updateAddressStack(address, value) =
-   PRE address : BV16 & value : BYTE   
+   PRE address : BV16 & value : BYTE &  bv16_ushort(address) : STACK_R_ADR   
    THEN
-      stack(address):=value ||       mem:= mem <+ { address |-> value }
-   END;
-   
-   pop(sp) =
-   PRE sp : BV16
-   THEN
-      stack := { dec_BV16( sp) } <<| stack
+      mem:= mem <+ { address |-> value }
    END
-   
    
 END
