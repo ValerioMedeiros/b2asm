@@ -1,5 +1,0 @@
-digraph {
-POWER [ label=" POWER " shape= box ]
-POWER2 [ label=" POWER2 " shape= box ]
-
-}

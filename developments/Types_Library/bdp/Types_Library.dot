@@ -1,7 +1,0 @@
-digraph {
-SCHAR_DEFINITION [ label=" SCHAR_DEFINITION " shape= box ]
-SSHORT_DEFINITION [ label=" SSHORT_DEFINITION " shape= box ]
-UCHAR_DEFINITION [ label=" UCHAR_DEFINITION " shape= box ]
-USHORT_DEFINITION [ label=" USHORT_DEFINITION " shape= box ]
-
-}
