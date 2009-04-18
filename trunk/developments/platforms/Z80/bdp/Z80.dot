@@ -1,8 +1,0 @@
-digraph {
-ALU [ label=" ALU " shape= box ]
-MEMORY [ label=" MEMORY " shape= box ]
-TYPES [ label=" TYPES " shape= box ]
-Z80 [ label=" Z80 " shape= box ]
-Z80LogAri [ label=" Z80LogAri " shape= box ]
-
-}
