@@ -1,0 +1,79 @@
+THEORY BalanceX IS
+  BIT_VECTOR_DEFINITION,19,17,0,2,0,0,0;
+  AssertionLemmas,19,17,0,2,0,0,0;
+  Initialisation,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  eh(bv_get,_h,Goal) & eh(bv_size,_h,Goal) & eh(bv_xor,_h,Goal) & ss & eh(bv_zero,_h,Goal) & ss & dd & ph(bv(1+indx),!bb.(bb: 0..1 => bit_xor(bb,bb) = 0)) & pr & pr & ah(bv(1+indx): BIT & 1+indx: dom(bv)) & pr & pr & pr & pr & pr & pr;
+  eh(bv_xor,_h,Goal) & eh(bv_get,_h,Goal) & ss & dd & ph(v1(1+indx),v2(1+indx),!(b1,b2).(b1: 0..1 & b2: 0..1 => bit_xor(b1,b2) = bit_xor(b2,b1))) & pr & pr & ah(v1(1+indx): BIT & 1+indx: dom(v1)) & pr & pr & pr & pr & pr & pr & pr & pr & ah(v2(1+indx): BIT & 1+indx: dom(v2)) & pr & pr & pr & pr & pr & pr;
+  eh(bv_xor,_h,Goal) & eh(bv_size,_h,Goal) & ss & dd & pr;
+  eh(bv_xor,_h,Goal) & eh(bv_size,_h,Goal) & ss & dd & pr;
+  eh(bv_get,_h,Goal) & eh(bv_or,_h,Goal) & eh(bv_size,_h,Goal) & ss & eh(bv_zero,_h,Goal) & ss & dd & ph(bv(1+indx),!b1.(b1: 0..1 => bit_or(b1,0) = b1)) & pr & pr & ah(bv(1+indx): BIT & 1+indx: dom(bv)) & pr & pr & pr & pr & pr & pr;
+  eh(bv_get,_h,Goal) & eh(bv_or,_h,Goal) & eh(bv_size,_h,Goal) & ss & eh(bv_one,_h,Goal) & ss & dd & ph(bv(1+indx),!b1.(b1: 0..1 => bit_or(b1,1) = 1)) & pr & pr & ah(bv(1+indx): BIT & 1+indx: dom(bv)) & pr & pr & pr & pr & pr & pr;
+  eh(bv_get,_h,Goal) & eh(bv_and,_h,Goal) & eh(bv_size,_h,Goal) & ss & dd & ph(v1(1+indx),v2(1+indx),v3(1+indx),!(b1,b2,b3).(b1: 0..1 & b2: 0..1 & b3: 0..1 => bit_and(b1,bit_and(b2,b3)) = bit_and(bit_and(b1,b2),b3))) & pr & pr & ah(v1(1+indx): BIT & 1+indx: dom(v1)) & pr & pr & pr & pr & pr & pr & ah(v2(1+indx): BIT & 1+indx: dom(v2)) & pr & pr & dc(1+indx: dom(v2)) & pr & pr & pr & mp & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr & pr;
+  eh(bv_size,_h,Goal) & eh(bv_or,_h,Goal) & ss & eh(bv_size,_h,Goal) & ss & pr;
+  eh(bv_get,_h,Goal) & eh(bv_size,_h,Goal) & eh(bv_or,_h,Goal) & ss & dd & ph(v1(1+indx),v2(1+indx),!(b1,b2).(b1: 0..1 & b2: 0..1 => bit_or(b1,b2) = bit_or(b2,b1))) & pr & pr & ah(v1(1+indx): BIT & 1+indx: dom(v1)) & pr & pr & pr & pr & pr & pr & pr & pr & pr & ah(v2(1+indx): BIT & 1+indx: dom(v2)) & pr & pr & pr & pr & pr & pr & pr & ah(v2: BYTE) & pr & pr & pr;
+  dd & eh(bv_size,_h,Goal) & eh(bv_or,_h,Goal) & eh(bv_size,_h,Goal) & pr & ae(size(v1),xx) & ah(ran(v1) = BIT) & pr & pr & dd & pr;
+  eh(bv_get,_h,Goal) & eh(bv_size,_h,Goal) & eh(bv_and,_h,Goal) & ss & dd & eh(bv_one,_h,Goal) & ss & ph(bv(1+indx),!b1.(b1: 0..1 => bit_and(b1,1) = b1)) & pr & pr & ah(bv(1+indx): BIT & 1+indx: dom(bv)) & pr & pr & pr & pr & pr & pr;
+  eh(bv_get,_h,Goal) & eh(bv_zero,_h,Goal) & eh(bv_size,_h,Goal) & ss & dd & eh(bv_and,_h,Goal) & ss & ph(bv(1+indx),!b1.(b1: 0..1 => bit_and(b1,0) = 0)) & pr & pr & ah(bv(1+indx): BIT & 1+indx: dom(bv)) & pr & pr & pr & pr & pr & pr;
+  eh(bv_get,_h,Goal) & eh(bv_and,_h,Goal) & eh(bv_size,_h,Goal) & ss & dd & ph(v1(1+indx),v2(1+indx),v3(1+indx),!(b1,b2,b3).(b1: 0..1 & b2: 0..1 & b3: 0..1 => bit_and(b1,bit_and(b2,b3)) = bit_and(bit_and(b1,b2),b3))) & pr & pr & ah(v1(1+indx): BIT & 1+indx: dom(v1)) & pr & pr & pr & pr & pr & pr & pr & ah(v2(1+indx): BIT & 1+indx: dom(v2)) & pr & pr & ah(v2(1+indx): BIT & 1+indx: dom(v2)) & pr & pr & pr & pr & pr & pr & pr & pr & pr & ah(v3(1+indx): BIT & 1+indx: dom(v3)) & pr & pr & pr & ah(v3(1+indx): BIT & 1+indx: dom(v3)) & pr & pr & pr & pr & pr & pr & pr & pr & pr;
+  eh(bv_get,_h,Goal) & eh(bv_and,_h,Goal) & eh(bv_size,_h,Goal) & ss & dd & ph(v1(1+indx),v2(1+indx),!(b1,b2).(b1: 0..1 & b2: 0..1 => bit_and(b1,b2) = bit_and(b2,b1))) & pr & pr & ah(v1: BIT_VECTOR) & eh(BIT_VECTOR,_h,Goal) & pr & pr & pr & pr & ah(v2: BIT_VECTOR) & eh(BIT_VECTOR,_h,Goal) & pr;
+  dd & eh(bv_size,_h,Goal) & ss & eh(bv_and,_h,Goal) & ss & pr & ah(bv_size(v1) = bv_size(v2)) & eh(bv_size,_h,Goal) & ss & pr;
+  dd & eh(bv_sub,_h,Goal) & eh(bv_size,_h,Goal) & ss & ae(high-low,xx) & dd & ah(-low+high = high-low) & pr & dd & ae(1-low+high,yy) & dd & ah(xx = yy-1) & pr & pr;
+  dd & pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(2),?;
+  Force(0),?;
+  Force(2),(?;0;1;2);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(2),(?;0;1;2);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,genDivergencePO == KO,local_op == OK);
+  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+END
