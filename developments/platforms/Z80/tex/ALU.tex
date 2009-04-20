@@ -1,0 +1,723 @@
+\documentclass[11pt]{article}
+\setlength{\topmargin}{13mm}
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\setlength{\textheight}{225mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\textwidth}{160mm}
+\usepackage{supertabular}
+%\input{psfig}
+
+\begin{document}
+\begin{sloppypar}
+
+% DEFINITION DES CARACTERES MATHEMATIQUES B
+%------------------------------------------
+\def\@setmcodes#1#2#3{{\count0=#1 \count1=#3
+	\loop \global\mathcode\count0=\count1 \ifnum \count0<#2
+	\advance\count0 by1 \advance\count1 by1 \repeat}}
+
+\@setmcodes{`A}{`Z}{"7441}
+\@setmcodes{`a}{`z}{"7461}
+
+\mathcode`\;="8000 % Makes ; active in math mode
+{\catcode`\;=\active \gdef;{\semicolon\;}}
+\mathchardef\semicolon="003B
+%    Nominal distance from top of paper to top of page
+\topmargin 0 pt
+\textheight 53\baselineskip
+
+%   Left margin on odd-numbered pages
+\oddsidemargin  0.15 in
+%   Left margin on even-numbered pages
+\evensidemargin 0.35 in
+%   Width of marginal notes.
+\marginparwidth 1 in
+%   Note that \oddsidemargin = \evensidemargin
+\oddsidemargin 0.25 in
+\evensidemargin 0.25 in
+\marginparwidth 0.75 in
+\textwidth 5.875 in % Width of text line.
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0ex}
+
+% DEFINITION DES FONTS
+%---------------------
+% The AMS extra symbol fonts are loaded.
+% Note: sometimes called euxm10
+\font\msx=msam10
+% Note: sometimes called euym10
+\font\msy=msbm10
+
+\newfam\msxfam \textfont\msxfam=\msx
+\newfam\msyfam \textfont\msyfam=\msy
+
+\def\famletter#1{\ifcase #1 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\edef\fx{\famletter\msxfam}
+\edef\fy{\famletter\msyfam}
+
+\def\bbold{\fam\msyfam \msy}
+
+% SYMBOLES B
+%-----------
+% makes a quoted expression in mathematical text
+\def\token#1{\hbox{`$#1$'}}
+% used for error messages in Z specs
+\def\report#1{\hbox{`{\tt #1}'}}
+
+% \@myop makes an operator, with a strut to defeat TeX's vertical adjustment.
+\def\@myop#1{\mathop{\mathstrut{#1}}\nolimits}
+
+% This underscore doesn't have the little kern --- you get an italic
+% correction anyway in math mode.
+\def\_{\leavevmode \vbox{\hrule width0.5em}}
+
+% Save \q as \xq for quantifiers q.
+\let\xforall=\forall
+\let\xexists=\exists
+\let\xlambda=\lambda
+\let\xmu=\mu
+
+% \p and \f make arrows with 1 and 2 crossings resp.
+\def\p#1{\mathrel{\ooalign{\hfil$\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+\def\f#1{\mathrel{\ooalign{\hfil
+	$\mapstochar\mkern 3mu\mapstochar\mkern 5mu$\hfil\cr$#1$}}}
+
+\let\mc=\mathchardef
+
+\def	\pow		{\mbox{${\cal P}$}}
+\def	\po1		{\mbox{${\cal P}_1$}}
+\let	\cross		\times
+\def	\lambda		{\@myop{\xlambda}}
+\def	\lnot		{\neg\;}
+\def	\land		{\mathrel{\wedge}}
+\def	\lor		{\mathrel{\vee}}
+\let	\implies	\Rightarrow
+\let	\iff		\Leftrightarrow
+\def	\forall		{\@myop{\xforall}}
+\def	\exists		{\@myop{\xexists}}
+\def	\semi		{\mathrel{\comp}}
+\def	\ssemi		{\mathbin{\rm ;}}
+\let	\ensembleVide	\emptyset
+\let	\rel		\leftrightarrow
+\def	\dom		{\@myop{\sf dom}}
+\def	\ran		{\@myop{\sf ran}}
+\def	\id		{\@myop{\sf id}}
+\def	\comp		{\mathbin{\raise
+			0.6ex\hbox{\oalign{\hfil$\scriptscriptstyle
+			\rm o$\hfil\cr\hfil$\scriptscriptstyle\rm 9$\hfil}}}}
+\def	\para		{\mbox{$\mid\mid$}}
+\mc	\dres		"2\fx43
+\mc	\rres		"2\fx42
+\def	\ndres		{\mathbin{{\dres} \llap{$-$}}}
+\def	\nrres		{\mathbin{{\rres}\llap{$-$}}}
+\def	\lover		{\mathbin{{\dres} \llap{$-\!\!\!\!-\!$}}}
+\def	\rover		{\mathbin{{\rres}\llap{$\!-\!\!\!-$}}}
+\let	\fun		\rightarrow
+\def	\pfun		{\p\fun}
+\def	\pinj		{\p\inj}
+\mc	\inj		"3\fx1A
+\def	\psurj		{\p\surj}
+\mc	\surj		"3\fx10
+\def	\bij		{\surj\!\!\!\!\!\!\!\inj}
+\def	\nat		{\mbox{${\cal N}$}}
+\def	\na1		{\mbox{${\cal N}_1$}}
+\def	\num		{\mbox{${\cal Z}$}}
+\def	\int		{\mbox{${\cal Z}$}}
+\def	\rat		{\mbox{${\cal Q}$}}
+\def	\div		{\mathbin{\rm /}}
+\def	\mod		{\mathbin{\bf mod}}
+\def	\upto		{\mathbin{\ldotp\ldotp}}
+\def	\finset		{\mbox{${\cal F}$}}
+\def	\finse1		{\mbox{${\cal F}_1$}}
+\def	\ffun		{\f\fun}
+\def	\finj		{\f\inj}
+\def	\seq		{\@myop{\rm seq}}
+\def	\cat		{\mathbin{\raise 0.8ex\hbox{$\mathchar"2\fx61$}}}
+\def	\sep		{\hspace*{.05in}}
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{0}
+
+%-------------------%
+% Debut du document %
+%-------------------%
+
+\bf MACHINE
+
+\hspace*{0.20in}\it ALU
+
+\hspace*{0.20in}
+
+\bf SEES
+
+\hspace*{0.20in}\it BIT\_DEFINITION \rm ,
+
+\hspace*{0.20in}\it BIT\_VECTOR\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it BYTE\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it BV16\_DEFINITION\rm ,
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it UCHAR\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it SCHAR\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it SSHORT\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it USHORT\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it POWER2 
+
+\hspace*{0.20in}
+
+\bf DEFINITIONS
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it pow2\_0 \rm == \rm 1\rm ;
+
+\hspace*{0.20in}\it pow2\_1 \rm == \rm 2\rm ;
+
+\hspace*{0.20in}\it pow2\_2 \rm == \rm 4\rm ;
+
+\hspace*{0.20in}\it pow2\_3 \rm == \rm 8\rm ;
+
+\hspace*{0.20in}\it pow2\_4 \rm == \rm 1\rm 6\rm ;
+
+\hspace*{0.20in}\it pow2\_5 \rm == \rm 3\rm 2\rm ;
+
+\hspace*{0.20in}\it pow2\_6 \rm == \rm 6\rm 4\rm ;
+
+\hspace*{0.20in}\it pow2\_7 \rm == \rm 1\rm 2\rm 8\rm ;
+
+\hspace*{0.20in}\it pow2\_8 \rm == \rm 2\rm 5\rm 6\rm ;
+
+\hspace*{0.20in}\it pow2\_9 \rm == \rm 5\rm 1\rm 2\rm ;
+
+\hspace*{0.20in}\it pow2\_10 \rm == \rm 1\rm 0\rm 2\rm 4\rm ;\hspace*{0.20in}
+
+\hspace*{0.20in}\it pow2\_11 \rm == \rm 2\rm 0\rm 4\rm 8\rm ;\hspace*{0.10in}
+
+\hspace*{0.20in}\it pow2\_12 \rm == \rm 4\rm 0\rm 9\rm 6\rm ;\hspace*{0.15in}
+
+\hspace*{0.20in}\it pow2\_13 \rm == \rm 8\rm 1\rm 9\rm 2\rm ;
+
+\hspace*{0.20in}\it pow2\_14 \rm == \rm 1\rm 6\rm 3\rm 8\rm 4\rm ;\hspace*{0.15in}
+
+\hspace*{0.20in}\it pow2\_15 \rm == \rm 3\rm 2\rm 7\rm 6\rm 8\rm ; 
+
+\hspace*{0.20in}\it pow2\_16 \rm == \rm 6\rm 5\rm 5\rm 3\rm 6\hspace*{0.35in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\bf CONCRETE\_CONSTANTS
+
+\hspace*{0.20in}\it abs\rm ,
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it is\_zero16USHORT\rm ,
+
+\hspace*{0.20in}\it is\_negative\rm ,
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it half8UCHAR\rm ,
+
+\hspace*{0.20in}\it inc\rm ,\it dec\rm ,
+
+\hspace*{0.20in}\it simple\_add8UCHAR\rm ,
+
+\hspace*{0.20in}\it add8UCHAR \rm , \it substract8UCHAR\rm ,
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it add16USHORT\rm ,
+
+\hspace*{0.20in}\it add\_carryUSHORT\rm ,
+
+\hspace*{0.20in}\it add\_halfcarryUSHORT\rm ,
+
+\hspace*{0.20in}\it sub16USHORT\rm ,
+
+\hspace*{0.20in}\it sub\_carryUSHORT\rm ,
+
+\hspace*{0.20in}\it sub\_halfcarryUSHORT\rm ,
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it inc\_BV16\rm ,
+
+\hspace*{0.20in}\it dec\_BV16\rm ,
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it update\_refresh\_reg\rm ,
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it instruction\_next \rm ,
+
+\hspace*{0.20in}\it instruction\_jump \rm ,
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it daa\_function
+
+\hspace*{0.20in}
+
+\bf PROPERTIES
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it abs  $\in$ \hspace*{0.10in}\bf INT\hspace*{0.10in} $\fun$  \bf INT  $\land$ 
+
+\hspace*{0.20in}\it abs \rm =  $\lambda$  \rm (\it nn\rm )\rm .\rm (\it nn  $\in$  \bf INT\hspace*{0.10in} $\land$  \rm 0  $\leq$  \it nn\hspace*{0.10in} $\mid$  \it nn\hspace*{0.10in}\rm )  $\cup$  
+
+\hspace*{0.20in} $\lambda$  \rm (\it nn\rm )\rm .\rm (\it nn  $\in$  \bf INT\hspace*{0.10in} $\land$  \rm 0 $>$ \it nn $\mid$  \rm -\it nn\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it is\_zero16USHORT  $\in$  \it USHORT  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.20in}\it is\_zero16USHORT \rm =  $\lambda$ \rm (\it nat1\rm )\rm .\rm (\it nat1  $\in$  \it USHORT  $\mid$  \it bool\_bit\rm (\bf bool\rm (\it nat1 \rm = \rm 0\hspace*{0.10in}\rm ) \rm ) \rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it is\_negative  $\in$  \it BYTE  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.20in}\it is\_negative \rm =  $\lambda$ \rm (\it w1\rm )\rm .\rm (\it w1  $\in$  \it BYTE  $\mid$ \hspace*{0.10in}\it w1\rm (\rm 7\rm )\hspace*{0.10in}\rm ) $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it half8UCHAR  $\in$  \it UCHAR  $\fun$  \it UCHAR  $\land$ 
+
+\hspace*{0.20in}\it half8UCHAR \rm =  $\lambda$  \rm (\it ww\rm )\rm .\rm (\it ww  $\in$  \it UCHAR  $\mid$  \it ww  $\mod$  \it pow2\_4\rm )  $\land$ \hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it inc  $\in$ \hspace*{0.10in}\it BYTE\hspace*{0.10in} $\fun$  \it BYTE  $\land$ 
+
+\hspace*{0.20in}\it inc \rm =  $\lambda$  \rm (\it w1\rm )\rm . \rm (\it w1  $\in$  \it BYTE  $\mid$  \it uchar\_byte\rm (\rm (\rm (\it byte\_uchar\rm (\it w1\rm ) \rm + \rm 1\rm )\hspace*{0.10in} $\mod$  \it pow2\_8 \rm ) \rm ) \rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it dec  $\in$ \hspace*{0.10in}\it BYTE\hspace*{0.10in} $\fun$  \it BYTE  $\land$ 
+
+\hspace*{0.20in}\it dec \rm =  $\lambda$  \rm (\it w1\rm )\rm . \rm (\it w1  $\in$  \it BYTE  $\mid$  \it uchar\_byte\rm ( \rm (\it abs\rm (\it byte\_uchar\rm (\it w1\rm ) \rm - \rm 1 \rm )\rm )  $\mod$  \it pow2\_8 \rm ) \rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it simple\_add8UCHAR\hspace*{0.10in}\rm : \rm (\it UCHAR  $\times$  \it UCHAR\rm )  $\fun$  \it UCHAR  $\land$ 
+
+\hspace*{0.20in}\it simple\_add8UCHAR \rm =  $\lambda$  \rm (\it w1\rm ,\it w2\rm ) \rm . \rm (\it w1  $\in$  \it UCHAR  $\land$  \it w2  $\in$  \it UCHAR  $\mid$  \rm (\it w1 \rm + \it w2\rm )  $\mod$  \it pow2\_8\rm )  $\land$ \hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it add8UCHAR \rm : \rm (\it BIT  $\times$  \it UCHAR  $\times$  \it UCHAR\rm )  $\fun$  \rm (\it UCHAR  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT\rm )  $\land$ 
+
+\hspace*{0.20in}\it add8UCHAR \rm =  $\lambda$  \rm (\it carry\rm ,\it w1\rm , \it w2\rm )\rm . \rm ( \it carry  $\in$  \it BIT  $\land$  \it w1  $\in$  \it UCHAR  $\land$  \it w2  $\in$  \it UCHAR\hspace*{0.20in} $\mid$ 
+
+\hspace*{0.40in}\rm (\rm ( \rm ( \it carry \rm + \it w1 \rm + \it w2 \rm )  $\mod$  \it pow2\_8\rm )\hspace*{0.15in}\rm ,\hspace*{0.10in}
+
+\hspace*{0.60in}\it bool\_bit\rm (\bf bool\rm ( \it carry \rm + \it uchar\_schar\rm (\it w1\rm ) \rm + \it uchar\_schar \rm (\it w2\rm ) $<$ \rm 0\rm )\rm )\hspace*{0.20in}\rm ,
+
+\hspace*{0.60in}\it bool\_bit\rm (\bf bool\rm ( \it carry \rm + \it w1 \rm + \it w2 $>$ \it UCHAR\_MAX\rm )\rm )\rm ,
+
+\hspace*{0.60in}\it bool\_bit\rm (\bf bool\rm ( \it carry \rm + \it half8UCHAR\rm (\it w1\rm ) \rm + \it half8UCHAR\rm ( \it w2\rm )  $\geq$  \it pow2\_4\rm )\rm )\rm ,
+
+\hspace*{0.60in}\it bool\_bit\rm (\bf bool\rm ( \rm ( \rm (\it carry \rm + \it w1 \rm + \it w2 \rm )  $\mod$  \it pow2\_8\rm ) \rm = \rm 0\rm )\rm )\hspace*{0.10in}\rm )\rm )\hspace*{0.10in} $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it substract8UCHAR \rm : \rm (\it BIT  $\times$  \it UCHAR  $\times$  \it UCHAR\rm )  $\fun$  \rm (\it UCHAR  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT\rm )  $\land$ 
+
+\hspace*{0.20in}\it substract8UCHAR \rm =  $\lambda$  \rm (\it carry\rm ,\it w1\rm , \it w2\rm )\rm . \rm ( \it carry  $\in$  \it BIT  $\land$  \it w1  $\in$  \it UCHAR  $\land$  \it w2  $\in$  \it UCHAR\hspace*{0.15in} $\mid$ 
+
+\hspace*{0.40in}\rm ( \rm ( \rm ( \it carry \rm + \it w1 \rm - \it w2 \rm )  $\mod$  \it pow2\_8\rm )\hspace*{0.15in}\rm ,\hspace*{0.10in}
+
+\hspace*{0.60in}\it bool\_bit\rm (\bf bool\rm ( \it carry \rm + \it uchar\_schar\rm (\it w1\rm ) \rm - \it uchar\_schar \rm (\it w2\rm ) $<$ \rm 0\rm )\rm )\hspace*{0.20in}\rm ,
+
+\hspace*{0.60in}\it bool\_bit\rm (\bf bool\rm ( \it carry \rm + \it w1 \rm - \it w2 $>$ \it UCHAR\_MAX\rm )\rm )\rm ,
+
+\hspace*{0.60in}\it bool\_bit\rm (\bf bool\rm ( \it carry \rm + \it half8UCHAR\rm (\it w1\rm ) \rm - \it half8UCHAR\rm ( \it w2\rm )  $\geq$  \it pow2\_4\rm )\rm )\rm ,
+
+\hspace*{0.60in}\it bool\_bit\rm (\bf bool\rm ( \rm ( \rm (\it carry \rm + \it w1 \rm - \it w2 \rm )  $\mod$  \it pow2\_8\rm ) \rm = \rm 0\rm )\rm ) \rm ) \rm )\hspace*{0.10in} $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it add16USHORT \rm : \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\fun$  \rm (\it USHORT \rm )  $\land$ 
+
+\hspace*{0.20in}\it add16USHORT \rm =  $\lambda$  \rm (\it b1\rm , \it w1\rm , \it w2\rm )\rm . \rm (\it b1  $\in$  \it BIT  $\land$  \it w1  $\in$  \it USHORT  $\land$  \it w2  $\in$  \it USHORT\hspace*{0.10in} $\mid$ \rm (\it b1\rm +\it w1\rm +\it w2\rm )  $\mod$ \hspace*{0.10in}\it pow2\_16\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it add\_carryUSHORT \rm : \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.20in}\it add\_carryUSHORT \rm =  $\lambda$  \rm (\it b1\rm ,\it w1\rm , \it w2\rm )\rm . \rm (\it b1  $\in$  \it BIT  $\land$  \it w1  $\in$  \it USHORT  $\land$  \it w2  $\in$  \it USHORT\hspace*{0.10in} $\mid$ 
+
+\hspace*{0.40in}\it bool\_bit\rm (\bf bool\rm (\rm (\it b1\rm +\it w1\rm +\it w2\rm ) $>$ \it pow2\_16 \rm ) \rm )\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it add\_halfcarryUSHORT \rm : \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.20in}\it add\_halfcarryUSHORT \rm =  $\lambda$  \rm (\it b1\rm ,\it w1\rm , \it w2\rm )\rm . \rm (\it b1  $\in$  \it BIT  $\land$  \it w1  $\in$  \it USHORT  $\land$  \it w2  $\in$  \it USHORT\hspace*{0.10in} $\mid$  
+
+\hspace*{0.40in}\it bool\_bit\rm (\bf bool\rm (\rm ( \it b1 \rm + \rm (\it w1\rm )  $\mod$  \it pow2\_12 \rm + \rm (\it w2\rm )  $\mod$  \it pow2\_12 \rm ) $>$\hspace*{0.10in}\it pow2\_12 \rm )\rm )\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it sub16USHORT \rm : \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\fun$  \rm (\it USHORT \rm )  $\land$ 
+
+\hspace*{0.20in}\it sub16USHORT \rm =  $\lambda$  \rm (\it b1\rm , \it w1\rm , \it w2\rm )\rm . \rm (\it b1  $\in$  \it BIT  $\land$  \it w1  $\in$  \it USHORT  $\land$  \it w2  $\in$  \it USHORT\hspace*{0.10in} $\mid$ \rm (\it w1\rm -\it w2\rm -\it b1\rm )  $\mod$ \hspace*{0.10in}\it pow2\_16\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it sub\_carryUSHORT \rm : \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.20in}\it sub\_carryUSHORT \rm =  $\lambda$  \rm (\it b1\rm ,\it w1\rm , \it w2\rm )\rm . \rm (\it b1  $\in$  \it BIT  $\land$  \it w1  $\in$  \it USHORT  $\land$  \it w2  $\in$  \it USHORT\hspace*{0.10in} $\mid$ 
+
+\hspace*{0.40in}\it bool\_bit\rm (\bf bool\rm (\rm (\it w1\rm -\it w2\rm -\it b1\rm ) $>$ \it pow2\_16 \rm ) \rm )\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it sub\_halfcarryUSHORT \rm : \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.20in}\it sub\_halfcarryUSHORT \rm =  $\lambda$  \rm (\it b1\rm ,\it w1\rm , \it w2\rm )\rm . \rm (\it b1  $\in$  \it BIT  $\land$  \it w1  $\in$  \it USHORT  $\land$  \it w2  $\in$  \it USHORT\hspace*{0.10in} $\mid$  
+
+\hspace*{0.40in}\it bool\_bit\rm (\bf bool\rm (\rm (\hspace*{0.10in}\rm (\it w1\rm )  $\mod$  \it pow2\_12 \rm - \rm (\it w2\rm )  $\mod$  \it pow2\_12 \rm ) \rm -\it b1 $>$\hspace*{0.10in}\it pow2\_12 \rm )\rm )\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it inc\_BV16  $\in$ \hspace*{0.10in}\it BV16\hspace*{0.10in} $\fun$  \it BV16  $\land$ 
+
+\hspace*{0.20in}\it inc\_BV16 \rm =  $\lambda$  \rm (\it w1\rm )\rm . \rm (\it w1  $\in$  \it BV16  $\mid$  \it ushort\_bv16 \rm (\rm (\it bv16\_ushort\rm (\it w1\rm )\rm +\rm 1 \rm )  $\mod$  \it pow2\_16\rm )\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it dec\_BV16  $\in$ \hspace*{0.10in}\it BV16\hspace*{0.10in} $\fun$  \it BV16  $\land$ 
+
+\hspace*{0.20in}\it dec\_BV16 \rm =  $\lambda$  \rm (\it w1\rm )\rm . \rm (\it w1  $\in$  \it BV16  $\mid$  \it ushort\_bv16 \rm ( \rm (\it abs\rm (\it bv16\_ushort\rm (\it w1\rm )\rm -\rm 1\rm )\rm )\hspace*{0.10in} $\mod$  \it pow2\_16 \rm )\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it update\_refresh\_reg\hspace*{0.15in} $\in$  \it BYTE  $\fun$  \it BYTE  $\land$ 
+
+\hspace*{0.20in}\it update\_refresh\_reg \rm =\hspace*{0.10in} $\lambda$  \rm ( \it v0 \rm ) \rm .\hspace*{0.10in}\rm ( \it v0  $\in$  \it BYTE  $\mid$  \it uchar\_byte \rm (\it pow2\_7 $\times$ \it v0 \rm (\rm 7 \rm ) \rm + \rm (\rm (\hspace*{0.10in}\it pow2\_6  $\times$  \it v0 \rm ( \rm 6 \rm ) \rm + \it pow2\_5  $\times$  \it v0 \rm ( \rm 5 \rm ) \rm + \it pow2\_4  $\times$  \it v0 \rm ( \rm 4 \rm ) \rm +
+
+\hspace*{1.00in}\it pow2\_3  $\times$  \it v0 \rm ( \rm 3 \rm ) \rm +\hspace*{0.15in}\it pow2\_2  $\times$  \it v0 \rm ( \rm 2 \rm ) \rm + \it pow2\_1  $\times$  \it v0 \rm ( \rm 1 \rm ) \rm + \it v0 \rm ( \rm 0 \rm ) \rm )  $\mod$  \it pow2\_7 \rm ) \rm ) \rm )  $\land$ \hspace*{0.15in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it instruction\_next  $\in$  \it USHORT  $\fun$  \it USHORT  $\land$ 
+
+\hspace*{0.20in}\it instruction\_next \rm =\hspace*{0.10in} $\lambda$  \rm (\it w1\rm )\rm . \rm (\it w1  $\in$  \it USHORT\hspace*{0.10in} $\mid$ \rm (\it w1\rm +\rm 1\rm )  $\mod$ \hspace*{0.10in}\it pow2\_16\hspace*{0.10in}\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it instruction\_jump \rm :\hspace*{0.10in}\rm (\it USHORT  $\times$  \rm (\rm (\rm -\rm 1\rm 2\rm 6\rm ) $\upto$ \rm 1\rm 2\rm 9\rm ) \rm )  $\fun$  \it USHORT  $\land$ 
+
+\hspace*{0.20in}\it instruction\_jump \rm =  $\lambda$  \rm ( \it p0 \rm , \it e0 \rm ) \rm . \rm ( \it p0  $\in$  \it USHORT  $\land$  \it e0 \rm : \rm (\rm (\rm -\rm 1\rm 2\rm 6\rm ) $\upto$ \rm 1\rm 2\rm 9\rm )  $\mid$  \rm (\it p0 \rm + \it e0\rm )  $\mod$ \hspace*{0.10in}\it pow2\_16 \rm )\hspace*{0.10in} $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it daa\_function \rm : \rm ( \it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BYTE\rm )  $\fun$  \rm ( \it BYTE  $\times$  \it BIT  $\times$  \it BIT \rm )  $\land$ 
+
+\hspace*{0.20in} $\forall$ \rm (\it zn\rm , \it c0 \rm , \it h0 \rm , \it value \rm ) \rm .\rm (\it zn  $\in$  \it BIT  $\land$  \it c0  $\in$  \it BIT  $\land$  \it h0  $\in$  \it BIT  $\land$  \it value  $\in$  \it BYTE  $\implies$ 
+
+\hspace*{0.40in}\rm (\hspace*{0.10in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 0  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 9  $\land$  \it h0 \rm = \rm 0  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 9  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm =\rm ( \it value \rm , \rm 0 \rm ,\rm 0\hspace*{0.10in}\rm ) \rm )  $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 0  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 8  $\land$  \it h0 \rm = \rm 0  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 1\rm 0 $\upto$ \rm 1\rm 5  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 6 \rm )\rm ) \rm , \rm 0 \rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 6\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm )  $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 0  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 9  $\land$  \it h0 \rm = \rm 1  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 3  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 6 \rm )\rm ) \rm , \rm 0 \rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 6\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 0  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 1\rm 0 $\upto$ \rm 1\rm 5  $\land$  \it h0 \rm = \rm 0  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 9  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 9\rm 6 \rm )\rm ) \rm , \rm 1\rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 9\rm 6\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 0  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 9 $\upto$ \rm 1\rm 5  $\land$  \it h0 \rm = \rm 0  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 1\rm 0 $\upto$ \rm 1\rm 5  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 1\rm 0\rm 2 \rm )\rm ) \rm , \rm 1\rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 1\rm 0\rm 2\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 0  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 1\rm 0 $\upto$ \rm 1\rm 5  $\land$  \it h0 \rm = \rm 1  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 3  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 1\rm 0\rm 2 \rm )\rm ) \rm , \rm 1\rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 1\rm 0\rm 2\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 1  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 2  $\land$  \it h0 \rm = \rm 0  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 9  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 9\rm 6 \rm )\rm ) \rm , \rm 1\rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 9\rm 6\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 1  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 2  $\land$  \it h0 \rm = \rm 0  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 1\rm 0 $\upto$ \rm 1\rm 5  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 1\rm 0\rm 2\rm )\rm ) \rm , \rm 1\rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 1\rm 0\rm 2\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 0  $\land$  \it c0 \rm = \rm 1  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 3  $\land$  \it h0 \rm = \rm 1  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 3  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 1\rm 0\rm 2\rm )\rm ) \rm , \rm 1\rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 1\rm 0\rm 2\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 1  $\land$  \it c0 \rm = \rm 0  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 9  $\land$  \it h0 \rm = \rm 0  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 9  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm (\hspace*{0.10in}\it value \rm , \rm 0 \rm , \rm 0 \rm ) \rm )  $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 1  $\land$  \it c0 \rm = \rm 0  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 8  $\land$  \it h0 \rm = \rm 1  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 6 $\upto$ \rm 1\rm 5  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 2\rm 5\rm 0\rm )\rm ) \rm , \rm 0\rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 2\rm 5\rm 0\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 1  $\land$  \it c0 \rm = \rm 1  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 7 $\upto$ \rm 1\rm 5  $\land$  \it h0 \rm = \rm 0  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 0 $\upto$ \rm 9  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 1\rm 6\rm 0\rm )\rm ) \rm , \rm 1 \rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.15in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 1\rm 6\rm 0\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm ) $\land$ 
+
+\hspace*{0.60in}\rm (\hspace*{0.10in}\it zn \rm = \rm 1  $\land$  \it c0 \rm = \rm 1  $\land$  \it get\_upper\_digit\rm (\it value\rm )  $\in$  \rm 6 $\upto$ \rm 7  $\land$  \it h0 \rm = \rm 1  $\land$  \it get\_lower\_digit\rm (\it value\rm )  $\in$  \rm 6 $\upto$ \rm 1\rm 5  $\implies$ 
+
+\hspace*{0.80in}\it daa\_function\rm (\it zn\rm , \it c0 \rm , \it h0\hspace*{0.10in}\rm , \it value \rm )\rm = \rm ( \it uchar\_byte\rm (\it simple\_add8UCHAR\rm ( \it byte\_uchar\rm ( \it value\rm ) \rm , \rm 1\rm 5\rm 4\rm )\rm ) \rm , \rm 1\rm ,\hspace*{0.10in}\it bool\_bit\rm (\bf bool\rm (\hspace*{0.10in}\it half8UCHAR\rm (\it byte\_uchar\rm (\it value\rm )\rm ) \rm + \it half8UCHAR\rm (\rm 1\rm 5\rm 4\rm )  $\geq$  \it pow2\_4\rm )\rm ) \rm ) \rm )\hspace*{0.10in}\rm ) \rm ) 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\bf ASSERTIONS
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}  
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it is\_zero16USHORT\rm )\rm = \it USHORT  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it is\_zero16USHORT\rm )\rm = \it BIT\hspace*{0.10in} $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it is\_negative\rm )\rm = \it BYTE  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it is\_negative\rm )\rm = \it BIT\hspace*{0.10in} $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it half8UCHAR\rm )\rm = \it UCHAR  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it half8UCHAR\rm )\rm = \it UCHAR  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it inc\rm ) \rm = \it BYTE  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it inc\rm ) \rm = \it BYTE  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it dec\rm ) \rm = \it BYTE  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it dec\rm ) \rm = \it BYTE  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it simple\_add8UCHAR\rm ) \rm = \rm (\it UCHAR  $\times$  \it UCHAR\rm )  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it simple\_add8UCHAR\rm ) \rm = \it UCHAR  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm ( \it add8UCHAR \rm ) \rm = \it BIT  $\times$  \it UCHAR  $\times$  \it UCHAR  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm ( \it add8UCHAR \rm )  $\in$   $\pow$ \rm (\it UCHAR  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT\rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm ( \it substract8UCHAR \rm ) \rm = \it BIT $\times$ \it UCHAR  $\times$  \it UCHAR  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm ( \it substract8UCHAR \rm )  $\in$   $\pow$ \rm (\it UCHAR  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT\rm )\hspace*{0.10in} $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm ( \it add16USHORT \rm ) \rm = \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm ( \it add16USHORT \rm ) \rm = \rm (\it USHORT \rm )\hspace*{0.10in} $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it add\_carryUSHORT\rm ) \rm = \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it add\_carryUSHORT\rm ) \rm = \it BIT  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it add\_halfcarryUSHORT\rm ) \rm = \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it add\_halfcarryUSHORT\rm ) \rm = \it BIT  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it sub16USHORT\rm ) \rm = \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it sub16USHORT\rm ) \rm = \it USHORT  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it sub\_carryUSHORT\rm ) \rm = \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it sub\_carryUSHORT\rm ) \rm = \it BIT  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it sub\_halfcarryUSHORT\rm ) \rm = \rm ( \it BIT  $\times$  \it USHORT  $\times$  \it USHORT \rm )  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it sub\_halfcarryUSHORT\rm ) \rm = \it BIT  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it inc\_BV16\rm ) \rm = \it BV16  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it inc\_BV16\rm ) \rm = \it BV16  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it dec\_BV16\rm ) \rm = \it BV16  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it dec\_BV16\rm ) \rm = \it BV16  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it update\_refresh\_reg\rm ) \rm = \it BYTE  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it update\_refresh\_reg\rm ) \rm = \it BYTE  $\land$ \hspace*{0.15in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it instruction\_next\rm ) \rm = \it USHORT  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it instruction\_next\rm ) \rm = \it USHORT  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it instruction\_jump\rm ) \rm = \rm (\it USHORT  $\times$  \rm (\rm (\rm -\rm 1\rm 2\rm 6\rm ) $\upto$ \rm 1\rm 2\rm 9\rm ) \rm )  $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it instruction\_jump\rm ) \rm = \it USHORT  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it daa\_function\rm ) \rm = \rm ( \it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BYTE\hspace*{0.10in}\rm ) $\land$ 
+
+\hspace*{0.20in}\bf ran\rm (\it daa\_function\rm )  $\subseteq$  \rm ( \it BYTE  $\times$  \it BIT  $\times$  \it BIT \rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}\bf dom\rm (\it abs\rm ) \rm = \bf INT  $\land$  \bf ran\rm (\it abs\rm ) \rm = \bf INT  $\land$  
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} \hspace*{0.30in}
+
+\hspace*{0.20in}\rm 0 \rm = \it schar\_sshort \rm ( \rm 0 \rm , \rm 0 \rm )  $\land$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} 
+
+\hspace*{0.20in}\it pow2\_0 \rm = \rm 2$^{0}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_1 \rm = \rm 2$^{1}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_2 \rm = \rm 2$^{2}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_3 \rm = \rm 2$^{3}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_4 \rm = \rm 2$^{4}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_5 \rm = \rm 2$^{5}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_6 \rm = \rm 2$^{6}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_7 \rm = \rm 2$^{7}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_8 \rm = \rm 2$^{8}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_9 \rm = \rm 2$^{9}$  $\land$ \hspace*{0.20in}
+
+\hspace*{0.20in}\it pow2\_10 \rm = \rm 2$^{10}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_11 \rm = \rm 2$^{11}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_12 \rm = \rm 2$^{12}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_13 \rm = \rm 2$^{13}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_14 \rm = \rm 2$^{14}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_15 \rm = \rm 2$^{15}$  $\land$ 
+
+\hspace*{0.20in}\it pow2\_16 \rm = \rm 2$^{16}$ 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\bf END
+
+\vspace*{4mm}
+\newpage
+\end{sloppypar}\end{document}

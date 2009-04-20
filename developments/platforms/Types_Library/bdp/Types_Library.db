@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<db_xml>
+    <atelierb version="3_7_ubuntu-cvs" />
+    <project decomp_dir="/media/B_Resources/Types_Library/bdp/expand_src" old_decomp_dir="/media/B_Resources/Types_Library/bdp/src">
+        <!-- Definition directory list -->
+        <!-- Component file list -->
+        <component_file path="/media/B_Resources/Types_Library/src" name="SCHAR_DEFINITION" suffix="mch" user="atelierb">
+            <component name="SCHAR_DEFINITION" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Types_Library/src" name="SSHORT_DEFINITION" suffix="mch" user="atelierb">
+            <component name="SSHORT_DEFINITION" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Types_Library/src" name="UCHAR_DEFINITION" suffix="mch" user="atelierb">
+            <component name="UCHAR_DEFINITION" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Types_Library/src" name="USHORT_DEFINITION" suffix="mch" user="atelierb">
+            <component name="USHORT_DEFINITION" type="specification" />
+        </component_file>
+    </project>
+</db_xml>

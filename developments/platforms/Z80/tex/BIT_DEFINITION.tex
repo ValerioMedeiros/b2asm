@@ -1,0 +1,205 @@
+
+ 
+
+\bf MACHINE
+
+\hspace*{0.20in}\it BIT\_DEFINITION
+
+\vspace*{4mm}
+\bf CONSTANTS
+
+\hspace*{0.20in}\it BIT\rm ,
+
+\hspace*{0.20in}\it bit\_not\rm ,
+
+\hspace*{0.20in}\it bit\_and\rm ,
+
+\hspace*{0.20in}\it bit\_or\rm ,
+
+\hspace*{0.20in}\it bit\_xor\rm ,
+
+\hspace*{0.20in}\it bool\_bit
+
+\vspace*{4mm}
+\bf PROPERTIES
+
+\hspace*{0.20in}\it BIT \rm = \rm 0 $\upto$ \rm 1 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} $\land$  \it bit\_not  $\in$  \it BIT  $\fun$  \it BIT 
+
+\hspace*{0.20in} $\land$  \it bit\_not \rm =  $\lambda$ \rm (\it bb\rm )\rm .\rm (\it bb $\in$ \it BIT  $\mid$  \rm 1\rm -\it bb\rm )
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} $\land$  \it bit\_and  $\in$  \it BIT  $\times$  \it BIT  $\fun$  \it BIT 
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\implies$  \rm (\rm (\it bit\_and\rm (\it b1\rm , \it b2\rm ) \rm = \rm 1\rm )  $\iff$  \rm (\it b1 \rm = \rm 1\rm )  $\land$  \rm (\it b2 \rm = \rm 1\rm )\rm )\rm )
+
+\hspace*{0.20in} \hspace*{0.40in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} $\land$  \it bit\_or  $\in$  \it BIT  $\times$  \it BIT  $\fun$  \it BIT 
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\implies$  \rm (\rm (\it bit\_or\rm (\it b1\rm , \it b2\rm ) \rm = \rm 1\rm )  $\iff$  \rm (\it b1 \rm = \rm 1\rm )  $\lor$  \rm (\it b2 \rm = \rm 1\rm )\rm )\rm )
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} $\land$  \it bit\_xor  $\in$  \it BIT  $\times$  \it BIT  $\fun$  \it BIT 
+
+\hspace*{0.20in} $\land$   $\forall$  \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\implies$  \rm (\rm (\it bit\_xor\rm (\it b1\rm , \it b2\rm ) \rm = \rm 1\rm )  $\iff$  \rm (\it b1  $\not =$  \it b2\rm )\rm )\rm )
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} 
+
+\hspace*{0.20in} $\land$  \it bool\_bit  $\in$  \bf BOOL  $\fun$  \it BIT 
+
+\hspace*{0.20in} $\land$  \it bool\_bit \rm = \rm \{ \bf TRUE  $\mapsto$  \rm 1\rm , \bf FALSE  $\mapsto$  \rm 0 \rm \}
+
+\vspace*{4mm}
+\bf ASSERTIONS
+
+\hspace*{0.40in}
+
+\hspace*{0.20in} $\forall$  \rm (\it bb\rm )\rm . \rm (\it bb  $\in$  \it BIT  $\implies$  \it bit\_not\rm (\it bb\rm ) \rm = \rm 1\rm -\it bb\rm ) 
+
+\vspace*{4mm}
+\hspace*{0.20in} $\land$  \bf dom\rm (\it bit\_and\rm )\rm =\it BIT $\times$ \it BIT
+
+\hspace*{0.20in} $\land$  \bf ran\rm (\it bit\_not\rm )\rm =\it BIT 
+
+\hspace*{0.20in} $\land$  \it bit\_not\rm (\rm 0\rm ) \rm = \rm 1
+
+\hspace*{0.20in} $\land$  \it bit\_not\rm (\rm 1\rm ) \rm = \rm 0
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it bb\rm )\rm .\rm (\it bb  $\in$  \it BIT  $\implies$  \it bit\_not\rm (\it bit\_not\rm (\it bb\rm )\rm ) \rm = \it bb\rm )
+
+\vspace*{4mm}
+\hspace*{0.20in} $\land$  \bf dom\rm (\it bit\_and\rm )\rm =\it BIT $\times$ \it BIT
+
+\hspace*{0.20in} $\land$  \bf ran\rm (\it bit\_and\rm )\rm =\it BIT 
+
+\hspace*{0.20in} $\land$  \it bit\_and\rm (\rm 0\rm ,\rm 0\rm ) \rm = \rm 0
+
+\hspace*{0.20in} $\land$  \it bit\_and\rm (\rm 0\rm ,\rm 1\rm ) \rm = \rm 0
+
+\hspace*{0.20in} $\land$  \it bit\_and\rm (\rm 1\rm ,\rm 0\rm ) \rm = \rm 0
+
+\hspace*{0.20in} $\land$  \it bit\_and\rm (\rm 1\rm ,\rm 1\rm ) \rm = \rm 1
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\implies$  \rm (\it bit\_and\rm (\it b1\rm , \it b2\rm ) \rm = \it bit\_and\rm (\it b2\rm ,\it b1\rm )\rm )\hspace*{0.10in}\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it bit\_and\rm (\it b1\rm , \it b2\rm )\rm =\rm 1  $\implies$  \it bit\_and\rm (\it b2\rm ,\it b1\rm )\rm =\rm 1 \rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it bit\_and\rm (\it b1\rm , \it b2\rm )\rm =\rm 0  $\implies$  \it bit\_and\rm (\it b2\rm ,\it b1\rm )\rm =\rm 0 \rm )
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm ,\it b3\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it b3  $\in$  \it BIT  $\implies$  \rm (\it bit\_and\rm (\it b1\rm , \it bit\_and\rm (\it b2\rm ,\it b3\rm )\rm ) \rm = \it bit\_and\rm (\it bit\_and\rm (\it b1\rm ,\it b2\rm )\rm ,\it b3\rm )\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\implies$  \rm (\it bit\_and\rm (\it b1\rm , \rm 1\rm ) \rm = \it b1\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\implies$  \rm (\it bit\_and\rm (\it b1\rm , \rm 0\rm ) \rm = \rm 0\rm )\rm )
+
+\vspace*{4mm}
+\hspace*{0.20in} $\land$  \bf dom\rm (\it bit\_or\rm )\rm =\it BIT $\times$ \it BIT
+
+\hspace*{0.20in} $\land$  \bf ran\rm (\it bit\_or\rm )\rm =\it BIT 
+
+\hspace*{0.20in} $\land$  \it bit\_or\rm (\rm 0\rm ,\rm 0\rm ) \rm = \rm 0
+
+\hspace*{0.20in} $\land$  \it bit\_or\rm (\rm 0\rm ,\rm 1\rm ) \rm = \rm 1
+
+\hspace*{0.20in} $\land$  \it bit\_or\rm (\rm 1\rm ,\rm 0\rm ) \rm = \rm 1
+
+\hspace*{0.20in} $\land$  \it bit\_or\rm (\rm 1\rm ,\rm 1\rm ) \rm = \rm 1
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\implies$  \rm (\it bit\_or\rm (\it b1\rm , \it b2\rm ) \rm = \it bit\_or\rm (\it b2\rm ,\it b1\rm )\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it bit\_or\rm (\it b1\rm , \it b2\rm )\rm =\rm 1  $\implies$  \it bit\_or\rm (\it b2\rm ,\it b1\rm )\rm =\rm 1\rm ) 
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it bit\_or\rm (\it b1\rm , \it b2\rm )\rm =\rm 0  $\implies$  \it bit\_or\rm (\it b2\rm ,\it b1\rm )\rm =\rm 0\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it bit\_or\rm (\it b1\rm ,\rm 0\rm )\rm =\rm 1  $\implies$  \it b1\rm =\rm 1\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it bit\_or\rm (\it b1\rm ,\rm 0\rm )\rm =\rm 0  $\implies$  \it b1\rm =\rm 0\rm )
+
+\hspace*{0.20in}
+
+\hspace*{0.25in}
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm ,\it b3\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it b3  $\in$  \it BIT  $\implies$  \rm (\it bit\_or\rm (\it b1\rm , \it bit\_or\rm (\it b2\rm ,\it b3\rm )\rm ) \rm = \it bit\_or\rm (\it bit\_or\rm (\it b1\rm ,\it b2\rm )\rm ,\it b3\rm )\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm ,\it b3\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it b3  $\in$  \it BIT  $\land$  \it bit\_or\rm (\it b1\rm ,\it b2\rm )\rm =\rm 1  $\implies$  \it bit\_or\rm (\it b1\rm ,\it bit\_or\rm (\it b2\rm ,\it b3\rm )\rm )\rm =\rm 1\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm ,\it b3\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it b3  $\in$  \it BIT  $\land$  \it bit\_or\rm (\it b1\rm ,\it b2\rm )\rm =\rm 1  $\implies$  \it bit\_or\rm (\it b1\rm , \it bit\_or\rm (\it b2\rm ,\it b3\rm )\rm ) \rm = \it bit\_or\rm (\rm 1\rm ,\it b3\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\implies$  \rm (\it bit\_or\rm (\it b1\rm , \rm 1\rm ) \rm = \rm 1\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\implies$  \rm (\it bit\_or\rm (\it b1\rm , \rm 0\rm ) \rm = \it b1\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\implies$  \rm (\it bit\_or\rm (\rm 1\rm ,\it b1\rm ) \rm = \rm 1\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\implies$  \rm (\it bit\_or\rm (\rm 0\rm ,\it b1\rm ) \rm = \it b1\rm )\rm )
+
+\vspace*{4mm}
+\hspace*{0.20in} $\land$  \bf dom\rm (\it bit\_xor\rm )\rm =\it BIT $\times$ \it BIT
+
+\hspace*{0.20in} $\land$  \bf ran\rm (\it bit\_xor\rm )\rm =\it BIT\hspace*{0.10in}
+
+\hspace*{0.20in} $\land$  \it bit\_xor\rm (\rm 0\rm ,\rm 0\rm ) \rm = \rm 0
+
+\hspace*{0.20in} $\land$  \it bit\_xor\rm (\rm 0\rm ,\rm 1\rm ) \rm = \rm 1
+
+\hspace*{0.20in} $\land$  \it bit\_xor\rm (\rm 1\rm ,\rm 0\rm ) \rm = \rm 1
+
+\hspace*{0.20in} $\land$  \it bit\_xor\rm (\rm 1\rm ,\rm 1\rm ) \rm = \rm 0
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\implies$  \rm (\it bit\_xor\rm (\it b1\rm , \it b2\rm ) \rm = \it bit\_xor\rm (\it b2\rm ,\it b1\rm )\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2 $\in$ \it BIT  $\land$  \it bit\_xor\rm (\it b1\rm , \it b2\rm )\rm =\rm 1  $\implies$  \it bit\_xor\rm (\it b2\rm ,\it b1\rm )\rm =\rm 1\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm , \it b2\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2 $\in$ \it BIT  $\land$  \it bit\_xor\rm (\it b1\rm , \it b2\rm )\rm =\rm 0  $\implies$  \it bit\_xor\rm (\it b2\rm ,\it b1\rm )\rm =\rm 0\rm )
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm ,\it b3\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it b3  $\in$  \it BIT  $\implies$  \rm (\it bit\_xor\rm (\it b1\rm , \it bit\_xor\rm (\it b2\rm ,\it b3\rm )\rm ) \rm = \it bit\_xor\rm (\it bit\_xor\rm (\it b1\rm ,\it b2\rm )\rm ,\it b3\rm )\rm )\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm ,\it b3\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it b3  $\in$  \it BIT  $\land$  \it bit\_xor\rm (\it b1\rm ,\it b2\rm )\rm =\rm 1  $\implies$  \it bit\_xor\rm (\it b1\rm ,\it bit\_xor\rm (\it b2\rm ,\it b3\rm )\rm )\rm =\rm 1\rm ) 
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it b1\rm ,\it b2\rm ,\it b3\rm )\rm .\rm (\it b1  $\in$  \it BIT  $\land$  \it b2  $\in$  \it BIT  $\land$  \it b3  $\in$  \it BIT  $\land$  \it bit\_xor\rm (\it b1\rm ,\it b2\rm )\rm =\rm 1  $\implies$  \it bit\_xor\rm (\it b1\rm , \it bit\_xor\rm (\it b2\rm ,\it b3\rm )\rm ) \rm = \it bit\_xor\rm (\rm 1\rm ,\it b3\rm )\rm ) 
+
+\hspace*{0.20in}
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it bb\rm )\rm .\rm (\it bb  $\in$  \it BIT  $\implies$  \it bit\_xor\rm (\it bb\rm ,\it bb\rm ) \rm = \rm 0\rm )
+
+\vspace*{4mm}
+\hspace*{0.20in} $\land$  \bf dom\rm (\it bool\_bit\rm )\rm =\bf BOOL
+
+\hspace*{0.20in} $\land$  \bf ran\rm (\it bit\_xor\rm )\rm =\it BIT
+
+\hspace*{0.20in} $\land$  \it bool\_bit\rm (\bf TRUE\rm ) \rm = \rm 1
+
+\hspace*{0.20in} $\land$  \it bool\_bit\rm (\bf FALSE\rm ) \rm = \rm 0
+
+\vspace*{4mm}
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it bb\rm )\rm .\rm (\it bb  $\in$  \it BIT  $\implies$  \it bb \rm = \rm 0  $\lor$  \it bb \rm = \rm 1\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it bb\rm )\rm .\rm (\it bb  $\in$  \it BIT  $\land$   $\neg$  \rm (\it bb \rm = \rm 0\rm )  $\implies$  \it bb \rm = \rm 1\rm )
+
+\hspace*{0.20in} $\land$   $\forall$ \rm (\it bb\rm )\rm .\rm (\it bb  $\in$  \it BIT  $\land$   $\neg$  \rm (\it bb \rm = \rm 1\rm )  $\implies$  \it bb \rm = \rm 0\rm )
+
+\vspace*{4mm}
+\bf END\newpage
+\end{sloppypar}\end{document}

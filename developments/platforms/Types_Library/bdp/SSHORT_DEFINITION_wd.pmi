@@ -1,0 +1,123 @@
+THEORY BalanceX IS
+  SSHORT_DEFINITION,34,15,0,19,0,0,0;
+  Properties,34,15,0,19,0,0,0;
+  Assertions,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util)
+END
+&
+THEORY MethodList IS
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp;
+  pr;
+  dd & ah(v0: BV16) & eh(BV16) & eh(bv_size,_h,Goal) & eh(BIT_VECTOR,_h,Goal) & ss & mp
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+END

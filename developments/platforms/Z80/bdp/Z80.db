@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<db_xml>
+    <atelierb version="3_7_ubuntu-cvs" />
+    <project decomp_dir="/media/B_Resources/Z80/bdp/expand_src" old_decomp_dir="/media/B_Resources/Z80/bdp/src">
+        <!-- Definition directory list -->
+        <!-- Component file list -->
+        <component_file path="/media/B_Resources/Z80" name="ALU" suffix="mch" user="atelierb">
+            <component name="ALU" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="MEMORY" suffix="mch" user="atelierb">
+            <component name="MEMORY" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80" suffix="mch" user="atelierb">
+            <component name="Z80" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80_IO" suffix="mch" user="atelierb">
+            <component name="Z80_IO" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80_LogAri" suffix="mch" user="atelierb">
+            <component name="Z80_LogAri" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80_LogAri2" suffix="mch" user="atelierb">
+            <component name="Z80_LogAri2" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80_Man_bitControl" suffix="mch" user="atelierb">
+            <component name="Z80_Man_bitControl" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80_extern" suffix="mch" user="atelierb">
+            <component name="Z80_extern" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80_general" suffix="mch" user="atelierb">
+            <component name="Z80_general" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80_general_2" suffix="mch" user="atelierb">
+            <component name="Z80_general_2" type="specification" />
+        </component_file>
+        <component_file path="/media/B_Resources/Z80" name="Z80_header" suffix="mch" user="atelierb">
+            <component name="Z80_header" type="specification" />
+        </component_file>
+    </project>
+</db_xml>
