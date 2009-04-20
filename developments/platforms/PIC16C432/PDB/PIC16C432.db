@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <db_xml>
     <atelierb version="3_7_ubuntu-cvs" />
-    <project decomp_dir="/home/atelierb/PROJECTS/PIC16C432/PDB/expand_src" old_decomp_dir="/home/atelierb/PROJECTS/PIC16C432/PDB/src">
+    <project decomp_dir="/home/atelierb/Projetos/PIC16C432/PDB/expand_src" old_decomp_dir="/home/atelierb/Projetos/PIC16C432/PDB/src">
         <!-- Definition directory list -->
         <!-- Component file list -->
-        <component_file path="/home/atelierb/PROJECTS/PIC16C432/SRC" name="ALU" suffix="mch" user="atelierb">
+        <component_file path="/home/atelierb/Projetos/PIC16C432/SRC" name="ALU" suffix="mch" user="atelierb">
             <component name="ALU" type="specification" />
         </component_file>
-        <component_file path="/home/atelierb/PROJECTS/PIC16C432/SRC" name="DATA_MEMORY" suffix="mch" user="atelierb">
+        <component_file path="/home/atelierb/Projetos/PIC16C432/SRC" name="DATA_MEMORY" suffix="mch" user="atelierb">
             <component name="DATA_MEMORY" type="specification" />
         </component_file>
-        <component_file path="/home/atelierb/PROJECTS/PIC16C432/SRC" name="PIC" suffix="mch" user="atelierb">
+        <component_file path="/home/atelierb/Projetos/PIC16C432/SRC" name="PIC" suffix="mch" user="atelierb">
             <component name="PIC" type="specification" />
         </component_file>
-        <component_file path="/home/atelierb/PROJECTS/PIC16C432/SRC" name="TYPES" suffix="mch" user="atelierb">
+        <component_file path="/home/atelierb/Projetos/PIC16C432/SRC" name="TYPES" suffix="mch" user="atelierb">
             <component name="TYPES" type="specification" />
         </component_file>
     </project>
