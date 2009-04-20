@@ -280,18 +280,50 @@ $
 \end{array}
 $
 
-\subsection{Modelling bytes}
+\subsection{Modelling bytes and bit vector of length 16}[I need review the english]
 
 Bit vectors of length 8 are bytes. They form a common entity in
 hardware design. We provide the following definitions:
 
-$
-\begin{array}{l}
-\mathit{BYTE\_WIDTH} = 8 \land \mathit{BYTE\_INDEX} = 0..(\mathit{BYTE\_WIDTH}-1) \land \\
-\mathit{BYTE} \subseteq \mathit{BIT\_VECTOR} \land \mathit{BYTE} = \{ v \in \mathit{BIT\_VECTOR} \land \mathit{bv\_size}(v) = \mathit{BYTE\_WIDTH}\} \land \\
-\mathit{BYTE\_ZERO} \in \mathit{BYTE} \land \mathit{BYTE} = \mathit{BYTE\_INDEX} \times \{0\} 
-\end{array}
-$
+% $
+% \begin{array}{l}
+% \mathit{BYTE\_WIDTH} = 8 \land \mathit{BYTE\_INDEX} = 0..(\mathit{BYTE\_WIDTH}-1) \land \\
+% \mathit{BYTE} \subseteq \mathit{BIT\_VECTOR} \land \mathit{BYTE} = \{ v \in \mathit{BIT\_VECTOR} \land \mathit{bv\_size}(v) = \mathit{BYTE\_WIDTH}\} \land \\
+% \mathit{BYTE\_ZERO} \in \mathit{BYTE} \land \mathit{BYTE} = \mathit{BYTE\_INDEX} \times \{0\}
+% \end{array}
+% $
+% Version 2
+
+\hspace*{0.0in}
+
+\hspace*{0.0in}\it BYTE\_WIDTH \rm = 8 $\land$ \it BYTE\_INDEX \rm = 1 $\upto$ \rm (\it BYTE\_WIDTH\rm )$\land$
+
+\hspace*{0.0in}\it PHYS\_BYTE\_INDEX \rm = \rm 0 $\upto$ \rm (\it BYTE\_WIDTH\rm -\rm 1\rm )\hspace*{0.10in} $\land$ 
+
+\hspace*{0.0in}\it BYTE \rm = \rm \{ \it bt  $\mid$  \it bt $\in$ \it BIT\_VECTOR  $\land$  \it bv\_size\rm (\it bt\rm )\rm =\it BYTE\_WIDTH\rm \}\hspace*{0.10in} $\land$ 
+
+\hspace*{0.0in}\it BYTE\_ZERO  $\in$  \it BYTE  $\land$ 
+
+\hspace*{0.0in}\it BYTE\_ZERO \rm = \it BYTE\_INDEX  $\times$  \rm \{\rm 0\rm \}  
+
+\hspace*{0.0in}
+
+The $\mathit{BYTE\_INDEX}$ is domain of byte modeled. it start at 1 to  obey a definition of sequences from B
+method. However, the functions from byte encapsulate the acces and these functions use the
+$\mathit{PHYS\_BYTE\_INDEX}$. The $\mathit{BYTE}$ type is a specializated type from $\mathit{BIT\_VECTOR}$, but it
+has a size limit. Some other more specific definitions are created to help the developer. For example the constant
+$\mathit{BYTE\_ZERO}$ and some below functions. 
+
+\begin{itemize}
+  \item \it is\_zero $\in$ BYTE  $\fun$   BIT \rm - It returns 1 if the received byte is zero, otherwise
+  returns 0.
+  
+  \item \it rotateright  $\in$  \it BYTE  $\fun$  \it BYTE \rm - It receives a byte and returns its rotated to
+  right. There is a similar function named $\mathit{rotateleft}$.  
+
+\end{itemize}
+
+By the very similar way, the type $\mathit{BV16}$ is created.
 
 \subsection{Bit vector arithmetics}
 
@@ -493,9 +525,15 @@ According to the official manual the bits 3 and 5 are not used and the others bi
   \item[$\mathit{bv\_get(rgs8(z0),7)}$] - The Sign bit 
 \end{description}
 
+\begin{property}[Assuring the absence of Overflow]
+ To assure that don´t happen overflow the developer can add this expression ($\mathit{bv\_get(rgs8(z0),0)} \neq 1
+ \land \mathit{bv\_get(rgs8(z0),2) \neq 1}$)in the invariant. By default, the overflow can happen, but many times it
+ can be dangerous. Then, the developer may prohibit its use. This restriction can also become the more dificult to
+ specify.
+\end{property}
 
-\subsection{Manipulation data functions from Z80} [I need review the english] There are some specific functions from
-Z80 to manipulate the data. The $\mathit{bv\_ireg\_plus\_d}$ is  used to indexed address. It received the
+\subsection{Manipulation data functions from Z80} [I need to review the english] There are some specific functions
+from Z80 to manipulate the data. The $\mathit{bv\_ireg\_plus\_d}$ is  used to indexed address. It received the
 value of register ($\mathit{ix}$ or $\mathit{iy}$) and displacement to return the sum, the result is the memory address dislocated, see
 its the definition.
 
@@ -610,25 +648,21 @@ functions are of 8 bits ($\mathit{BYTE}$) and defined similarly. In the same way
 Other more simply functions also are typed and explained below: 
 
 \begin{itemize}
-  \item ALU \it inc  $\in$ \it BYTE $\fun$  \it BYTE \rm - It receives a byte and returns its decrement. There is a
+  \item \it inc  $\in$ \it BYTE $\fun$  \it BYTE \rm - It receives a byte and returns its decrement. There is a
   similar function named $\mathit{dec}$.
 
-  \item ALU \it instruction\_next  $\in$  USHORT  $\fun$  USHORT \rm - It receives the pc actual
+  \item \it instruction\_next  $\in$  USHORT  $\fun$  USHORT \rm - It receives the pc actual
   value and return its increment.
 
-  \item ALU \it is\_negative  $\in$  \it BYTE  $\fun$  \it BIT \rm - It returns 1 if the received
+  \item \it is\_negative  $\in$  \it BYTE  $\fun$  \it BIT \rm - It returns 1 if the received
   byte is zero, otherwise returns 0.
-   
-  \item byte \it is\_zero $\in$ BYTE  $\fun$   BIT \rm - It returns 1 if the received byte is zero, otherwise
-  returns 0.
-  
-  \item byte \it rotateright  $\in$  \it BYTE  $\fun$  \it BYTE \rm - It receives a byte and returns its rotated to
-  right. There is a similar function named $\mathit{rotateleft}$.  
 
-  \item ALU \it update\_refresh\_reg \rm - It receives a byte and returns its increment until the seventh bit.
+  \item \it update\_refresh\_reg \rm - It receives a byte and returns its increment until the seventh bit.
+
 \end{itemize}
-Every logic functions defined in the $\mathit{BYTE}$ module are included in the $\mathit{ALU}$ module. Then, it was
-not necessary rewrite these functions.
+
+Every logic functions defined in the $\mathit{BYTE}$ and $\mathit{BV16}$ module are included in the $\mathit{ALU}$
+module. Then, it was not necessary rewrite these functions.
 
 \subsection{Interrupts}
 
@@ -794,17 +828,7 @@ f0 $\mapsto$ \rm [0,0,0,0,0,0,0,0] \rm \} $\para$
 %  
 %  LD_A_R, LD_A_I\ldots,  
 %  CALL, RET,  RETI,RETN
-
-
-
-
-
-
-\subsubsection{I/O Ports} % Can be placed in basic definitions in a paragraph
-%Referencia o modeo de modelagem do captura de um evento externo de acordo com
-% o proposto em [DAVID_gdc_2007] 
-
-[[ Flag registers and the associated functions: negative, half, zero.. ]] 
+ 
 
 \section{Extern  actions and input and output ports}
 
@@ -815,7 +839,7 @@ of the internal registers or memory address.
 The $\mathit{IN\_r(C)}$ \footnote{The tools B don't allow use parenteses in identifiers, then the characteres
 \{``('',``)''\} are replaced respectively by \{``9'',``0''\} in the real specification.} is represented by the follow B
 operation. This instruction is from I/O group and update the flag registers.
-\hspace*{0.0in}\bf IN\_r\_(C) \rm ( \it rr \rm ) \rm =
+\hspace*{0.0in}\bf IN\_r\_9C0 \rm ( \it rr \rm ) \rm =
 
 \hspace*{0.0in}\bf PRE \it rr  $\in$  \it id\_reg\_8  $\land$  \it rr  $\not =$  \it f0\hspace*{0.15in}\bf THEN
 
