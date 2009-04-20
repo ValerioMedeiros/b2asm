@@ -31,9 +31,11 @@ UCHAR
 
 ,bv16_usint
 ,usint_bv16
+
 PROPERTIES
-UCHAR_MAX:NATURAL
-&UCHAR_MAX=(2**BYTE_WIDTH)-1
+
+UCHAR_MAX : NATURAL
+&UCHAR_MAX = (2**BYTE_WIDTH)-1
 &UCHAR = 0..UCHAR_MAX
 
 &SCHAR_MAX : INTEGER
@@ -41,7 +43,7 @@ UCHAR_MAX:NATURAL
 
 &SCHAR_MAX = (2**(BYTE_WIDTH-1))-1
 &SCHAR_MIN = -(2**(BYTE_WIDTH-1))
-&SCHAR=SCHAR_MIN..SCHAR_MAX 
+&SCHAR = SCHAR_MIN..SCHAR_MAX 
 
 &USHORT_INT_MAX : INTEGER
 &USHORT_INT_MAX = (2**(2*BYTE_WIDTH))-1
@@ -49,7 +51,7 @@ UCHAR_MAX:NATURAL
 
 &byte_uchar : BYTE --> UCHAR
 &byte_uchar = %(bv).(bv:BYTE | bv_to_nat(bv))
-&uchar_byte=byte_uchar~
+&uchar_byte = byte_uchar~
 
 &byte_schar : BYTE --> SCHAR
 &byte_schar = %(bv).(bv:BYTE |( -bv(7)*128+bv(6)*64+bv(5)*32+bv(4)*16+bv(3)*8+bv(2)*4+bv(1)*2+bv(0)*1))
