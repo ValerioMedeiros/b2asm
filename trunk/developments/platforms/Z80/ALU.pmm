@@ -1,0 +1,25 @@
+THEORY User_Pass IS
+Operation(AssertionLemmas) & ff(0) & eh(schar_sshort,_h,Goal) & eh(bv16_sshort,_h,Goal) & eh(byte_bv16,_h,Goal) & eh(schar_byte,_h,Goal) & eh(byte_schar,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & ss & pr;
+Operation(AssertionLemmas) & ff(0) & eh(instruction_jump,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(instruction_next,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(update_refresh_reg,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(dec_BV16,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(inc_BV16,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(sub_halfcarryUSHORT,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(sub_carryUSHORT,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(sub16USHORT,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(add_halfcarryUSHORT,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(add_carryUSHORT,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(add16USHORT,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(simple_add8UCHAR,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(dec,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(inc,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(half8UCHAR,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(is_negative,_h,Goal) & pr;
+Operation(AssertionLemmas) & ff(0) & eh(dec_BV16,_h,Goal) & pr & pr;
+Operation(AssertionLemmas) & ff(0) & eh(inc_BV16,_h,Goal) & pr & pr;
+
+Pattern( ran(is_zero16USHORT) = BIT ) & ff(0) & eh(is_zero16USHORT,_h,Goal) & ss & pr 
+
+END

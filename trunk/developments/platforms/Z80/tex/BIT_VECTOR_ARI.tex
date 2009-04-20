@@ -1,0 +1,57 @@
+
+
+\bf MACHINE
+
+\hspace*{0.20in}\it BIT\_VECTOR\_ARITHMETICS
+
+\hspace*{0.20in}
+
+\bf SEES 
+
+\hspace*{0.20in}\it BIT\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it BIT\_VECTOR\_DEFINITION\rm ,
+
+\hspace*{0.20in}\it POWER2
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\bf CONSTANTS
+
+\hspace*{0.20in}\it bv\_nat\rm ,
+
+\hspace*{0.20in}\it bv\_even
+
+\hspace*{0.20in}
+
+\bf PROPERTIES
+
+\hspace*{0.20in}\it bv\_nat  $\in$  \it BIT\_VECTOR  $\fun$   $\nat$   $\land$ 
+
+\hspace*{0.20in}\it bv\_nat \rm =  $\lambda$  \rm (\it bv\rm )\rm . \rm (\it bv  $\in$  \it BIT\_VECTOR  $\mid$  \rm (  $\sum$  \it idx \rm . \rm (\it idx  $\in$  \bf dom\rm (\it bv\rm )  $\mid$  \rm (\rm 2$^{idx}$\rm )  $\times$  \it bv\rm (\it idx\rm )\rm )\rm )\rm ) $\land$ 
+
+\vspace*{4mm}
+\hspace*{0.20in}
+
+\hspace*{0.20in}\it bv\_even $\in$ \it BIT\_VECTOR  $\fun$  \it BIT  $\land$ 
+
+\hspace*{0.20in}\it bv\_even\rm = $\lambda$ \rm (\it bv\rm )\rm .\rm (\it bv $\in$ \it BIT\_VECTOR $\mid$  \rm 1\rm - \rm (\bf size\rm (\it bv $\rres$ \rm \{\rm 1\rm \}\rm )  $\mod$  \rm 2\rm ) \rm )
+
+\hspace*{0.20in}
+
+\hspace*{0.20in}
+
+\bf ASSERTIONS
+
+\hspace*{0.20in} $\forall$  \it ss\rm . \rm (\it ss  $\in$   $ \na1 $   $\implies$  \rm (\it bv\_nat\rm (\it bv\_zero\rm (\it ss\rm )\rm ) \rm = \rm 0\rm )\rm )  $\land$ 
+
+\hspace*{0.20in} $\forall$  \it ss\rm . \rm (\it ss  $\in$   $ \na1 $   $\implies$  \rm (\it bv\_even\rm (\it bv\_zero\rm (\it ss\rm )\rm ) \rm = \rm 0\rm )\rm )
+
+\hspace*{0.20in}
+
+\bf END\newpage
+\end{sloppypar}\end{document}

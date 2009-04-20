@@ -1,0 +1,29 @@
+THEORY BalanceX IS
+  MEMORY,2,0,0,2,0,0,0;
+  updateMemPrecondition,1,0,0,1,0,0,0;
+  updateAddressMemPrecondition,0,0,0,0,0,0,0;
+  updateStackPrecondition,1,0,0,1,0,0,0;
+  updateAddressStackPrecondition,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+END

@@ -1,0 +1,10 @@
+THEORY User_Pass IS
+
+Pattern(a<+b: c +-> d) & ff(0) & dd & pr(Tac(Update_flag)) & pp(rt.0); /* Prova as multiplas substituições*/
+
+Pattern(a<+(b\/c): d*e +-> f) & ff(0) & pp(rt.0); /* Prova Assertions p/ 2 */
+Pattern(a<+{b}: c*d +-> e) & ff(0) & pp(rt.0);
+Pattern(a<+b: c*d +-> e) & ff(0) & pp(rt.0);
+
+Pattern(dom(a) = id_reg_8) &  ff(0) & dd & ss & eh(dom(rgs8),_h,Goal) & ss & pr
+END
