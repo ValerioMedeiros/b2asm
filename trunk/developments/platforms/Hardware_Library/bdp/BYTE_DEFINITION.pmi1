@@ -1,0 +1,100 @@
+THEORY BalanceX IS
+  BYTE_DEFINITION,26,10,0,14,2,0,0;
+  AssertionLemmas,26,10,0,14,2,0,0;
+  Initialisation,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(1);
+  Proved(1)
+END
+&
+THEORY MethodList IS
+  eh(BYTE_ZERO,_h,Goal) & pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  eh(and,_h,Goal) & pr & pr & pr & pr;
+  eh(ior,_h,Goal) & pr & pr & pr & pr;
+  eh(xor,_h,Goal) & pr & pr;
+  pr;
+  eh(bitset,_h,Goal) & pr;
+  eh(BYTE,_h,Goal) & pr;
+  eh(complement,_h,Goal) & pr & pr;
+  eh(swap,_h,Goal) & pr & pr;
+  eh(rotateleft,_h,Goal) & pr & pr;
+  ah(!bt.(bt: BYTE => bv_size(bt) = 8)) & pr & eh(bv_size,_h,Goal) & pr & pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(1),(?;0);
+  Force(1),(?;0)
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO,genDivergencePO == KO,local_op == OK);
+  PRVersion("V3.3.3.p39")(CLT == "V3.7.6")
+END
