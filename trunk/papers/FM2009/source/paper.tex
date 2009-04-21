@@ -5,10 +5,6 @@
 \usepackage{amssymb}
 \usepackage{amsfonts}
 
-%\usepackage{float}
-
-
-
 
 \include{comandos}
 \include{SymbolsB_AtelierB} 
@@ -34,17 +30,18 @@ assembly is utility more important, because this allow the developing software f
 Finally, this paper show some relevant techniques used in models and to describe several details.
 \end{abstract}
 %
-\section{Introduction about hardware models in B}
-[One page]
-This paper show a model in B from a microcontrooller.
-[EXPLAIN THE MOTIVATION]
- [When a error is found at project of plataform the PREJUIZOS are big ]
- [ In critical system, when a error apper in software it can make several PREJUIZOS  ]
+\section{Introduction}
+% Explica o contexto geral do artigo
+%  Porque modelar os microcontroladores.
+%    Porque podemos verificar várias propriedades em tempo de projeto, documentar, simulacao através das ferramentas de suporte do método B...
+%    Porque permite verificar software em nível de assemblagem.[citar trabalho de BHDL]
+%  Contextualizacao com grande desafio da verificao formal em nivel de assemblagem[citar grande challenge][citar proposta do ALEMAO do ProB] 
+%  Conclusão da introducao.
+%  Organizacao do paper
+
+%  Basear-se no Relatorio técnico e no ERMAC
+
  
-[[Other microcontrollers are in building proccess: 8051, Arm..]]
-[Some smal details of the model are omitted in order to simplify the explanation.]
-[Smal intrudctio about B]
-[Structure from paper]
 
 
 %
@@ -54,12 +51,10 @@ This paper show a model in B from a microcontrooller.
 [One page]
 
 
-\subsubsection{ Desing components B }
+\subsubsection{Desing components B }
 [half page]
 [Explicar como as coias são modeladas]
-
-
-
+% Use the tech report
 \section{General definitions for hardware models}
 
 We think that We find it convenient to provide a set of basic definitions to model hardware concepts. These
@@ -109,8 +104,7 @@ $
 \end{array}
 $
 
-The module also provides lemmas on negation that may be useful for the
-users of the library to develop proofs:
+The module also provides lemmas on negation that may be useful for the users of the library to develop proofs:
 
 $
 \begin{array}{l}
@@ -165,7 +159,7 @@ development environment. None of these proofs requires human insight.
 Sequences are pre-defined in B, as functions whose the domain is an integer range with lower bound 1 (one). Indices
 in bit vectors usually range from 0 (zero) upwards and the model we propose obeys this convention by making an
 one-position shift where necessary.  We thus define bit vectors as non-empty sequences of bits, and
-$\mathit{BIT\_VECTOR}$ is the set of all such sequences:
+$\mathit{BIT\_VECTOR}$ is the set of all such sequences:
 
 $
 \begin{array}{l}
@@ -664,7 +658,13 @@ Other more simply functions also are typed and explained below:
 Every logic functions defined in the $\mathit{BYTE}$ and $\mathit{BV16}$ module are included in the $\mathit{ALU}$
 module. Then, it was not necessary rewrite these functions.
 
-\subsection{Interrupts}
+\subsubsection{Modelling the instructions} 
+[[Show and  LD n A]]
+
+
+
+
+\subsection{Modelling the Interrupts}
 
 % Visão Geral
 In the Z80, the interrupts allows that the devices suspend a routine from CPU and start another service routine.
@@ -830,15 +830,15 @@ f0 $\mapsto$ \rm [0,0,0,0,0,0,0,0] \rm \} $\para$
 %  CALL, RET,  RETI,RETN
  
 
-\section{Extern  actions and input and output ports}
+\section{Extern actions and input and output ports}
 
-The Z80 has an extensive set of input and output instruction and 256 ports for
+The Z80 has an extensive set of input and output (I/O) instruction and 256 ports for
 devices. This model can transfer data blocks and between the I/O devices and any
 of the internal registers or memory address.
 
 The $\mathit{IN\_r(C)}$ \footnote{The tools B don't allow use parenteses in identifiers, then the characteres
-\{``('',``)''\} are replaced respectively by \{``9'',``0''\} in the real specification.} is represented by the follow B
-operation. This instruction is from I/O group and update the flag registers.
+\{``('',``)''\} are replaced respectively by \{``9'',``0''\} in the real specification.} instruction is represented
+by the follow B operation. This instruction is from I/O group and update the flag registers.
 \hspace*{0.0in}\bf IN\_r\_9C0 \rm ( \it rr \rm ) \rm =
 
 \hspace*{0.0in}\bf PRE \it rr  $\in$  \it id\_reg\_8  $\land$  \it rr  $\not =$  \it f0\hspace*{0.15in}\bf THEN
@@ -898,9 +898,6 @@ $\land$ \it pv $\in$ \it BIT $\land$
 % \end{array}
 % $
 
-\subsubsection{Instruction set} 
-% Talk in general and put a example with midlle
-% complex
 
 
 
@@ -912,6 +909,8 @@ $\land$ \it pv $\in$ \it BIT $\land$
  
  
  \section{Conlusitions}
+ 
+ [Basear-se no ERMAC]
  
 %  Para a modelagen dessa plataforma, essa modelagen contém linhas e $np $
 %  provas não obvias. Uma forma de acelerar o processo de prova, foi paralelizar
@@ -942,9 +941,6 @@ $\land$ \it pv $\in$ \it BIT $\land$
 %
 \begin{thebibliography}{5}
 
-\bibitem {Abrial}
-Abrial, J. R. The B Book: Assigning Programs to Meanings. Cambridge University Press, United States of
-America, 1 edition, 1996.
 
 % Paper about BHDL 
 
@@ -955,12 +951,34 @@ America, 1 edition, 1996.
 % O manual do Z80 
 
 
+\bibitem {Abrial}
+Abrial, J. R. The B Book: Assigning Programs to Meanings. Cambridge University Press, United States of
+America, 1 edition, 1996.
+
+\bibitem {CLEARSY}
+CLEARSY. Atelier B. http://www.atelierb.eu.
+
+\bibitem {Dantas_Semish08}
+ Dantas, B; D\'{e}harbe, D; Galv\~{a}o, S; ET AL. Proposta e avalia\c{c}\~{a}o de uma abordagem de desenvolvimento de
+ software fidedigno por constru\c{c}\~{a}o com o m\'{e}todo B. In: SEMISH, Bel\'{e}m, 2008. SBC.
+ 
+\bibitem {Dantas_Report08}
+Dantas, B; D\'{e}harbe, D; Galv\~{a}o, S; ET AL.Verified compilation based on the B method: initial
+appraisal.Technical Report, UFRN - DIMAP, 2008.
+
 \bibitem {Bell} 
  D. Bell, I. M. E. J. P. Software Engineering: A Programming Approach. Prentice Hall, New York, 2 edition, 1992.
 
-\bibitem {Dantas}
- Dantas, B; D\'{e}harbe, D; Galv\~{a}o, S; ET AL. Proposta e avaliação de uma abordagem de desenvolvimento de
- software fidedigno por construção com o método B. In: SEMISH, Belém, 2008. SBC.
+\bibitem {HOARE}
+HOARE, C. A. R. The verifying compiler, a grand challenge for computing research. In: VMCAI, p. 78-78, 2005.
+
+\bibitem{Medeiros}
+ Val\'{e}rio Medeiros Jr., Stephenson Galv\~{a}o, David D\'{e}harbe. D\'{e}harbe, D; Galv\~{a}o, S; ET AL. Modelagem
+ de Microcontroladores em B. In: ERMAC, Natal, 2008. SBMAC.
+
+\bibitem {WORDSWORTH}
+WORDSWORTH, J. B. Software Engineering with B. Addison Wesley, Boston, 1996.
+
 
 \end{thebibliography}
 
