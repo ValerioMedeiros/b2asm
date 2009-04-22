@@ -1,6 +1,6 @@
 \documentclass{llncs}
 
-\usepackage{graphicx}
+\usepackage{graphicx,array}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -15,6 +15,7 @@
 
 \title{Formal Verification of Real Models from Platforms Using The B-method }
 
+
 \author{Val\'{e}rio Medeiros Jr\inst{1}, David D\'{e}harbe\inst{1} , Stephenson Galv\~{a}o \inst{1}}
 
 \institute{Federal University of Rio Grande do Norte, Natal RN 59078-970, Brazil}
@@ -26,24 +27,21 @@ This paper describes an approach to model the microcontroller platforms. More sp
 the Z80 model. The model is created using the B method; it applies math and logic concepts to describe the
 characteristics from platforms. Therefore, this model can be used in platforms projects to document, build
 simulators, verify properties about the model and verify the software in assembly level. The verification in
-assembly is utility more important, because this allow the developing software faithful to the algorithm language.
-Finally, this paper show some relevant techniques used in models and to describe several details.
+assembly is the feature more important, because this allow the developing software faithful to the algorithm
+language. Finally, this paper show some relevant techniques used in models and to describe several details.
 \end{abstract}
 %
 \section{Introduction}
 % Explica o contexto geral do artigo
-%  Porque modelar os microcontroladores.
+%  Porque modelar os microcontroladores. \footnote{The interested reader in details from full specification or in
+% other study case is invited to visit the repository from authors at \url{http://b2asm.googlecode.com}.
 %    Porque podemos verificar várias propriedades em tempo de projeto, documentar, simulacao através das ferramentas de suporte do método B...
 %    Porque permite verificar software em nível de assemblagem.[citar trabalho de BHDL]
-%  Contextualizacao com grande desafio da verificao formal em nivel de assemblagem[citar grande challenge][citar proposta do ALEMAO do ProB] 
+%    Porque utilizamos o método B puro  - [citar proposta do ALEMAO do ProB]
+%  Contextualizacao com grande desafio da verificao formal em nivel de assemblagem[citar grande challenge] 
 %  Conclusão da introducao.
 %  Organizacao do paper
-
 %  Basear-se no Relatorio técnico e no ERMAC
-
- 
-
-
 %
 
 \section{B Notation}
@@ -55,6 +53,8 @@ Finally, this paper show some relevant techniques used in models and to describe
 [half page]
 [Explicar como as coias são modeladas]
 % Use the tech report
+
+
 \section{General definitions for hardware models}
 
 We think that We find it convenient to provide a set of basic definitions to model hardware concepts. These
@@ -424,7 +424,7 @@ to build the model of x86 and it provides good features.
 
 
 The main module includes a instance of memory module and accesses the definitions from: basic data types modules,
-$\mathit{ALU}$ and $\mathit{Power2}$ \footnote{The $\mathit{Power2}$ module has the basics definitions to help the
+\textit{ALU} and \textit{Power2} \footnote{The \textit{Power2} module has the basics definitions to help the
 theorems prover about calculus of power.}.
 
 \begin{sloppypar}
@@ -598,9 +598,9 @@ the $\mathit{PUSH}$ program instruction allow write only in the region of stack 
 
 \subsection{Arithmetic logic unit}
  
-There are many functions defined in the module ALU. In general, these functions take basic definitions to build
-new specific functions. The function half8UCHAR is used to get the half part of UCHAR value. It is importante to
-know the half carry and it is used in the $\mathit{add8UCHAR}$. 
+There are many functions defined in the module \textit{ALU}. In general, these functions take basic definitions to build
+new specific functions. The function $\mathit{half8UCHAR}$ is used to get the half part of $\mathit{UCHAR}$ value.
+It is importante to know the half carry and it is used in the $\mathit{add8UCHAR}$. 
 
 \hspace*{0.0in}
 
@@ -619,27 +619,30 @@ sum, the sign bit, the carry bit, the half carry bit and the zero bit. It is typ
 
 \hspace*{0.0in}\it add8UCHAR\rm = $\lambda$ \rm(\it carry\rm,\it w1\rm \it w2\rm)\rm.\rm
 
-\hspace*{0.0in}(\it carry $\in$  \it BIT  $\land$  \it w1  $\in$  \it UCHAR  $\land$  \it w2  $\in$  \it
-UCHAR $\mid$
+\hspace*{0.0in}(\it carry $\in$  \it BIT  $\land$  \it w1  $\in$  \it UCHAR  $\land$  \it w2  $\in$  \it UCHAR
+$\mid$
 
 \hspace*{0.40in}\rm(\rm(\rm(\it carry \rm + \it w1 \rm + \it w2 \rm )  $\mod$  \it $2^{8}$ \rm ),
 
-\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it uchar\_schar\rm (\it w1\rm ) \rm + \it uchar\_schar \rm (\it w2\rm ) $<$ \rm 0\rm ),
+\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it uchar\_schar\rm (\it w1\rm ) \rm + \it uchar\_schar \rm (\it
+w2\rm ) $<$ \rm 0\rm ),
 
 \hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it w1 \rm + \it w2 $>$ \it UCHAR\_MAX\rm )\rm ,
 
-\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it half8UCHAR\rm (\it w1\rm ) \rm + \it half8UCHAR\rm ( \it w2\rm )  $\geq$  \it $2^{4}$\rm )\rm,
+\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it half8UCHAR\rm (\it w1\rm ) \rm + \it half8UCHAR\rm ( \it
+w2\rm )  $\geq$  \it $2^{4}$\rm )\rm,
 
-\hspace*{0.40in}\it bool\_bit\rm ( \rm ( \rm (\it carry \rm + \it w1 \rm + \it w2 \rm )  $\mod$  \it $2^{8}$ \rm )\rm = \rm 0\rm )\rm )\hspace*{0.10in}\rm )
+\hspace*{0.40in}\it bool\_bit\rm ( \rm ( \rm (\it carry \rm + \it w1 \rm + \it w2 \rm )  $\mod$  \it $2^{8}$ \rm
+)\rm = \rm 0\rm )\rm )\hspace*{0.10in}\rm )
 
 \hspace*{0.20in}
 
 A similar function to subtract operation is $\mathit{substract8UCHAR}$. There are the same functions for the
 $\mathit{SCHAR}$ type, they are respectively $\mathit{add8SCHAR}$ and $\mathit{substract8SCHAR}$, all these
-functions are of 8 bits ($\mathit{BYTE}$) and defined similarly. In the same way, the arithmetic functions for 16 bits
-($\mathit{BV16}$) are defined.
+functions are of 8 bits ($\mathit{BYTE}$) and defined similarly. In the same way, the arithmetic functions for 16
+bits ($\mathit{BV16}$) are defined.
 
-Other more simply functions also are typed and explained below: 
+Other more simply functions also are typed and explained below:
 
 \begin{itemize}
   \item \it inc  $\in$ \it BYTE $\fun$  \it BYTE \rm - It receives a byte and returns its decrement. There is a
@@ -655,22 +658,52 @@ Other more simply functions also are typed and explained below:
 
 \end{itemize}
 
-Every logic functions defined in the $\mathit{BYTE}$ and $\mathit{BV16}$ module are included in the $\mathit{ALU}$
+Every logic functions are defined in the \textit{BYTE} and \textit{BV16} module are included in the \textit{ALU}
 module. Then, it was not necessary rewrite these functions.
 
-\subsubsection{Modelling the instructions} 
-[[Show and  LD n A]]
+\subsection{Modelling the instructions}[I need review the english]
+ 
+The main module (\textit{Z80}) has two types of operations, a type represent the external actions and the other
+represent the instructions of microcontrollers. The external actions are shown in the section
+~\ref{sec:externalactions} and the other type represents the instructions of microcontroller. A simple example from
+instruction is a $\mathit{LD\_(nn)\_A}$ shown below. Many times to model a instruction is necessary to use the pre-defined functions,
+this facilitates the construction of model. This instruction use the $\mathit{updateAddressMem}$ function from
+\textit{Memory} module and it receives a address memory and its new memory value. After, it increments the programcounter ($\mathit{pc}$) and update the refresh register ($\mathit{r\_}$).
+\hspace*{0.00in}\bf LD\_9nn0\_A \rm ( \it nn \rm ) \rm =
+
+\hspace*{0.20in}\bf PRE \it nn $\in$ \it USHORT\hspace*{0.15in} $\land$ \hspace*{0.10in}\it nn\hspace*{0.10in} $\in$  \it DATA\_R\_ADR
+
+\hspace*{0.20in}\bf THEN
+
+\hspace*{0.20in}\bf updateAddressMem \rm ( \it ushort\_bv16 \rm ( \it nn \rm ) \rm , \it rgs8 \rm ( \it a0 \rm )
+\rm )  $\para$
+
+\hspace*{0.20in}\it pc \rm := \it instruction\_next \rm ( \it pc \rm )  $\para$  \it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
+
+\hspace*{0.00in}\bf END\rm ;
+
+The other instructions have a similar structure.
 
 
+\subsection{Modelling the external action}
+\label{sec:externalactions}
 
+The external actions change the state of microcontroller and they aren´t instructions, for example, the refreshing
+of I/O port and the interruptions request. The extern action are also model by operations and they are prefixed
+with ``$ext\_$'' and after the name of action. There are just four extern actions: $ext\_update\_io\_ports$,
+$ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The $ext\_update\_io\_ports$ just change the state of I/O port, see.
+\hspace*{0.20in}\bf ext\_update\_io\_ports\rm (\it address\rm ,\it value\rm )\rm =
 
-\subsection{Modelling the Interrupts}
+\hspace*{0.20in}\bf PRE \it address  $\in$  \it UCHAR  $\land$ \hspace*{0.10in}\it value  $\in$  \it SCHAR \bf THEN
 
-% Visão Geral
-In the Z80, the interrupts allows that the devices suspend a routine from CPU and start another service routine.
-This service routine can exchange data or signals between CPU and external devices. When a routine is finished, then
-the CPU come back to the last routine that was interrupted.
+\hspace*{0.40in}\it io\_ports \rm ( \it uchar\_byte \rm ( \it address \rm ) \rm ) \rm := \it schar\_byte \rm ( \it
+value \rm )
 
+\hspace*{0.20in}\bf END\rm 
+
+The others are related to interrupts. The interrupts allows that the devices suspend a routine from CPU and start
+another service routine. This service routine can exchange data or signals between CPU and external devices. When a
+routine is finished, then the CPU come back to the last routine that was interrupted.
 For the interrupts, the following things are important:  the interrupt flip-flops ($\mathit{iff1}$ and
 $\mathit{iff2}$), the types of interrupts (maskable and non-maskable), the interrupt mode (set with the $\mathit{IM
 0}$, $\mathit{IM 1}$, $\mathit{IM 2}$ instructions) and the $\mathit{i\_}$ register.
@@ -693,9 +726,6 @@ $\mathit{pc\_low}$ is the least significant. }.
  $66H$ (102 in decimal), the $\mathit{iff1}$ is reset , $\mathit{iff2}$ stores
  $\mathit{iff1}$ and refresh register is updated.
   
-% $updateStack(\{ (sp\_minus\_two \fun low\_pc ),(sp\_minus\_one
-%    \fun high\_pc ) \}) ||\\  sp:= sp\_minus\_two || pc := 66H || iff1:=0 || 
-%    iff2:= iff1 $
 \begin{sloppypar}
 \bf updateStack\rm (\rm \{ \rm (\it sp\_minus\_two  $\mapsto$  \it pc\_low\rm )\rm ,\rm (\it sp\_minus\_one  $\mapsto$ \it pc\_high \rm ) \rm \}\rm )$\para$
 
@@ -718,13 +748,13 @@ $\mathit{pc\_low}$ is the least significant. }.
   it is represented by integer parameter called $\mathit{byte\_bus}$ .
 
  
-   \item The mode 1 is the easiest and \it im \rm = \rm ( \rm 0  $\mapsto$  \rm 1 \rm ). Simply, when a non-maskable
-   interruption happens, the program counter receive $38H$ (56 in decimal).
+  \item The mode 1 is the easiest and \it im \rm = \rm ( \rm 0  $\mapsto$  \rm 1 \rm ). Simply, when a non-maskable
+  interruption happens, the program counter receive $38H$ (56 in decimal).
   
-   \item The mode 2 is the most powerfull and  \it im \rm = \rm ( \rm 1  $\mapsto$ \rm 1 \rm ). When a non-maskable
-   interruption happens, an indirect call can be made to any address memory. The program counter receives in the
-   part most significant the $\mathit{i\_}$ register and, in the  part least siginificant, the $\mathit{byte\_bus}$
-   with the last bit reset.
+  \item The mode 2 is the most powerfull and  \it im \rm = \rm ( \rm 1  $\mapsto$ \rm 1 \rm ). When a non-maskable
+  interruption happens, an indirect call can be made to any address memory. The program counter receives in the
+  part most significant the $\mathit{i\_}$ register and, in the  part least siginificant, the $\mathit{byte\_bus}$
+  with the last bit reset.
  \end{itemize}
 
 The essential part of maskable interrupt is shown below\footnote{ The
@@ -792,9 +822,7 @@ r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
 \end{sloppypar}
 
 
-
-\textbf{RESET}  - The reset is other external action that just reset the
-registers related to the interruptions.
+\textbf{RESET}  - This just reset the registers related to the interruptions.
 
 \begin{sloppypar}
 \it iff1 \rm :=\rm 0 $\para$ \it iff2\rm :=\rm 0 $\para$  \it  im\rm := \rm (\rm 0 $\mapsto$ \rm 0\rm )  $\para$ 
@@ -830,7 +858,7 @@ f0 $\mapsto$ \rm [0,0,0,0,0,0,0,0] \rm \} $\para$
 %  CALL, RET,  RETI,RETN
  
 
-\section{Extern actions and input and output ports}
+\section{Input and output ports}
 
 The Z80 has an extensive set of input and output (I/O) instruction and 256 ports for
 devices. This model can transfer data blocks and between the I/O devices and any
@@ -838,7 +866,7 @@ of the internal registers or memory address.
 
 The $\mathit{IN\_r(C)}$ \footnote{The tools B don't allow use parenteses in identifiers, then the characteres
 \{``('',``)''\} are replaced respectively by \{``9'',``0''\} in the real specification.} instruction is represented
-by the follow B operation. This instruction is from I/O group and update the flag registers.
+by the follow B operation. It is from I/O group, then it reveives a identifier of register$\mathit{r}$ and, in this place, it stores the value of $\mathit{C}$ port address. Besides, it increments theprogram counter and updates the flag registers.
 \hspace*{0.0in}\bf IN\_r\_9C0 \rm ( \it rr \rm ) \rm =
 
 \hspace*{0.0in}\bf PRE \it rr  $\in$  \it id\_reg\_8  $\land$  \it rr  $\not =$  \it f0\hspace*{0.15in}\bf THEN
@@ -898,32 +926,63 @@ $\land$ \it pv $\in$ \it BIT $\land$
 % \end{array}
 % $
 
+\section{Proofs}
+
+[O que as provas garantem?]
+As obrigações de provas geradas pela ferramentas garante a verficação dos tipos de dados e que as
+expressoes são bem formadas \footnote{An expression is called "well-defined" (or unambiguous) if its definition
+assigns it a unique interpretation or value.}. Deste modo, as propriedades citadas anteriomente também são
+verificadas. As propriedades citadas anteriormente oferecem garantias que 
+
+[Enfatizar a vantagem]
+The traditional don´t allow verify this things and the properties is flexible. The flexbility allow add
+restrictions about tempo de execuçao and until specifics restrictions about the application of microcontroller.
+
+This flexibility of create propertis allow create conditions to verify if the software to finish in cert instant.
+
+[Estatisticas]
+Types Library 
+
+Hardware Library
+
+[Groups]
+\begin{center}
+
+\begin{tabular}{llll}
+\textbf{Group} &  \textbf{Proofs No Obvios} & \textbf{Proofs WD} & × \\ 
+Input and Output & 54 & 296  \\ 
+Logic and Ari & 134 & 413  \\ 
+Manipulation of Bits & 160 & 742  \\ 
+Extern actions & 51 & 84  \\
+General & 140 & 615  \\
+Header & 68 & 169  \\
+ & \textbf{Subtotal} 607 & \textbf{Subtotal} 2319  &  \textbf{Total} 2926 \\
+\end{tabular}
+\end{center}
 
 
 
- 
 
+[Conclusao]
+A primeira vez que realiza as provas é um pouco trabalhoso, porque as definições de tipos e de hardware não
+estavam completas. Então, um trabalho maior foi demandado, por outro lado, foi nece
 
-
-
+The first time
+Paralelismo vantagem
  
  
  \section{Conlusitions}
  
- [Basear-se no ERMAC]
+[]
+
  
 %  Para a modelagen dessa plataforma, essa modelagen contém linhas e $np $
 %  provas não obvias. Uma forma de acelerar o processo de prova, foi paralelizar
 %  as provas. Isto foi feito em 4 IMacs e consumiu $ tp $ tempo para verificar
 %  automaticamente $np - p $. As demais foi necessário uma certa interação com
 %  o provador para sua verificação.
-%  
-%  
-%  Algumas informações do manual do Z80 fornecido pela Zilog são imprecisas,
-%  o que compremete um pouco a qualidade do modelo, entretanto alguns pontos
-%  foram consultados no documento (Undocument Z80 documented-(Sean Young)) e
-%  dúvidas foram sanadas com o uso do simulador(Z80 IDE Simulator). 
-%  
+  
+  
 %  Para oferecer uma maior garantia do modelo com a implementação do processador
 %  algumas atividades foram realizadas. Primeiramente, tentantamos animar e gerar
 %  código respectivamente nas ferramentas ProB e AtelierB. Entratanto, o modelo
@@ -931,14 +990,14 @@ $\land$ \it pv $\in$ \it BIT $\land$
 %  Então, foi realizada uma apresentação sobre a descrição do modelo e foi
 %  realizada um nova revisão com 3 pessoas.
  
+ 
+\section{Acknowledges}
+
+This work received supports from CNPq and ANP (National Agency of Oil). Besides, the research Bruno Gomes help in
+the revision.
 
 
-\paragraph{Notes and Comments.}
 
-
-
-% ---- Bibliography ----
-%
 \begin{thebibliography}{5}
 
 
@@ -946,7 +1005,6 @@ $\land$ \it pv $\in$ \it BIT $\land$
 
 % Paper of ALEMÃO PROB ,java virtual machine
 
-% Outros do artigo de bartira
 
 % O manual do Z80 
 
@@ -973,8 +1031,7 @@ appraisal.Technical Report, UFRN - DIMAP, 2008.
 HOARE, C. A. R. The verifying compiler, a grand challenge for computing research. In: VMCAI, p. 78-78, 2005.
 
 \bibitem{Medeiros}
- Val\'{e}rio Medeiros Jr., Stephenson Galv\~{a}o, David D\'{e}harbe. D\'{e}harbe, D; Galv\~{a}o, S; ET AL. Modelagem
- de Microcontroladores em B. In: ERMAC, Natal, 2008. SBMAC.
+ Medeiros Jr, Val\'{e}rio; Galv\~{a}o, Stephenson; D\'{e}harbe, David; Modelagem de Microcontroladores em B. In: ERMAC, Natal, 2008. SBMAC.
 
 \bibitem {WORDSWORTH}
 WORDSWORTH, J. B. Software Engineering with B. Addison Wesley, Boston, 1996.
