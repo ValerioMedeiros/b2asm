@@ -929,18 +929,17 @@ $\land$ \it pv $\in$ \it BIT $\land$
 
 \section{Proofs }
 
-[O que as provas garantem?] As obrigações de provas garante a verficação dos tipos de dados,
-das propriedades estabelecidas no modelo e se as expressões são bem formadas \footnote{An expression is called
-"well-defined" (or unambiguous) if its definition assigns it a unique interpretation or value.}. As propriedades
-oferecem garantias adicionais ao projetista do software, pois é capaz de estabelecer uma série de critérios de
-segurança. Além disso, como estas propriedades estão em nível de especificação, então é possível ajusta-las a
-necessidade de um determinado sofwtare sem implicar em mudanças no hardware, o que implica apenas em aumentar ou
-diminuir o número de provas.
-%O desenvolvedor poderia por exemplo aumentar a região de memória necessária para armazenar dados de trabalho.
+[O que as provas garantem?] As obrigações de provas garante a verficação dos tipos de dados, das propriedades
+estabelecidas no modelo e se as expressões são bem formadas \footnote{An expression is called "well-defined" (or
+unambiguous) if its definition assigns it a unique interpretation or value.}. As propriedades oferecem garantias
+adicionais ao projetista do software, pois é capaz de estabelecer uma série de critérios de segurança. Além disso,
+como estas propriedades estão em nível de especificação, então é possível ajusta-las a necessidade de um determinado
+sofwtare sem implicar em mudanças no hardware, o que implica apenas em aumentar ou diminuir o número de provas.
+% O desenvolvedor poderia por exemplo aumentar a região de memória necessária para armazenar dados de trabalho.
 A seguir tem-se os número de provas não obvias e WD do projeto Z80 separado em grupos. Esta tabela mostra a
-distribuição do número de provas de cada grupo. Um dos grupos que contém mais provas é o de manipulação de bits. Apesar da grande
-quantidade de provas, este grupo foi rapidamente provado, pois ele utiliza vários lemmas providos pela Hardware
-Library, o que acontece também o grupo Logic and Arithmetic e a Types Library.
+distribuição do número de provas de cada grupo. Um dos grupos que contém mais provas é o de manipulação de bits.
+Apesar da grande quantidade de provas, este grupo foi rapidamente provado, pois ele utiliza vários lemmas providos
+pela Hardware Library, o que acontece também com o grupo Logic and Arithmetic e a Types Library.
  
 [Groups]
 \begin{center}
@@ -954,9 +953,9 @@ General & 140 & 615  \\
 Properties and Assertions & 68 & 169  \\
  \textbf{Total} &  607 &  2319  &  %\textbf{Total} 2926 \\
 \end{tabular}
-\end{center}
+\end{center}
 
-[Conclusao] Este projeto tem um grande número provas(2926) e o processo de prova eh uma das etapas que consomem
+[Conclusao] Este projeto tem um grande número provas e o processo de prova eh uma das etapas que consomem
 maior tempo. Para concluir o processo de prova de todo o microcontrolador foi demando um grande tempo,
 aproximadamente um mês. Isto foi custoso, porque foi necessário elaborar, retificar e provar várias lemmas dos
 projetos de base (Hardware and Types Library). Entretanto, com os projetos básicos mais maduros, torna-se bem mais
@@ -966,7 +965,7 @@ PIC16F432 are under construction}.
 Com os projetos de base completamente provados, então aproximadamente 89\% das provas não obvias e 40\% da Proofs WD
 foram realizadas automaticamente. As demais provas foram realizadas após o uso de alguns passos de
 prova\footnote{Passos de prova são comandos que indicam um caminho para o provador concluir a prova, esses comandos
-apenas indicam um caminho, ou seja, ele não introduz hipósteses falsas}. Os passos de prova aceleraram bastante o
+apenas indicam um caminho, ou seja, ele não introduzem hipósteses falsas}. Os passos de prova aceleraram bastante o
 processo de prova, pois como existem muitas instruções do microcontrolador com caractéristicas semelhantes e o
 atelierb é capaz de re-usar os passos de prova. Então, poucos passos de prova podem ser úteis para uma grande
 variedade de provas. Um exemplo é o conjunto de 17 passos de prova que rapidamente ajudou a verificar 99\% de provas
@@ -975,17 +974,55 @@ WD. A experiência em adicionar passos de prova também ajudou a reduzir o tempo d
 de prova é mais rápido.
 
 Para reduzir ainda mais o custo de prova, um nova funcionalidade provida pelo atelierB foi utizada, a paralelizacao.
-O processo de prova used three computers each one with two cores, o que teoricamente aumentou em seis vezes a
-capacidade de processamento. 
+Para isso foram used three computers each one with two cores, o que teoricamente aumentou em seis vezes a
+capacidade de processamento.
 
-Enfim, podemos afirmar que as técnicas citadas foram o que viabilizaram completamente o uso do método B.
-Por este ser um método muito rigoroso, então o seu processo de verificação é torna-se dificil. Por outro, lado as
-provas foram quebradas ( modularizadas )
-  
+A special care was taken to represent the model in way simple and accurate. This care also reduced the number of
+proofs. Pois, o simples fato de otimizar o uso do operador ($\lover$) diminuiu sensívelmente o número de
+obrigações de provas.
+
+Enfim, as técnicas citadas viabilizaram a verificaçao das 2926 obrigacoes de prova. A modularização dos projetos
+definiu lemmas básicos que ajudaram a construir um framework completo e simples. Os passos de prova direcionaram a
+resoluçao mais eficente das provas. A paralelizacao e cuidado na modelagem aceleraram as provas, porque aumentaram
+a capacidade de processameto e reduziram o número de obrigaçoes de provas.  
  
  \section{Conlusitions}
+
+[intro]
+A necessidade comercial para produzir \textit{hardware} e \textit{software} de
+alta qualidade é sempre crescente. Métodos formais já têm demonstrado sucesso na
+especificação de \textit{softwares} comerciais e críticos; protocolos padrão e
+projetos de \textit{hardware}.
+
+O suporte fornecido pelo método B é bastante adequado, maduro, extensivo e eficaz
+no processo de especificação formal dessas plataformas. Isso vem sendo
+perceptível, pois até então, todas as características relevantes das plataformas
+foram modeladas de forma apropriada, principalmente as importantes para
+verificação em nível de montagem (\textit{assembly}). Por outro lado, uma das
+qualidades de destaque do método B é relacionada com a boa capacidade de
+verificação automática das ferramentas, pois, na versão estável das modelagens,
+do total de $503$ provas dos módulos principais do \textit{PIC}, \textit{8051} e
+\textit{Z80} apenas $3$ referentes ao \textit{Z80} foram provadas de forma
+semi-automática. Ou seja, desse total de provas menos de $1$\% necessitaram de
+uma simples intervenção do projetista para ser concluída.
+
+Adicionalmente, a aplicação das técnicas modularização e re-uso tornou o processo
+de especificação das plataformas mais padronizado e acelerado. Desse modo, é
+demonstrada a viabilidade dessas especificações, pois com a aquisição de
+maturidade das ferramentas e do projetista, o processo de modelagem ganhou
+agilidade e maior automação na fase de validação do projeto.
+
+Enfim, a modelagem B dessas plataformas possibilitarão a verificação em um dos
+mais altos níveis de certificação de \textit{software}. Não somente, elas podem
+ser importantes no projeto de plataformas para a construção dos simuladores,
+documentação e sua própria verificação formal, permitindo identificar várias
+inconsistências delas em tempo de projeto.
+
+
  
-[][Enfatizar a vantagem] The traditional don´t allow verify this things and the properties is flexible. The
+[Enfatizar a vantagem]
+[Flexibilidade]
+The traditional don´t allow verify this things and the properties is flexible. The
 flexbility allow add restrictions about tempo de execuçao and until specifics restrictions about the application of
 microcontroller.
 
