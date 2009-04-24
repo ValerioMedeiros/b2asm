@@ -43,6 +43,7 @@ language. Finally, this paper show some relevant techniques used in models and t
 %  Organizacao do paper
 %  Basear-se no Relatorio técnico e no ERMAC
 %
+% - Citar o Atelierb
 
 \section{B Notation}
 
@@ -926,54 +927,70 @@ $\land$ \it pv $\in$ \it BIT $\land$
 % \end{array}
 % $
 
-\section{Proofs}
+\section{Proofs }
 
-[O que as provas garantem?]
-As obrigações de provas geradas pela ferramentas garante a verficação dos tipos de dados e que as
-expressoes são bem formadas \footnote{An expression is called "well-defined" (or unambiguous) if its definition
-assigns it a unique interpretation or value.}. Deste modo, as propriedades citadas anteriomente também são
-verificadas. As propriedades citadas anteriormente oferecem garantias que 
-
-[Enfatizar a vantagem]
-The traditional don´t allow verify this things and the properties is flexible. The flexbility allow add
-restrictions about tempo de execuçao and until specifics restrictions about the application of microcontroller.
-
-This flexibility of create propertis allow create conditions to verify if the software to finish in cert instant.
-
-[Estatisticas]
-Types Library 
-
-Hardware Library
-
+[O que as provas garantem?] As obrigações de provas garante a verficação dos tipos de dados,
+das propriedades estabelecidas no modelo e se as expressões são bem formadas \footnote{An expression is called
+"well-defined" (or unambiguous) if its definition assigns it a unique interpretation or value.}. As propriedades
+oferecem garantias adicionais ao projetista do software, pois é capaz de estabelecer uma série de critérios de
+segurança. Além disso, como estas propriedades estão em nível de especificação, então é possível ajusta-las a
+necessidade de um determinado sofwtare sem implicar em mudanças no hardware, o que implica apenas em aumentar ou
+diminuir o número de provas.
+%O desenvolvedor poderia por exemplo aumentar a região de memória necessária para armazenar dados de trabalho.
+A seguir tem-se os número de provas não obvias e WD do projeto Z80 separado em grupos. Esta tabela mostra a
+distribuição do número de provas de cada grupo. Um dos grupos que contém mais provas é o de manipulação de bits. Apesar da grande
+quantidade de provas, este grupo foi rapidamente provado, pois ele utiliza vários lemmas providos pela Hardware
+Library, o que acontece também o grupo Logic and Arithmetic e a Types Library.
+ 
 [Groups]
 \begin{center}
-
 \begin{tabular}{llll}
-\textbf{Group} &  \textbf{Proofs No Obvios} & \textbf{Proofs WD} & × \\ 
+\textbf{Group} &  \textbf{Proofs No Obvious} & \textbf{Proofs WD} & × \\ 
 Input and Output & 54 & 296  \\ 
-Logic and Ari & 134 & 413  \\ 
+Logic and Arithmetic & 134 & 413  \\ 
 Manipulation of Bits & 160 & 742  \\ 
 Extern actions & 51 & 84  \\
 General & 140 & 615  \\
-Header & 68 & 169  \\
- & \textbf{Subtotal} 607 & \textbf{Subtotal} 2319  &  \textbf{Total} 2926 \\
+Properties and Assertions & 68 & 169  \\
+ \textbf{Total} &  607 &  2319  &  %\textbf{Total} 2926 \\
 \end{tabular}
 \end{center}
 
-
-
-
-[Conclusao]
-A primeira vez que realiza as provas é um pouco trabalhoso, porque as definições de tipos e de hardware não
-estavam completas. Então, um trabalho maior foi demandado, por outro lado, foi nece
-
-The first time
-Paralelismo vantagem
+[Conclusao] Este projeto tem um grande número provas(2926) e o processo de prova eh uma das etapas que consomem
+maior tempo. Para concluir o processo de prova de todo o microcontrolador foi demando um grande tempo,
+aproximadamente um mês. Isto foi custoso, porque foi necessário elaborar, retificar e provar várias lemmas dos
+projetos de base (Hardware and Types Library). Entretanto, com os projetos básicos mais maduros, torna-se bem mais
+rápida a modelagem e verificação de um novo microprocessador\footnote{Actualy, the microprocessors M8051 and
+PIC16F432 are under construction}.
  
+Com os projetos de base completamente provados, então aproximadamente 89\% das provas não obvias e 40\% da Proofs WD
+foram realizadas automaticamente. As demais provas foram realizadas após o uso de alguns passos de
+prova\footnote{Passos de prova são comandos que indicam um caminho para o provador concluir a prova, esses comandos
+apenas indicam um caminho, ou seja, ele não introduz hipósteses falsas}. Os passos de prova aceleraram bastante o
+processo de prova, pois como existem muitas instruções do microcontrolador com caractéristicas semelhantes e o
+atelierb é capaz de re-usar os passos de prova. Então, poucos passos de prova podem ser úteis para uma grande
+variedade de provas. Um exemplo é o conjunto de 17 passos de prova que rapidamente ajudou a verificar 99\% de provas
+WD. A experiência em adicionar passos de prova também ajudou a reduzir o tempo do processo de prova em mais de
+90\%. Isso aconteceu, porque o uso de passos de prova direciona melhor o provador ao fim da prova, então o processo
+de prova é mais rápido.
+
+Para reduzir ainda mais o custo de prova, um nova funcionalidade provida pelo atelierB foi utizada, a paralelizacao.
+O processo de prova used three computers each one with two cores, o que teoricamente aumentou em seis vezes a
+capacidade de processamento. 
+
+Enfim, podemos afirmar que as técnicas citadas foram o que viabilizaram completamente o uso do método B.
+Por este ser um método muito rigoroso, então o seu processo de verificação é torna-se dificil. Por outro, lado as
+provas foram quebradas ( modularizadas )
+  
  
  \section{Conlusitions}
  
-[]
+[][Enfatizar a vantagem] The traditional don´t allow verify this things and the properties is flexible. The
+flexbility allow add restrictions about tempo de execuçao and until specifics restrictions about the application of
+microcontroller.
+
+This flexibility of create propertis allow create conditions to verify if the software to finish in cert instant.
+
 
  
 %  Para a modelagen dessa plataforma, essa modelagen contém linhas e $np $
