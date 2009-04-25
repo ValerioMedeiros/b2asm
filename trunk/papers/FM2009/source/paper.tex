@@ -45,6 +45,31 @@ language. Finally, this paper show some relevant techniques used in models and t
 %
 % - Citar o Atelierb
 
+
+
+[I need to Review this below text and to answer some questions]
+%  What the objectives from this models ?
+%  The objectives from this models are: supply a documentation that help the
+%  directly in the development and guarantees a series of properties. This
+%  properties are about hardware and software that run in this platform. The
+%  properties verification about software allow to verify software in the
+%  assembly level and It`s provide a high level of security, cause the mains
+%  levels of representation of software are verified, according to
+%  \cite{DANTAS08_SBMF}.
+
+% Why don´t we use a language based in events, how Event-B or CSP? 
+%  Because, we want to prover importants properties about the software and 	
+%  the B-method is more appropriate and don´t lost the capacity of verification
+%  about hardware level.
+
+% What are the advantages to use the B method ? The biggest advantage is the
+% formal verification on assembly level.  
+
+% Once established the model of the platform, so I could check something on VHDL?
+% Or generate VHDL?
+
+
+
 \section{B Notation}
 
 [One page]
@@ -954,57 +979,58 @@ Properties and Assertions & 68 & 169  \\
  \textbf{Total} &  607 &  2319  &  %\textbf{Total} 2926 \\
 \end{tabular}
 \end{center}
-
 [Conclusao] Este projeto tem um grande número provas e o processo de prova eh uma das etapas que consomem
 maior tempo. Para concluir o processo de prova de todo o microcontrolador foi demando um grande tempo,
-aproximadamente um mês. Isto foi custoso, porque foi necessário elaborar, retificar e provar várias lemmas dos
-projetos de base (Hardware and Types Library). Entretanto, com os projetos básicos mais maduros, torna-se bem mais
-rápida a modelagem e verificação de um novo microprocessador\footnote{Actualy, the microprocessors M8051 and
-PIC16F432 are under construction}.
+aproximadamente um mês. Isto foi custoso, porque foi necessário elaborar, retificar e provar várias lemmas
+dos projetos de base, Hardware and Types Library. Entretanto, com os projetos básicos mais maduros,
+torna-se bem mais rápida a modelagem e verificação de um novo microprocessador\footnote{Actualy, the
+microprocessors M8051 and PIC16F432 are under construction}.
  
-Com os projetos de base completamente provados, então aproximadamente 89\% das provas não obvias e 40\% da Proofs WD
-foram realizadas automaticamente. As demais provas foram realizadas após o uso de alguns passos de
-prova\footnote{Passos de prova são comandos que indicam um caminho para o provador concluir a prova, esses comandos
-apenas indicam um caminho, ou seja, ele não introduzem hipósteses falsas}. Os passos de prova aceleraram bastante o
-processo de prova, pois como existem muitas instruções do microcontrolador com caractéristicas semelhantes e o
-atelierb é capaz de re-usar os passos de prova. Então, poucos passos de prova podem ser úteis para uma grande
-variedade de provas. Um exemplo é o conjunto de 17 passos de prova que rapidamente ajudou a verificar 99\% de provas
-WD. A experiência em adicionar passos de prova também ajudou a reduzir o tempo do processo de prova em mais de
-90\%. Isso aconteceu, porque o uso de passos de prova direciona melhor o provador ao fim da prova, então o processo
-de prova é mais rápido.
-
-Para reduzir ainda mais o custo de prova, um nova funcionalidade provida pelo atelierB foi utizada, a paralelizacao.
-Para isso foram used three computers each one with two cores, o que teoricamente aumentou em seis vezes a
-capacidade de processamento.
+Com os projetos de base completamente provados, então aproximadamente 89\% das provas não obvias e 55\% da
+Proofs WD foram realizadas automaticamente. As demais provas foram realizadas após o uso de alguns passos
+de prova\footnote{Passos de prova são comandos que indicam um caminho para o provador concluir a prova,
+esses comandos apenas indicam um caminho, ou seja, ele não introduzem hipósteses falsas} associados a
+pattern matching of proof obligations. The user pass associeted to match pattern  aceleraram bastante o
+processo de prova, pois existem muitas instruções do microcontrolador com caractéristicas semelhantes e o
+atelierb é capaz de re-usar os passos de prova. Então, poucos passos de prova podem ser úteis para uma
+grande variedade de provas. Um exemplo é o conjunto de 17 passos de prova que rapidamente ajudou a
+verificar 99\% (2295) das provas WD. A experiência em adicionar passos de prova também ajudou a reduzir o
+tempo do processo de prova em mais de 90\%. Isso aconteceu, porque o uso de passos de prova direciona melhor o
+provador ao fim da prova.
+To further reduce cost of proof process, a new feature supported by AtelierB was used, the
+parallelization. To do this were used three computers each one with two cores, the that theoretically
+increased by six times the capacity of processing.
 
 A special care was taken to represent the model in way simple and accurate. This care also reduced the number of
-proofs. Pois, o simples fato de otimizar o uso do operador ($\lover$) diminuiu sensívelmente o número de
-obrigações de provas.
+proofs. Because, the simple act of optimizing the use the simple act of optimizing the use of
+override operator ($\lover$) fell too the number of proof obligations.
 
-Enfim, as técnicas citadas viabilizaram a verificaçao das 2926 obrigacoes de prova. A modularização dos projetos
-definiu lemmas básicos que ajudaram a construir um framework completo e simples. Os passos de prova direcionaram a
-resoluçao mais eficente das provas. A paralelizacao e cuidado na modelagem aceleraram as provas, porque aumentaram
-a capacidade de processameto e reduziram o número de obrigaçoes de provas.  
+Finally, the techniques mentioned help the verification of all the 2926 proof obligations. The
+modularization of projects difined basic lemmas that help to build a simple and full framework. The
+automatic re-use of commands's proof directed to a resolution more eficiently of proofs. The
+paralelization and the care in modeling accelerate the process's proof, because increase the
+processing capacity and reduced the number of proof obligatiions.
+ 
  
  \section{Conlusitions}
+[I need review the english]
+% [intro]
+A necessidade comercial para produzir \textit{hardware} e \textit{software} de alta qualidade é sempre
+crescente. O métodos B já têm demonstrado sucesso na especificação de sistemas comerciais críticos.
 
-[intro]
-A necessidade comercial para produzir \textit{hardware} e \textit{software} de
-alta qualidade é sempre crescente. Métodos formais já têm demonstrado sucesso na
-especificação de \textit{softwares} comerciais e críticos; protocolos padrão e
-projetos de \textit{hardware}.
+O suporte fornecido pelo método B é bastante adequado, maduro, extensivo e
+eficiente no processo de verificação dos modelos das plataformas. Isso vem sendo
+perceptível, pois todas as características relevantes das plataformas foram
+apropriadamente modeladas, principalmente as importantes para verificação em
+nível de montagem (\textit{assembly}).
 
-O suporte fornecido pelo método B é bastante adequado, maduro, extensivo e eficaz
-no processo de especificação formal dessas plataformas. Isso vem sendo
-perceptível, pois até então, todas as características relevantes das plataformas
-foram modeladas de forma apropriada, principalmente as importantes para
-verificação em nível de montagem (\textit{assembly}). Por outro lado, uma das
-qualidades de destaque do método B é relacionada com a boa capacidade de
-verificação automática das ferramentas, pois, na versão estável das modelagens,
-do total de $503$ provas dos módulos principais do \textit{PIC}, \textit{8051} e
-\textit{Z80} apenas $3$ referentes ao \textit{Z80} foram provadas de forma
-semi-automática. Ou seja, desse total de provas menos de $1$\% necessitaram de
-uma simples intervenção do projetista para ser concluída.
+
+Por outro lado, uma das qualidades de destaque do método B é relacionada com a
+boa capacidade de verificação automática das ferramentas, pois, na versão estável
+das modelagens, do total de $503$ provas dos módulos principais do \textit{PIC},
+\textit{8051} e \textit{Z80} apenas $3$ referentes ao \textit{Z80} foram provadas
+de forma semi-automática. Ou seja, desse total de provas menos de $1$\%
+necessitaram de uma simples intervenção do projetista para ser concluída.
 
 Adicionalmente, a aplicação das técnicas modularização e re-uso tornou o processo
 de especificação das plataformas mais padronizado e acelerado. Desse modo, é
