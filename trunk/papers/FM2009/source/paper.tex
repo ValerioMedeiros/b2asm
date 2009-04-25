@@ -980,32 +980,27 @@ Properties and Assertions & 68 & 169  \\
 \end{tabular}
 \end{center}
 
-[Conclusao]This project has many proof obligations and its process of verification is the step of the most time
-consumed. The verification step of all the model spent about a month. This was hard, because was necessary to build,
-correct and prove several expressions from basic projects, Hardware and Types Library. However, when the basic
-projects are ready, the modelling and verification of new plataform \footnote{Actualy, the microprocessors M8051 and
-PIC16F432 are under construction} become more fast and easy. Thus, these basic projects were also built to re-use
-to other platforms.
-When the basic projects are ready, then about 89\% proof non obvious and 55\% of Proofs WD was conclused
-automaticly. The others were concluded through the use of commands ...
-Com os projetos de base completamente provados, então aproximadamente 89\% das provas não obvias e 55\% da
-Proofs WD foram realizadas automaticamente. As demais provas foram realizadas após o uso de alguns passos
-de prova\footnote{Passos de prova são comandos que indicam um caminho para o provador concluir a prova,
-esses comandos apenas indicam um caminho, ou seja, ele não introduzem hipósteses falsas} associados a
-pattern matching of proof obligations. The user pass associeted to match pattern  aceleraram bastante o
-processo de prova, pois existem muitas instruções do microcontrolador com caractéristicas semelhantes e o
-atelierb é capaz de re-usar os passos de prova. Então, poucos passos de prova podem ser úteis para uma
-grande variedade de provas. Um exemplo é o conjunto de 17 passos de prova que rapidamente ajudou a
-verificar 99\% (2295) das provas WD. A experiência em adicionar passos de prova também ajudou a reduzir o
-tempo do processo de prova em mais de 90\%. Isso aconteceu, porque o uso de passos de prova direciona melhor o
-provador ao fim da prova.
-To further reduce cost of proof process, a new feature supported by AtelierB was used, the
-parallelization. To do this were used three computers each one with two cores, the that theoretically
-increased by six times the capacity of processing.
+% [Conclusao]
+This project has many proof obligations and its process of verification is the step of the most time consumed. The
+verification step of all the model spent about a month. This was hard, because was necessary to build, correct and
+prove several expressions from basic projects, Hardware and Types Library. However, when the basic projects are
+ready, the modelling and verification of new plataform \footnote{Actualy, the microprocessors M8051 and PIC16F432
+are under construction} become more fast and easy. Thus, these basic projects were also built to re-use to other
+platforms. When the basic projects are ready, then about 89\% proof non obvious and 55\% of Proofs WD was conclused
+automaticly. 
+
+The others were concluded through the use of proof commands\footnote{The proof commands are step that just indicate
+a walk to prover make the proof, thus, theses commands cannot introduce false hypotheses.} associated to match
+pattern from proof obligations. The match pattern accelerates too much the prove process, because there are many
+similar assembler instructions and the AtelierB can re-use the match pattern and its proof commands associated.
+Therefore, few proof commands can be useful to many obrigações de prova. A good example is a set of 17 proof
+commands that fastly helps to verify 99\% (2295) of proofs WD. To further reduce cost of proof process, a new feature
+supported by AtelierB was used, the parallelization. To do this were used three computers each one with two cores,
+the that theoretically increased by six times the capacity of processing.
 
 A special care was taken to represent the model in way simple and accurate. This care also reduced the number of
-proofs. Because, the simple act of optimizing the use the simple act of optimizing the use of
-override operator ($\lover$) fell too the number of proof obligations.
+proofs. Because, the simple act of optimizing the use of override operator ($\lover$) fell too the number of proof
+obligations.
 
 Finally, the techniques mentioned help the verification of all the 2926 proof obligations. The
 modularization of projects difined basic lemmas that help to build a simple and full framework. The
