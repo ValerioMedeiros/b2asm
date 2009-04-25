@@ -979,13 +979,15 @@ Properties and Assertions & 68 & 169  \\
  \textbf{Total} &  607 &  2319  &  %\textbf{Total} 2926 \\
 \end{tabular}
 \end{center}
-[Conclusao] Este projeto tem um grande número provas e o processo de prova eh uma das etapas que consomem
-maior tempo. Para concluir o processo de prova de todo o microcontrolador foi demando um grande tempo,
-aproximadamente um mês. Isto foi custoso, porque foi necessário elaborar, retificar e provar várias lemmas
-dos projetos de base, Hardware and Types Library. Entretanto, com os projetos básicos mais maduros,
-torna-se bem mais rápida a modelagem e verificação de um novo microprocessador\footnote{Actualy, the
-microprocessors M8051 and PIC16F432 are under construction}.
- 
+
+[Conclusao]This project has many proof obligations and its process of verification is the step of the most time
+consumed. The verification step of all the model spent about a month. This was hard, because was necessary to build,
+correct and prove several expressions from basic projects, Hardware and Types Library. However, when the basic
+projects are ready, the modelling and verification of new plataform \footnote{Actualy, the microprocessors M8051 and
+PIC16F432 are under construction} become more fast and easy. Thus, these basic projects were also built to re-use
+to other platforms.
+When the basic projects are ready, then about 89\% proof non obvious and 55\% of Proofs WD was conclused
+automaticly. The others were concluded through the use of commands ...
 Com os projetos de base completamente provados, então aproximadamente 89\% das provas não obvias e 55\% da
 Proofs WD foram realizadas automaticamente. As demais provas foram realizadas após o uso de alguns passos
 de prova\footnote{Passos de prova são comandos que indicam um caminho para o provador concluir a prova,
