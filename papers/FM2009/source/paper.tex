@@ -1016,33 +1016,44 @@ processing capacity and reduced the number of proof obligatiions.
 % verification of harware model. The model created express the semantic of functioning of hardware and
 % with this model is possible verify the semantic of hardware components. 
 
-There are in the literature of computer science some technics\cite{BHDL_2003,GEMPLUS_99} to model hardware
-and the virtual machines using the B method. Then, the B method has been used successfully to model the
-operational semantic, however The cost modeling was still too expensive and this paper describes some
-techniques to lower the cost modeling. In general, the researchers are concetrated at model the Java
-Virtual Machine (JVM), but it is not easy to specify  it, because it very complex, and become more
-difficult to write good lemmas, to normalize the functions and to verify the properties. Then, this
-technique specify a model more simple to get better results. Besides, the objectives are to get concret
-results fastly and, in the same time, stay near to model of actual processors.
+There are in the literature of computer science some technics\cite{BHDL_2003,GEMPLUS_99} to model hardware and the
+virtual machines using the B method. Then, the B method has been used successfully to model the operational
+semantic, however the cost of modeling was still expensive and this paper describes some techniques to lower the
+cost modeling. 
+
+In general, the researchers are concetrated at model the Java Virtual Machine (JVM), but it is not easy to specify 
+it, because it very big and complex, and become more difficult to write good lemmas, to normalize the functions and
+to verify its properties. Then, this work specify a model more simple to get better results fastly, in the same
+time, stay near to model of actual processors.
 % Re-uso  - modularization
-The most of related works are specific to one plataform and its basic definitions cannot be re-used at in
-other platforms. The used strategy created a good logic separation about the concepts of modelling. Thus,
-the basic projects, the Hardware and Types Library, have functions with a low coupling and high
-cohesion, that promove the re-use. Soon, these re-use better too the code generation and prove
-process.{{Pare aqui \ssssssss }}
+The most of related works are specific to one plataform\cite{GEMPLUS_99,ammm} and its basic definitions cannot be
+re-used at in other platforms. The used strategy created a good logic separation about the concepts of modelling.
+Thus, the basic projects, the Hardware and Types Library, have functions with a low coupling and high cohesion, that
+promove the re-use. Soon, these re-use better too the code generation, the confiability and prove process.
  
- [Uma das grandes vantagens é a evolução suporte ao método B]
- 
- A other advantage of this work is the use of news and advanceds funcionalities of B method. The first is
- the paralelization of prove procces and  the second is instensive use of math patterns associated with proof
- commands. In the 
+ Others advantages of this work are the use of news and advanceds funcionalities of B method. Normaly, the related
+ works don`t enjoy this funcionalities, because these are news and required advanced knowleadge about tools for B
+ method. These advantages are the paralelization of prove proccess and the instensive use of math patterns
+ associated with proof commands.
  
  [AMM]
-Verificação formal já vem sendo aplicada com sucesso na verificação \ldots Porém os custos eram altos,
-pois se passou X tempo para modelar \ldots e
+Verificação formal já vem sendo aplicada com sucesso na verificação \ldots Porém os custos eram altos, pois se
+passou X tempo para modelar \ldots e
 
 A modelagem do microcontrolador foi construida por um unico designer and consumiu aproximadamente six
 month to study the plattaform Z80, model, adjust to simplifi and prove.
+
+Quais as desvantagens/problemas com relaçao aos outros?
+-The B method is not good to verify all kindy of cararacteristics.
+-The our results are not mature, b 
+-Actually, we don`t define 
+-The B method can verify many diferentes properties of model, but some properties cannot be easy to verify and
+model.
+ -Some times, the B method is very dificult to model, eventually a other metodology can verify 
+  
+ 
+
+
  
  \section{Conlusitions}
  
