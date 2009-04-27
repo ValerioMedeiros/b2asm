@@ -16,7 +16,7 @@
 \title{Formal Verification of Real Models from Platforms Using The B-method }
 
 
-\author{Val\'{e}rio Medeiros Jr\inst{1}, David D\'{e}harbe\inst{1} , Stephenson Galv\~{a}o \inst{1}}
+\author{B. Dantas \inst{1}, David D\'{e}harbe\inst{1}, Val\'{e}rio Medeiros Jr\inst{1} }
 
 \institute{Federal University of Rio Grande do Norte, Natal RN 59078-970, Brazil}
 
@@ -31,6 +31,8 @@ assembly is the feature more important, because this allow the developing softwa
 language. Finally, this paper show some relevant techniques used in models and to describe several details.
 \end{abstract}
 %
+%\keywords{Fomal Methods, Microprocessor Verification, Hardware}
+
 \section{Introduction}
 % Explica o contexto geral do artigo
 %  Porque modelar os microcontroladores. \footnote{The interested reader in details from full specification or in
@@ -1008,8 +1010,63 @@ automatic re-use of commands's proof directed to a resolution more eficiently of
 paralelization and the care in modeling accelerate the process's proof, because increase the
 processing capacity and reduced the number of proof obligatiions.
  
+ \section{Related Works}
+ 
+% This work had as the main motivation the  verififcation in assembler level and consequently the
+% verification of harware model. The model created express the semantic of functioning of hardware and
+% with this model is possible verify the semantic of hardware components. 
+
+There are in the literature of computer science some technics\cite{BHDL_2003,GEMPLUS_99} to model hardware
+and the virtual machines using the B method. Then, the B method has been used successfully to model the
+operational semantic, however The cost modeling was still too expensive and this paper describes some
+techniques to lower the cost modeling.
+In general, the researchers are concetrated at model the Java Virtual Machine (JVM), but it is not easy
+to specify and become more difficult to write good lemmas, to normalize the functions and to verify the
+properties. Then, this technique specify a thing more simple to get better results.  
+
+This strategy allow modularize the project in more two levels (Hardware an Types)
+Como nosso projeto é modularizado e formado por dois projetos básicos, então possível geração de código
+para descrição de hardware é simples, pois trabalhamos no nível de descrições de hardware e tipos de
+dados e suas funções visam ter um baixo acoplamento e alta coesão.
+
+ 
+
+ [Java Bytecode 	]
+ - Gplus -Preferimos dar um passo mais curto, ao invés de partir diretamente a máquina virtual, porque
+ preferimos fundamentar bem os projetos básicos, para assim facilitar o processo de prova.
+ Além disso, ter resultados concretos mais rapidamente e ao mesmo tempo aproximar-se da modelagem do
+ processadores modernos atuais.
+ 
+ [Uma das grandes vantagens é a evolução suporte ao método B]
+ 
+ A other advantage is the use of news and advanceds funcionalities of B method. The first is
+ the paralelization of prove procces and  the second is instensive use of math patterns associated with proof commands.
+ 
+ [AMM]
+Verificação formal já vem sendo aplicada com sucesso na verificação \ldots 
+Porém os custos eram altos, pois se passou X tempo para modelar \ldots e 
+
+A modelagem do microcontrolador foi construida por um unico designer and consumiu aproximadamente six
+month to study the plattaform Z80, model, adjust to simplifi and prove.
  
  \section{Conlusitions}
+ 
+ % Trab. Futuros
+ %- Refinar o modelo para gerar através dos  código e apartir deste código criar um
+ %interpretador/simulador
+ %- Construir compilador
+  
+ 
+%  \begin{itemize}
+%    Citar ambuiguidades encontradas no manual e eventuais erros encontrados.
+%   \item Utilidade o processo de desenvolvimento do hardware:
+%   \subitem Ajuda na remoção de eventuais ambiguidades providas de uma descrição informal.
+%   \subitem Verificação de propriedades: sobre a manipulação e tipo dos dados.
+%   \subitem Documentação formalizada matemáticamente
+%   \subitem Possibilidade da geracao de código VHDL apartir do modelo B.
+%   \subitem Colaboracao para construção de um simulador/interpretador
+% \end{itemize}
+ 
 [I need review the english]
 % [intro]
 A necessidade comercial para produzir \textit{hardware} e \textit{software} de alta qualidade é sempre
@@ -1020,36 +1077,39 @@ eficiente no processo de verificação dos modelos das plataformas. Isso vem sendo
 perceptível, pois todas as características relevantes das plataformas foram
 apropriadamente modeladas, principalmente as importantes para verificação em
 nível de montagem (\textit{assembly}).
-
-
+[ O que foi o diferencial ? qual grande vantagem]
+[Eficiência da técnica/método B]
 Por outro lado, uma das qualidades de destaque do método B é relacionada com a
 boa capacidade de verificação automática das ferramentas, pois, na versão estável
-das modelagens, do total de $503$ provas dos módulos principais do \textit{PIC},
+das modelagens, do total das $503$ provas dos módulos principais do \textit{PIC},
 \textit{8051} e \textit{Z80} apenas $3$ referentes ao \textit{Z80} foram provadas
 de forma semi-automática. Ou seja, desse total de provas menos de $1$\%
 necessitaram de uma simples intervenção do projetista para ser concluída.
-
 Adicionalmente, a aplicação das técnicas modularização e re-uso tornou o processo
 de especificação das plataformas mais padronizado e acelerado. Desse modo, é
 demonstrada a viabilidade dessas especificações, pois com a aquisição de
 maturidade das ferramentas e do projetista, o processo de modelagem ganhou
 agilidade e maior automação na fase de validação do projeto.
 
+[maior vantagem]
 Enfim, a modelagem B dessas plataformas possibilitarão a verificação em um dos
 mais altos níveis de certificação de \textit{software}. Não somente, elas podem
 ser importantes no projeto de plataformas para a construção dos simuladores,
 documentação e sua própria verificação formal, permitindo identificar várias
 inconsistências delas em tempo de projeto.
 
-
  
 [Enfatizar a vantagem]
 [Flexibilidade]
 The traditional don´t allow verify this things and the properties is flexible. The
 flexbility allow add restrictions about tempo de execuçao and until specifics restrictions about the application of
-microcontroller.
+microcontroller.
 
 This flexibility of create propertis allow create conditions to verify if the software to finish in cert instant.
+
+No contexto da verificação em nível de assembly:
+Exemplificar com propriedade de restrição temporal.
+Exp. é possível verificar se o software satisfazer restrições temporais e para isso utiliza
 
 
  
@@ -1080,21 +1140,27 @@ the revision.
 
 % Paper about BHDL 
 
-% Paper of ALEMÃO PROB ,java virtual machine
-
 
 % O manual do Z80 
-
 
 \bibitem {Abrial}
 Abrial, J. R. The B Book: Assigning Programs to Meanings. Cambridge University Press, United States of
 America, 1 edition, 1996.
 
+\bibitem {BHDL_2003}    
+   Aljer, P. Devienne, S. Tison and J-L. Boulanger andG. Mariano. Bhdl: Circuit Design in B. A. In
+    ACSD, Third International Conference on Application of Concurrency to System Design, pages 241-242, 2003.
+
+\bibitem {GEMPLUS_99}
+Casset L.; Lanet J. L. A Formal Specification of the Java Bytecode Semantics using the B
+method.Technical Report, Gemplus. 1999.
+
 \bibitem {CLEARSY}
 CLEARSY. Atelier B. http://www.atelierb.eu.
 
+
 \bibitem {Dantas_Semish08}
- Dantas, B; D\'{e}harbe, D; Galv\~{a}o, S; ET AL. Proposta e avalia\c{c}\~{a}o de uma abordagem de desenvolvimento de
+Dantas, B; D\'{e}harbe, D; Galv\~{a}o, S; ET AL. Proposta e avalia\c{c}\~{a}o de uma abordagem de desenvolvimento de
  software fidedigno por constru\c{c}\~{a}o com o m\'{e}todo B. In: SEMISH, Bel\'{e}m, 2008. SBC.
  
 \bibitem {Dantas_Report08}
