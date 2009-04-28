@@ -34,6 +34,33 @@ language. Finally, this paper show some relevant techniques used in models and t
 %\keywords{Fomal Methods, Microprocessor Verification, Hardware}
 
 \section{Introduction}
+
+The B method allows the construction of safety computacional systems by proofs verification and generation
+that guarantees the compatibility among modelling steps and that the system desirable state allways be
+true.Therefore, a initial abstract model of the system is defined and refined until the implementation
+level. B still allows the code generation from implementation, but this fase isn't verified.
+
+In\cite{Dantas_Report08} is presented a approach to complement the B method until the codify level:
+extension of the B method until the assembly level. In this approach, the system construct beggining from
+the abstract level and it is formally refined until the target plataform assembly. Therefore, the first
+step of this approach is the target plataform modelling, the microprocessor, in B. Using the
+responsability division mechanism provide by B basic modules was developted to be used as elementary
+library to constructing generic microprocessor, in which bit data type, bit arrays and others are
+specified together with its operations\cite{Medeiros}. The resulting processor B machine  will be used as
+library in which its operations are used in the modelling of the systems. The use of this library occurs
+at the B implementation level of the system. 
+
+The processor modelling can be used in plataforms project documentation, simulators construction,
+consistency verification and software verification at assembly level. The verification at assembly level
+is more interesting utility because allows the developtment of trustworth software by construction, that
+is extremaly desirable in embedded critical software.
+
+In this paper we introduced the modelling of Z80 processor\cite{Z80}, since elementary library until
+assembly instructions. The paper is structured as follows. Section\ref{B Notation} provides a general introduction
+to the B method.Section\ref{General definitions for hardware models} presents the elementary library of
+microprocessors basic concepts. Section\ref{Description of the B model from Z80} presents the Z80 B
+modelling. Section\ref{} TERMINAR
+
 % Explica o contexto geral do artigo
 %  Porque modelar os microcontroladores. \footnote{The interested reader in details from full specification or in
 % other study case is invited to visit the repository from authors at \url{http://b2asm.googlecode.com}.
@@ -956,12 +983,14 @@ $\land$ \it pv $\in$ \it BIT $\land$
 
 \section{Proofs }
 
-[O que as provas garantem?] As obrigações de provas garante a verficação dos tipos de dados, das propriedades
+[O que as provas garantem?]
+ As obrigações de provas garante a verficação dos tipos de dados, das propriedades
 estabelecidas no modelo e se as expressões são bem formadas \footnote{An expression is called "well-defined" (or
 unambiguous) if its definition assigns it a unique interpretation or value.}. As propriedades oferecem garantias
 adicionais ao projetista do software, pois é capaz de estabelecer uma série de critérios de segurança. Além disso,
 como estas propriedades estão em nível de especificação, então é possível ajusta-las a necessidade de um determinado
-sofwtare sem implicar em mudanças no hardware, o que implica apenas em aumentar ou diminuir o número de provas.
+sofwtare sem acarretar em mudanças no hardware, o que implica apenas em aumentar ou diminuir o número de
+provas.
 % O desenvolvedor poderia por exemplo aumentar a região de memória necessária para armazenar dados de trabalho.
 A seguir tem-se os número de provas não obvias e WD do projeto Z80 separado em grupos. Esta tabela mostra a
 distribuição do número de provas de cada grupo. Um dos grupos que contém mais provas é o de manipulação de bits.
@@ -977,7 +1006,7 @@ Logic and Arithmetic & 134 & 413  \\
 Manipulation of Bits & 160 & 742  \\ 
 Extern actions & 51 & 84  \\
 General & 140 & 615  \\
-Properties and Assertions & 68 & 169  \\
+Initialization, Properties and Assertions & 68 & 169  \\
  \textbf{Total} &  607 &  2319  &  %\textbf{Total} 2926 \\
 \end{tabular}
 \end{center}
@@ -992,8 +1021,8 @@ platforms. When the basic projects are ready, then about 89\% proof non obvious 
 automaticly. 
 
 The others were concluded through the use of proof commands\footnote{The proof commands are step that just indicate
-a walk to prover make the proof, thus, theses commands cannot introduce false hypotheses.} associated to match
-pattern from proof obligations. The match pattern accelerates too much the prove process, because there are many
+a walk to prover make the proof, thus theses commands cannot introduce false hypotheses.} associated to
+match pattern from proof obligations. The match pattern accelerates too much the prove process, because there are many
 similar assembler instructions and the AtelierB can re-use the match pattern and its proof commands associated.
 Therefore, few proof commands can be useful to many obrigações de prova. A good example is a set of 17 proof
 commands that fastly helps to verify 99\% (2295) of proofs WD. To further reduce cost of proof process, a new feature
@@ -1012,136 +1041,105 @@ processing capacity and reduced the number of proof obligatiions.
  
  \section{Related Works}
  
-% This work had as the main motivation the  verififcation in assembler level and consequently the
-% verification of harware model. The model created express the semantic of functioning of hardware and
-% with this model is possible verify the semantic of hardware components. 
+ [ I need review the english]
 
 There are in the literature of computer science some technics\cite{BHDL_2003,GEMPLUS_99} to model hardware and the
 virtual machines using the B method. Then, the B method has been used successfully to model the operational
 semantic, however the cost of modeling was still expensive and this paper describes some techniques to lower the
-cost modeling. 
+cost modeling. Although, the modeling of the Z80 is not yet represented some small aspects. 
+
+%The objective of researchers
 
 In general, the researchers are concetrated at model the Java Virtual Machine (JVM), but it is not easy to
 specify it, because it very big and complex, and become more difficult to write good lemmas, to normalize
-the functions and to verify its properties. Then, this work specify a model more simple to get better
-results fastly, in the same time, stay near to model of actual processors.
+the functions and to verify its properties. Then, this work specify a model more simple to get fastly
+better results , in the same time, stay near to model of actual processors.
+
 % Re-uso  - modularization
+
 The most of related works are specific to one plataform\cite{GEMPLUS_99,ammm} and its basic definitions
 cannot be re-used at in other platforms. The used strategy created a good logic separation about the
 concepts of modelling. Thus, the basic projects, the Hardware and Types Library, have functions with a low
 coupling and high cohesion, that promove the re-use. Soon, these re-use better too the code generation,
 the confiability and prove process.
- 
- Others advantages of this work are the aplication of news and advanceds funcionalities of B method.
- These advantages are the paralelization of prove proccess and the instensive use of math patterns associated
- with proof commands. Normaly, the related works don`t enjoy this funcionalities, because these are news
- and required advanced knowleadge about tools for B method.
- 
- [AMM]
- Adici \erro [ Adicionar aqui a comparação enviada ao e-mail de David]
- 
- 
-Verificação formal já vem sendo aplicada com sucesso na verificação \ldots Porém os custos eram altos,
-pois se passou X tempo para modelar \ldots e
 
-A modelagem do microcontrolador foi construida por um unico designer and consumiu aproximadamente six
-month to study the plattaform Z80, model, adjust to simplifi and prove.
+% advantages
 
-Quais as desvantagens/problemas com relaçao aos outros?
--The B method is not good to verify all kindy of cararacteristics.
--The our results are not mature, b 
--Actually, we don`t define 
--The B method can verify many diferentes properties of model, but some properties cannot be easy to verify and
-model.
- -Some times, the B method is very dificult to model, eventually a other metodology can verify 
-  
- 
+Others advantages of this work are the aplication of news and advanceds funcionalities of B method. These
+advantages are the paralelization of prove proccess and the instensive use of math patterns associated
+with proof commands. Normaly, the related works don`t enjoy this funcionalities, because these are news
+and required advanced knowleadge about tools for B method.
 
+% main problems
 
- 
+This work had as the main motivation the  verififcation in assembler level and consequently the
+verification of harware model. Thus, the some aspects about hardware aren't modeled. For example, the time
+of execution of instruction, the pipeline and others questions not directly related with the semantic of
+software. However, there are several other specialized techinques to verify this questions. The care to
+simplify the model also helps in the prove process.
+    
  \section{Conclusitions}
- 
- % Trab. Futuros
- %- Refinar o modelo para gerar através dos  código e apartir deste código criar um
- %interpretador/simulador
- %- Construir compilador
-  
- 
-%  \begin{itemize}
-%    Citar ambuiguidades encontradas no manual e eventuais erros encontrados.
-%   \item Utilidade o processo de desenvolvimento do hardware:
-%   \subitem Ajuda na remoção de eventuais ambiguidades providas de uma descrição informal.
-%   \subitem Verificação de propriedades: sobre a manipulação e tipo dos dados.
-%   \subitem Documentação formalizada matemáticamente
-%   \subitem Possibilidade da geracao de código VHDL apartir do modelo B.
-%   \subitem Colaboracao para construção de um simulador/interpretador
-% \end{itemize}
- 
 [I need review the english]
-% [intro]
-A necessidade comercial para produzir \textit{hardware} e \textit{software} de alta qualidade é sempre
-crescente. O métodos B já têm demonstrado sucesso na especificação de sistemas comerciais críticos.
-
-O suporte fornecido pelo método B é bastante adequado, maduro, extensivo e
-eficiente no processo de verificação dos modelos das plataformas. Isso vem sendo
-perceptível, pois todas as características relevantes das plataformas foram
-apropriadamente modeladas, principalmente as importantes para verificação em
-nível de montagem (\textit{assembly}).
-[ O que foi o diferencial ? qual grande vantagem]
-[Eficiência da técnica/método B]
-Por outro lado, uma das qualidades de destaque do método B é relacionada com a
-boa capacidade de verificação automática das ferramentas, pois, na versão estável
-das modelagens, do total das $503$ provas dos módulos principais do \textit{PIC},
-\textit{8051} e \textit{Z80} apenas $3$ referentes ao \textit{Z80} foram provadas
-de forma semi-automática. Ou seja, desse total de provas menos de $1$\%
-necessitaram de uma simples intervenção do projetista para ser concluída.
-Adicionalmente, a aplicação das técnicas modularização e re-uso tornou o processo
-de especificação das plataformas mais padronizado e acelerado. Desse modo, é
-demonstrada a viabilidade dessas especificações, pois com a aquisição de
-maturidade das ferramentas e do projetista, o processo de modelagem ganhou
-agilidade e maior automação na fase de validação do projeto.
-
-[maior vantagem]
-Enfim, a modelagem B dessas plataformas possibilitarão a verificação em um dos
-mais altos níveis de certificação de \textit{software}. Não somente, elas podem
-ser importantes no projeto de plataformas para a construção dos simuladores,
-documentação e sua própria verificação formal, permitindo identificar várias
-inconsistências delas em tempo de projeto.
-
+% - Intro
+% - Importancia do trabalho  -
+% - Qual a grande vantagem - A automação
+% - Trabalhos futuros  [O que almejamos citar o AAA] -> In the future, this works like  -> %- Refinar o  modelo  para gerar através dos  código e apartir deste código criar um  interpretador/simulador
  
-[Enfatizar a vantagem]
-[Flexibilidade]
-The traditional don´t allow verify this things and the properties is flexible. The
-flexbility allow add restrictions about tempo de execuçao and until specifics restrictions about the application of
-microcontroller.
+%Intro
+This work shown a approach to model formally a microprocessor using the B method. The applied approach
+provide interesting results and had a great automatization in the prove proccess. Besides, this research
+intend extend the works to verification in the assembly level.
 
-This flexibility of create propertis allow create conditions to verify if the software to finish in cert instant.
+This research is much interesting to design microcontroller. The formal model allow founnd some erros at
+the oficial manual\cite{Zilog} and ambiguities. The Z80's B model can replace the documentation used by
+assembler programmers, because the formal model represents the instructions effects and the B-method has a
+easy language, that remembers the pascal language. Besides, the formal model restricts the defintions to
+correct typing, use expressions well-defined and allow verify properties on the model.
 
-No contexto da verificação em nível de assembly:
-Exemplificar com propriedade de restrição temporal.
-Exp. é possível verificar se o software satisfazer restrições temporais e para isso utiliza
+The Atelierb supports code generation to programming languages and latex documents, this feature also
+helps to build an interpreter or simulator through the formal model. In the future, this functionality can
+be changed to genarate code of hardware description. Actually, the news and advanced features automate the
+process even more.
+%[Automação]
+Actually, the mains attractions of B method to model microcontroolers are: the support the paralelization
+of prove proccess and matching patterns associated to proof commands.
+% Por outro lado, uma das qualidades de destaque do método B é relacionada com a
+% boa capacidade de verificação automática das ferramentas, pois, na versão estável
+% das modelagens, do total das $503$ provas dos módulos principais do \textit{PIC},
+% \textit{8051} e \textit{Z80} apenas $3$ referentes ao \textit{Z80} foram provadas
+% de forma semi-automática. Ou seja, desse total de provas menos de $1$\%
+% necessitaram de uma simples intervenção do projetista para ser concluída.
 
-
+% Adicionalmente, a aplicação das técnicas modularização e re-uso tornou o processo
+% de especificação das plataformas mais padronizado e acelerado. Desse modo, é
+% demonstrada a viabilidade dessas especificações, pois com a aquisição de
+% maturidade das ferramentas e do projetista, o processo de modelagem ganhou
+% agilidade e maior automação na fase de validação do projeto.
+% 
+% [maior vantagem]
+% Enfim, a modelagem B dessas plataformas possibilitarão a verificação em um dos
+% mais altos níveis de certificação de \textit{software}. Não somente, elas podem
+% ser importantes no projeto de plataformas para a construção dos simuladores,
+% documentação e sua própria verificação formal, permitindo identificar várias
+% inconsistências delas em tempo de projeto. 
  
-%  Para a modelagen dessa plataforma, essa modelagen contém linhas e $np $
-%  provas não obvias. Uma forma de acelerar o processo de prova, foi paralelizar
-%  as provas. Isto foi feito em 4 IMacs e consumiu $ tp $ tempo para verificar
-%  automaticamente $np - p $. As demais foi necessário uma certa interação com
-%  o provador para sua verificação.
+[Trabalhos futuros ]
+ [O que almejamos citar o AAA]
+  In the future, this works like  -> %- Refinar o  modelo  para gerar através dos  código e apartir deste código criar um  interpretador/simulador
+% Exp. é possível verificar se o software satisfazer restrições temporais e para isso utiliza
+
+[Fechamento das ideias]
+% Desta forma, o suporte fornecido pelo método B é bastante adequado, maduro, extensivo e 
+% eficiente no processo de verificação dos modelos das plataformas. Isso vem sendo
+% perceptível, pois todas as características relevantes das plataformas foram
+%  apropriadamente modeladas, principalmente as importantes para verificação em
+%  nível de montagem (\textit{assembly}). 
   
-  
-%  Para oferecer uma maior garantia do modelo com a implementação do processador
-%  algumas atividades foram realizadas. Primeiramente, tentantamos animar e gerar
-%  código respectivamente nas ferramentas ProB e AtelierB. Entratanto, o modelo
-%  cotém algumas construções complexas que ainda não são bem suportada por elas.
-%  Então, foi realizada uma apresentação sobre a descrição do modelo e foi
-%  realizada um nova revisão com 3 pessoas.
- 
  
 \section{Acknowledges}
 
-This work received supports from ANP (National Agency of Oil) and CNPq. Besides, the researcher Bruno Gomes help in
-the revision.
+This work received supports from ANP (National Agency of Oil) and CNPq. 
+%Besides, the researcher Bruno Gomes help in the revision.
 
 
 
