@@ -167,7 +167,7 @@ a:BIT & b:BIT & c:BIT & d:BIT & e:BIT & f:BIT
 **/
 b: id_reg_8 & d: BYTE & f: id_reg_8 & g: BYTE & h: id_reg_8 & i: BYTE & not(b = f) & not(b = h) & not(f = h) 
 =>
-k<+{b|->d,f|->g,h|->i}: id_reg_8 +-> BYTE; /* Para 3 elementos */
+rgs8<+{b|->d,f|->g,h|->i}: id_reg_8 +-> BYTE; /* Para 3 elementos */
 
 
 
@@ -177,7 +177,7 @@ k<+{b|->d,f|->g,h|->i}: id_reg_8 +-> BYTE; /* Para 3 elementos */
 **/
 b: id_reg_8 & d: BYTE & f: id_reg_8 & g: BYTE & h: id_reg_8 & i: BYTE & j: id_reg_8 & k: BYTE & not(b = f) & not(b = h) & not(b = j) & not(f = h) & not(f = j) & not(h = j) 
 =>
-m<+{b|->d,f|->g,h|->i,j|->k}: id_reg_8 +-> BYTE ; /* Para 4 elementos */
+rgs8<+{b|->d,f|->g,h|->i,j|->k}: id_reg_8 +-> BYTE ; /* Para 4 elementos */
 
 
 /**
@@ -185,7 +185,7 @@ m<+{b|->d,f|->g,h|->i,j|->k}: id_reg_8 +-> BYTE ; /* Para 4 elementos */
 **/
 b: id_reg_8 & d: BYTE & f: id_reg_8 & g: BYTE & h: id_reg_8 & i: BYTE & j: id_reg_8 & k: BYTE & l: id_reg_8 & m: BYTE & not(b = f) & not(b = h) & not(b = j) & not(b = l) & not(f = h) & not(f = j) & not(f = l) & not(h = j) & not(h = l) & not(j = l) 
 =>
-o<+{b|->d,f|->g,h|->i,j|->k,l|->m}: id_reg_8 +-> BYTE;/* Para 5 elementos */
+rgs8<+{b|->d,f|->g,h|->i,j|->k,l|->m}: id_reg_8 +-> BYTE;/* Para 5 elementos */
 
 
 
@@ -195,7 +195,7 @@ o<+{b|->d,f|->g,h|->i,j|->k,l|->m}: id_reg_8 +-> BYTE;/* Para 5 elementos */
 **/
 b: id_reg_8 & d: BYTE & f: id_reg_8 & g: BYTE & h: id_reg_8 & i: BYTE & j: id_reg_8 & k: BYTE & l: id_reg_8 & m: BYTE & n: id_reg_8 & o: BYTE & not(b = f) & not(b = h) & not(b = j) & not(b = l) & not(b = n) & not(f = h) & not(f = j) & not(f = l) & not(f = n) & not(h = j) & not(h = l) & not(h = n) & not(j = l) & not(j = n) & not(l = n) 
 =>
-q<+{b|->d,f|->g,h|->i,j|->k,l|->m,n|->o}: id_reg_8 +-> BYTE; /* Para 6 elementos */
+rgs8<+{b|->d,f|->g,h|->i,j|->k,l|->m,n|->o}: id_reg_8 +-> BYTE; /* Para 6 elementos */
 
 
 
@@ -205,7 +205,7 @@ q<+{b|->d,f|->g,h|->i,j|->k,l|->m,n|->o}: id_reg_8 +-> BYTE; /* Para 6 elementos
 
 b: id_reg_8 & d: BYTE & f: id_reg_8 & g: BYTE & h: id_reg_8 & i: BYTE & j: id_reg_8 & k: BYTE & l: id_reg_8 & m: BYTE & n: id_reg_8 & o: BYTE & p: id_reg_8 & q: BYTE & not(b = f) & not(b = h) & not(b = j) & not(b = l) & not(b = n) & not(b = p) & not(f = h) & not(f = j) & not(f = l) & not(f = n) & not(f = p) & not(h = j) & not(h = l) & not(h = n) & not(h = p) & not(j = l) & not(j = n) & not(j = p) & not(l = n) & not(l = p) & not(n = p) 
 =>
-s<+{b|->d,f|->g,h|->i,j|->k,l|->m,n|->o,p|->q}: id_reg_8 +-> BYTE  /* Para 7 elementos */
+rgs8<+{b|->d,f|->g,h|->i,j|->k,l|->m,n|->o,p|->q}: id_reg_8 +-> BYTE  /* Para 7 elementos */
 
 
 
