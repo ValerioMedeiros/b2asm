@@ -113,14 +113,14 @@ not(d = e ) & d < 65536 & e < 65536 & d >= 0 & e >= 0
 c : BIT &
 e : BV16 &
 f : USHORT &
-not(c + f = 0)
+not(c + f = 0) & not(c + f =  65536)
 =>	not( ushort_bv16( add16USHORT(c,bv16_ushort(e),f) ) = e );
 
 
 c : BIT &
 e : USHORT &
 f : USHORT &
-not(c + f = 0)
+not(c + f = 0) & not(c + f =  65536)
 =>	not( ushort_bv16( add16USHORT(c,e,f) ) = ushort_bv16(e) )
 
 
