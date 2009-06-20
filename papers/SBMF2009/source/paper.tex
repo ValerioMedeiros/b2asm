@@ -1,0 +1,591 @@
+\documentclass{llncs}
+
+\usepackage{graphicx,array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{epsfig}
+\usepackage{float}
+\usepackage{supertabular} % used in B Symbols
+
+
+\include{comandos}
+\include{SymbolsB_AtelierB} 
+
+
+
+%
+\begin{document}
+
+\title{A Formal Model of Microcontroller Instruction Set in B}
+
+
+\author{Val\'{e}rio Medeiros Jr\inst{1}, David D\'{e}harbe\inst{1}}
+
+\institute{Federal University of Rio Grande do Norte, Natal RN 59078-970, Brazil}
+
+\maketitle
+
+\begin{abstract}
+This paper describes an approach to model the microcontroller platforms. More specifically, it shows details about
+the Z80 model. The model has been developed using the B method; which applies math and logic concepts to describe
+characteristics from platforms. Therefore, this modelling can be used in platform projects to document, build
+simulators, verify properties about the model and verify at assembly level software. The verification
+at assembly is the feature more important, because this allows to develop faithful software to the algorithm
+language. Thus, the platform model was built for this purpose. Finally, this paper shows some relevant techniques
+used in models and to describe some details of our approach.
+\end{abstract}
+%
+%\keywords{Fomal Methods, microcontroller Verification, Hardware}
+
+\section{Introduction}
+
+This work describes briefly the modelling of microcontroller Z80~\cite{Z80_manual} and some techniques used to build
+it. This modelling\footnote{The interested reader in more details is invited to visit our repository
+at: http://code.google.com/p/b2asm} use the B method~\cite{Abrial}, because it has a great maturity and advanced
+support. Besides, the modelling of microcontroller can extend the level of verification of B method, as it will be
+explained.
+
+The B method supports the construction of safety systems model by verification of proofs that guarantees its
+correctness. So, an initial abstract model of the system is defined and refined until the implementation model. The
+B tools  still have the code generator to programming language, but this feature is not verified. In~\cite{Dantas_SBMF08} is presented an approach to extend the verification of B method until the assembler language.
+In this approach, the construction of systems begins from the abstract level and it is formally refined until the
+target assembly platform.
+
+Therefore, the first step of this approach is to build the platform modelling, of the microcontroller, in B. Using the
+responsibility division mechanism provided by B, basic modules was developed to be used as elementary library to
+help the constructing of microcontroller model. The elementary library has many definitions about common concepts used
+in the microcontrollers. This library is used by Z80 model and other two model microcontrollers that
+are under construction.
+
+The microcontroller modelling can be used in platform projects documentation, simulators construction, consistency
+verification and software verification at assembly level. The verification at assembly level is more interesting
+utility because it allows the development of trustworthy software by construction, that is extremely desirable in
+embedded critical software.
+
+In this paper we introduced the modelling of Z80 microcontroller, since elementary library until assembly
+instructions. The paper is structured as follows. Section~\ref{sec:B_method} provides a general introduction to the
+B method. Section~\ref{sec:models} presents the elementary libraries and of microcontrollers basic concepts.
+Section~\ref{sec:z80} presents the Z80 B modelling. Section ~\ref{sec:Proofs} explain a little about the proofs of
+models. The next section (\ref{sec:relatedworks}) discusses the related works. Finally, the last section has the
+conclusions.
+
+\section{B Method}
+\label{sec:B_method}
+
+The B method for software development~\cite{Abrial} is based on the B Abstract Machine Notation (AMN) and
+the use of formally proved refinements up to a specification sufficiently concrete that programming     
+code can be automatically generated from it. Its mathematical basis consists of first order logic,      integer arithmetic and set theory, and its corresponding constructs are very similar to those of the Z notation 
+
+ A B specification is structured in modules. A module defines a set of valid states, including a set of initial
+ states, and operations that may provoke a transition between states. The design process starts with a module with a
+ so-called functional model of the system under development. In this initial modelling stage, the B method requires
+ that the user proves that, in a machine, all the initial states are valid, and that operations do not define
+ transitions from valid states to invalid states.
+  
+ Essentially, a B module contains two main parts: a header and the available operations, in the
+ figure~\ref{fig:maqB} has a intuitive example. The clause $\mathit{MACHINE}$ has the name of module.  The following two are used to access an external module and create an instance of an external module. The
+ $\mathit{VARIABLES}$  declares the variable names. The following declares its types and the restrictions. The
+ $\mathit{INITIALIZATION} $  defines the its initial value. The last define the operations that remember procedures
+ from programming language.
+ 
+
+\begin{figure}
+%\begin{small}
+$$
+\begin{array}{l}
+\MACHINE \quad  \mathit{micro} \quad \quad \quad \quad \quad  \quad \quad \quad \quad \INITIALISATION  \mathit{pc}
+:= 0\\
+\SEES \quad \mathit{TYPES}, \mathit{ALU} \quad \quad \quad \quad \quad \quad \quad \quad \OPERATIONS\\
+\INCLUDES    \quad \mathit{MEMORY} \quad \quad \quad \quad \quad \quad \quad \mathit{JMP} \mathit{( jump )} =
+\\
+\VARIABLES \quad    \mathit{pc}  \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \PRE \mathit{jump}
+\in\mathit{INSTRUCTION}\\ 
+ \INVARIANT \quad \mathit{pc} \in \mathit{INSTRUCTION}  \quad \ \THEN \mathit{pc} :=
+\mathit{jump}\\  
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
+\END \quad  \ldots \\
+% \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
+%\quad  \ldots
+\end{array}
+$$
+% \begin{array}{l}
+% \MACHINE \quad \quad \quad \quad \quad \quad  \quad \quad \quad \quad \INITIALISATION \\
+% \quad   \mathit{micro} \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad   \quad   \mathit{pc} := 0\\
+% \SEES \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad   \quad   \OPERATIONS\\
+% \quad \mathit{TYPES}, \mathit{ALU}\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad   \quad \\
+% \INCLUDES                \quad \quad \quad \quad \quad \quad \quad \quad \quad   \quad   \mathit{JMP} \mathit{( jump )} = \\
+% \quad   \mathit{MEMORY}   \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \PRE\\
+% \VARIABLES      \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad \quad  \mathit{jump} \in
+% \mathit{INSTRUCTION}\\ \quad   \mathit{pc}    \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad\quad \quad \THEN\\
+% \INVARIANT   \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad   \mathit{pc} := \mathit{jump}\\
+% \quad \mathit{pc} \in \mathit{INSTRUCTION} \ \ \quad \quad \quad \quad \quad \quad \END\\
+% \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
+% \quad \quad  \ldots
+% \end{array}
+
+%\end{small}
+\caption{A part of B simplified module}
+\label{fig:maqB}
+\end{figure}
+
+
+\section{Overview of Plataform's B Models}
+\label{sec:models}
+
+We have been developed a reusable set of basic definitions to model hardware concepts and data types
+concepts. These definitions are grouped in two projects of libraries and other project to model the
+platform. Thus, our workspace is arranged through three projects: hardware library, types library and
+the project of specific platform, in this case the Z80.
+
+The dependency graph between these projects is depicted in figure~\ref{fig:hardware-definition-graph}
+and the next sections will explain each one of them.
+
+\begin{figure}[h] \centering
+\includegraphics[width=.92\textwidth]{diagramaEstrutural_vertical.jpg}
+ \caption{Dependency graph between the projects that compose the platform model of Z80.}
+\label{fig:hardware-definition-graph}
+\end{figure}
+
+
+
+\subsection{Definitions to Represent and Manipulate Bits}
+
+The entities defined in the module $\mathit{BIT\_DEFINITION}$ are the
+type for bits, logical operations on bits (negation, conjunction,
+disjunction, exclusive disjunction), as well as a conversion function
+from booleans to bits.
+
+First, bits are modelled as the set of integers: $\mathit{BIT} = \mathit{0..1}$. The negation is an unary
+function on bits and it is defined as:
+
+$
+\begin{array}{l}
+\mathit{bit\_not}  \in  \mathit{BIT}  \fun  \mathit{BIT}  \land \forall ( \mathit{bb}). (\mathit{bb} \in \mathit{BIT} \implies \mathit{bit\_not}(\mathit{bb}) =
+1-\mathit{bb})\\
+\end{array}
+$
+
+The module also provides lemmas on negation that may be useful for the users of the library to develop proofs:
+
+$
+\begin{array}{l}
+%  \mathit{bit\_not}(0) = 1;  \mathit{bit\_not}(1) = 0; \\
+\forall (\mathit{bb}).(\mathit{bb} \in \mathit{BIT} \implies \mathit{bit\_not}(\mathit{bit\_not}(\mathit{bb})) = \mathit{bb})
+\end{array}
+$
+
+Conjunction is an unary function on bits and it is defined as:
+
+$
+\begin{array}{l}
+\mathit{bit\_and} \in \mathit{BIT} \times \mathit{BIT} \fun \mathit{BIT} \land \\
+\forall (\mathit{b1}, \mathit{b2}).(\mathit{b1}  \in \mathit{BIT}  \land \mathit{b2} \in \mathit{BIT} \implies \\
+\quad ((\mathit{bit\_and}(\mathit{b1}, \mathit{b2}) = 1) \iff (\mathit{b1} = 1)  \land  (\mathit{b2} = 1)))
+\end{array}
+$
+
+The module provides the following lemmas for conjunction, either:
+
+$
+\begin{array}{l}
+%  \mathit{bit\_and}(0,0) = 0;  \mathit{bit\_and}(0,1) = 0; \\
+%  \mathit{bit\_and}(1,0) = 0;  \mathit{bit\_and}(1,1) = 1; \\
+\forall (\mathit{b1},\mathit{b2}).(\mathit{b1} \in \mathit{BIT} \land \mathit{b2} \in \mathit{BIT} \implies \\
+\quad (\mathit{bit\_and}(\mathit{b1}, \mathit{b2}) = \mathit{bit\_and}(\mathit{b2},\mathit{b1})))\land \\
+\forall (\mathit{b1},\mathit{b2},\mathit{b3}).(\mathit{b1} \in \mathit{BIT} \land  \mathit{b2} \in \mathit{BIT} \land \mathit{b3} \in \mathit{BIT} \implies \\
+\quad (\mathit{bit\_and}(\mathit{b1}, \mathit{bit\_and}(\mathit{b2},\mathit{b3})) = \mathit{bit\_and}(\mathit{bit\_and}(\mathit{b1},\mathit{b2}),\mathit{b3})))\\
+% \forall (\mathit{b1}).(\mathit{b1} \in \mathit{BIT} \implies (\mathit{bit\_and}(\mathit{b1}, 1) = \mathit{b1})); \\
+% \forall (\mathit{b1}).(\mathit{b1} \in \mathit{BIT} \implies (\mathit{bit\_and}(\mathit{b1}, 0) = 0));
+\end{array}
+$
+
+The module provides definitions of $\mathit{bit\_or}$ (disjunction) and $\mathit{bit\_xor}$ (exclusive disjunction),
+as well as lemmas on those operators. These are standard and their expression in B is similar as for
+$\mathit{bit\_and}$, they are thus omitted.
+
+Finally, the conversion from booleans to bits is simply defined as:
+
+$
+\begin{array}{l}
+\mathit{bool\_to\_bit} \in \BOOL \fun \mathit{BIT} \land \mathit{bool\_to\_bit} = \{ \TRUE \mapsto 1, \FALSE \mapsto 0 \} \\
+\end{array}
+$
+
+Observe that all the lemmas that are provided in this module have been
+mechanically proved by the theorem prover included with our B
+development environment. None of these proofs requires human insight.
+
+
+\subsection{Representation and Manipulation of Bit Vectors}
+
+Sequences are pre-defined in B, as functions whose the domain is an integer range with lower bound 1 (one). Indices
+in bit vectors usually range from 0 (zero) upwards and the model we propose obeys this convention by making an
+one-position shift where necessary. This shift is important to use the predefined functions of sequences. We
+thus define bit vectors as non-empty sequences of bits, and $\mathit{BIT\_VECTOR}$ is the set of all such sequences:
+$
+\begin{array}{l}
+\mathit{BIT\_VECTOR} = \seq (\mathit{BIT})
+\end{array}
+$
+
+The function $\mathit{bv\_size}$ returns the size of a given bit vector. It is basically a wrapper for the
+predefined function $\mathbf{size}$ that applies to sequences.
+
+$
+\begin{array}{l}
+\mathit{bv\_size} \in \mathit{BIT\_VECTOR} \fun \nat_1 \land \\
+\mathit{bv\_size} = \lambda bv . (bv \in \mathit{BIT\_VECTOR} \mid \mathbf{size}(bv))
+\end{array}
+$
+
+We also define two functions $\mathit{bv\_set}$ and $\mathit{bv\_clear}$ that, given a bit vector, and a position of
+the bit vector, return the bit vector resulting from setting the corresponding position to 0 or to 1, and a function
+$\mathit{bv\_get}$ that, given a bit vector, and a valid position, each one returns the value of the bit at that
+position. Only the first definition is shown here:
+
+$
+\begin{array}{l}
+\mathit{bv\_set} \in \mathit{BIT\_VECTOR} \times \nat \fun \mathit{BIT\_VECTOR} \land \mathit{bv\_set} =\\
+\lambda v, n . (v \in \mathit{BIT\_VECTOR} \land n \in \nat \land n <\mathit{bv\_size}(v)
+\mid v \lover \{ n+1 \mapsto 1 \})
+\end{array}
+$
+
+
+Additionally, the module provides definitions for the classical
+logical combinations of bit vectors: $\mathit{bit\_not}$,
+$\mathit{bit\_and}$, $\mathit{bit\_or}$ and $\mathit{bit\_xor}$. Only
+the first two are presented here. Observe that the domain of the
+binary operators is restricted to pairs of bit vectors of the same
+length:
+
+$
+\begin{array}{l}
+\mathit{bv\_not} \in \mathit{BIT\_VECTOR} \fun \mathit{BIT\_VECTOR} \land \\
+\mathit{bv\_not} = \lambda v . (v \in \mathit{BIT\_VECTOR} \mid \quad \lambda i . (1 .. \mathit{bv\_size}(v)) \mid \mathit{bit\_not}(v(i))) \land \\
+\mathit{bv\_and} \in \mathit{BIT\_VECTOR} \times \mathit{BIT\_VECTOR} \fun \mathit{BIT\_VECTOR} \land \\
+\mathit{bv\_and} = \lambda v_1, v_2 . (v_1 \in \mathit{BIT\_VECTOR} \land v_2 \in \mathit{BIT\_VECTOR} \land \\
+\quad \mathit{bv\_size}(v_1) = \mathit{bv\_size}(v_2) \mid \lambda i . (1 .. \mathit{bv\_size}(v_1)) \mid
+\mathit{bit\_and}(v_1(i), v_2(i)))
+\end{array}
+$
+
+We provide several lemmas on bit vector operations. These lemmas
+express properties on the size of the result of the operations
+as well as classical algebraic properties such as associativity
+and commutativity.
+ 
+\subsection{Modelling Bytes and Bit Vector of Length 16}
+
+Bit vectors of length 8 are bytes. They form a common entity in
+hardware design. We provide the following definitions:
+
+
+\hspace*{0.0in}\it BYTE\_WIDTH \rm = 8 $\land$ \it BYTE\_INDEX \rm = 1 $\upto$ \rm  BYTE\_WIDTH\rm $\land$
+
+\hspace*{0.0in}\it PHYS\_BYTE\_INDEX \rm = \rm 0 $\upto$ \rm (\it BYTE\_WIDTH\rm -\rm 1\rm )\hspace*{0.10in} $\land$ 
+
+\hspace*{0.0in}\it BYTE \rm = \rm \{ \it bt  $\mid$  \it bt $\in$ \it BIT\_VECTOR  $\land$  \it bv\_size\rm (\it bt\rm )\rm =\it BYTE\_WIDTH\rm \}\hspace*{0.10in} $\land$ 
+
+\hspace*{0.0in}\it BYTE\_ZERO  $\in$  \it BYTE  $\land$ \it BYTE\_ZERO \rm = \it BYTE\_INDEX  $\times$  \rm \{\rm 0\rm \}
+
+The $\mathit{BYTE\_INDEX}$ is domain of byte modelled. It starts at 1 to obey a definition of sequences from B
+method. However, the functions from byte encapsulate the access and these functions use the
+$\mathit{PHYS\_BYTE\_INDEX}$. The $\mathit{BYTE}$ type is a specialized type from $\mathit{BIT\_VECTOR}$, but it has
+a size limit. Some others more specific definitions are created to help the developer. The type $\mathit{BV16}$ is
+created for bit vector of length 16 in a similar way.
+
+\subsection{Bit Vector Arithmetics}
+
+Bit vectors are used to represent and combine numbers: integer ranges (signed or unsigned). Then, our library
+defines functions to manipulate this date, for example, the function $\mathit{bv\_to\_nat}$ that maps bit
+vectors to natural numbers:
+
+$
+\begin{array}{l}
+\mathit{bv\_to\_nat} \in \mathit{BIT\_VECTOR} \fun \nat \land \\
+\mathit{bv\_to\_nat} = \lambda v . (v \in \mathit{BIT\_VECTOR} \mid \sum i . (i \in \dom(v) . v(i) \times 2^i))
+\end{array}
+$
+
+An  associated lemma is: $\forall n . (n \in \nat_1 \implies \mathit{bv\_to\_nat}(\mathit{nat\_to\_bv}(n)) = n)$
+
+\subsection{Basics Data Types}
+
+The instruction set of microcontrollers usually have common data types. These types are placed in the types
+library. Each type module has functions to manipulate and convert its data. There are six common basics data types
+represented by modules, see details in table~\ref{tab:types}.
+
+\begin{table}
+\caption{Descriptions of basic data types}
+\label{tab:types}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+ $Type\ Name$ & UCHAR & SCHAR & USHORTINT & SSHORTINT  & BYTE & BV16 \\\hline
+ $Range$ & 0..255 & -128..127 & 0..65.535  & -32.768..32.767  & -- & --\\ \hline
+ $Physical\ Size $ & 1 byte & 1 byte & 2 bytes & 2 bytes &  1 bytes & 2 bytes \\ \hline
+\end{tabular}
+\end{center} 
+\end{table}
+
+ Usually, for each type module just needs to detail or redefines the pre-defined concepts. For
+ example, the function $\mathit{bv\_to\_nat}$ from bit vector arithmetics that is specialized to
+ $\mathit{byte\_uchar}$. The set $\mathit{BYTE}$ is a subset of the
+$\mathit{BIT\_VECTOR}$, then this function can defined as follows:
+
+$
+\begin{array}{l}
+\mathit{byte\_uchar} \in \mathit{BYTE} \fun \nat \land \\
+\mathit{byte\_uchar} = \lambda (v) . ( v \in BYTE | bv\_to\_nat(v) )
+\end{array}
+$
+
+The definitions of the library types reuse the basic definitions from the hardware library. This provides greater
+confidence and facilitates the prove process, because the prover can reuse the
+previous defined lemma.
+
+The inverse function is easily defined as $\mathit{uchar\_byte}$.
+
+$
+\begin{array}{l}
+\mathit{uchar\_byte} \in \mathit{UCHAR}  \fun  \mathit{BYTE}  \land \\
+   \mathit{uchar\_byte} = \ (\mathit{byte\_uchar}) ^{-1}
+\end{array}
+$ 
+
+% We also created the following lemmas:
+%  
+% $
+% \begin{array}{l}
+%  \forall (val) . (val \in \mathit{UCHAR} |
+%  \mathit{byte\_uchar}(\mathit{uchar\_byte}(val)) = val) \land\\
+%  \forall (by) . (by \in \mathit{BYTE} |
+%  \mathit{uchar\_byte}(\mathit{byte\_uchar}(by)) = by)
+% \end{array}
+% $ 
+
+Similarly, several other functions and lemmas were created for all other
+data types.
+
+\section{Description of the Z80 B model }
+\label{sec:z80}
+
+The \textit{Z80} is an important CISC microcontroller developed by \textit{Zilog}~\cite{Z80_manual}. It supports
+158 different instructions. These instructions are classified into these categories: load and exchange; block transfer
+and search; arithmetic and logical; rotate and shift; bit manipulation (set, reset, test); jump, call and return; input/output; and basic cpu control. 
+
+The main module includes an instance of memory module and accesses the definitions from: basic data types modules
+and \textit{ALU}.
+
+\begin{sloppypar}
+
+\bf MACHINE
+
+\hspace*{0.15in}\it Z80
+
+\bf INCLUDES
+
+\hspace*{0.10in}\it MEMORY
+
+\bf SEES
+
+\hspace*{0.10in}\it ALU, \it BIT\_DEFINITION, \it BIT\_VECTOR\_DEFINITION,
+
+\hspace*{0.10in}\it BYTE\_DEFINITION, \it BV16\_DEFINITION, 
+
+\hspace*{0.10in}\it UCHAR\_DEFINITION, \it SCHAR\_DEFINITION,
+
+\hspace*{0.10in}\it SSHORT\_DEFINITION ,\it USHORT\_DEFINITION
+\end{sloppypar}
+
+% Chacteristics of microcontroller
+Each instruction is represented by B operations in the module Z80. By default, all parameters from
+operations are or predefined elements in the model or integers values in the decimal representation.
+The internal registers contain 208 bits of reading/writing memory. It includes two sets of six general purpose
+registers which may be used individually as 8-bits registers or as 16-bits register pairs.  The work registers are
+represented by variable $\mathit{rgs8}$. The domain of $\mathit{rgs8}$ ($\mathit{id\_regs8}$) is a set formed by
+identifiers of registers of 8 bits. These registers can be accessed in pairs, forming 16-bits, resulting in other
+set of identifiers of 16-bits registers, named $\mathit{id\_reg16}$. The main work register of Z80 is the
+accumulator ($\mathit{rgs8(a0)}$) used for arithmetic, logic, input/output and loading/storing operations.
+\subsection{Modelling registers, input and output ports and instructions}
+
+The Z80 has many register of diferrents types and many instructions. It includes alternative set of accumulator,
+flag and general registers. The CPU contains a stack pointer ($\mathit{sp}$), program counter ($\mathit{pc}$), two
+index registers ($\mathit{ix}$ and $\mathit{iy}$), an interrupt register ($\mathit{i\_}$), a refresh register
+($\mathit{r\_}$), two bits ($\mathit{iff1}$, $\mathit{iff2}$) used to control the interruptions, a pair of bits to
+define the interruption mode ($\mathit{im}$) and the input and output ports ($\mathit{i\_o\_ports}$). Below, its
+definitions are specified in the \textit{INVARIANT}.
+  
+\begin{sloppypar}
+\bf INVARIANT
+\hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ pc  $\in$  \it INSTRUCTION  $\land$ 
+
+\hspace*{0.10in}\it  sp  $\in$  \it BV16  $\land$  \it ix  $\in$  \it BV16  $\land$  \it iy  $\in$  \it BV16  $\land$ 
+
+\hspace*{0.10in}\it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$ iff1  $\in$  \it BIT
+$\land$ \it iff2  $\in$  \it BIT  $\land$ 
+
+\hspace*{0.10in}\it im \rm : \rm (\it BIT $\times$ \it BIT\rm )  $\land$ i\_o\_ports  $\in$  \it BYTE 
+$\fun$  \it BYTE
+\end{sloppypar}
+
+ A simple example of instruction is a $\mathit{LD\_n\_A}$, as shown below.
+Many times, to model an instruction is necessary to use the predefined functions, these help the construction of
+model. This instruction use the $\mathit{updateAddressMem}$ function from \textit{Memory} module and it receives an
+address memory and its new memory value. Finally it increments the program counter ($\mathit{pc}$) and update the
+refresh register ($\mathit{r\_}$).
+	
+\hspace*{0.00in}\bf LD\_n\_A \rm ( \it nn \rm ) \rm =
+	
+\hspace*{0.20in}\bf PRE \it nn $\in$ \it USHORT\hspace*{0.15in} %$\land$  \it nn $\in$\it DATA\_R\_ADR
+	
+\hspace*{0.20in}\bf THEN
+	
+\hspace*{0.20in}\bf updateAddressMem \rm ( \it ushort\_to\_bv16 \rm ( \it nn \rm ) \rm , \it rgs8 \rm ( \it a0 \rm )
+\rm )  $\para$
+	
+\hspace*{0.20in}\it pc \rm := \it instruction\_next \rm ( \it pc \rm )  $\para$  \it r\_ \rm := \it
+update\_refresh\_reg\rm (\it r\_\rm )
+	
+\hspace*{0.00in}\bf END\rm 
+	
+The microcontroller model can specify several security properties. For example, the last operation could have a
+restriction to write only in a defined region of memory.
+
+\section{Proofs}
+\label{sec:Proofs}
+% [intro/scope] [O que as provas garantem? citar que dificeis, que é necessário buscar técnicas eficientes
+% para realizar as provas ]
+
+ The proof obligations allow to verify the data types, important system properties and if the expressions are
+ well-defined (WD)\footnote{An expression is called ``well-defined'' (or unambiguous) if its definition assigns it a
+ unique interpretation or value.}. The properties provide additional guarantees, because it can set many safety
+ rules. However, the model can be very difficult to prove.
+ 
+% [Conclusao] This project has many proof obligations and
+The building of model was a hard and difficult task, because we needed to build, prove, fix and re-prove
+several predicates of the libraries.
+
+However, few proof commands\footnote{The proof commands are step that just indicate a walk to prover make the proof,
+thus theses commands cannot introduce false hypotheses.} can be useful to prove the majority of the proof
+obligations. Because, there are many similar assembler instructions. A good example is a set of 17 proof commands
+that quickly aided the verification of 99\% (2295) of proofs WD. Finally, the techniques mentioned  help
+the verification of all the 2926 proof obligations.
+ 
+ \section{Related Works}
+ \label{sec:relatedworks}
+ 
+% [ I need review the english]
+
+There are in the literature of computer science some approaches~\cite{BHDL_2003,GEMPLUS_99} to model hardware and
+the virtual machines using the B method. Then, the B method has been used successfully to model the operational
+semantic. However the cost of modelling was still expensive and this paper quoted some techniques to lower the cost
+of modelling. Although, the modelling of the Z80 do not have modelled some small aspects.
+% The objective of researchers
+
+In general, the researchers~\cite{GEMPLUS_99} are concentrated at model the Java Virtual Machines (JVM), but it is
+not easy to specify, because it is very big and complex. Then, this work specify a model more simple to get better
+results, at the same time, the model stay near to model of actual microcontrollers. The main motivation of our
+research is the verification of assembler level and consequently the verification of hardware model. Thus, the some
+aspects are not modelled. For example, the time of execution of instruction, the pipeline and others questions not
+directly related with the semantic software. However, there are many other specialized techniques to verify these
+questions.
+ 
+ \section{Conclusions}
+\label{sec:conclusions} 
+This work has shown an approach to the formal modelling of microcontrollers using the B method. This approach
+provide interesting results and had a great automatization in the prove process. For instance, it is interesting to
+say that: during the building process of the Z80 model we found some errors and ambiguities in the official
+manual\cite{Z80_manual}. The platform model can replace (or improve) the documentation used by assembler
+programmers. Because the formal model represents the instructions effects and the B method has an easy notation,
+similar to pascal language.  Besides, the formal model restricts the definitions to correct typing, uses expressions
+well-defined and allows verifying properties of the model.
+
+
+% This research is much interesting to
+% design microcontroller. Because, the building of formal model found some erros and ambiguities at the oficial
+% manual~\cite{Z80_manual}. The Z80's B model can replace the documentation used by assembler programmers, because the
+% formal model represents the instructions effects and the B-method has a easy language, that remembers the pascal
+% language. Besides, the formal model restricts the defintions to correct typing, use expressions well-defined and
+% allow to verify properties on the model.
+
+% [Trabalhos futuros ]
+Future works comprise the development of a real study case in the oil area and the project of a compiler to aid the
+approach.
+%  The next steps of the work comprises the development of a real study case in the oil area and the project of a
+% compiler to aid the automatization of verification at the assembly level
+ 
+% The next works are the development of a real study case in the oil area and after the project of a compiler to aid
+% the automatization of verification at the assembler level.
+  
+ \paragraph{Acknowledges:}
+This work received supports from ANP (National Agency of Oil) and CNPq.
+% Besides, the researcher Bruno Gomes help in the revision.
+
+
+
+\begin{thebibliography}{5}
+
+\bibitem {Abrial}
+Abrial, J. R. The B Book: Assigning Programs to Meanings. Cambridge University Press, United States of
+America, 1 edition, 1996.
+
+\bibitem {BHDL_2003}    
+Aljer, P. Devienne, S. Tison and J-L. Boulanger andG. Mariano. Bhdl: Circuit Design in B. A. In
+ACSD, Third International Conference on Application of Concurrency to System Design, pages 241-242, 2003.
+
+\bibitem {GEMPLUS_99}
+Casset L.; Lanet J. L. A Formal Specification of the Java Bytecode Semantics using the B
+method.Technical Report, Gemplus. 1999.
+
+% \bibitem {CLEARSY}
+% Clearsy. Atelier B. http://www.atelierb.eu.
+
+\bibitem {Dantas_SBMF08}
+Dantas, B; D\'{e}harbe, D; Galv\~{a}o, S; Et al. Applying the B Method to Take on the Grand Challenge of
+Verified Compilation. In: SBMF, Savaldor, 2008. SBC.
+ 
+\bibitem {HOARE}
+Hoare, C. A. R. The verifying compiler, a grand challenge for computing research. In: VMCAI, p. 78-78, 2005.
+
+\bibitem{Z80_manual}
+Zilog. Z80 Family CPU User Manual. www.zilog.com/docs/z80/um0080.pdf
+
+\end{thebibliography}
+
+\end{document}
+%
+% \bibitem {clar:eke}
+% Clarke, F., Ekeland, I.:
+% Nonlinear oscillations and
+% boundary-value problems for Hamiltonian systems.
+% Arch. Rat. Mech. Anal. {\bf 78} (1982) 315--333
+% %
+% \bibitem {clar:eke:2}
+% Clarke, F., Ekeland, I.:
+% Solutions p\'{e}riodiques, du
+% p\'{e}riode donn\'{e}e, des \'{e}quations hamiltoniennes.
+% Note CRAS Paris {\bf 287} (1978) 1013--1015
+% %
+% \bibitem {mich:tar}
+% Michalek, R., Tarantello, G.:
+% Subharmonic solutions with prescribed minimal
+% period for nonautonomous Hamiltonian systems.
+% J. Diff. Eq. {\bf 72} (1988) 28--55
+% %
+% \bibitem {tar}
+% Tarantello, G.:
+% Subharmonic solutions for Hamiltonian
+% systems via a $\bbbz_{p}$ pseudoindex theory.
+% Annali di Matematica Pura (to appear)
+% %
+% \bibitem {rab}
+% Rabinowitz, P.:
+% On subharmonic solutions of a Hamiltonian system.
+% Comm. Pure Appl. Math. {\bf 33} (1980) 609--633
+% \end{thebibliography}
+%
+
