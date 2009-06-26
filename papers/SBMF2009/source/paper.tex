@@ -1,4 +1,4 @@
-\documentclass{llncs}
+\documentclass[a4paper]{llncs}
 
 \usepackage{graphicx,array}
 \usepackage{amsmath}
@@ -17,7 +17,7 @@
 %
 \begin{document}
 
-\title{A Formal Model of Microcontroller Instruction Set in B}
+\title{Formal Modelling of a Microcontroller Instruction Set in B}
 
 
 \author{Val\'{e}rio Medeiros Jr\inst{1}, David D\'{e}harbe\inst{1}}
@@ -27,123 +27,137 @@
 \maketitle
 
 \begin{abstract}
-This paper describes an approach to model the microcontroller platforms. More specifically, it shows details about
-the Z80 model. The model has been developed using the B method; which applies math and logic concepts to describe
-characteristics from platforms. Therefore, this modelling can be used in platform projects to document, build
-simulators, verify properties about the model and verify at assembly level software. The verification
-at assembly is the feature more important, because this allows to develop faithful software to the algorithm
-language. Thus, the platform model was built for this purpose. Finally, this paper shows some relevant techniques
-used in models and to describe some details of our approach.
+  This paper describes an approach to model the functional aspects of
+  the instruction set of microcontroller platforms using the notation
+  of the B method. The paper presents specifically the case of the Z80 
+  platform. This work is a contribution towards the extension of the
+  B method to handle developments up to assembly level code.
 \end{abstract}
 %
 %\keywords{Fomal Methods, microcontroller Verification, Hardware}
 
 \section{Introduction}
 
-This work describes briefly the modelling of microcontroller Z80~\cite{Z80_manual} and some techniques used to build
-it. This modelling\footnote{The interested reader in more details is invited to visit our repository
-at: http://code.google.com/p/b2asm} use the B method~\cite{Abrial}, because it has a great maturity and advanced
-support. Besides, the modelling of microcontroller can extend the level of verification of B method, as it will be
-explained.
+The B method~\cite{Abrial} supports the construction of safety systems
+model by verification of proofs that guarantees its correctness. So,
+an initial abstract model of the system requirements is defined and
+then it is refined until the implementation model. Development
+environments based on the B method also include source code generators
+for several programming languages, but the result of this translation
+cannot be compared by formal means. \cite{Dantas_SBMF08} presented
+recently an approach to extend the scope of the B method up to the
+assembly level language language. One key component of this approach
+is to build, within the framework of the B method, formal modelos of
+the instruction set of such assembly languages.
 
-The B method supports the construction of safety systems model by verification of proofs that guarantees its
-correctness. So, an initial abstract model of the system is defined and refined until the implementation model. The
-B tools  still have the code generator to programming language, but this feature is not verified. In~\cite{Dantas_SBMF08} is presented an approach to extend the verification of B method until the assembler language.
-In this approach, the construction of systems begins from the abstract level and it is formally refined until the
-target assembly platform.
+This work gives an overview of the formal modelling of the instruction
+set of the Z80 microcontroller~\cite{Z80_manual}\footnote{The
+  interested reader in more details is invited to visit our repository
+  at: http://code.google.com/p/b2asm.}. Using the responsibility
+division mechanism provided by B, auxiliary libraries of basic modules
+were developed as part of the construction of microcontroller
+model. Such library has many definitions about common concepts used in
+the microcontrollers; besides the Z80 model, it is used by two other
+microcontrollers models that are under way.
 
-Therefore, the first step of this approach is to build the platform modelling, of the microcontroller, in B. Using the
-responsibility division mechanism provided by B, basic modules was developed to be used as elementary library to
-help the constructing of microcontroller model. The elementary library has many definitions about common concepts used
-in the microcontrollers. This library is used by Z80 model and other two model microcontrollers that
-are under construction.
+Other possible uses of a formal model of a micro-controller
+instruction set include documentation, the construction of simulators,
+and be possibly the starting point of a verification effort for the
+actual implementation of a Z80 design. Moreover the model of the
+instruction set could be instrumented with non-functional aspects,
+such as the number of cycles it takes to execute an instruction, to
+prove lower and upper bounds on the execution time of a routine. The
+goal of this project, though, is to provide a basis for the generation
+of software artifacts at the assembly level that are amenable to 
+refinement verification within the B method.
 
-The microcontroller modelling can be used in platform projects documentation, simulators construction, consistency
-verification and software verification at assembly level. The verification at assembly level is more interesting
-utility because it allows the development of trustworthy software by construction, that is extremely desirable in
-embedded critical software.
-
-In this paper we introduced the modelling of Z80 microcontroller, since elementary library until assembly
-instructions. The paper is structured as follows. Section~\ref{sec:B_method} provides a general introduction to the
-B method. Section~\ref{sec:models} presents the elementary libraries and of microcontrollers basic concepts.
-Section~\ref{sec:z80} presents the Z80 B modelling. Section ~\ref{sec:Proofs} explain a little about the proofs of
-models. The next section (\ref{sec:relatedworks}) discusses the related works. Finally, the last section has the
-conclusions.
+This paper is focused on the presentation of the Z80 model, including
+elementary libraries to describe hardware aspects. The paper is
+structured as follows. Section~\ref{sec:B_method} provides a short
+introduction to the B method. Section~\ref{sec:models} presents the
+elementary libraries and the modelling of some elements common to
+microcontrollers.  Section~\ref{sec:z80} presents the B model of the
+Z80 instruction set. Section ~\ref{sec:Proofs} provides some
+information on the proof effort needed to analyze the presented
+models. Related work is discussed in
+Section~\ref{sec:relatedworks}. Finally, the last section is devoted
+to the conclusions.
 
 \section{B Method}
 \label{sec:B_method}
 
-The B method for software development~\cite{Abrial} is based on the B Abstract Machine Notation (AMN) and
-the use of formally proved refinements up to a specification sufficiently concrete that programming     
-code can be automatically generated from it. Its mathematical basis consists of first order logic,      integer arithmetic and set theory, and its corresponding constructs are very similar to those of the Z notation 
+The B method for software development~\cite{Abrial} is based on the B
+Abstract Machine Notation (AMN) and the use of formally proved
+refinements up to a specification sufficiently concrete that
+programming code can be automatically generated from it. Its
+mathematical basis consists of first order logic, integer arithmetic
+and set theory, and its corresponding constructs are very similar to
+those of the Z notation
 
- A B specification is structured in modules. A module defines a set of valid states, including a set of initial
- states, and operations that may provoke a transition between states. The design process starts with a module with a
- so-called functional model of the system under development. In this initial modelling stage, the B method requires
- that the user proves that, in a machine, all the initial states are valid, and that operations do not define
- transitions from valid states to invalid states.
+A B specification is structured in modules. A module defines a set of
+valid states, including a set of initial states, and operations that
+may provoke a transition between states. The design process starts
+with a module with a so-called functional model of the system under
+development. In this initial modelling stage, the B method requires
+that the user proves that, in a machine, all the initial states are
+valid, and that operations do not define transitions from valid states
+to invalid states.
   
- Essentially, a B module contains two main parts: a header and the available operations, in the
- figure~\ref{fig:maqB} has a intuitive example. The clause $\mathit{MACHINE}$ has the name of module.  The following two are used to access an external module and create an instance of an external module. The
- $\mathit{VARIABLES}$  declares the variable names. The following declares its types and the restrictions. The
- $\mathit{INITIALIZATION} $  defines the its initial value. The last define the operations that remember procedures
- from programming language.
- 
+Essentially, a B module contains two main parts: a header and the
+available operations. Figure~\ref{fig:maqB} has a very basic
+example. The clause $\mathit{MACHINE}$ has the name of module.  The
+following two clauses respectively reference external modules and
+create an instance of an external module. The $\mathit{VARIABLES}$
+declares the name of the variables that compose the state of the
+machine. Next, the $\mathit{INVARIANT}$ clause defines the type and
+other restrictions on the variables. The $\mathit{INITIALIZATION} $
+sepecifies the initial states. Finally, operations correspond to
+the transitions between states of the machine.
 
 \begin{figure}
-%\begin{small}
-$$
-\begin{array}{l}
-\MACHINE \quad  \mathit{micro} \quad \quad \quad \quad \quad  \quad \quad \quad \quad \INITIALISATION  \mathit{pc}
-:= 0\\
-\SEES \quad \mathit{TYPES}, \mathit{ALU} \quad \quad \quad \quad \quad \quad \quad \quad \OPERATIONS\\
-\INCLUDES    \quad \mathit{MEMORY} \quad \quad \quad \quad \quad \quad \quad \mathit{JMP} \mathit{( jump )} =
-\\
-\VARIABLES \quad    \mathit{pc}  \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \PRE \mathit{jump}
-\in\mathit{INSTRUCTION}\\ 
- \INVARIANT \quad \mathit{pc} \in \mathit{INSTRUCTION}  \quad \ \THEN \mathit{pc} :=
-\mathit{jump}\\  
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
-\END \quad  \ldots \\
-% \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
-%\quad  \ldots
-\end{array}
-$$
-% \begin{array}{l}
-% \MACHINE \quad \quad \quad \quad \quad \quad  \quad \quad \quad \quad \INITIALISATION \\
-% \quad   \mathit{micro} \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad   \quad   \mathit{pc} := 0\\
-% \SEES \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad   \quad   \OPERATIONS\\
-% \quad \mathit{TYPES}, \mathit{ALU}\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad   \quad \\
-% \INCLUDES                \quad \quad \quad \quad \quad \quad \quad \quad \quad   \quad   \mathit{JMP} \mathit{( jump )} = \\
-% \quad   \mathit{MEMORY}   \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \PRE\\
-% \VARIABLES      \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad \quad  \mathit{jump} \in
-% \mathit{INSTRUCTION}\\ \quad   \mathit{pc}    \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad\quad \quad \THEN\\
-% \INVARIANT   \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad   \mathit{pc} := \mathit{jump}\\
-% \quad \mathit{pc} \in \mathit{INSTRUCTION} \ \ \quad \quad \quad \quad \quad \quad \END\\
-% \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
-% \quad \quad  \ldots
-% \end{array}
-
-%\end{small}
-\caption{A part of B simplified module}
+  % \begin{small}
+  $$
+  \begin{array}{lcl}
+    \begin{array}[t]{l}
+      \MACHINE \quad  \mathit{micro} \\
+      \SEES \quad \mathit{TYPES}, \mathit{ALU} \\
+      \INCLUDES  \quad \mathit{MEMORY} \\
+      \VARIABLES \quad    \mathit{pc}  \\
+      \INVARIANT \quad \mathit{pc} \in \mathit{INSTRUCTION} 
+    \end{array}
+    & \hspace*{1cm} &
+    \begin{array}[t]{l}
+      \INITIALISATION  \mathit{pc} := 0 \\
+      \OPERATIONS\\
+      \mathit{JMP} \mathit{( jump )} = \\
+      \quad \PRE \mathit{jump} \in \mathit{INSTRUCTION}\\ 
+      \quad \THEN \mathit{pc} := \mathit{jump}\\  
+      \quad \END \\
+      \END
+    \end{array}
+  \end{array}
+  $$
+\caption{A very basic B machine.}
 \label{fig:maqB}
 \end{figure}
 
 
-\section{Overview of Plataform's B Models}
+\section{Model structure and basic components}
 \label{sec:models}
 
-We have been developed a reusable set of basic definitions to model hardware concepts and data types
-concepts. These definitions are grouped in two projects of libraries and other project to model the
-platform. Thus, our workspace is arranged through three projects: hardware library, types library and
-the project of specific platform, in this case the Z80.
-
-The dependency graph between these projects is depicted in figure~\ref{fig:hardware-definition-graph}
-and the next sections will explain each one of them.
+We have been developed a reusable set of basic definitions to model
+hardware concepts and data types concepts. These definitions are
+grouped into two separate development projects and are available as
+libraries. A third project is devoted to the higher-level aspects of
+the Z80 model. Thus, the workspace is composed of: a hardware library,
+a types library and a project for the specific platform, in this case
+the Z80. The corresponding dependency diagram is depicted in
+Figure~\ref{fig:hardware-definition-graph}; information specific to
+each project is presented in the following.
 
 \begin{figure}[h] \centering
 \includegraphics[width=.92\textwidth]{diagramaEstrutural_vertical.jpg}
- \caption{Dependency graph between the projects that compose the platform model of Z80.}
+ \caption{Dependency diagram of the Z80 model.}
 \label{fig:hardware-definition-graph}
 \end{figure}
 
@@ -156,8 +170,9 @@ type for bits, logical operations on bits (negation, conjunction,
 disjunction, exclusive disjunction), as well as a conversion function
 from booleans to bits.
 
-First, bits are modelled as the set of integers: $\mathit{BIT} = \mathit{0..1}$. The negation is an unary
-function on bits and it is defined as:
+First, bits are modelled as a set of integers: $\mathit{BIT} =
+\mathit{0..1}$. The negation is an unary function on bits and it is
+defined as:
 
 $
 \begin{array}{l}
@@ -166,7 +181,8 @@ $
 \end{array}
 $
 
-The module also provides lemmas on negation that may be useful for the users of the library to develop proofs:
+The module also provides lemmas on negation that may be useful for the
+users of the library to develop proofs:
 
 $
 \begin{array}{l}
@@ -200,9 +216,10 @@ $
 \end{array}
 $
 
-The module provides definitions of $\mathit{bit\_or}$ (disjunction) and $\mathit{bit\_xor}$ (exclusive disjunction),
-as well as lemmas on those operators. These are standard and their expression in B is similar as for
-$\mathit{bit\_and}$, they are thus omitted.
+The module provides definitions of $\mathit{bit\_or}$ (disjunction)
+and $\mathit{bit\_xor}$ (exclusive disjunction), as well as lemmas on
+those operators. These are standard and their expression in B is
+similar as for $\mathit{bit\_and}$, they are thus omitted.
 
 Finally, the conversion from booleans to bits is simply defined as:
 
@@ -219,15 +236,14 @@ development environment. None of these proofs requires human insight.
 
 \subsection{Representation and Manipulation of Bit Vectors}
 
-Sequences are pre-defined in B, as functions whose the domain is an integer range with lower bound 1 (one). Indices
-in bit vectors usually range from 0 (zero) upwards and the model we propose obeys this convention by making an
-one-position shift where necessary. This shift is important to use the predefined functions of sequences. We
-thus define bit vectors as non-empty sequences of bits, and $\mathit{BIT\_VECTOR}$ is the set of all such sequences:
-$
-\begin{array}{l}
-\mathit{BIT\_VECTOR} = \seq (\mathit{BIT})
-\end{array}
-$
+Sequences are pre-defined in B, as functions whose the domain is an
+integer range with lower bound 1 (one). Indices in bit vectors usually
+range from 0 (zero) upwards and the model we propose obeys this
+convention by making an one-position shift where necessary. This shift
+is important to use the predefined functions of sequences. We thus
+define bit vectors as non-empty sequences of bits, and
+$\mathit{BIT\_VECTOR}$ is the set of all such sequences: 
+$\mathit{BIT\_VECTOR} = \seq (\mathit{BIT})$.
 
 The function $\mathit{bv\_size}$ returns the size of a given bit vector. It is basically a wrapper for the
 predefined function $\mathbf{size}$ that applies to sequences.
@@ -373,9 +389,12 @@ data types.
 \section{Description of the Z80 B model }
 \label{sec:z80}
 
-The \textit{Z80} is an important CISC microcontroller developed by \textit{Zilog}~\cite{Z80_manual}. It supports
-158 different instructions. These instructions are classified into these categories: load and exchange; block transfer
-and search; arithmetic and logical; rotate and shift; bit manipulation (set, reset, test); jump, call and return; input/output; and basic cpu control. 
+The \textit{Z80} is a CISC microcontroller developed by
+\textit{Zilog}~\cite{Z80_manual}. It supports 158 different
+instructions. These instructions are classified into these categories:
+load and exchange; block transfer and search; arithmetic and logical;
+rotate and shift; bit manipulation (set, reset, test); jump, call and
+return; input/output; and basic cpu control.
 
 The main module includes an instance of memory module and accesses the definitions from: basic data types modules
 and \textit{ALU}.
@@ -412,7 +431,7 @@ set of identifiers of 16-bits registers, named $\mathit{id\_reg16}$. The main wo
 accumulator ($\mathit{rgs8(a0)}$) used for arithmetic, logic, input/output and loading/storing operations.
 \subsection{Modelling registers, input and output ports and instructions}
 
-The Z80 has many register of diferrents types and many instructions. It includes alternative set of accumulator,
+The Z80 has many register of differents types and many instructions. It includes alternative set of accumulator,
 flag and general registers. The CPU contains a stack pointer ($\mathit{sp}$), program counter ($\mathit{pc}$), two
 index registers ($\mathit{ix}$ and $\mathit{iy}$), an interrupt register ($\mathit{i\_}$), a refresh register
 ($\mathit{r\_}$), two bits ($\mathit{iff1}$, $\mathit{iff2}$) used to control the interruptions, a pair of bits to
@@ -475,35 +494,43 @@ obligations. Because, there are many similar assembler instructions. A good exam
 that quickly aided the verification of 99\% (2295) of proofs WD. Finally, the techniques mentioned  help
 the verification of all the 2926 proof obligations.
  
- \section{Related Works}
- \label{sec:relatedworks}
+\section{Related Works}
+\label{sec:relatedworks}
  
-
-
-There are in the literature of computer science some approaches~\cite{BHDL_2003,GEMPLUS_99} to model hardware and
-the virtual machines using the B method. Then, the B method has been used successfully to model the operational
-semantic. However the cost of modelling was still expensive and this paper quoted some techniques to lower the cost
-of modelling. Although, the modelling of the Z80 do not have modelled some small aspects.
+There are in the literature of computer science some
+approaches~\cite{BHDL_2003,GEMPLUS_99} to model hardware and the
+virtual machines using the B method. Then, the B method has been used
+successfully to model the operational semantic. However the cost of
+modelling was still expensive and this paper quoted some techniques to
+lower the cost of modelling. Although, the modelling of the Z80 do not
+have modelled some small aspects.
 % The objective of researchers
 
-In general, the researchers~\cite{GEMPLUS_99} are concentrated at model the Java Virtual Machines (JVM), but it is
-not easy to specify, because it is very big and complex. Then, this work specify a model more simple to get better
-results, at the same time, the model stay near to model of actual microcontrollers. The main motivation of our
-research is the verification of assembler level and consequently the verification of hardware model. Thus, the some
-aspects are not modelled. For example, the time of execution of instruction, the pipeline and others questions not
-directly related with the semantic software. However, there are many other specialized techniques to verify these
-questions.
+In general, the researchers~\cite{GEMPLUS_99} are concentrated at
+model the Java Virtual Machines (JVM), but it is not easy to specify,
+because it is very big and complex. Then, this work specify a model
+more simple to get better results, at the same time, the model stay
+near to model of actual microcontrollers. The main motivation of our
+research is the verification of assembler level and consequently the
+verification of hardware model. Thus, the some aspects are not
+modelled. For example, the time of execution of instruction, the
+pipeline and others questions not directly related with the semantic
+software. However, there are many other specialized techniques to
+verify these questions.
  
  \section{Conclusions}
 \label{sec:conclusions} 
-This work has shown an approach to the formal modelling of microcontrollers using the B method. This approach
-provide interesting results and had a great automatization in the prove process. For instance, it is interesting to
-say that: during the building process of the Z80 model we found some errors and ambiguities in the official
-manual\cite{Z80_manual}. The platform model can replace (or improve) the documentation used by assembler
-programmers. Because the formal model represents the instructions effects and the B method has an easy notation,
-similar to pascal language.  Besides, the formal model restricts the definitions to correct typing, uses expressions
-well-defined and allows verifying properties of the model.
 
+This work has shown an approach to the formal modelling of the
+instruction set of microcontrollers using the B method. During the
+construction of this model, several ambiguities and errors were
+encountered in the during the official reference~\cite{Z80_manual}. As
+the B notation has a syntax that is not too distant from that of
+imperative programming languages, such model could be used to improve
+the documentation used by assembler programmers. Besides, the formal
+notation used is analyzed by software that guarantees the
+correctness of typing, the well-definedness of expressions, in addition
+to safety properties of the micro-controller state.
 
 % This research is much interesting to
 % design microcontroller. Because, the building of formal model found some erros and ambiguities at the oficial
@@ -513,19 +540,20 @@ well-defined and allows verifying properties of the model.
 % allow to verify properties on the model.
 
 % [Trabalhos futuros ]
-Future works comprise the development of a real study case in the oil area and the project of a compiler to aid the
-approach.
+Future works comprise the development of software with the B method
+from functional specification to assembly level, using the Z80 model
+presented in this paper. The mechanic compilation from B algorithmic 
+constructs to assembly platform is also envisioned.
+
 %  The next steps of the work comprises the development of a real study case in the oil area and the project of a
 % compiler to aid the automatization of verification at the assembly level
  
 % The next works are the development of a real study case in the oil area and after the project of a compiler to aid
 % the automatization of verification at the assembler level.
   
- \paragraph{Acknowledges:}
-This work received supports from ANP (National Agency of Oil) and CNPq.
-% Besides, the researcher Bruno Gomes help in the revision.
-
-
+\paragraph{Acknowledges:}
+This work received support from ANP (\textit{Agência Nacional do
+  Petróleo, Gás Natural e Biocombustíveis}) and CNPq.
 
 \begin{thebibliography}{5}
 
