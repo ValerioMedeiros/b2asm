@@ -83,7 +83,7 @@ models. Related work is discussed in
 Section~\ref{sec:relatedworks}. Finally, the last section is devoted
 to the conclusions.
 
-\section{B Method}
+\section{Introduction to the B Method}
 \label{sec:B_method}
 
 The B method for software development~\cite{Abrial} is based on the B
@@ -163,7 +163,7 @@ each project is presented in the following.
 
 
 
-\subsection{Definitions to Represent and Manipulate Bits}
+\subsection{Bit representation and manipulation}
 
 The entities defined in the module $\mathit{BIT\_DEFINITION}$ are the
 type for bits, logical operations on bits (negation, conjunction,
@@ -292,7 +292,7 @@ express properties on the size of the result of the operations
 as well as classical algebraic properties such as associativity
 and commutativity.
  
-\subsection{Modelling Bytes and Bit Vector of Length 16}
+\subsection{Modelling Bytes and Bit Vectors of Length 16}
 
 Bit vectors of length 8 are bytes. They form a common entity in
 hardware design. We provide the following definitions:
@@ -306,17 +306,23 @@ hardware design. We provide the following definitions:
 
 \hspace*{0.0in}\it BYTE\_ZERO  $\in$  \it BYTE  $\land$ \it BYTE\_ZERO \rm = \it BYTE\_INDEX  $\times$  \rm \{\rm 0\rm \}
 
-The $\mathit{BYTE\_INDEX}$ is domain of byte modelled. It starts at 1 to obey a definition of sequences from B
-method. However, the functions from byte encapsulate the access and these functions use the
-$\mathit{PHYS\_BYTE\_INDEX}$. The $\mathit{BYTE}$ type is a specialized type from $\mathit{BIT\_VECTOR}$, but it has
-a size limit. Some others more specific definitions are created to help the developer. The type $\mathit{BV16}$ is
-created for bit vector of length 16 in a similar way.
+The $\mathit{BYTE\_INDEX}$ is the domain of the functions modelling
+bytes. It starts at 1 to obey a definition of sequences from B
+method. However, it is common in hardware architectures to start
+indexing from zero. The definition $\mathit{PHYS\_BYTE\_INDEX}$ is
+used to provide functionalities obeying this convention. The
+$\mathit{BYTE}$ type is a specialized type from
+$\mathit{BIT\_VECTOR}$, but it has a size limit. Other specific
+definitions are provided to facilitate further modelling: the type
+$\mathit{BV16}$ is created for bit vector of length 16 in a similar
+way.
 
 \subsection{Bit Vector Arithmetics}
 
-Bit vectors are used to represent and combine numbers: integer ranges (signed or unsigned). Then, our library
-defines functions to manipulate this date, for example, the function $\mathit{bv\_to\_nat}$ that maps bit
-vectors to natural numbers:
+Bit vectors are used to represent and combine numbers: integer ranges
+(signed or unsigned). Therefore, our library includes functions to
+manipulate such data, for example, the function $\mathit{bv\_to\_nat}$
+that maps bit vectors to natural numbers:
 
 $
 \begin{array}{l}
@@ -329,9 +335,11 @@ An  associated lemma is: $\forall n . (n \in \nat_1 \implies \mathit{bv\_to\_nat
 
 \subsection{Basics Data Types}
 
-The instruction set of microcontrollers usually have common data types. These types are placed in the types
-library. Each type module has functions to manipulate and convert its data. There are six common basics data types
-represented by modules, see details in table~\ref{tab:types}.
+The instruction set of microcontrollers usually have common data
+types. These types are placed in the types library. Each type module
+has functions to manipulate and convert its data. There are six common
+basics data types represented by modules, see details in
+table~\ref{tab:types}.
 
 \begin{table}
 \caption{Descriptions of basic data types}
@@ -347,10 +355,12 @@ represented by modules, see details in table~\ref{tab:types}.
 \end{center} 
 \end{table}
 
- Usually, for each type module just needs to detail or redefines the pre-defined concepts. For
- example, the function $\mathit{bv\_to\_nat}$ from bit vector arithmetics that is specialized to
- $\mathit{byte\_uchar}$. The set $\mathit{BYTE}$ is a subset of the
-$\mathit{BIT\_VECTOR}$, then this function can defined as follows:
+Usually, each type module just needs to instantiate concepts that were
+already defined in the hardware modelling library.  For example, the
+function $\mathit{bv\_to\_nat}$ from bit vector arithmetics is
+specialized to $\mathit{byte\_uchar}$. As the set $\mathit{BYTE}$ is a
+subset of the $\mathit{BIT\_VECTOR}$, this function can defined
+as follows:
 
 $
 \begin{array}{l}
@@ -359,11 +369,12 @@ $
 \end{array}
 $
 
-The definitions of the library types reuse the basic definitions from the hardware library. This provides greater
-confidence and facilitates the prove process, because the prover can reuse the
-previous defined lemma.
+The definitions of the library types reuse the basic definitions from
+the hardware library. This provides greater confidence and facilitates
+the proof process, because the prover can reuse the previously defined
+lemma.
 
-The inverse function is easily defined as $\mathit{uchar\_byte}$.
+The inverse function $\mathit{uchar\_byte}$ is easily defined:
 
 $
 \begin{array}{l}
@@ -396,8 +407,8 @@ load and exchange; block transfer and search; arithmetic and logical;
 rotate and shift; bit manipulation (set, reset, test); jump, call and
 return; input/output; and basic cpu control.
 
-The main module includes an instance of memory module and accesses the definitions from: basic data types modules
-and \textit{ALU}.
+The main module includes an instance of the memory module and accesses the
+definitions from basic data types modules and the \textit{ALU} module.
 
 \begin{sloppypar}
 
@@ -421,25 +432,34 @@ and \textit{ALU}.
 \end{sloppypar}
 
 % Chacteristics of microcontroller
-Each instruction is represented by B operations in the module Z80. By default, all parameters from
-operations are or predefined elements in the model or integers values in the decimal representation.
-The internal registers contain 208 bits of reading/writing memory. It includes two sets of six general purpose
-registers which may be used individually as 8-bits registers or as 16-bits register pairs.  The work registers are
-represented by variable $\mathit{rgs8}$. The domain of $\mathit{rgs8}$ ($\mathit{id\_regs8}$) is a set formed by
-identifiers of registers of 8 bits. These registers can be accessed in pairs, forming 16-bits, resulting in other
-set of identifiers of 16-bits registers, named $\mathit{id\_reg16}$. The main work register of Z80 is the
-accumulator ($\mathit{rgs8(a0)}$) used for arithmetic, logic, input/output and loading/storing operations.
+Each instruction is represented by a B operation in the module Z80. By
+default, all parameters from operations are either predefined elements
+in the model or integers values in the decimal representation.  The
+internal registers contain 208 bits of reading/writing memory. It
+includes two sets of six general purpose registers which may be used
+individually as 8-bits registers or as 16-bits register pairs.  The
+working registers are represented by variable $\mathit{rgs8}$. The
+domain of $\mathit{rgs8}$ ($\mathit{id\_regs8}$) is a set formed by
+identifiers of registers of 8 bits. These registers can be accessed in
+pairs, forming 16-bits, resulting in another set of identifiers of
+16-bits registers, named $\mathit{id\_reg16}$. The main working
+register of Z80 is the accumulator ($\mathit{rgs8(a0)}$) used for
+arithmetic, logic, input/output and loading/storing operations.
+
 \subsection{Modelling registers, input and output ports and instructions}
 
-The Z80 has many register of differents types and many instructions. It includes alternative set of accumulator,
-flag and general registers. The CPU contains a stack pointer ($\mathit{sp}$), program counter ($\mathit{pc}$), two
-index registers ($\mathit{ix}$ and $\mathit{iy}$), an interrupt register ($\mathit{i\_}$), a refresh register
-($\mathit{r\_}$), two bits ($\mathit{iff1}$, $\mathit{iff2}$) used to control the interruptions, a pair of bits to
-define the interruption mode ($\mathit{im}$) and the input and output ports ($\mathit{i\_o\_ports}$). Below, its
-definitions are specified in the \textit{INVARIANT}.
+The Z80 has different types of registers and instructions. The CPU
+contains general-purpose registers ($\mathit{id\_reg\_8}$), a stack
+pointer ($\mathit{sp}$), program counter ($\mathit{pc}$), two index
+registers ($\mathit{ix}$ and $\mathit{iy}$), an interrupt register
+($\mathit{i\_}$), a refresh register ($\mathit{r\_}$), two bits
+($\mathit{iff1}$, $\mathit{iff2}$) used to control the interruptions,
+a pair of bits to define the interruption mode ($\mathit{im}$) and the
+input and output ports ($\mathit{i\_o\_ports}$). Below, part of the
+corresponding definitions are replicated from the \textit{INVARIANT}:
   
 \begin{sloppypar}
-\bf INVARIANT
+\bf INVARIANT
 \hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ pc  $\in$  \it INSTRUCTION  $\land$ 
 
 \hspace*{0.10in}\it  sp  $\in$  \it BV16  $\land$  \it ix  $\in$  \it BV16  $\land$  \it iy  $\in$  \it BV16  $\land$ 
@@ -451,11 +471,13 @@ $\land$ \it iff2  $\in$  \it BIT  $\land$
 $\fun$  \it BYTE
 \end{sloppypar}
 
- A simple example of instruction is a $\mathit{LD\_n\_A}$, as shown below.
-Many times, to model an instruction is necessary to use the predefined functions, these help the construction of
-model. This instruction use the $\mathit{updateAddressMem}$ function from \textit{Memory} module and it receives an
-address memory and its new memory value. Finally it increments the program counter ($\mathit{pc}$) and update the
-refresh register ($\mathit{r\_}$).
+A simple example of instruction is a $\mathit{LD\_n\_A}$, as shown
+below.  Many times, to model an instruction is necessary to use the
+predefined functions, these help the construction of model. This
+instruction use the $\mathit{updateAddressMem}$ function from
+\textit{Memory} module and it receives an address memory and its new
+memory value. Finally it increments the program counter
+($\mathit{pc}$) and update the refresh register ($\mathit{r\_}$).
 	
 \hspace*{0.00in}\bf LD\_n\_A \rm ( \it nn \rm ) \rm =
 	
@@ -479,20 +501,29 @@ restriction to write only in a defined region of memory.
 % [O que as provas garantem? citar que dificeis, que é necessário buscar técnicas eficientes
 % para realizar as provas ]
 
- The proof obligations allow to verify the data types, important system properties and if the expressions are
- well-defined (WD)\footnote{An expression is called ``well-defined'' (or unambiguous) if its definition assigns it a
- unique interpretation or value.}. The properties provide additional guarantees, because it can set many safety
- rules. However, the model can be very difficult to prove.
+The proof obligations allow to verify the data types, important system
+properties and if the expressions are well-defined (WD)\footnote{An
+  expression is called ``well-defined'' (or unambiguous) if its
+  definition assigns it a unique interpretation or value.}. The
+properties provide additional guarantees, because it can set many
+safety rules. However, the model can be very difficult to prove.
  
 % [Conclusao] This project has many proof obligations and
-The building of model was a hard and difficult task, because we needed to build, prove, fix and re-prove
-several predicates of the libraries.
+The construction of then model was a difficult task, as several
+iterations were needed to provide the good library definitions 
+as well as to optimize the definition of the functionality of
+the microprocessor instructions by grouping common data
+manipulation into auxiliary functions.
 
-However, few proof commands\footnote{The proof commands are step that just indicate a walk to prover make the proof,
-thus theses commands cannot introduce false hypotheses.} can be useful to prove the majority of the proof
-obligations. Because, there are many similar assembler instructions. A good example is a set of 17 proof commands
-that quickly aided the verification of 99\% (2295) of proofs WD. Finally, the techniques mentioned  help
-the verification of all the 2926 proof obligations.
+However, few proof commands\footnote{The proof commands are steps that
+  direct the prover to find the proof, and cannot introduce false
+  hypothesis.} need to be used to prove most proof obligations. As
+there are many similar assembly instructions, some human-directed
+proofs, when replayed, could discharge other proof obligations. A good
+example is a set of 17 proof commands that quickly aided the
+verification of 99\% (2295) of proofs WD. Finally, all of the 2926
+proof obligations were proved using the tool support of the
+development environment.
  
 \section{Related Works}
 \label{sec:relatedworks}
@@ -502,21 +533,24 @@ approaches~\cite{BHDL_2003,GEMPLUS_99} to model hardware and the
 virtual machines using the B method. Then, the B method has been used
 successfully to model the operational semantic. However the cost of
 modelling was still expensive and this paper quoted some techniques to
-lower the cost of modelling. Although, the modelling of the Z80 do not
-have modelled some small aspects.
+lower the cost of modelling. 
+% Although, the modelling of the Z80 do not
+%have modelled some small aspects.
+
 % The objective of researchers
 
-In general, the researchers~\cite{GEMPLUS_99} are concentrated at
-model the Java Virtual Machines (JVM), but it is not easy to specify,
-because it is very big and complex. Then, this work specify a model
-more simple to get better results, at the same time, the model stay
-near to model of actual microcontrollers. The main motivation of our
-research is the verification of assembler level and consequently the
-verification of hardware model. Thus, the some aspects are not
-modelled. For example, the time of execution of instruction, the
-pipeline and others questions not directly related with the semantic
-software. However, there are many other specialized techniques to
-verify these questions.
+In general, the researchers employing the B method have focused on
+more abstract level of description of software.  Considering low-level
+aspect, there has been previous work on modelling the Java Virtual
+Machine\cite{GEMPLUS_99}.
+
+The main motivation of our research is the development of verified
+software up to the assembly level, which requires specifying the
+semantics of the underlying hardware. Thus, some aspects were not
+modelled in our work such as the execution time of the instructions.
+Also we did not the micro-architecture of the hardware as the scope of
+our work does not include hardware verification. However, there are
+many other specialized techniques to verify these questions.
  
  \section{Conclusions}
 \label{sec:conclusions} 
@@ -552,8 +586,10 @@ constructs to assembly platform is also envisioned.
 % the automatization of verification at the assembler level.
   
 \paragraph{Acknowledges:}
-This work received support from ANP (\textit{Agência Nacional do
-  Petróleo, Gás Natural e Biocombustíveis}) and CNPq.
+This work received support from ANP (\textit{Ag\^{e}ncia Nacional do
+  Petr\'{o}leo, G\'{a}s Natural e Biocombust\'{\i}veis}) and CNPq
+(\textit{Conselho Nacional de Desenvolvimento Cient\'{\i}fico e
+  Tecnol\'{o}gico}).
 
 \begin{thebibliography}{5}
 
