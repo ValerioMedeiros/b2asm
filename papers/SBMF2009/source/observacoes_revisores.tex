@@ -1,0 +1,151 @@
+---------------------------------------------
+
+Paper: 25 Title: A Formal Model of Microcontroller Instruction Set in B
+
+
+-------------------- review 1 --------------------
+
+PAPER: 25 TITLE: A Formal Model of Microcontroller Instruction Set in B
+
+OVERALL RATING: 1 (weak accept) ----------------------- REVIEW
+--------------------
+
+The paper describes a B model of the Z80 microcontroller. The major goal of the
+project is to be able to verify software at the assembly level.
+
+The project, its current achievements and its scope seem to be adequate to the
+thesis & dissertation workshop.
+
+Suggestions:
+ - The paper needs an extensive and careful review of the English
+language. 
+[Res: Vou levar p/ um outro revisor]
+ - The authors must look at other previous work on formal verification
+of microcontrollers, processors, architectures and assembly code (regardless the
+formal language used and the processor verified). For instance, the work by
+Anthony Fox in the verification of ARM can be a good starting point. His
+technical reports cite many other related work (Sawada and Hunt, Tahar and Kumar,
+Windley and Coe, etc.)
+[Res: Vou levar p/ um outro revisor]
+ - Sections 6 and 7 contain several claims that must be better explained. "this paper quoted some
+ techniques to lower the cost of modelling" (which ones?) "This work specify a model more simple to get better
+results, at the same time, the model stay near to model of actual
+microcontrollers." (why is your model simpler? what makes it simpler and still
+closer to the microcontrollers in comparison to previous work?) "B method has an
+easy notation, similar to the Pascal language" (I don't think B and Pascal are
+similar) 
+[Res: V]
+- "we found some errors and ambiguities in the official manual" This is
+an excellent contribution that the paper overlooks. - In reference 4, do not use
+"Et al."
+
+
+-------------------- review 2 --------------------
+
+PAPER: 25 TITLE: A Formal Model of Microcontroller Instruction Set in B
+
+OVERALL RATING: 2 (accept) ----------------------- REVIEW --------------------
+
+The paper describes an interesting encoding of the Z80 microcontroller model
+using the B method. This encoding is useful for proving a number of properties
+about the microcontroller. They found some errors and ambiguities in the
+microcontroller official manual. This is a very nice result and shows the
+importance of formally specifying and proving things using a theorem prover.
+
+
+
+However, the paper is not well-written. Run the spell checker and rewrite some
+sentences. In the abstract and introduction, you should describe more about the
+context and show the importance of formalizing the Z80 model.
+[Res: Não encontrei erros reais no spell checker, mas vou levar o trabalho para um revisor!]
+[O contexto é a documentação das instruções/especificação e a principal importancia é a verificação em]
+[nível de assembly. Tudo isso é esclarecido de forma suscinta devido ao espaço. ]
+Additionally, in the conclusions, discuss more and describe the experience of formalizing the
+model and proving properties of it. It would be nice if you give more details
+about your dissertation (schedule, the main goal,…).
+[Res: A experiencia sobre o processo de prova é descrito suscintamente na seção Proofs]
+[Vou enfatizar que os trabalhos futuros será elaborado na dissertação]
+
+
+
+(page 1) “… two model microcontrollers that are under construction …” Do you
+reuse some parts of the model? And proofs? Evolving specifications is not an easy
+task since some previous proofs may be proved again, as you mention in Section 5
+(you need to reprove some lemmas). A simple renaming may have an impact on
+several proofs. Does the B tool have some support in this scenario? Do you have
+some guidelines in order to minimize the impact during evolution?
+[Res - Vou adicionar: Esses projetos estão estruturado de um modo que pode facilmente]
+[ ser reusado por um plataforma diferente ]
+
+
+
+(page 3) “… we have been developed a reusable set of basic definitions …” A
+well-structured specification will allow you to improve reusability (and also
+reuse some proofs). Do you structure your specification in a way that can
+minimize the impact?
+[Res: Praticamente não deve existir impacto nas bibliotecas, quando uma nova plataforma é reusa isso. ]
+[ A resposta anterior já trata isso!]
+Does the B prover allow the user to define proof strategies (a user defined proof
+command that is created based on other ones)?
+[Res: O provador tem estratégia de descrever comandos que podem ser aplicados a várias oP diferente]
+[,desde que tenha forma semelhantes. Inf] Proving theorems in a theorem prover is not an easy task, 
+and your experience can be very useful. This is a good topic to explore more and discuss your experience.
+[Res- Vou adicionar: Sim! Foi utilizado quatro computadores dual-core para realizar as provas  ]
+
+
+
+Discuss whether the lemmas you proved were difficult. Does the B theorem prover
+help you to prove most of them automatically? Show more details about the
+automation level of the prover. Do you have some experience in other theorem
+provers (Z-Eves, PVS, Isabelle,…)? In case you have, can you compare them to the
+B prover?
+[Res - Vou add: Sem usar comandos de prova, em geral 70 foi automatica  ,]
+[Não tenho experiência em outros provadores]
+
+
+
+
+(page 6) “… It supports 158 instructions …” Do you specify all of them?
+[Res - Adicionar: YES! :D]
+
+(page 8) “… Thus, some aspects are not modeled …” What is the impact of not
+considering some aspects in the results of your proofs? You must give more
+details about it. Moreover, you should precisely state all aspects that you do
+not consider.
+[Res - Adicionar: Por exemplo, tempo e detales architecture, porque eles não são relevantes para
+verificação assembly]
+What are the benefits of your approach for a system using this microcontroller?
+[Res: O texto esclarece que é mais fácil que tentar inicialmente em um processo real]
+
+
+
+(page 8) “… we found some errors and ambiguities in the official manual …”
+Describe some kinds of errors. This is a very nice result and you must give much
+more details.
+[Res: O paper só tem oito páginas :( ]
+
+It is important to mention some details about what are you going to do in your
+dissertation, mention the main goal of it, and the results that you are aiming
+at. It would be nice to precisely state the problem you are tackling.
+[Res Adicionar: Vou retificar que os trabalhos futuros serão feitos na minha dissertação]
+
+
+
+Minor comments (page 2) 
+“… the Z notation …” -> missing (.) 
+(page 2) 
+“… Section 2 explain …” 
+(page 2) “… the figure 1 …”  [NÃO ENTENDI ESSE COMENTÁRIO] 
+(page 2) “… the its initial …” 
+(page 6) “…from operations are or predefined…”
+
+In Section 3, it is better to first explain the microcontroller and then what you
+have done. In the beginning of each section, it is important to relate it with
+the previous and following sections.
+[Res: Como o espaço é pequeno e o modelo do microcontroller usa os conceitos das biblioteca,]
+[Então, eu explico primeiro as blibliotecas que fiz, depois o modelo do microcontroller.]
+
+(page 5) “… The type BV16 is created for bit vector of length 16 …” Where is this
+type used? For each type declaration, give an intuition specifying which part of
+the microcontroller it is representing.[Res - Adicionar: Vou adicionar o módulo BV16 e BYTES na figura 1. Não entendi bem ]
+[Mas todos os tipos citado são utilizados pelo microcontrolador.]
