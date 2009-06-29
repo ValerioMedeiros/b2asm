@@ -507,20 +507,26 @@ properties provide additional guarantees, because it can set many
 safety rules. However, the model can be very difficult to prove.
  
 % [Conclusao] This project has many proof obligations and
-The construction of then model was a difficult task, as several
-iterations were needed to provide the good library definitions 
-as well as to optimize the definition of the functionality of
-the microprocessor instructions by grouping common data
-manipulation into auxiliary functions.
+% The construction of then model was a difficult task, as several
+% iterations were needed to provide the good library definitions 
+% as well as to optimize the definition of the functionality of
+% the microprocessor instructions by grouping common data
+% manipulation into auxiliary functions.
+
+Several iterations were needed to provide the good library definitions as well as
+to fine-tune the model of the microprocessor instructions by factoring common
+functionalities into auxiliary definitions.
+
+
 
 However, few proof commands\footnote{The proof commands are steps that direct the
 prover to find the proof, and cannot introduce false hypothesis.} need to be used
 to prove most proof obligations. As there are many similar assembly instructions,
 some human-directed proofs, when replayed, could discharge other proof
 obligations. A good example is a set of 17 proof commands that quickly aided the
-verification of 99\% (2295) of proofs WD. A new feature of B environment also
-was used, the parallelization. This used four computers each one with two cores and
-it increased many times the capacity of data processing. Finally, all of the
+verification of 99\% (2295) of proofs WD. We also set up a proving environment
+consisting of networked computers to take advantage of the distribution
+facilities now provided in the B development environment. Finally, all of the
 2926 proof obligations were proved using the tool support of the development
 environment.
  
