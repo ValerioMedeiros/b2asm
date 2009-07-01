@@ -40,7 +40,7 @@
 \section{Introduction}
 
 The B method~\cite{Abrial} supports the construction of safety systems
-model by verification of proofs that guarantees its correctness. So,
+models by verification of proofs that guarantees its correctness. So,
 an initial abstract model of the system requirements is defined and
 then it is refined until the implementation model. Development
 environments based on the B method also include source code generators
@@ -94,25 +94,23 @@ generated from it. Its mathematical basis consists of first order logic, integer
 arithmetic and set theory, and its corresponding constructs are similar to those
 of the Z notation.
 
-A B specification is structured in modules. A module defines a set of
-valid states, including a set of initial states, and operations that
-may provoke a transition between states. The design process starts
-with a module with a so-called functional model of the system under
-development. In this initial modelling stage, the B method requires
-that the user proves that, in a machine, all the its initial states are
-valid, and that operations do not define transitions from valid states
-to invalid states.
+A B specification is structured in modules. A module defines a set of valid
+states, including a set of initial states, and operations that may provoke a
+transition between states. The design process starts with a module with a
+so-called functional model of the system under development. In this initial
+modelling stage, the B method requires that the user proves that, in a machine,
+all the its initial states are valid, and that operations do not define
+transitions from valid states to invalid states.
   
-Essentially, a B module contains two main parts: a header and the
-available operations. Figure~\ref{fig:maqB} has a very basic
-example. The clause $\mathit{MACHINE}$ has the name of module.  The
-following two clauses respectively reference external modules and
-create an instance of an external module. The $\mathit{VARIABLES}$
-declares the name of the variables that compose the state of the
-machine. Next, the $\mathit{INVARIANT}$ clause defines the type and
-other restrictions on the variables. The $\mathit{INITIALIZATION} $
-sepecifies the initial states. Finally, operations correspond to
-the transitions between states of the machine.
+Essentially, a B module contains two main parts: a header and the available
+operations. Figure~\ref{fig:maqB} has a very basic example. The clause
+$\mathit{MACHINE}$ has the name of module.  The next two clauses respectively
+reference external modules and create an instance of an external module. The
+$\mathit{VARIABLES}$ clauses declares the name of the variables that compose the
+state of the machine. Next, the $\mathit{INVARIANT}$ clause defines the type and
+other restrictions on the variables. The $\mathit{INITIALIZATION} $ sepecifies
+the initial states. Finally, operations correspond to the transitions between
+states of the machine.
 
 \begin{figure}
   % \begin{small}
@@ -156,7 +154,7 @@ Figure~\ref{fig:hardware-definition-graph}; information specific to
 each project is presented in the following.
 
 \begin{figure}[h] \centering
-\includegraphics[width=.92\textwidth]{diagramaEstrutural_vertical2.png}
+\includegraphics[width=.92\textwidth]{diagramaEstrutural.png}
  \caption{Dependency diagram of the Z80 model.}
 \label{fig:hardware-definition-graph}
 \end{figure}
@@ -503,7 +501,7 @@ The proof obligations allow to verify the data types, important system
 properties and if the expressions are well-defined (WD)\footnote{An
   expression is called ``well-defined'' (or unambiguous) if its
   definition assigns it a unique interpretation or value.}. The
-properties provide additional guarantees, because it can set many
+properties provide additional guarantees, because they can set many
 safety rules. However, the model can be very difficult to prove.
  
 % [Conclusao] This project has many proof obligations and
@@ -524,7 +522,7 @@ prover to find the proof, and cannot introduce false hypothesis.} need to be use
 to prove most proof obligations. As there are many similar assembly instructions,
 some human-directed proofs, when replayed, could discharge other proof
 obligations. A good example is a set of 17 proof commands that quickly aided the
-verification of 99\% (2295) of proofs WD. We also set up a proving environment
+verification of 99\% (2295) of WD proofs. We also set up a proving environment
 consisting of networked computers to take advantage of the distribution
 facilities now provided in the B development environment. Finally, all of the
 2926 proof obligations were proved using the tool support of the development
@@ -535,8 +533,8 @@ environment.
  
 There are in the literature of computer science some
 approaches~\cite{BHDL_2003,GEMPLUS_99} to model hardware and the virtual machines
-using the B method. Then, the B method has been used successfully to model the
-operational semantic. However the cost of modelling was still expensive and this
+using the B method. Then, in both works the B method has been used successfully
+to model the operational semantic. However the cost of modelling was still expensive and this
 paper quoted some techniques to lower the cost of modelling.
 % Although, the modelling of the Z80 do not have modelled some small aspects.
 
@@ -551,23 +549,22 @@ The main motivation of our research is the development of verified
 software up to the assembly level, which requires specifying the
 semantics of the underlying hardware. Thus, some aspects were not
 modelled in our work such as the execution time of the instructions.
-Also we did not the micro-architecture of the hardware as the scope of
+Also we did not consider the microarchitecture of the hardware as the scope of
 our work does not include hardware verification. However, there are
 many other specialized techniques to verify these questions.
  
  \section{Conclusions}
 \label{sec:conclusions} 
 
-This work has shown an approach to the formal modelling of the
-instruction set of microcontrollers using the B method. During the
-construction of this model, some ambiguities and errors were
-encountered in the official reference~\cite{Z80_manual}. As
-the B notation has a syntax that is not too distant from that of
-imperative programming languages, such model could be used to improve
-the documentation used by assembler programmers. Besides, the formal
-notation used is analyzed by software that guarantees the
-correctness of typing, the well-definedness of expressions, in addition
-to safety properties of the microcontroller state.
+This work has shown an approach to the formal modelling of the instruction set of
+microcontrollers using the B method. During the construction of this model, some
+ambiguities and errors were encountered in the official reference for Z80
+microcontroller~\cite{Z80_manual}. As the B notation has a syntax that is not too
+distant from that of imperative programming languages, such model could be used
+to improve the documentation used by assembler programmers. Besides, the formal
+notation used is analyzed by software that guarantees the correctness of typing,
+the well-definedness of expressions, in addition to safety properties of the
+microcontroller state.
 
 % This research is much interesting to
 % design microcontroller. Because, the building of formal model found some erros and ambiguities at the oficial
