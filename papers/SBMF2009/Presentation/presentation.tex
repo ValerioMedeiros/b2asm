@@ -1,0 +1,163 @@
+
+%\documentclass[gray,trans]{beamer} % com o mod transparência
+%\documentclass[gray]{beamer}
+\documentclass[trans,note]{beamer}
+
+\usetheme{Madrid}
+
+%\usetheme{Marburg} % Template ideial para SBMF
+%\usetheme{CambridgeUS}
+ %\usetheme{Boadilla}
+%\usetheme{default}
+
+
+%\usecolortheme{structure} 
+%\usebeamercolor{structure}
+
+% \usefonttheme[onlylarge]{structurebold}
+% \usefonttheme{default}
+% \setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+ % \setbeamertemplate{navigation symbols}{}
+
+% \usepackage[latin1]{inputenc}
+% \usepackage[brazil]{babel}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{graphicx,url}
+\usepackage{fancyhdr}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+ \tikzstyle{block}=[draw opacity=0.3,line width=1.0cm]
+
+% Class options include: notes, notesonly, handout, trans,
+% hidesubsections, shadesubsections,
+% inrow, blue, red, grey, brown
+
+% Theme for beamer presentation.
+%\usepackage{beamerthemeclassic}
+% \usepackage{beamerthemebars}
+% \usepackage{beamerthemesplit}
+% \usepackage{beamerthemetree}
+% \usepackage{beamerthemelined}
+
+\title{Formal Modelling of a Microcontroller Instruction Set in B}
+
+%\subtitle{Qualificação de Mestrado} % Enter your title betweencurlybraces
+\author{Valério Medeiros Jr, David Déharbe}
+\institute{Federal University of Rio Grande do Norte} % Enter your institute name between curly braces
+\date{20 August 2009} % Enter the date or \today between curly braces
+
+\begin{document}
+
+\include{comandos}
+\include{SymbolsB_AtelierB}
+
+\beamertemplatefootpagenumber % Mostra o número de páginas
+
+% Creates title page of slide show using above information
+\begin{frame}
+   \titlepage  
+  \begin{center} 
+
+  Project: B2ASM \\
+  \includegraphics[width=.14\textwidth]{figuras/ufrn.png} \ \ \ \ \ \ \ \ \ \
+  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  
+   \includegraphics[width=.12\textwidth]{figuras/dimap.png}
+  \end{center}
+  
+\end{frame}
+\note{Slide Principal} % Add notes to yourself that will be displayed when
+  % typeset with the notes or notesonly class options
+
+
+%\section [Agenda]{Agenda}
+
+
+% Creates table of contents slide incorporating
+% all \section and \subsection commands
+ \begin{frame}
+  \frametitle{Agenda}
+  \tableofcontents
+ \end{frame}
+
+% Mostra um slide com destaque a atual seção, em cada mudança de seção
+\AtBeginSection[]
+{
+\begin{frame}
+\frametitle{Summary}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+ \include{content/introduction}
+ % * Explain the cover of B Method 
+ % The solution is a framework proposed a paper [Dantas, 2009]
+ % The component key to this aproach is the formal model
+ % Then this paper gave u
+
+ \include{content/metodoB}
+ % 
+
+ \include{content/Modelling}
+
+ \include{content/Description}
+
+ \include{content/Proofs}
+ 
+ \include{content/Related_works}
+
+  \include{content/conclusions}
+
+
+
+% 
+% 
+% \begin{frame}
+% \frametitle{Referências} % Insert frame title between curly braces
+%  
+% \begin{itemize}
+% \item J. R. Abrial. ``The B Book: Assigning Programs
+ % to Meanings''. 1. ed. United States of America:
+% Cambridge University Press, 1996.
+% 
+% \item D. Bell, Ian Morrey e John Pugh, ``Software Engineering: A Programming
+% Approach", segunda edição, Prentice Hall, Nova Iorque, 1992.
+ % 
+% \item DANTAS, B. P. et al. ``Applying the b method to take on the grand
+% challenge of verified compilation''. In: SBMF. \textit{Brazilian Symposium on Formal Methods}.
+% Salvador - BA, 2008.  
+ % 
+% \item DANTAS, B. P. et al, ``Proposta e Avaliação de uma Abordagem de Desenvolvimento de Software
+% Fidedigno por Construção com o Método B'', SEMISH, 2008, Bélem.
+%  
+% \end{itemize}
+% 
+ % \end{frame}
+% \note{Referencias} 
+% 
+% 
+% \begin{frame}
+% \frametitle{Referências} % Insert frame title between curly braces
+% \begin{itemize}
+% \item Microchip. PIC16C432 - ``Data Sheet OTP 8-Bit CMOS MCU with LIN
+ % Transceiver''. USA, 2002. 197p.
+% \item D.E.C. Nicolosi, ``Microcontrolador 8051 detalhado'' ,Ed. Erica, São
+% Paulo, 2005.
+% \item B. William, ``Z80 microcomputer design projects'',Ed. Sams, 1980.
+ % \item UK COMPUTING RESEARCH COMMITTEE.``The Verifying Compiler: A GrandChallenge for Computing Research''.
+% In UK: Workshop on Grand Challenges for Computing Research, 2005. Disponível
+% em:http://www.nesc.ac.uk/esi/events/Grand Challenges/workshop02.html Acessado em:18 abr 2009.  
+ %  
+% \end{itemize}
+%  
+% \end{frame}
+% \note{Referencias}
+%  
+  
+   
+
+
+
+\end{document}
