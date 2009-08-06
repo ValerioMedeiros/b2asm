@@ -1,0 +1,54 @@
+\section{B Method}
+
+\begin{frame}
+\hypertarget{metodoB}{}
+  \frametitle{B Method} 
+  \begin{itemize}
+    \item B method for software development is a formal method based on
+	    \begin{itemize}
+	    \item  B Abstract Machine Notation (AMN)
+	    \item  First order logic, integer arithmetic and set theory
+	    \end{itemize}
+    \item Its constructions are very similar to those of the Z notation    
+    \item Supports:
+    \begin{itemize}
+	    \item Modularization
+	    \item Refinements proved until basic constructs of programming language 
+	    \item Advanced technicals to process prove 
+	    \item Code generator to programming language
+	    \item \ldots
+    \end{itemize}   
+  \end{itemize}
+\end{frame}
+    
+    
+    
+\begin{frame}
+\frametitle{B Method- Simple example}
+\begin{figure}
+  % \begin{small}
+  $$
+  \begin{array}{lcl}
+    \begin{array}[t]{l}
+      \MACHINE \\ \quad  \mathit{micro} \\
+      \SEES \\ \quad \mathit{TYPES}, \mathit{ALU} \\
+      \INCLUDES \\  \quad \mathit{MEMORY} \\
+      \VARIABLES \\ \quad    \mathit{pc}  \\
+      \INVARIANT \\ \quad \mathit{pc} \in \mathit{INSTRUCTION} 
+    \end{array}
+    & \hspace*{0cm} &
+    \begin{array}[t]{l}
+      \INITIALISATION  \mathit{pc} := 0 \\
+      \OPERATIONS\\
+      \mathit{JMP} \mathit{( jump )} = \\
+      \quad \PRE \mathit{jump} \in \mathit{INSTRUCTION}\\ 
+      \quad \THEN \mathit{pc} := \mathit{jump}\\  
+      \quad \END \\
+      \END
+    \end{array}
+  \end{array}
+  $$
+\caption{A very basic B machine.}
+\label{fig:maqB}
+\end{figure}
+\end{frame}
