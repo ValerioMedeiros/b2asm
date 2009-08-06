@@ -25,25 +25,31 @@
 	\end{center}
 
    \item  Approximately 25\% are not solved automatically
-	\item  Approximately 18 days are needed to make almost all the proofs using a monolithic computer
-		\begin{itemize}
-			\item But You can reduce this time if you use several computer to prove
-		\end{itemize}
-	\item  Sometimes was needed  replay the proofs when were needed news fixes
+	\item Approximately 18 days are needed to make almost all the proofs using a monolithic computer
+	\item Sometimes was needed  replay the proofs when were needed news fixes
+	\item The proof's time can be reduced using advanced features
+	
+	
 \end{itemize}
 
 \end{frame}
 
 
 \begin{frame}
-\frametitle{A example of user pass}
-
-\begin{itemize}
-   \item Specialized:
-   \item \ldots
-   \item Generally:
-\end{itemize}
-
+\frametitle{Prove Process - Advanced Features }
+	\begin{itemize}
+	\item Parallel theorem prover with 3 computers dual core
+	\item Two simple examples of user pass from theorem prover
+	
+		\begin{itemize}
+		   \item Specific:\\
+		  	 %$Pattern( rgs8(x): dom(dec)) \& ff(0) \& dd \& eh(dom(dec),_h,Goal) \& ss \& pr;$\\
+		  	 $Pattern( x , y : dom(bitget) ) \& ff(0) \& dd \& eh(dom(bitget)) \& ss \& pr;$\\
+		    \ldots
+		   \item General:\\
+		   	$Pattern( x : dom(y) ) \& ff(0) \& dd \& eh(dom(y)) \& ss \& pr;$
+		\end{itemize}
+    \end{itemize}
 \end{frame}
 
 

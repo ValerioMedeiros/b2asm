@@ -22,33 +22,33 @@
 \end{frame}
     
     
-    
-\begin{frame}
-\frametitle{B Method- Simple example}
-\begin{figure}
-  % \begin{small}
-  $$
-  \begin{array}{lcl}
-    \begin{array}[t]{l}
-      \MACHINE \\ \quad  \mathit{micro} \\
-      \SEES \\ \quad \mathit{TYPES}, \mathit{ALU} \\
-      \INCLUDES \\  \quad \mathit{MEMORY} \\
-      \VARIABLES \\ \quad    \mathit{pc}  \\
-      \INVARIANT \\ \quad \mathit{pc} \in \mathit{INSTRUCTION} 
-    \end{array}
-    & \hspace*{0cm} &
-    \begin{array}[t]{l}
-      \INITIALISATION  \mathit{pc} := 0 \\
-      \OPERATIONS\\
-      \mathit{JMP} \mathit{( jump )} = \\
-      \quad \PRE \mathit{jump} \in \mathit{INSTRUCTION}\\ 
-      \quad \THEN \mathit{pc} := \mathit{jump}\\  
-      \quad \END \\
-      \END
-    \end{array}
-  \end{array}
-  $$
-\caption{A very basic B machine.}
-\label{fig:maqB}
-\end{figure}
-\end{frame}
+%     
+% \begin{frame}
+% \frametitle{B Method- Simple example}
+% \begin{figure}
+%   % \begin{small}
+%   $$
+%   \begin{array}{lcl}
+%     \begin{array}[t]{l}
+%       \MACHINE \\ \quad  \mathit{micro} \\
+%       \SEES \\ \quad \mathit{TYPES}, \mathit{ALU} \\
+%       \INCLUDES \\  \quad \mathit{MEMORY} \\
+%       \VARIABLES \\ \quad    \mathit{pc}  \\
+%       \INVARIANT \\ \quad \mathit{pc} \in \mathit{INSTRUCTION} 
+%     \end{array}
+%     & \hspace*{0cm} &
+%     \begin{array}[t]{l}
+%       \INITIALISATION  \mathit{pc} := 0 \\
+%       \OPERATIONS\\
+%       \mathit{JMP} \mathit{( jump )} = \\
+%       \quad \PRE \mathit{jump} \in \mathit{INSTRUCTION}\\ 
+%       \quad \THEN \mathit{pc} := \mathit{jump}\\  
+%       \quad \END \\
+%       \END
+%     \end{array}
+%   \end{array}
+%   $$
+% \caption{A very basic B machine.}
+% \label{fig:maqB}
+% \end{figure}
+% \end{frame}
