@@ -19,7 +19,7 @@
 % \setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
  % \setbeamertemplate{navigation symbols}{}
 
-% \usepackage[latin1]{inputenc}
+% \usepackage[latin1]{inputenc} 
 % \usepackage[brazil]{babel}
 \usepackage[english]{babel}
 \usepackage[latin1]{inputenc}
@@ -42,7 +42,7 @@
 % \usepackage{beamerthemetree}
 % \usepackage{beamerthemelined}
 
-\title{Formal Modelling of a Microcontroller Instruction Set in B}
+\title{Formal Modelling of \\ a Microcontroller Instruction Set in B}
 
 %\subtitle{Qualificação de Mestrado} % Enter your title betweencurlybraces
 \author{Valério Medeiros Jr, David Déharbe}
@@ -60,15 +60,14 @@
 \begin{frame}
    \titlepage  
   \begin{center} 
-
-  Project: B2ASM \\
-  \includegraphics[width=.14\textwidth]{figuras/ufrn.png} \ \ \ \ \ \ \ \ \ \
-  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  
-   \includegraphics[width=.12\textwidth]{figuras/dimap.png}
+  Project: B2ASM (http://code.google.com/p/b2asm)\\
+  \includegraphics[width=.14\textwidth]{figures/ufrn.png} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
+  \includegraphics[width=.14\textwidth]{figures/anp.png}  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+   \includegraphics[width=.12\textwidth]{figures/dimap.png}
   \end{center}
   
 \end{frame}
-\note{Slide Principal} % Add notes to yourself that will be displayed when
+\note{Initial Slide} % Add notes to yourself that will be displayed when
   % typeset with the notes or notesonly class options
 
 
@@ -78,9 +77,9 @@
 % Creates table of contents slide incorporating
 % all \section and \subsection commands
  \begin{frame}
-  \frametitle{Agenda}
+  \frametitle{Summary}
   \tableofcontents
- \end{frame}
+ \end{frame} 
 
 % Mostra um slide com destaque a atual seção, em cada mudança de seção
 \AtBeginSection[]
@@ -91,70 +90,27 @@
 \end{frame}
 }
 
- \include{content/introduction}
- % * Explain the cover of B Method 
- % The solution is a framework proposed a paper [Dantas, 2009]
- % The component key to this aproach is the formal model
- % Then this paper gave u
-
- \include{content/metodoB}
- % 
-
- \include{content/Modelling}
-
- \include{content/Description}
-
- \include{content/Proofs}
- 
- \include{content/Related_works}
-
-  \include{content/conclusions}
-
-
-
+  \include{content/1_introduction}
+%  % * Explain the cover of B Method 
+%  % The solution is a framework proposed a paper [Dantas, 2009]
+%  % The component key to this aproach is the formal model
+%  % Then this paper gave u
 % 
+  \include{content/2_B_method}
+%  %  Basear-se nas notas escritas 
 % 
-% \begin{frame}
-% \frametitle{Referências} % Insert frame title between curly braces
+  \include{content/3_Modelling}
+% 
+%  \include{content/4_Description}
+% 
+%  \include{content/5_Proofs}
+%  % Example proof commands  
 %  
-% \begin{itemize}
-% \item J. R. Abrial. ``The B Book: Assigning Programs
- % to Meanings''. 1. ed. United States of America:
-% Cambridge University Press, 1996.
+%  \include{content/6_Related_works}
 % 
-% \item D. Bell, Ian Morrey e John Pugh, ``Software Engineering: A Programming
-% Approach", segunda edição, Prentice Hall, Nova Iorque, 1992.
- % 
-% \item DANTAS, B. P. et al. ``Applying the b method to take on the grand
-% challenge of verified compilation''. In: SBMF. \textit{Brazilian Symposium on Formal Methods}.
-% Salvador - BA, 2008.  
- % 
-% \item DANTAS, B. P. et al, ``Proposta e Avaliação de uma Abordagem de Desenvolvimento de Software
-% Fidedigno por Construção com o Método B'', SEMISH, 2008, Bélem.
-%  
-% \end{itemize}
+   \include{content/7_Conclusions}
 % 
- % \end{frame}
-% \note{Referencias} 
-% 
-% 
-% \begin{frame}
-% \frametitle{Referências} % Insert frame title between curly braces
-% \begin{itemize}
-% \item Microchip. PIC16C432 - ``Data Sheet OTP 8-Bit CMOS MCU with LIN
- % Transceiver''. USA, 2002. 197p.
-% \item D.E.C. Nicolosi, ``Microcontrolador 8051 detalhado'' ,Ed. Erica, São
-% Paulo, 2005.
-% \item B. William, ``Z80 microcomputer design projects'',Ed. Sams, 1980.
- % \item UK COMPUTING RESEARCH COMMITTEE.``The Verifying Compiler: A GrandChallenge for Computing Research''.
-% In UK: Workshop on Grand Challenges for Computing Research, 2005. Disponível
-% em:http://www.nesc.ac.uk/esi/events/Grand Challenges/workshop02.html Acessado em:18 abr 2009.  
- %  
-% \end{itemize}
-%  
-% \end{frame}
-% \note{Referencias}
-%  
+
   
    
 
