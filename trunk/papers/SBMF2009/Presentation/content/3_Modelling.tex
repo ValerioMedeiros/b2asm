@@ -33,8 +33,10 @@
  \frametitle{Hardware Library Project}
 
   	  	\begin{itemize}
- 
-  	  		\item Definition of \textit{Bit}
+ 			\item The module \textit{BIT\_DEFINITION} has:
+ 			\begin{itemize}
+                 
+  	  		\item Definition of \textit{Bit}\\
   			{\small
  			$
  			\begin{array}{l}
@@ -63,20 +65,9 @@
 			\end{array}
 			$
 			}
-			\item The conjuction is a binary function defined as:
-			{\small
-			$
-			\begin{array}{l}
-			\mathit{bit\_and} \in \mathit{BIT} \times \mathit{BIT} \fun \mathit{BIT} \land \\
-			\forall (\mathit{b1}, \mathit{b2}).(\mathit{b1}  \in \mathit{BIT}  \land \mathit{b2} \in \mathit{BIT} \implies \\
-			\quad ((\mathit{bit\_and}(\mathit{b1}, \mathit{b2}) = 1) \iff (\mathit{b1} =1)  \land  (\mathit{b2} = 1))) \land \\
-			 bit\_and(0,0) = 0	\land bit\_and(0,1) = 0	\land\\
-			 bit\_and(1,0) = 0	\land bit\_and(1,1) = 1 \\
-			\end{array}
-			$
-			}
+			
 
-
+			\end{itemize}
   		\end{itemize}
 
 
@@ -89,15 +80,39 @@
  \frametitle{Hardware Library Project}
 
  	\begin{itemize}
- 	  		\item The module \textit{BIT\_DEFINITION} has:
-
+ 	  		\item The module \textit{BIT\_DEFINITION} also has:
  	  		\begin{itemize}
- 	  		\item Definiions of 	$\mathit{bit\_or},\mathit{bit\_xor}$ and
+            \item The conjunction is a binary function defined as:
+			{\small
+			$
+			\begin{array}{l}
+			\mathit{bit\_and} \in \mathit{BIT} \times \mathit{BIT} \fun \mathit{BIT} \land \\
+			\forall (\mathit{b1}, \mathit{b2}).(\mathit{b1}  \in \mathit{BIT}  \land \mathit{b2} \in \mathit{BIT} \implies \\
+			\quad ((\mathit{bit\_and}(\mathit{b1}, \mathit{b2}) = 1) \iff (\mathit{b1} =1)  \land  (\mathit{b2} = 1))) \land \\
+			 bit\_and(0,0) = 0	\land bit\_and(0,1) = 0	\land\\
+			 bit\_and(1,0) = 0	\land bit\_and(1,1) = 1 \\
+			\end{array}
+			$
+			}
+ 	  		\item Definions of 	$\mathit{bit\_or},\mathit{bit\_xor}$ and
  	  		$bool\_to\_bit$.
- 	  		\item Lemmas to associativity and commutativity of functions.
+ 	  		\item Lemmas for associativity and commutativity of functions
            \end{itemize}
 
-			\item  The module \textit{BIT\_VECTOR\_DEFINITION} has
+
+
+           
+ 	\end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}
+ \frametitle{Hardware Library Project}
+
+ 	\begin{itemize}
+       \item  The module \textit{BIT\_VECTOR\_DEFINITION} has:
 
            \begin{itemize}
 	 	  		\item Definition of bit vectors:
@@ -119,25 +134,24 @@
 				}
 				\item It has others functions: \textit{bv\_catenate}, \textit{bv\_sub},
 				\textit{bv\_not}, \textit{bv\_and}, \textit{bv\_or}, \textit{bv\_xor},
-				\textit{bv\_set}, \textit{bv\_clear} e \ldots
-			\begin{itemize}
-	                  \item This functions using the definitions of  \textit{BIT\_DEFINITION}
-	              	\end{itemize}
-           \end{itemize}
-
-           \item The module \textit{BIT\_VECTOR\_ARITHMETICS} define basics arithmetic functions
-           \item The module \textit{BYTE} and \textit{BV16\_DEFINITION} define specialized functions to
-           bit vectors of size 8 and 16
+				\textit{bv\_set}, \textit{bv\_clear} and \ldots
+				\begin{itemize}
+		                  \item These functions use the definitions of  \textit{BIT\_DEFINITION}
+		              	\end{itemize}
+	           \end{itemize}
+		\item The module \textit{BIT\_VECTOR\_ARITHMETICS} define basics arithmetic functions
+        \item The module \textit{BYTE} and \textit{BV16\_DEFINITION} define specialized functions for bit vectors of size 8 and 16
  	\end{itemize}
 
-
 \end{frame}
+
 
 
 
 \begin{frame}
  \frametitle{Types Library Project}
 	  	\begin{itemize}
+                    
 	        \item Define the common types and functions on platforms of 8 and 16 bits
 	        \item For example:
 	        \begin{itemize}
@@ -158,9 +172,9 @@
 	{\scriptsize
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 	\hline
-	 $Nome$&$\mathit{UCHAR}$&$\mathit{SCHAR}$&$\mathit{USHORTINT}$&$\mathit{SSHORTINT}$&$\mathit{BYTE}$&$\mathit{BV16}$\\
-	 \hline $Faixa$&0..255&-128..127&0..65.535&-32.768..32.767&--&--\\ \hline
-	 $Tamanho$ & 1 byte & 1 byte & 2 bytes & 2 bytes &  1 bytes & 2 bytes \\ \hline
+	 $Type$&$\mathit{UCHAR}$&$\mathit{SCHAR}$&$\mathit{USHORTINT}$&$\mathit{SSHORTINT}$&$\mathit{BYTE}$&$\mathit{BV16}$\\
+	 \hline $Range$&0..255&-128..127&0..65.535&-32.768..32.767&--&--\\ \hline
+	 $Size$ & 1 byte & 1 byte & 2 bytes & 2 bytes &  1 bytes & 2 bytes \\ \hline
 	\end{tabular}
 	}
 	\end{center}
@@ -171,7 +185,7 @@
 
  
 \begin{frame}
- \frametitle{Platform Project(Z80)}
+ \frametitle{Platform Project (Z80)}
   \begin{itemize}
     \item Z80 is a microcontroller  of 8 bits with addressing of 16 bits
     \item Supports:
@@ -185,7 +199,7 @@
   
   \item Modelling 
   \begin{itemize}
-  	\item States of platform  $\Leftrightarrow$ States of modell
+  	\item States of platform  $\Leftrightarrow$ States of model
 		\begin{itemize}
 		\item Registers and Memory $\Leftrightarrow$  Variables of model
 		\end{itemize}
@@ -250,7 +264,7 @@
 	\rm )  $\para$\\
 	\hspace*{0.20in}\it pc \rm := \it instruction\_next \rm ( \it pc \rm )  $\para$  \it r\_ \rm := \it
 	update\_refresh\_reg\rm (\it r\_\rm )\\
-	\hspace*{0.10in}\bf END\rm
+	\hspace*{0.10in}\bf END\rm\\
 	\ldots
 	\end{sloppypar}
 

@@ -1,7 +1,7 @@
-\section{Prove Process}
+\section{Proof Process}
 
 \begin{frame}
-\frametitle{Prove Process of Projects}
+\frametitle{Proof Process of Projects}
 
 \begin{itemize}
    \item Statistics:\\
@@ -26,7 +26,7 @@
 
    \item  Approximately 25\% are not solved automatically
 	\item Approximately 18 days are needed to make almost all the proofs using a monolithic computer
-	\item Sometimes was needed  replay the proofs when were needed news fixes
+	\item Some proofs needed to be replayed when we make changes to the specification
 	\item The proof's time can be reduced using advanced features
 	
 	
@@ -36,20 +36,22 @@
 
 
 \begin{frame}
-\frametitle{Prove Process - Advanced Features }
+\frametitle{Proof Process - Advanced Features}
+
 	\begin{itemize}
-	\item Parallel theorem prover with 3 computers dual core
+	\item Parallel theorem prover with 3 dual core computers 
 	\item Two simple examples of user pass from theorem prover
 	
-		\begin{itemize}
-		   \item Specific:\\
-		  	 %$Pattern( rgs8(x): dom(dec)) \& ff(0) \& dd \& eh(dom(dec),_h,Goal) \& ss \& pr;$\\
-		  	 $Pattern( x , y : dom(bitget) ) \& ff(0) \& dd \& eh(dom(bitget)) \& ss \& pr;$\\
-		    \ldots
-		   \item General:\\
-		   	$Pattern( x : dom(y) ) \& ff(0) \& dd \& eh(dom(y)) \& ss \& pr;$
-		\end{itemize}
+ 		\begin{itemize}
+ 		   \item Specific:\\
+ 		  	 $Pattern( x , y : dom(bitget) )$ \\ $\& ff(0) \& dd \& eh(dom(bitget)) \& ss \& pr;$\\
+ 		    \ldots
+ 		   \item General:\\
+ 		   	$Pattern( x : dom(y) )$ \\ $\& ff(0) \& dd \& eh(dom(y)) \& ss \& pr;$
+         \end{itemize}
+        
     \end{itemize}
+    
 \end{frame}
 
 

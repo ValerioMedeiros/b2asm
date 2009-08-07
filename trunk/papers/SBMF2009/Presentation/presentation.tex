@@ -3,7 +3,8 @@
 %\documentclass[gray]{beamer}
 \documentclass[trans,note]{beamer}
 
-\usetheme{Madrid}
+\usetheme{Frankfurt}
+%\usetheme{Madrid}
 
 %\usetheme{Marburg} % Template ideial para SBMF
 %\usetheme{CambridgeUS}
@@ -42,7 +43,13 @@
 % \usepackage{beamerthemetree}
 % \usepackage{beamerthemelined}
 
+
+
 \title{Formal Modelling of \\ a Microcontroller Instruction Set in B}
+
+\pgfdeclareimage[height=0.35cm]{b2asm}{figures/b2asm.pdf}
+\logo{\pgfuseimage{b2asm}}
+
 
 %\subtitle{Qualificação de Mestrado} % Enter your title betweencurlybraces
 \author{Valério Medeiros Jr, David Déharbe}
@@ -61,7 +68,7 @@
    \titlepage  
   \begin{center} 
   Project: B2ASM\\
-  Avaliable at http://code.google.com/p/b2asm\\
+  Available at http://code.google.com/p/b2asm\\
   \includegraphics[width=.14\textwidth]{figures/ufrn.png} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
   \includegraphics[width=.14\textwidth]{figures/anp.png}  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
    \includegraphics[width=.12\textwidth]{figures/dimap.png}
@@ -83,13 +90,13 @@
  \end{frame} 
 
 % Mostra um slide com destaque a atual seção, em cada mudança de seção
-\AtBeginSection[]
-{
-\begin{frame}
-\frametitle{Summary}
-\tableofcontents[currentsection]
-\end{frame}
-}
+% \AtBeginSection[]
+% {
+% \begin{frame}
+% \frametitle{Summary}
+% \tableofcontents[currentsection]
+% \end{frame}
+% }
 
   \include{content/1_introduction}
 %  % * Explain the cover of B Method 
