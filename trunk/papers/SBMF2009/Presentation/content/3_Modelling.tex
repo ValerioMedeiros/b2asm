@@ -155,14 +155,21 @@
 	        \item Define the common types and functions on platforms of 8 and 16 bits
 	        \item For example:
 	        \begin{itemize}
-	          \item Function: \hspace*{0.0in}\it uchar\_schar  $\in$  \it UCHAR  $\fun$  \it SCHAR
+	          \item Function:%\hspace*{0.0in}\it uchar\_schar  $\in$  \it UCHAR	          $\fun$  \it SCHAR
+	          \begin{small}
+	          \it bv\_nat  $\in$  \it BIT\_VECTOR  $\fun$ $\nat$
+	          $\land$ \\
+	          \it bv\_nat \rm =  $\lambda$  \rm (\it bv\rm )\rm .\rm (\it bv 
+	          $\in$  \it BIT\_VECTOR  $\mid$ \\ \rm (  $\sum$  \it idx \rm . \rm (\it idx  $\in$  \bf dom\rm (\it bv\rm )  $\mid$  \rm
+	          (\rm 2$^{idx}$\rm )  $\times$  \it bv\rm (\it idx\rm )\rm )\rm )\rm )
+			  \end{small}
+
 	%  		  \hspace*{0.0in}\it uchar\_schar\rm = $\lambda$ \rm (\it v1\rm )\rm .\rm (\it v1 $\in$ \it UCHAR
 	%  			$\land$  \it v1 $\leq$ \it SCHAR\_MAX $\mid$  \it v1\rm )  $\land$\\
 	%  			\hspace*{0.0in}\it uchar\_schar\rm = $\lambda$ \rm (\it v1\rm )\rm .\rm (\it v1 $\in$ \it UCHAR
 	%  			$\land$   $\neg$ \rm (\it v1 $\leq$ \it SCHAR\_MAX\rm )  $\mid$  \it v1\rm -\it UCHAR\_MAX \rm + \rm 1
 	%  			\rm )
-	
-	
+
 	          \item Lemma: $\forall(x).( x \in UCHAR \Rightarrow uchar\_byte(byte\_uchar(x)) = x)$
 	        \end{itemize}
 	      \end{itemize}
@@ -187,7 +194,7 @@
 \begin{frame}
  \frametitle{Platform Project (Z80)}
   \begin{itemize}
-    \item Z80 is a microcontroller  of 8 bits with addressing of 16 bits
+    \item Z80 is a 8 bits microcontroller with 16 bits address space
     \item Supports:
     \begin{itemize}
       \item 158 instructions (included all of 8080 microcontroller )
