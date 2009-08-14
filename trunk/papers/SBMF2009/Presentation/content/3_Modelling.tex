@@ -125,12 +125,19 @@
 				}
 	 	  		\item Definition of functions:
 	 	  		 {\small
-				$
-				\begin{array}{l}
-				\mathit{bv\_size} \in \mathit{BIT\_VECTOR} \fun \nat_1 \land \\
-				\mathit{bv\_size} = \lambda bv \bullet (bv \in \mathit{BIT\_VECTOR} \mid \mathbf{size}(bv))
-				\end{array}
-				$
+	 	  		 	          
+	          \it bv\_nat  $\in$  \it BIT\_VECTOR  $\fun$ $\nat$
+	          $\land$ \\
+	          \it bv\_nat \rm =  $\lambda$  \rm (\it bv\rm )\rm .\rm (\it bv 
+	          $\in$  \it BIT\_VECTOR  $\mid$ \\ \rm (  $\sum$  \it idx \rm . \rm (\it idx  $\in$  \bf dom\rm (\it bv\rm )  $\mid$  \rm
+	          (\rm 2$^{idx}$\rm )  $\times$  \it bv\rm (\it idx\rm )\rm )\rm )\rm )
+			   
+% 				$
+% 				\begin{array}{l}
+% 				\mathit{bv\_size} \in \mathit{BIT\_VECTOR} \fun \nat_1 \land \\
+% 				\mathit{bv\_size} = \lambda bv \bullet (bv \in \mathit{BIT\_VECTOR} \mid \mathbf{size}(bv))
+% 				\end{array}
+% 				$
 				}
 				\item It has others functions: \textit{bv\_catenate}, \textit{bv\_sub},
 				\textit{bv\_not}, \textit{bv\_and}, \textit{bv\_or}, \textit{bv\_xor},
@@ -155,22 +162,16 @@
 	        \item Define the common types and functions on platforms of 8 and 16 bits
 	        \item For example:
 	        \begin{itemize}
-	          \item Function:%\hspace*{0.0in}\it uchar\_schar  $\in$  \it UCHAR	          $\fun$  \it SCHAR
-	          \begin{small}
-	          \it bv\_nat  $\in$  \it BIT\_VECTOR  $\fun$ $\nat$
-	          $\land$ \\
-	          \it bv\_nat \rm =  $\lambda$  \rm (\it bv\rm )\rm .\rm (\it bv 
-	          $\in$  \it BIT\_VECTOR  $\mid$ \\ \rm (  $\sum$  \it idx \rm . \rm (\it idx  $\in$  \bf dom\rm (\it bv\rm )  $\mid$  \rm
-	          (\rm 2$^{idx}$\rm )  $\times$  \it bv\rm (\it idx\rm )\rm )\rm )\rm )
-			  \end{small}
-
+	          \item Function: \it uchar\_schar $\in$ \it UCHAR $\fun$ \it SCHAR	  
+				%\hspace*{0.0in} 
 	%  		  \hspace*{0.0in}\it uchar\_schar\rm = $\lambda$ \rm (\it v1\rm )\rm .\rm (\it v1 $\in$ \it UCHAR
 	%  			$\land$  \it v1 $\leq$ \it SCHAR\_MAX $\mid$  \it v1\rm )  $\land$\\
 	%  			\hspace*{0.0in}\it uchar\_schar\rm = $\lambda$ \rm (\it v1\rm )\rm .\rm (\it v1 $\in$ \it UCHAR
 	%  			$\land$   $\neg$ \rm (\it v1 $\leq$ \it SCHAR\_MAX\rm )  $\mid$  \it v1\rm -\it UCHAR\_MAX \rm + \rm 1
 	%  			\rm )
 
-	          \item Lemma: $\forall(x).( x \in UCHAR \Rightarrow uchar\_byte(byte\_uchar(x)) = x)$
+	          \item Lemma: $\forall(x).( x \in UCHAR \Rightarrow
+	          uchar\_schar(schar\_uchar(x)) = x)$
 	        \end{itemize}
 	      \end{itemize}
 	
