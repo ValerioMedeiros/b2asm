@@ -323,7 +323,8 @@ that maps bit vectors to natural numbers:
 $
 \begin{array}{l}
 \mathit{bv\_to\_nat} \in \mathit{BIT\_VECTOR} \fun \nat \land \\
-\mathit{bv\_to\_nat} = \lambda v . (v \in \mathit{BIT\_VECTOR} \mid \sum i . (i \in \dom(v) . v(i) \times 2^i))
+\mathit{bv\_to\_nat} = \lambda v . (v \in \mathit{BIT\_VECTOR} \mid \sum i . (i \in \dom(v) . v(i)
+\times 2^{i-1}))
 \end{array}
 $
 
@@ -463,7 +464,7 @@ corresponding definitions are replicated from the $\INVARIANT$:
 \hspace*{0.10in}\it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$ iff1  $\in$  \it BIT
 $\land$ \it iff2  $\in$  \it BIT  $\land$ 
 
-\hspace*{0.10in}\it im \rm : \rm (\it BIT $\times$ \it BIT\rm )  $\land$ i\_o\_ports  $\in$  \it BYTE 
+\hspace*{0.10in}\it im \rm $\in$ \rm (\it BIT $\times$ \it BIT\rm )  $\land$ i\_o\_ports  $\in$  \it BYTE 
 $\fun$  \it BYTE
 \end{sloppypar}
 
