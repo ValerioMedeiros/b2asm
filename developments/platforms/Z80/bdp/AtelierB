@@ -1,8 +1,0 @@
-ATB*POG*Generate_Obvious_PO:FALSE
-ATB*PR*Pr_3_7_compatibility:FALSE
-ATB*PR*Pr_3_6_compatibility:FALSE
-ATB*PR*Enable_TC_Command:FALSE
-ATB*PR*Trace_User_Rules:FALSE
-ATB*TC*Enable_Extended_Sees:FALSE
-ATB*PR*Time_Out_Auto:150
-ATB*PR*Time_Out:60

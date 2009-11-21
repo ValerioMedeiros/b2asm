@@ -105,7 +105,7 @@ PROPERTIES
     substract8UCHAR = % (carry,w1, w2). ( carry : BIT & w1 : UCHAR & w2 : UCHAR   |
         ( ( ( carry + w1 - w2 ) mod pow2_8)   ,  
             bool_bit(bool( carry + uchar_schar(w1) - uchar_schar (w2) < 0))	,
-            bool_bit(bool( carry + w1 - w2 > UCHAR_MAX)),
+            bool_bit(bool( carry + w1 - w2 < UCHAR_MIN)),
             bool_bit(bool( carry + half8UCHAR(w1) - half8UCHAR( w2) >= pow2_4)),
             bool_bit(bool( ( (carry + w1 - w2 ) mod pow2_8) = 0)) ) )  &
     

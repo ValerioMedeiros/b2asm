@@ -26,7 +26,7 @@ MACHINE
 INCLUDES
     MEMORY
 SEES 
-    ALU , 
+    ALU ,
     BIT_DEFINITION,
     BIT_VECTOR_DEFINITION,
     BYTE_DEFINITION,
@@ -542,6 +542,14 @@ OPERATIONS
   
 
 
+
+
+
+
+
+
+
+
 ;
     
     /************************************************************************************** 
@@ -559,7 +567,7 @@ OPERATIONS
     
     RLA =
     BEGIN
-        rgs8 := rgs8 <+ { a0 |-> (rotateleft(rgs8(a0)) <+ {(0|-> z_c)} ), 
+        rgs8 := rgs8 <+ { a0 |-> (rotateleft(rgs8(a0)) <+ {(1|-> z_c)} ), 
             update_flag_reg(z_s,z_z,0,z_p,0,bitget(rgs8(a0),7) )   }||
         pc := instruction_next(pc) || r_ := update_refresh_reg(r_)
         
@@ -577,7 +585,7 @@ OPERATIONS
     
     RRA =
     BEGIN
-        rgs8 := rgs8 <+ { a0 |-> (rotateright(rgs8(a0))<+ {(0|-> z_c)} ), 
+        rgs8 := rgs8 <+ { a0 |-> (rotateright(rgs8(a0)) <+ {(8|-> z_c)} ), 
             update_flag_reg(z_s,z_z,0,z_p,0,bitget(rgs8(a0),0) )   }||
         pc := instruction_next(pc) || r_ := update_refresh_reg(r_)
         
@@ -634,7 +642,7 @@ OPERATIONS
     
     RL_r(rr) =
     PRE rr : id_reg_8 & rr /= f0 THEN
-        ANY res WHERE res : BYTE & res = (rotateleft(rgs8(rr))<+ {(0|-> z_c)} ) THEN
+        ANY res WHERE res : BYTE & res = (rotateleft(rgs8(rr))<+ {(1|-> z_c)} ) THEN
             
             rgs8 := rgs8 <+ { rr |-> res, 
                 update_flag_reg(
@@ -657,7 +665,7 @@ OPERATIONS
     
     RL_9IX_d0(desloc) =
     PRE desloc : SCHAR & bv16_ushort(bv_ireg_plus_d(ix,desloc)) :  DATA_R_ADR  THEN
-        ANY res WHERE res : BYTE & res = (rotateleft( bv_9ireg_plus_d0(mem,ix,desloc) ) <+ {(0|-> z_c)} ) 			THEN
+        ANY res WHERE res : BYTE & res = (rotateleft( bv_9ireg_plus_d0(mem,ix,desloc) ) <+ {(1|-> z_c)} ) 			THEN
             
             rgs8 := rgs8 <+ { update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res),
@@ -670,7 +678,7 @@ OPERATIONS
     
     RL_9IY_d0(desloc) =
     PRE desloc : SCHAR & bv16_ushort(bv_ireg_plus_d(iy,desloc)) :  DATA_R_ADR  THEN
-        ANY res WHERE res : BYTE & res = (rotateleft( bv_9ireg_plus_d0(mem,iy,desloc) )<+ {(0|-> z_c)} ) 		
+        ANY res WHERE res : BYTE & res = (rotateleft( bv_9ireg_plus_d0(mem,iy,desloc) )<+ {(1|-> z_c)} ) 		
         THEN
             rgs8 := rgs8 <+ { update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res),
@@ -731,7 +739,7 @@ OPERATIONS
     
     RR_r(rr) =
     PRE rr : id_reg_8 & rr /= f0 THEN
-        ANY res WHERE res : BYTE & res = (rotateright(rgs8(rr))<+ {(0|-> z_c)} ) THEN
+        ANY res WHERE res : BYTE & res = (rotateright(rgs8(rr))<+ {(1|-> z_c)} ) THEN
             rgs8 := rgs8 <+ { rr |-> res, 
                 update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res) ,0,bitget(rgs8(rr),0) )   }||
@@ -742,7 +750,7 @@ OPERATIONS
     
     RR_9HL =
     PRE bv16_ushort(bv_HL) : STACK_R_ADR THEN
-        ANY res WHERE res : BYTE & res = (rotateright( bv_9HL0 )<+ {(0|-> z_c)} ) THEN
+        ANY res WHERE res : BYTE & res = (rotateright( bv_9HL0 )<+ {(1|-> z_c)} ) THEN
             rgs8 := rgs8 <+ { update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res) ,0,bitget(bv_9HL0,0) )   }||
             updateAddressMem(bv_HL, res ) ||
@@ -753,7 +761,7 @@ OPERATIONS
     
     RR_9IX_d0(desloc) =
     PRE desloc : SCHAR & bv16_ushort(bv_ireg_plus_d(ix,desloc)) : DATA_R_ADR THEN
-        ANY res WHERE res : BYTE & res = (rotateright( bv_9ireg_plus_d0(mem,ix,desloc) ) <+ {(0|-> z_c)} ) 			THEN
+        ANY res WHERE res : BYTE & res = (rotateright( bv_9ireg_plus_d0(mem,ix,desloc) ) <+ {(1|-> z_c)} ) 			THEN
             
             rgs8 := rgs8 <+ { update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res),
@@ -766,7 +774,7 @@ OPERATIONS
     
     RR_9IY_d0(desloc) =
     PRE desloc : SCHAR & bv16_ushort(bv_ireg_plus_d(iy,desloc)) : DATA_R_ADR THEN
-        ANY res WHERE res : BYTE & res = (rotateright( bv_9ireg_plus_d0(mem,iy,desloc) )<+ {(0|-> z_c)} ) 		
+        ANY res WHERE res : BYTE & res = (rotateright( bv_9ireg_plus_d0(mem,iy,desloc) )<+ {(1|-> z_c)} ) 		
         THEN            
             rgs8 := rgs8 <+ { update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res),
@@ -779,7 +787,7 @@ OPERATIONS
     
     SLA_r(rr) =
     PRE rr : id_reg_8 & rr /= f0 THEN
-        ANY res WHERE res : BYTE & res = (rotateright(rgs8(rr))<+ {(0|-> z_c)} ) THEN
+        ANY res WHERE res : BYTE & res = (rotateright(rgs8(rr))<+ {(1|-> z_c)} ) THEN
             rgs8 := rgs8 <+ { rr |-> res, 
                 update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res) ,0,bitget(rgs8(rr),7) )   }||
@@ -788,9 +796,9 @@ OPERATIONS
     END;
     
     
-    SLA_9HL =
-    PRE  bv16_ushort(bv_HL) : STACK_R_ADR THEN
-        ANY res WHERE res : BYTE & res = (rotateright( bv_9HL0 )<+ {(0|-> z_c)} ) THEN      
+    SLA_9HL0 =
+    PRE  bv16_ushort(bv_HL) : DATA_R_ADR THEN
+        ANY res WHERE res : BYTE & res = (rotateright( bv_9HL0 )<+ {(1|-> z_c)} ) THEN      
             rgs8 := rgs8 <+ { update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res) ,0,bitget(bv_9HL0,7) )   }||
             updateAddressMem(bv_HL, res ) ||
@@ -799,46 +807,10 @@ OPERATIONS
     END;
     
     
-    SLA_9IX_d0(desloc) =
-    PRE desloc : SCHAR & bv16_ushort(bv_ireg_plus_d(ix,desloc)) : DATA_R_ADR THEN
-        ANY res WHERE res : BYTE & res = (rotateright( bv_9ireg_plus_d0(mem,ix,desloc) ) <+ {(0|-> z_c)} ) 			THEN
-            rgs8 := rgs8 <+ { update_flag_reg(
-                    is_negative(res), is_zero(res),0, parity_even(res),
-                    0,bitget(bv_9ireg_plus_d0(mem,ix,desloc),7) )   }||            
-            updateAddressMem(bv_ireg_plus_d(ix,desloc), res ) ||
-            pc := instruction_next(pc) || r_ := update_refresh_reg(r_)
-        END	
-    END;
-    
-    
-    SLA_9IY_d0(desloc) =
-    PRE desloc : SCHAR & bv16_ushort(bv_ireg_plus_d(iy,desloc)) : DATA_R_ADR  THEN
-        ANY res WHERE res : BYTE & res = (rotateright( bv_9ireg_plus_d0(mem,iy,desloc) )<+ {(0|-> z_c)} ) 		
-        THEN
-            rgs8 := rgs8 <+ { update_flag_reg(
-                    is_negative(res), is_zero(res),0, parity_even(res),
-                    0,bitget(bv_9ireg_plus_d0(mem,iy,desloc),7) )   }||            
-            updateAddressMem(bv_ireg_plus_d(iy,desloc), res ) ||
-            pc := instruction_next(pc) || r_ := update_refresh_reg(r_)
-        END	
-    END;
-    
-    
-    SRA_r(rr) =
-    PRE rr : id_reg_8 & rr /= f0 THEN
-        ANY res WHERE res : BYTE & res = (rotateright(rgs8(rr))) <+ {7|-> bitget(rgs8(rr),7)}  THEN
-            
-            rgs8 := rgs8 <+ { rr |-> res, 
-                update_flag_reg(
-                    is_negative(res), is_zero(res),0, parity_even(res) ,0,bitget(rgs8(rr),0) )   }||
-            pc := instruction_next(pc) || r_ := update_refresh_reg(r_)
-        END	
-    END;
-    
     
     SRA_9HL0 =
     PRE  bv16_ushort(bv_HL) : DATA_R_ADR  THEN
-        ANY res WHERE res : BYTE & res = (rotateright( bv_9HL0 )) <+ {7|-> bv_9HL0(7)}  THEN
+        ANY res WHERE res : BYTE & res = (rotateright( bv_9HL0 )) <+ {8|-> bv_9HL0(7)}  THEN
             rgs8 := rgs8 <+ { update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res) ,0,bitget(bv_9HL0,0) )   }||
             updateAddressMem(bv_HL, res ) ||
@@ -866,7 +838,7 @@ OPERATIONS
     PRE desloc : SCHAR & bv16_ushort(bv_ireg_plus_d(iy,desloc)) : DATA_R_ADR  THEN
         ANY res WHERE res : BYTE & 
             res = rotateright( bv_9ireg_plus_d0(mem,iy,desloc) ) <+
-            {7 |-> bv_9ireg_plus_d0(mem,iy,desloc)(7) }
+            {7 |-> bitget(bv_9ireg_plus_d0(mem,iy,desloc),7) }
         THEN
             rgs8 := rgs8 <+ { update_flag_reg(
                     is_negative(res), is_zero(res),0, parity_even(res),
@@ -930,12 +902,12 @@ OPERATIONS
     RLD=
     PRE bv16_ushort(bv_HL) : DATA_R_ADR THEN
         ANY res, acc WHERE res : BYTE & acc : BYTE &
-            res =  { 7|->bitget(bv_9HL0,3), 6|->bitget(bv_9HL0,2), 5|->bitget(bv_9HL0,1), 
-                4|->bitget(bv_9HL0,0),
-                3|->bitget(rgs8(a0),3),   2|->bitget(rgs8(a0),2), 1|->bitget(rgs8(a0),1),
-                0|->bitget(rgs8(a0),0)	} &
-            acc = rgs8(a0) <+ { 3|->bitget(bv_9HL0,7),   2|->bitget(bv_9HL0,6), 
-                1|->bitget(bv_9HL0,5),	0|->bitget(bv_9HL0,4)  }
+            res =  { 8|->bitget(bv_9HL0,3), 7|->bitget(bv_9HL0,2), 6|->bitget(bv_9HL0,1), 
+                5|->bitget(bv_9HL0,0),
+                4|->bitget(rgs8(a0),3),   3|->bitget(rgs8(a0),2), 2|->bitget(rgs8(a0),1),
+                1|->bitget(rgs8(a0),0)	} &
+            acc = rgs8(a0) <+ { 4|->bitget(bv_9HL0,7),   3|->bitget(bv_9HL0,6), 
+                2|->bitget(bv_9HL0,5),	1|->bitget(bv_9HL0,4)  }
             
         THEN
             
@@ -951,12 +923,12 @@ OPERATIONS
     RRD=
     PRE bv16_ushort(bv_HL) : DATA_R_ADR THEN
         ANY res, acc WHERE res : BYTE & acc : BYTE &
-            res =  { 7|->bitget(rgs8(a0),3),   6|->bitget(rgs8(a0),2), 5|->bitget(rgs8(a0),1),
-                4|->bitget(rgs8(a0),0),
-                3|->bitget(bv_9HL0,7), 2|->bitget(bv_9HL0,6), 1|->bitget(bv_9HL0,5), 
-                0|->bitget(bv_9HL0,4)} &
-            acc = rgs8(a0) <+ { 3|->bitget(bv_9HL0,3),   2|->bitget(bv_9HL0,2), 
-                1|->bitget(bv_9HL0,1),	0|->bitget(bv_9HL0,0)  }
+            res =  { 8|->bitget(rgs8(a0),3),   7|->bitget(rgs8(a0),2), 6|->bitget(rgs8(a0),1),
+                5|->bitget(rgs8(a0),0),
+                4|->bitget(bv_9HL0,7), 3|->bitget(bv_9HL0,6), 2|->bitget(bv_9HL0,5), 
+                1|->bitget(bv_9HL0,4)} &
+            acc = rgs8(a0) <+ { 4|->bitget(bv_9HL0,3),   3|->bitget(bv_9HL0,2), 
+                2|->bitget(bv_9HL0,1),	1|->bitget(bv_9HL0,0)  }
             
         THEN
             rgs8 := rgs8 <+ { update_flag_reg( is_negative(acc), is_zero(acc),0, parity_even(acc), 0 ,z_c )   }||            
@@ -1062,43 +1034,52 @@ OPERATIONS
     END;
     
     JP_cc_nn(cc,nn)=
-    PRE cc : BOOL & nn : USHORT THEN
-        IF	cc = TRUE THEN    pc:= nn
-        ELSE pc := instruction_next(pc) END  
+    PRE cc : 0..7 & nn : USHORT THEN
+        
+        ANY res WHERE res : BIT &             
+            { 0 |-> bit_not(z_z) , 1 |-> z_z,
+                2 |-> bit_not(z_c) , 3 |-> z_c  ,
+                4 |-> bit_not(z_p) , 5 |-> z_p ,
+                6 |-> bit_not(z_s)  , 7 |-> z_s  }(cc) = res 
+        THEN
+            IF	res = 1 THEN    pc:= nn
+            ELSE pc := instruction_next(pc) END  
+            || r_ := update_refresh_reg(r_)    
+        END
+    END;
+    
+    JR_e(ee_p)=
+    PRE  ee_p : USHORT & ee_p - pc  <= 129  & ee_p - pc  >= (-126) THEN
+        /*    PRE (ee - pc -2) : SCHAR..*/
+        pc := ee_p || r_ := update_refresh_reg(r_)    
+    END;
+    
+    JR_C_e(ee_p)=
+    PRE  ee_p : USHORT & ee_p - pc  <= 129  & ee_p - pc  >= (-126) THEN
+        IF z_c = 0 THEN	pc := instruction_next(pc) 
+        ELSE pc := ee_p END
         || r_ := update_refresh_reg(r_)    
     END;
     
-    JR_e(ee)=
-    PRE ee : SCHAR & ee-2 : SCHAR THEN
-        pc := (pc + ee) mod 2**16 || r_ := update_refresh_reg(r_)    
-    END;
     
-    JR_C_e(ee)=
-    PRE ee : SCHAR & ee-2 : SCHAR THEN
-        IF z_c = 0 THEN		 pc := instruction_next(pc) 
-        ELSE pc := (pc + ee) mod 2**16 END
+    JR_NC_e(ee_p)=
+    PRE  ee_p : USHORT & ee_p - pc  <= 129  & ee_p - pc  >= (-126) THEN
+        IF z_c = 1 THEN	pc := instruction_next(pc) 
+        ELSE pc := ee_p END
         || r_ := update_refresh_reg(r_)    
     END;
     
-    
-    JR_NC_e(ee)=
-    PRE ee : SCHAR & ee-2 : SCHAR THEN
-        IF z_c = 1 THEN		 pc := instruction_next(pc) 
-        ELSE pc := (pc + ee) mod 2**16 END
-        || r_ := update_refresh_reg(r_)    
-    END;
-    
-    JR_Z_e(ee)=
-    PRE ee : SCHAR & ee-2 : SCHAR THEN
+    JR_Z_e(ee_p)=
+	PRE  ee_p : USHORT & ee_p - pc  <= 129  & ee_p - pc  >= (-126) THEN
         IF z_z = 0 THEN		 pc := instruction_next(pc) 
-        ELSE pc := (pc + ee) mod 2**16 END
+        ELSE pc := ee_p END
         || r_ := update_refresh_reg(r_)    
     END;
     
-    JR_NZ_e(ee)=
-    PRE ee : SCHAR & ee-2 : SCHAR THEN
+    JR_NZ_e(ee_p)=
+	PRE  ee_p : USHORT & ee_p - pc  <= 129  & ee_p - pc  >= (-126) THEN
         IF z_z = 1 THEN		 pc := instruction_next(pc) 
-        ELSE pc := (pc + ee) mod 2**16 END
+        ELSE pc := ee_p END
         || r_ := update_refresh_reg(r_)    
     END;
     
@@ -1117,13 +1098,14 @@ OPERATIONS
         pc :=  bv16_ushort( iy) || r_ := update_refresh_reg(r_)    
     END;
     
-    DJNZ_e(ee)=
-    PRE ee : SCHAR & ee-2 : SCHAR THEN
+    DJNZ_e(ee_p)=
+    PRE  ee_p : USHORT & ee_p - pc  <= 129  & ee_p - pc  >= (-126) THEN
+   /* PRE ee : SCHAR & ee-2 : SCHAR THEN*/
         
         rgs8(b0):=	dec(rgs8(b0))||
         
         IF is_zero(dec(rgs8(b0))) = 1 THEN	pc := instruction_next(pc)
-        ELSE pc := (pc + ee) mod 2**16 END || r_ := update_refresh_reg(r_)    
+        ELSE pc := ee_p /*(pc + ee) mod 2**16*/ END || r_ := update_refresh_reg(r_)    
         
     END;
     
@@ -1198,6 +1180,14 @@ OPERATIONS
     
     
   
+
+
+
+
+
+
+
+
 
 
 ;    
@@ -1776,7 +1766,7 @@ OPERATIONS
             
             get_bv_reg16(sp,rgs8,ss) = bv_value &
             
-            result = add16USHORT(z_c, bv16_ushort( bv_HL) , bv16_ushort( bv_value )) &
+            result = sub16USHORT(z_c, bv16_ushort( bv_HL) , bv16_ushort( bv_value )) &
             negative = 1 &
             zero = is_zero16USHORT(result) &
             half_carry = sub_halfcarryUSHORT(z_c, bv16_ushort( bv_HL) , bv16_ushort( bv_value ) ) &
@@ -1908,6 +1898,14 @@ OPERATIONS
     END 
     
   
+
+
+
+
+
+
+
+
 
 
 ;    
@@ -2205,7 +2203,15 @@ OPERATIONS
    
 
 
-;
+
+
+
+
+
+
+
+
+;    
     /************************************************************************************** 
     ***  			Load 16 bits Group - Continuing
     **************************************************************************************/
@@ -2299,7 +2305,7 @@ OPERATIONS
         r_ := update_refresh_reg(r_)
     END;
     
-
+    
     /************************************************************************************** 
     ****** Arithmetic and Logic Intructions are in the module Z80LoAri - 8 and 16 bits
     ***************************************************************************************/
@@ -2309,7 +2315,7 @@ OPERATIONS
     /************************************************************************************** 
     ****** General Purpose Arithmetic and CPU control 
     ***************************************************************************************/
-
+    
     DAA =
     ANY
         result , s0, z0,h0,pv0, n0, c0
@@ -2331,7 +2337,7 @@ OPERATIONS
     WHERE result : BYTE  & result = complement ( rgs8 ( a0 ) )
     THEN
         rgs8 :=   rgs8 <+ {  ( a0 |-> result ) ,
-                  update_flag_reg( z_s , z_z , 1 , z_p , 1 , z_c ) } ||
+            update_flag_reg( z_s , z_z , 1 , z_p , 1 , z_c ) } ||
         pc := instruction_next ( pc ) || r_ := update_refresh_reg(r_)
         
     END ;
@@ -2392,14 +2398,34 @@ OPERATIONS
     BEGIN
         im := (1 |-> 1)   ||   pc := instruction_next ( pc ) || r_ := update_refresh_reg(r_)
     END
-
+    
     /************************************************************************************** 
     ******    Rotate and SHIFT GROUP in Z80Man_bitControl
     ***************************************************************************************/
+    
+  
+    
+    
+    
+    
+    
   
 
 
+
 ;
+
+    set_pc(value)=
+    PRE value : USHORT THEN
+        pc:=0
+    END;
+    
+    result <-- get_pc =
+    BEGIN
+        result := pc
+    END;
+
+
     /************************************************************************************** 
     ***  			Load 16 bits Group 
     **************************************************************************************/
@@ -2971,6 +2997,14 @@ OPERATIONS
   
 
 
+
+
+
+
+
+
+
+
 ;    
     /************************************************************************************** 
     ****** Extern Interactions Group
@@ -3000,21 +3034,21 @@ OPERATIONS
                     byte_bus = 247  /*RST30H*/ or byte_bus = 255  /*RST38H*/
                 THEN                     
                     pc := byte_bus - 199  ||
-                    updateStack( { mem( sp_minus_one) |-> pc_low,
-                            mem(sp_minus_two) |-> pc_high } ) ||
+                    updateStack( {  sp_minus_one |-> pc_low,
+                                    sp_minus_two |-> pc_high } ) ||
                     sp := sp_minus_two ||  r_ := update_refresh_reg(r_) 
                 ELSE
                     skip  /* Not implemeted yet the others instructions with codop of 8 bits */
                 END
             ELSIF  im =  ( 0 |-> 1 ) THEN /* Mode 1 */
                 pc :=  56 /* 56 decimal = 38H */                ||
-                updateStack( { mem( sp_minus_one) |-> pc_low,
-                        mem(sp_minus_two) |-> pc_high } ) ||
+                updateStack( { sp_minus_one |-> pc_low,
+                               sp_minus_two |-> pc_high } ) ||
                 sp := sp_minus_two ||  r_ := update_refresh_reg(r_)                 
             ELSIF    im = ( 1 |-> 1 ) THEN /* Mode 2 */              
                 pc := bv16_ushort(byte_bv16( i_ ,bitclear(rotateleft(uchar_byte(byte_bus)),0))) ||
-                updateStack( { mem( sp_minus_one) |-> pc_low, 
-                        mem(sp_minus_two) |-> pc_high } ) ||
+                updateStack( {  sp_minus_one |-> pc_low, 
+                                sp_minus_two |-> pc_high } ) ||
                 sp := sp_minus_two ||  r_ := update_refresh_reg(r_) 
             END  
         END
@@ -3027,7 +3061,24 @@ OPERATIONS
         rgs8  := rgs8 <+ { (a0 |->uchar_byte(255) ), (f0 |->uchar_byte(255) ) }||
         sp := byte_bv16(uchar_byte(255),uchar_byte(255))
         
-    END  
+    END;  
+
+
+    /************************************************************************************** 
+    ****** Read e write registers
+    ***************************************************************************************/
+
+	value <-- io_read(aa) = 
+	PRE aa : id_reg_8 THEN
+	    value := rgs8(aa)
+	END;
+
+	io_write(aa,value) = 
+	PRE aa : id_reg_8 & value : BYTE THEN
+	    rgs8(aa) := value
+	END
+
+
 
 
 
