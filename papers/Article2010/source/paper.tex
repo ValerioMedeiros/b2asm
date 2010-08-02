@@ -1,6 +1,11 @@
-\documentclass{llncs}
-%\documentclass{article}
+%\documentclass{llncs}
+\documentclass[11pt]{article} % use larger type;
 
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
 \usepackage{graphicx,array}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -8,11 +13,19 @@
 \usepackage{epsfig}
 \usepackage{float}
 %\usepackage{supertabular} % used in B Symbols
-
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
 
 \include{comandos}
 \include{SymbolsB_AtelierB} 
-
+% Allow use multiples footnote references 
+\newcommand{\footnoteremember}[2]{
+  \footnote{#2}
+  \newcounter{#1}
+  \setcounter{#1}{\value{footnote}}
+}
+\newcommand{\footnoterecall}[1]{
+  \footnotemark[\value{#1}]
+}
 
 
 %
@@ -22,16 +35,19 @@
 
 \hyphenation{se-pa-ra-te}
 
-\author{ David D\'{e}harbe\inst{1}, Val\'{e}rio Medeiros Jr\inst{2} }
-\institute{Federal University of Rio Grande do Norte, Natal RN 59078-970, Brazil\inst{1} and\\  
-Federal Institute of Education, Science and Technology of Rio Grande do Norte, Natal RN
-59015-000, Brazil\inst{2}}
+\author{Val\'{e}rio Medeiros Jr%\inst{2}
+, David D\'{e}harbe%\inst{1}
+}
+
+ %\institute{ \inst{1}Federal Institute of Education, Science and Technology of Rio Grande do Norte, Natal RN 59015-000, Brazil % } 
+ %  \and %\institute{
+ %  \inst{2}Federal University of Rio Grande do Norte, Natal RN 59078-970,Brazil}
 
 
 \maketitle
 
 \begin{abstract}
-  [To redo]
+  [TODO:To redo]
   This paper describes an approach to model the functional aspects of
   the instruction set of microcontroller platforms using the notation
   of the B method. The paper presents specifically the case of the Z80 
@@ -42,7 +58,7 @@ Federal Institute of Education, Science and Technology of Rio Grande do Norte, N
 %\keywords{Fomal Methods, microcontroller Verification, Hardware}
 
 \section{Introduction}
-[To update]
+[TODO:To update] 
 The B method~\cite{Abrial} supports the construction of safety systems
 models by verification of proofs that guarantees its correctness. So,
 an initial abstract model of the system requirements is defined and
@@ -76,18 +92,77 @@ goal of this project, though, is to provide a basis for the generation
 of software artifacts at the assembly level that are amenable to 
 refinement verification within the B method.
 
-This paper is focused on the presentation of the Z80 model, including
-elementary libraries to describe hardware aspects. The paper is
-structured as follows. Section~\ref{sec:B_method} provides a short
-introduction to the B method. Section~\ref{sec:models} presents the
-elementary libraries and the modelling of some elements common to
-microcontrollers.  Section~\ref{sec:z80} presents the B model of the
-Z80 instruction set. Section ~\ref{sec:Proofs} provides some
-information on the proof effort needed to analyze the presented
-models. Related work is discussed in
-Section~\ref{sec:relatedworks}. Finally, the last section is devoted
-to the conclusions.
+This paper is focused on the presentation of modelling of assembly instruction
+set, including elementary libraries to describe hardware aspects. The paper is
+structured as follows. Section~\ref{sec:B_method} provides a short introduction
+to the B method. Section~\ref{sec:models} presents the elementary libraries and
+the modelling of some elements common to microcontrollers.  Section~\ref{sec:z80}
+presents the B model of the Z80 instruction set. Section ~\ref{sec:Verification}
+provides some information on the proof effort needed to analyze the presented
+models. Related work is discussed in Section~\ref{sec:relatedworks}. Finally, the
+last section is devoted to the conclusions.
 
+\subsection{Problems in formalizing instruction set}
+[I need review the text and move this secion to other place]
+%a) Explicar como sheo formalizados os conjuntos de instruheheo nos
+%manuais dos construtores (Consultar os dois manuais)
+
+In general, the manuals of microcontrollers can be more appropriate for
+developers in assembly language. Many times, each instruction of microcontrollers
+are shown in its official manual using textual description, math partially
+description of instruction, examples, encoding, number of cycles and others
+informations. But the explantion about the action of instruction do not use
+usually the better way to describe the instruction for users and developers. For example,
+if the user want to know the action of instruction and its effect on the flag
+register then he needs search this information in different pages of manual.
+Besides, the writer of manual usually describes important facts in not formal
+notation and default. So this description can add some ambiguities or until
+mistakes. 
+
+
+% b) The case of Z80
+The official manual of the microcontroller Z80 \cite{Z80_manual} has several
+problems that were identified over time~\cite{UndocumentedZ80}. The Z80 is a
+microcontroller that  has been tested and used for many years. This intensive use
+and test facilitated to find several errors in the description of the
+instructions in its manual. Several of these problems have been cataloged in a
+technical report \cite{UndocumentedZ80}. Some problems are inaccurate
+information, for example the description of action of instruction on the flag
+register, partial informations and distributed on different pages of manual.
+
+
+Some erros was identified during the development of Z80 model.
+An example is
+%\begin{itemize}
+% \item Some input and output instructionsThe
+% INI/INIR/IND/INDR/OUTI/OUTD/OTIR/OTDR instructions do affect the CF flag (some official documentation says they leave it unaffected, important!) and the
+% NF flag is not always set but may also be reset (see 4.3 for exact operation)
+% \cite{UndocumentedZ80}.
+% Este erro he descrito na phegina (274 do documento e 294 do pdf) 
+% do manual oficial do Z80 (Z80_CPU_adotado.pdf)
+% Citar apenas esse exemplo abaixo! 
+%   \item
+when a determined interruption (NMI) is accepted, the bit IFF1 is not
+copied to bit IFF2. % Este erro he descrito na phegina (23 do documento e 41do pdf) % do manual oficial do Z80 (Z80_CPU_adotado.pdf)
+Only IFF1 is reset. This problem was identified, because the description of
+interruption on the official manual is big and complex, so to help the
+construction of Z80 B model, others references  \cite{UndocumentedZ80,Simulator_z80} 
+also were consulted.
+  
+%\end{itemize}
+
+An interesting solution is to specify formally the assembly instruction set,
+this creates a pattern of representation and validates properties of
+instructions. The formal model also restricts the definitions to correct typing and use only
+expressions well-defined.
+% -> Solucao interessante he especificar  formalmente o conjunto
+% de instruhehehees, isto cria um padrao formal de representaheheheo e valida propriedades
+% das instrucoes. 
+Furthermore, the developer can use with B method different levels of
+abstraction and add more specific details in refined models. 
+ 
+
+% allow to verify properties on the model.
 \section{Introduction to the B Method}
 \label{sec:B_method}
 
@@ -98,12 +173,11 @@ generated from it. Its mathematical basis consists of first order logic, integer
 arithmetic and set theory, and its corresponding constructs are similar to those
 of the Z notation.
 
-
 A B specification is structured in modules. A module defines a set of valid
 states, including a set of initial states, and operations that may provoke a
 transition between states. The design process starts with a module with a
 so-called functional model of the system under development. In this initial
-modelling stage, the B method requires that the user proves that, in a machine,
+modeling stage, the B method requires that the user proves that, in a machine,
 all the its initial states are valid, and that operations do not define
 transitions from valid states to invalid states.
   
@@ -118,7 +192,7 @@ the initial states. Finally, operations correspond to the transitions between
 states of the machine.
 
 
-\begin{figure}
+\begin{figure}[h]
   % \begin{small}
   $$
   \begin{array}{lcl}
@@ -127,9 +201,10 @@ states of the machine.
       \SEES \quad \mathit{TYPES}, \mathit{ALU} \\
       \INCLUDES  \quad \mathit{MEMORY} \\
       \VARIABLES \quad    \mathit{pc}  \\
-      \INVARIANT \quad \mathit{pc} \in \mathit{INSTRUCTION} 
+      \INVARIANT\\ 
+      \quad \mathit{pc} \in \mathit{INSTRUCTION} 
     \end{array}
-    & \hspace*{1cm} &
+    & \hspace*{0cm} &
     \begin{array}[t]{l}
       \INITIALISATION  \mathit{pc} := 0 \\
       \OPERATIONS\\
@@ -148,10 +223,17 @@ states of the machine.
 
 \section{Model structure and basic components}
 \label{sec:models}
+%Em cada subsecaoo descrever os principais lemas que foram provados.
+%Sugestheo de David:
+% a) structure
+% b) formalization of bit-level concepts
+% c) formalization of bit vectors
+% d) formalization of byte and word-level concepts
+% e) formalization of integer ranges 
 
 We have been developed a reusable set of basic definitions to model hardware concepts and data types
-concepts. These definitions are grouped into two separate development projects and are available as
-libraries. A third project is devoted to the higher-level aspects of the platform. Thus, the workspace is
+concepts. These definitions are grouped into three separate development projects
+and are available as libraries. A fourth project is devoted to the higher-level aspects of the platform. Thus the workspace is
 composed of: a power library\footnote{The power library has the basics definitions to help the theorems
 prover about simple calculus of power, especially power of two. It has constants, that represents all
 results of power function needed, and the definition of power function.}, a hardware library, a types
@@ -168,7 +250,7 @@ presented in the following.
 
 
 
-\subsection{Bit Representation and Manipulation}
+\subsection{Bit representation and manipulation}
 
 The entities defined in the module $\mathit{BIT\_DEFINITION}$ are the
 type for bits, logical operations on bits (negation, conjunction,
@@ -239,7 +321,7 @@ mechanically proved by the theorem prover included with our B
 development environment. None of these proofs requires human insight.
 
 
-\subsection{Representation and Manipulation of Bit Vectors}
+\subsection{Representation and manipulation of bit vectors}
 
 Sequences are pre-defined in B, as functions whose the domain is an
 integer range with lower bound 1 (one). Indices in bit vectors usually
@@ -321,7 +403,7 @@ $
 \mathit{bv\_not} = \lambda v . (v \in \mathit{BIT\_VECTOR} \mid \quad \lambda i . (1 .. \mathit{bv\_size}(v)) \mid \mathit{bit\_not}(v(i))) \land \\
 \mathit{bv\_and} \in \mathit{BIT\_VECTOR} \times \mathit{BIT\_VECTOR} \fun \mathit{BIT\_VECTOR} \land \\
 \mathit{bv\_and} = \lambda v_1, v_2 . (v_1 \in \mathit{BIT\_VECTOR} \land v_2 \in \mathit{BIT\_VECTOR} \land \\
-\quad \mathit{bv\_size}(v_1) = \mathit{bv\_size}(v_2) \mid \lambda i . (1 .. \mathit{bv\_size}(v_1)) \mid
+\mathit{bv\_size}(v_1) = \mathit{bv\_size}(v_2) \mid \lambda i . (1 .. \mathit{bv\_size}(v_1)) \mid
 \mathit{bit\_and}(v_1(i), v_2(i)))
 \end{array}
 $
@@ -331,7 +413,7 @@ express properties on the size of the result of the operations
 as well as classical algebraic properties such as associativity
 and commutativity.
 
-\subsection{Modelling Bytes and Bit Vectors of Length 16}
+\subsection{Modelling bytes and bit vectors of length 16}
 
 Bit vectors of length 8 are bytes. They form a common entity in
 hardware design. We provide the following definitions:
@@ -354,7 +436,7 @@ is created for bit vector of length 16 in a similar way.
 
 
 
-\subsection{Bit Vector Arithmetics}
+\subsection{Bit vector arithmetics}
 
 Bit vectors are used to represent and combine numbers: integer ranges (signed or unsigned). Therefore, our
 library includes functions to manipulate such data, for example, the function $\mathit{bv\_to\_nat}$ that
@@ -372,7 +454,7 @@ $
 
 An  associated lemma is: $\forall n . (n \in \nat_1 \implies \mathit{bv\_to\_nat}(\mathit{nat\_to\_bv}(n)) = n)$
 
-\subsection{Basics Data Types}
+\subsection{Basics data types}
 
 The instruction set of microcontrollers usually have common data types. These types are placed in the
 types library. Each type module has functions to manipulate and convert its data. There are six common
@@ -383,15 +465,33 @@ basics data types represented by modules, see details in table~\ref{tab:types}.
 \caption{Descriptions of basic data types}
 \label{tab:types}
 
+% \begin{center}
+% \begin{tabular}{|c|c|c|c|c|c|c|}
+% \hline
+%  $Type\ Name$ & UCHAR & SCHAR & USHORTINT & SSHORTINT  & BYTE & BV16 \\\hline
+%  $Range$ & 0..255 & -128..127 & 0..65.535  & -32.768..32.767  & -- & --\\ \hline
+%  $Physical\ Size $ & 1 byte & 1 byte & 2 bytes & 2 bytes &  1 bytes & 2 bytes \\ \hline
+% \end{tabular}
+% \end{center}
+
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
- $Type\ Name$ & UCHAR & SCHAR & USHORTINT & SSHORTINT  & BYTE & BV16 \\\hline
- $Range$ & 0..255 & -128..127 & 0..65.535  & -32.768..32.767  & -- & --\\ \hline
- $Physical\ Size $ & 1 byte & 1 byte & 2 bytes & 2 bytes &  1 bytes & 2 bytes \\ \hline
+ $Type\ Name$ & $Range$ & $Physical\ Size $\\\hline
+ UCHAR & 0..255 & 1 byte\\\hline
+ SCHAR & -128..127 & 1 byte  \\\hline
+ USHORTINT & 0..65.535 & 2 byte \\\hline
+ SSHORTINT & -32.768..32.767 & 2 byte \\\hline
+ BYTE & -- & 1 bytes  \\\hline
+ BV16 & -- & 2 bytes \\ \hline
 \end{tabular}
 \end{center}
+
+
 \end{table}
+
+
+
 
 Usually, each type module just needs to instantiate concepts that were already defined in the hardware
 modelling library.  For example, the function $\mathit{bv\_to\_nat}$ from bit vector arithmetics is
@@ -430,18 +530,42 @@ $
 %  \mathit{uchar\_byte}(\mathit{byte\_uchar}(by)) = by)
 % \end{array}
 % $
+%[NEW PARAGRAPH-TO-REVIEW]
+%Similarly, several other general functions and lemmas were created for all other data types.
+%Some times, we need create arithmetic and logic functions that are more specific for a
+%determined computer architecture. These functions are developed in the module ALU 
+%(arithmetic  logic unit). The following shows some examples of specific functions used in
+%microcontroller model of Z80. For example, the function $\mathit{instruction_next}$
+%receives a $\mathit{BYTE}$ and returns a $\mathit{BYTE}$ that contains a sequence of bit:
+%a signal bit, 
 
-Similarly, several other functions and lemmas were created for all other data types.
 
 
-\section{Description of the Z80 B model }
+\section{A B model of the Z80 instruction set}
 \label{sec:z80}
 
 The \textit{Z80} is a CISC microcontroller developed by \textit{Zilog}~\cite{Z80_manual}. It supports 158
 different instructions, including all the 78 from Intel 8080 microprocessor, and all of them were
 specified. These instructions are classified into these categories: load and exchange; block transfer and
 search; arithmetic and logical; rotate and shift; bit manipulation; jump, call and return; input/output;
-and basic cpu control. 
+and basic cpu control. Each category of instruction has different elements of
+specification.
+
+
+
+This section shows the elements that make up the different types of instructions.
+The main elements are specified in the microcontroller module Z80 and parts of it
+are presented in this section~\ref{sec:z80}. Groups of registers are represented
+by the variables of the specification states that appear in clause
+\textit{VARIABLES}. The declaration of valid states of variables in the clause is
+in the \textit{INVARIANT} clause and the initial state is defined in the
+\textit{INITIALISATION} clause. The assembly instructions are defined by the
+clause \textit{OPERATIONS}, and the most of its specification constructions are
+similar to constructions from traditional programming languages. Several
+functions were created to Z80. General functions that can be used in others
+microcontroller models are defined in the modules of data types. Specific
+functions of the microcontroller are defined in the ULA (arithmetic logic unit).
+
 
 
 The main module includes an instance of the memory module and accesses the definitions from basic data
@@ -469,7 +593,36 @@ types modules and the \textit{ALU} module.
 \hspace*{0.10in}\it SSHORT\_DEFINITION ,\it USHORT\_DEFINITION
 \end{sloppypar}
 
-% Chacteristics of microcontroller
+
+\subsection{Modelling registers and input and output ports} [TODO:I need review
+the english]
+
+The Z80 CPU includes alternative set of accumulator, flag and general registers. The CPU contains a stack
+pointer ($\mathit{sp}$), program counter ($\mathit{pc}$), two index registers ($\mathit{ix}$ and $\mathit{iy}$), an
+interrupt register ($\mathit{i\_}$), a refresh register ($\mathit{r\_}$), two bits ($\mathit{iff1}$,
+$\mathit{iff2}$) used to control the interruptions, a pair of bits to define the interruption mode ($\mathit{im}$)
+and the input and output ports ($\mathit{i\_o\_ports}$). Below, its definitions are represented by
+\textit{INVARIANT}.
+  
+\begin{sloppypar}
+\bf INVARIANT
+
+\hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ 
+
+\hspace*{0.10in}\it pc  $\in$  \it INSTRUCTION  $\land$  \it sp  $\in$  \it BV16  $\land$  \it ix  $\in$  \it BV16  $\land$  \it iy  $\in$  \it BV16  $\land$ 
+
+\hspace*{0.10in}\it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$  
+
+\hspace*{0.10in}\it iff1  $\in$  \it BIT  $\land$ \hspace*{0.10in}\it iff2  $\in$  \it BIT  $\land$ 
+
+\hspace*{0.10in}\it im $\in$ (\it BIT $\times$ \it BIT\rm )  $\land$ 
+
+\hspace*{0.10in}\it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE
+\end{sloppypar}
+
+% 
+
+% Features of microcontroller
  The internal registers contain 176 bits of reading/writing memory that are represented by
 identifiers used as parameters in the instructions . It includes two sets of six general purpose
 registers which may be used individually as 8-bits registers or as 16-bits register pairs.  The working registers
@@ -494,89 +647,9 @@ resulting in another set of identifiers of 16-bits registers, named $\mathit{id\
 The main working register of Z80 is the accumulator ($\mathit{rgs8(a0)}$) used for arithmetic/logic,
 input/output and loading/storing operations.
 
-% \subsection{Modelling Registers, Input and Output Ports and Instructions}
-% 
-% The Z80 has different types of registers and instructions. The CPU
-% contains general-purpose registers ($\mathit{id\_reg\_8}$), a stack
-% pointer ($\mathit{sp}$), program counter ($\mathit{pc}$), two index
-% registers ($\mathit{ix}$ and $\mathit{iy}$), an interrupt register
-% ($\mathit{i\_}$), a refresh register ($\mathit{r\_}$), two bits
-% ($\mathit{iff1}$, $\mathit{iff2}$) used to control the interruptions,
-% a pair of bits to define the interruption mode ($\mathit{im}$) and the
-% input and output ports ($\mathit{i\_o\_ports}$). Below, part of the
-% corresponding definitions are replicated from the $\INVARIANT$:
-% 
-% \begin{sloppypar}
-% %\bf INVARIANT
-% \hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ pc  $\in$  \it INSTRUCTION  $\land$
-% 
-% \hspace*{0.10in}\it  sp  $\in$  \it BV16  $\land$  \it ix  $\in$  \it BV16  $\land$  \it iy  $\in$  \it BV16  $\land$
-% 
-% \hspace*{0.10in}\it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$ iff1  $\in$  \it BIT
-% $\land$ \it iff2  $\in$  \it BIT  $\land$
-% 
-% \hspace*{0.10in}\it im \rm $\in$ \rm (\it BIT $\times$ \it BIT\rm )  $\land$ i\_o\_ports  $\in$  \it BYTE
-% $\fun$  \it BYTE
-% \end{sloppypar}
-% 
-% A simple example of instruction is a $\mathit{LD\_n\_A}$, as shown
-% below.  Many times, to model an instruction is necessary to use the
-% predefined functions, these help the construction of model. This
-% instruction use the $\mathit{updateAddressMem}$ function from
-% \textit{Memory} module and it receives an address memory and its new
-% memory value. Finally it increments the program counter
-% ($\mathit{pc}$) and update the refresh register ($\mathit{r\_}$).
-% 
-% \hspace*{0.00in}\bf LD\_n\_A \rm ( \it nn \rm ) \rm =
-% 
-% \hspace*{0.20in}\bf PRE \it nn $\in$ \it USHORT\hspace*{0.15in} %$\land$  \it nn $\in$\it DATA\_R\_ADR
-% 
-% \hspace*{0.20in}\bf THEN
-% 
-% \hspace*{0.20in}\bf updateAddressMem \rm ( \it ushort\_to\_bv16 \rm ( \it nn \rm ) \rm , \it rgs8 \rm ( \it a0 \rm )
-% \rm )  $\para$
-% 
-% \hspace*{0.20in}\it pc \rm := \it instruction\_next \rm ( \it pc \rm )  $\para$  \it r\_ \rm := \it
-% update\_refresh\_reg\rm (\it r\_\rm )
-% 
-% \hspace*{0.00in}\bf END\rm
-% 
-% The microcontroller model can specify security properties. For example, the
-% last operation could have a restriction to write only in a defined region of memory.
-
-\subsection{Modelling registers and input and output ports} [I need review the english]
-
-The Z80 CPU includes alternative set of accumulator, flag and general registers. The CPU contains a stack
-pointer ($\mathit{sp}$), program counter ($\mathit{pc}$), two index registers ($\mathit{ix}$ and $\mathit{iy}$), an
-interrupt register ($\mathit{i\_}$), a refresh register ($\mathit{r\_}$), two bits ($\mathit{iff1}$,
-$\mathit{iff2}$) used to control the interruptions, a pair of bits to define the interruption mode ($\mathit{im}$)
-and the input and output ports ($\mathit{i\_o\_ports}$). Below, its definitions are represented by
-\textit{INVARIANT}.
-  
-\begin{sloppypar}
-\bf INVARIANT
-
-
-\hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ 
-
-\hspace*{0.10in}\it pc  $\in$  \it INSTRUCTION  $\land$  \it sp  $\in$  \it BV16  $\land$  \it ix  $\in$  \it BV16  $\land$  \it iy  $\in$  \it BV16  $\land$ 
-
-\hspace*{0.10in}\it i\_  $\in$  \it BYTE  $\land$  \it r\_\hspace*{0.10in} $\in$  \it BYTE  $\land$  
-
-\hspace*{0.10in}\it iff1  $\in$  \it BIT  $\land$ \hspace*{0.10in}\it iff2  $\in$  \it BIT  $\land$ 
-
-\hspace*{0.10in}\it im \rm : \rm (\it BIT $\times$ \it BIT\rm )  $\land$ 
-
-\hspace*{0.10in}\it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE
-\end{sloppypar}
-
-% 
-
-
-
-\subsection{Flag register} [I need review the english]
+\subsection{Flag register} [TODO:I need review the text]
 Another important element is the ``z'' register ($\mathit{rgs8(z0)}$),  that is used as a flag register. This
-register uses only six bits to represent the result status of each instruction. 	
+register uses only six bits to represent the execution result status of each instruction.
 According to the official manual the bits 3 and 5 are not used and the others bits have the follow meaning:
 \begin{description}
   \item[$\mathit{bv\_get(rgs8(z0),0)}$] - The Carry bit
@@ -587,17 +660,21 @@ According to the official manual the bits 3 and 5 are not used and the others bi
   \item[$\mathit{bv\_get(rgs8(z0),7)}$] - The Sign bit 
 \end{description}
 
-\begin{property}[Assuring the absence of Overflow]
- To assure that don�t happen overflow the developer can add this expression ($\mathit{bv\_get(rgs8(z0),0)} \neq 1
- \land \mathit{bv\_get(rgs8(z0),2) \neq 1}$) in the invariant. By default, the overflow can happen, but
- many times it can be dangerous. Then, the developer may prohibit its use. This restriction can also become the more dificult to
- specify.
-\end{property}
+These bits also can be used to specify security properties for microcontroller programs.   
+
+\textbf{Assuring the absence of overflow:}
+ \emph{To assure that not to happen overflow, the developer can add this
+ expression ($\mathit{bv\_get(rgs8(z0),0)} \neq 1 \land \mathit{bv\_get(rgs8(z0),2) \neq 1}$)
+ in the invariant. By default, the overflow can happen, but many times it can be dangerous. 
+ Then, the developer may prohibit its use. This restriction can also become the more difficult
+ to specify.}
 
 
-\subsection{Manipulation data functions from Z80} [I need to review the english] There are some specific functions
-from Z80 to manipulate the data. The $\mathit{bv\_ireg\_plus\_d}$ is  used to indexed address. It received the
-value of register ($\mathit{ix}$ or $\mathit{iy}$) and displacement to return the sum, the result is the memory address dislocated, see
+
+\subsection{Manipulation data functions from Z80}
+[I need to review the text]\\ There are some specific functions
+from Z80 to manipulate the data. In addressing mode, the function $\mathit{bv\_ireg\_plus\_d}$ is  used to indexed address. It receives the
+value of register ($\mathit{ix}$ or $\mathit{iy}$) and the displacement to return the sum, the result is the dislocated address memory, see
 its the definition.
 
 \hspace*{0.0in}\it bv\_ireg\_plus\_d \rm : \rm(\it BV16  $\times$  \it SCHAR  $\fun$  \it BV16\rm )  $\land$ 
@@ -607,8 +684,8 @@ its the definition.
 \hspace*{0.20in}$\mid$ \it ushort\_bv16 \rm ( \rm (\it bv16\_ushort \rm ( \it ix\_iy \rm ) \rm + \it disloc \rm ) 
 $\mod$ \rm 6\rm 5\rm 5\rm 3\rm 6 \rm ) \rm )
 
-Another derived function is  $\mathit{bv\_9ireg\_plus\_d0}$ , this returns the value in the memory  address
-returned by $\mathit{bv\_ireg\_plus\_d}$ function ands its definition is similar.
+Another derived function is  $\mathit{bv\_(ireg\_plus\_d)}$, this returns the value in the memory  address
+returned by $\mathit{bv\_ireg\_plus\_d}$ function and its definition is similar.
 
 There is a specific function to refresh the flag register, it is named $\mathit{update\_reg\_flag}$. It is typed of
 follow mode: \it update\_flag\_reg \rm $\in$ \rm (\it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it
@@ -624,10 +701,10 @@ BIT $\land$ \it pv2 $\in$ \it BIT $\land$ \it n1 $\in$ \it BIT $\land$ \it c0 $\
 h4\rm , \rm 1\rm , \it z6\rm , \it s7\rm \rm ]\rm ) \rm )
 
 
-\subsection{Program, stack and data memory}[I need review the english]
+\subsection{Program, stack and data memory}[I need review the text]
 
 The Z80 uses a unique memory for storing program instructions, data stack and data work. The memory has 16-bits
-addressing and each address represent a byte. Thus, the data from the memory module is very simple, as shown below,
+addressing and each address represents a byte. Thus the data from the memory module is very simple, as shown below,
 but an additional care must be taken to preserve the consistency of memory.
 
 \begin{sloppypar}
@@ -637,39 +714,38 @@ but an additional care must be taken to preserve the consistency of memory.
 \end{sloppypar}
   
 In general, the instructions can access all memory address, but it is very dangerous. For add more security, is
-importante that the program instructions has the access limited by region. Thus, the designer can specify address
-regions to restrict the access from instructions. The address regions can be especified how shown below.
+important that the program instructions has the access limited by region. Thus the designer can specify address
+regions to restrict the access from instructions. The address regions can be specified how shown below.
+The constants ($\mathit{PRORGRAM\_R\_ADR,DATA\_R\_ADR,STACK\_R\_ADR}$) defines respectively a range of restricted address
+for: programs instructions, data work, data stack. 
 
 $
 \begin{array}{l}
-\mathit{PROGRAM\_R\_ADR} = 0..16384 \land \mathit{DATA\_R\_ADR} = 16385..49151 \land \\
+\mathit{PROGRAM\_R\_ADR} = 0..16384 \land\\
+\mathit{DATA\_R\_ADR} = 16385..49151 \land\\
 \mathit{STACK\_R\_ADR} = 49152..65535
 \end{array}
 $
 
-\begin{property}[Assuring the absence of overlapping of address regions]
- To assure that address regions are well defined, then the designer must to verify the below expression.
-\end{property}
+\textbf{Assuring the absence of overlapping of address regions:}
+ \emph{To assure that address regions are well defined, then the designer must to verify the below expression.}
 
 \begin{sloppypar}
 \hspace*{0.10in}\it PROGRAM\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$  STACK\_R\_ADR $=$ \{\}
 \end{sloppypar}
  
+\textbf{Preserving the consistency of the memory:} \emph{In general, the access to
+some address regions is dangerous. Then, in each instruction has a specific pre-condition that verify
+if the new address memory, that will be updated, is member of its region. For example, the $\mathit{PUSH}$
+program instruction allows write only in the region of stack ($\mathit{STACK\_R\_ADR}$).}
 
-
-\begin{property}[Preserving the consistency of the memory]
-In general, the access to some address regions is dangerous. Then, in each instruction has a specific
-pre-condition that verify if the new address memory, that will be updated, is member of its region. For example,
-the $\mathit{PUSH}$ program instruction allow write only in the region of stack ($\mathit{STACK\_R\_ADR}$). 
-%Thus,if the user try to write in incorrect region then the called of operation cannot be proved.
-\end{property}
 
 
 \subsection{Arithmetic logic unit}
  
-There are many functions defined in the module \textit{ALU}. In general, these functions take basic definitions to build
-new specific functions. The function $\mathit{half8UCHAR}$ is used to get the half part of $\mathit{UCHAR}$ value.
-It is importante to know the half carry and it is used in the $\mathit{add8UCHAR}$. 
+There are many functions defined in the module \textit{ALU}. In general, these functions take basic definitions or functions
+to build new more specific functions. The function $\mathit{half8UCHAR}$ is used to get the half part of $\mathit{UCHAR}$ value.
+It is important to know the half carry and it is used in the function $\mathit{add8UCHAR}$. 
 
 \hspace*{0.0in}
 
@@ -683,9 +759,6 @@ It is importante to know the half carry and it is used in the $\mathit{add8UCHAR
 The function $\mathit{add8UCHAR}$ receive a bit carry and two $\mathit{UCHAR}$ values and return respectively the 
 sum, the sign bit, the carry bit, the half carry bit and the zero bit. It is typed how follow: \it add8UCHAR \rm :
 \rm (\it BIT $\times$ \it UCHAR $\times$ \it UCHAR\rm ) $\fun$ \rm (\it UCHAR $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT\rm ) and its definitions is:
-
-
-\hspace*{0.20in}
 
 \hspace*{0.0in}\it add8UCHAR\rm = $\lambda$ \rm(\it carry\rm,\it w1\rm \it w2\rm)\rm.\rm
 
@@ -707,37 +780,40 @@ w2\rm )  $\geq$  \it $2^{4}$\rm )\rm,
 
 \hspace*{0.20in}
 
-A similar function to subtract operation is $\mathit{substract8UCHAR}$. There are the same functions for the
+A related function to subtract operation is $\mathit{substract8UCHAR}$. There are the same functions for the
 $\mathit{SCHAR}$ type, they are respectively $\mathit{add8SCHAR}$ and $\mathit{substract8SCHAR}$, all these
 functions are of 8 bits ($\mathit{BYTE}$) and defined similarly. In the same way, the arithmetic functions for 16
 bits ($\mathit{BV16}$) are defined.
-
-Other more simply functions also are typed and explained below:
+The module ALU has several others functions, but only some simplest functions also are typed and explained below:
 
 \begin{itemize}
-  \item \it inc  $\in$ \it BYTE $\fun$  \it BYTE \rm - It receives a byte and returns its decrement. There is a
-  similar function named $\mathit{dec}$.
+  %\item \it inc  $\in$ \it BYTE $\fun$  \it BYTE \rm - It receives a byte and
+  %returns its increment. There is a similar function named $\mathit{dec}$.
 
-  \item \it instruction\_next  $\in$  USHORT  $\fun$  USHORT \rm - It receives the pc actual
-  value and return its increment.
+  \item \it instruction\_next  $\in$  USHORT  $\fun$  USHORT \rm - It receives the  
+  actual value from program counter register (\textit{pc}) and returns its increment.
+ \item \it is\_negative  $\in$  \it BYTE  $\fun$  \it BIT \rm - It returns the most significant bit,
+ in others words, the signal bit.
 
-  \item \it is\_negative  $\in$  \it BYTE  $\fun$  \it BIT \rm - It returns 1 if the received
-  byte is zero, otherwise returns 0.
+  
+ % \item \it is\_zero  $\in$  \it BYTE  $\fun$  \it BIT \rm - It returns 1 if the received
+ % byte is zero, otherwise returns 0.
 
-  \item \it update\_refresh\_reg \rm - It receives a byte and returns its increment until the seventh bit.
+  %\item \it update\_refresh\_reg \rm - It receives a byte and returns its increment until the seventh bit.
 
 \end{itemize}
 
-Every logic functions are defined in the \textit{BYTE} and \textit{BV16} module are included in the \textit{ALU}
-module. Then, it was not necessary rewrite these functions.
+Every logic functions that are defined in the \textit{BYTE} and \textit{BV16} module are included in the \textit{ALU}
+module. Then, these functions can be seen directly in the \textit{ALU} and \textit{Z80} module.
 
-\subsection{Modelling the instructions}[I need review the english]
+\subsection{Modelling the instructions}[I need review the text]
 
 Each instruction is represented by a B operation in the module Z80. The main module (\textit{Z80}) has two
 types of operations, a type represents the external actions and the other represents the instructions of
 microcontrollers. The external actions are shown in the section ~\ref{sec:externalactions}.  A simple
-example from instruction is a $\mathit{LD\_(nn)\_A}$ shown below. Many times to model a instruction is
-necessary to use the pre-defined functions, this facilitates the construction of model. By default, all
+example from instruction is a $\mathit{LD\_(nn)\_A}$\footnoteremember{myfootnote}{The tools B does not allow use parentheses in identifiers,
+then the characters \{``('',``)''\} are replaced respectively by \{``9'',``0''\} in the real specification.} shown below.
+Many times to model a instruction is necessary to use the pre-defined functions, this facilitates the construction of model. By default, all
 parameters from operations are either predefined elements in the model or integers values in the decimal
 representation. This instruction use the $\mathit{updateAddressMem}$ function from \textit{Memory} module
 and it receives a address memory and its new memory value. After, it increments the program counter
@@ -759,15 +835,14 @@ and it receives a address memory and its new memory value. After, it increments 
 
 The other instructions have a similar structure.
 
-\subsection{Modelling the Input/Output Instructions}
+\subsection{Modeling the input/output instructions}
 
 The Z80 has an extensive set of input and output (I/O) instruction and 256 ports for
 devices. This model can transfer data blocks and between the I/O devices and any
 of the internal registers or memory address.
 
-The $\mathit{IN\_r(C)}$ \footnote{The tools B don't allow use parenteses in identifiers, then the characteres
-\{``('',``)''\} are replaced respectively by \{``9'',``0''\} in the real specification.} instruction is represented
-by the follow B operation. It is from I/O group, then it reveives a identifier of register
+The $\mathit{IN\_r(C)}$\footnoterecall{myfootnote} instruction is represented
+by the follow B operation. It is from I/O group, then it receives a identifier of register
 $\mathit{r}$ and, in this place, it stores the value of $\mathit{C}$ port address. Besides, it increments the
 program counter and updates the flag registers.
 
@@ -808,7 +883,9 @@ $\land$ \it pv $\in$ \it BIT $\land$
 
 \hspace*{0.0in}\bf END \rm
 
-
+The main I/O instructions work similarly, for example: $\mathit{OUT(n),A}$  or
+$\mathit{OUT (C ), r}$. There are several others instructions of I/O, besides these are
+the most commonly used.
 
 % $
 % \begin{array}{l} 
@@ -833,13 +910,15 @@ $\land$ \it pv $\in$ \it BIT $\land$
 
 
 
-\subsection{Modelling the external action}
+\subsection{Modeling the external actions}
 \label{sec:externalactions}
 
-The external actions change the state of microcontroller and they aren�t instructions, for example, the refreshing
-of I/O port and the interruptions request. The extern action are also model by operations and they are prefixed
-with ``$ext\_$'' and after the name of action. There are just four extern actions: $ext\_update\_io\_ports$,
-$ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The $ext\_update\_io\_ports$ just change the state of I/O port, see.
+The external actions change the state of microcontroller and they are not
+instructions, for example, the refreshing of I/O port and the interruptions
+request. The external actions are also model by operations and they are named with the
+prefix ``$ext\_$'' and after the name of action. There are just four external
+actions: $ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The
+$ext\_update\_io\_ports$ just change the state of I/O port, see.
 
 \hspace*{0.20in}\bf ext\_update\_io\_ports\rm (\it address\rm ,\it value\rm )\rm =
 
@@ -850,7 +929,7 @@ value \rm )
 
 \hspace*{0.20in}\bf END\rm 
 
-The others are related to interrupts. The interrupts allows that the devices suspend a routine from CPU and start
+The others external actions are related to interrupts. The interrupts allows that the devices suspend a routine from CPU and start
 another service routine. This service routine can exchange data or signals between CPU and external devices. When a
 routine is finished, then the CPU come back to the last routine that was interrupted.
 
@@ -860,15 +939,18 @@ $\mathit{iff2}$), the types of interrupts (maskable and non-maskable), the inter
 
 The $\mathit{iff1}$ and $\mathit{iff2}$ control the maskable interrupts ($\mathit{INT}$). When the $\mathit{iff1}$
 is set, the interrupt is enable, otherwise it is disable. The $\mathit{iff2}$ is used only as a tempory storage
-place for $\mathit{iff1}$. The $\mathit{iff1}$ is set or reset by instructions $\mathit{EI}$ and $\mathit{DI}$.
+place for $\mathit{iff1}$. The $\mathit{iff1}$ is 1 or 0 by instructions $\mathit{EI}$ and $\mathit{DI}$, that respectively
+enable and disable the maskable interruptions.  
 
 
 The interruptions and the \textit{reset} action change the state of
 microcontroller. Theses actions are modeled by B operations and the its main
-effects are shown below\footnote{Some definitions: $\mathit{sp\_minus\_two}$ =
-$\mathit{dec\_BV16(dec\_BV16(sp))}$, $\mathit{sp\_minus\_one}$=
-$\mathit{dec\_BV16(sp)}$, $\mathit{pc\_high}$ is the most significant 8 bits and
-$\mathit{pc\_low}$ is the least significant. }.
+effects are shown below\footnote{Some definitions of constants: $\mathit{sp\_minus\_two}$ is the value of stack pointer minus 2,
+%=$\mathit{dec\_BV16(dec\_BV16(sp))}$
+ $\mathit{sp\_minus\_one}$ is the value of stack pointer minus 1,
+%=$\mathit{dec\_BV16(sp)}$
+$\mathit{pc\_high}$ is the most significant 8 bits and
+$\mathit{pc\_low}$ is the others least significant.}.
 
 
  \textbf{NMI} - Non-maskable interrupts - The non-maskable cannot be disable
@@ -884,7 +966,7 @@ $\mathit{pc\_low}$ is the least significant. }.
 \it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )\\
 \end{sloppypar}
 
-  \textbf{INT} - Maskable Interrupt -  This is usualy reserved to important functions that can be enabled and
+  \textbf{INT} - Maskable Interrupt -  This is usually reserved to important functions that can be enabled and
   disabled by the programmer. When a maskable interrupt action happens, both $\mathit{iff1}$ and $\mathit{iff2}$ are
   cleared, disabling the interrupts, the $sp$ is pushed, the refresh register is updated  and the other effects
   depend on the interrupt mode.
@@ -899,11 +981,11 @@ $\mathit{pc\_low}$ is the least significant. }.
 
  
   \item The mode 1 is the easiest and \it im \rm = \rm ( \rm 0  $\mapsto$  \rm 1 \rm ). Simply, when a non-maskable
-  interruption happens, the program counter receive $38H$ (56 in decimal).
+  interruption happens, the program counter receives $38H$ (56 in decimal).
   
-  \item The mode 2 is the most powerfull and  \it im \rm = \rm ( \rm 1  $\mapsto$ \rm 1 \rm ). When a non-maskable
-  interruption happens, an indirect call can be made to any address memory. The program counter receives in the
-  part most significant the $\mathit{i\_}$ register and, in the  part least siginificant, the $\mathit{byte\_bus}$
+  \item The mode 2 is the most flexible and  \it im \rm = \rm ( \rm 1  $\mapsto$ \rm 1 \rm ). When a non-maskable
+  interruption happens, an indirect call can be made to any address memory. The program counter receives a bit vector of size 16 composed in the
+  part most significant the $\mathit{i\_}$ register and, in the  part least significant, the $\mathit{byte\_bus}$
   with the last bit reset.
  \end{itemize}
 
@@ -984,51 +1066,1084 @@ f0 $\mapsto$ \rm [0,0,0,0,0,0,0,0] \rm \} $\para$
 \it r\_  \rm := [0,0,0,0,0,0,0,0] $\para$ \it sp \rm := [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 \end{sloppypar}
 
+
+%The microcontroller model can specify security properties. For example, the
+%last operation could have a restriction to write only in a defined region of memory.
+
+
+\subsection{Conclusions about the Z80 model}
+
+
+
+The Z80 formal model provides many benefits, because the verification of generated proof obligations assure: 
+the use correct of data types, the developed security properties  and if the expressions used is well-defined(WD)\footnote{An expression
+is called ``well-defined'' (or unambiguous) if its definition assigns it a unique interpretation or value.}. Furthermore, the designer has
+a big flexibility to create news and specifics security properties, this is very useful to adjust the verification in accordance with the requirements.
+Besides, this example of model could replace or improve the documentation used for users and assembly programmers. Z80 model is also useful to
+develop verified software  until the assembly level. There are too much benefits when a formal model is developed, 
+but verify completely the model is not an easy task and more details are shown in section\ref{sec:Verification}. 
+Finally, the next section explain a developed study case and verified since first abstract B model until B assembly model.   
+
+\section{Building and verifying assembly-level refinements}
+\label{sec:studycase}
+
+
+This section shows a case study that realizes a experimental evaluation of
+a pilot project with B refinements until the assembly level. The object of pilot
+project was developed to analyze a petroleum production test system.  
+
+%A seção 1 apresenta uma introdução sobre o sistema de teste de produção em tanque e a seção seguinte
+%descreve a modelagem B e B \textit{assembly}. A seção 3 mostra a simulação do \textit{software}
+%desenvolvido, o que foi realizado para testar o seu funcionamento. Finalmente, a Ãºltima seção 
+%apresenta as consideraÃ§Ãµes finais sobre a modelagem desse estudo de caso.
+
+
+\subsection{Petroleum production test system}
+
+%\subsection{Teste de produção em tanque}
+
+% Intro % O que é isso ?
+%O teste de produção é ``o processo usado para o acompanhamento do desenvolvimento da produção de um
+%campo de petróleo, o qual é executado em cada poÃ§o deste campo numa frequência previamente definida''
+%\cite{LAUT_SERGIO}. Nesse processo são analisadas as caracterÃ­sticas do óleo, gás e água extraÃ­dos, tais como:
+%volume, concentração de água, temperatura, entre outras.	
+
+The production test is ``the process used to  monitor the production of an oil field, this process is executed
+in each oil field in predefined frequency'' according to \cite{LAUT_SERGIO}. In
+this process are analyzed characteristics (concentration of water, volume and temperature) from oil, gas and water.
+
+%% Porque modelar isso ? O que pode melhorar ?
+%Esse tipo de teste possui um papel importante no processo de extração. Ele é fundamental
+%para avaliar a capacidade de extração dos poÃ§os e para designar o pagamento dos impostos governamentais, o pagamento de \textit{royalties} aos
+%municÃ­pios, as participaÃ§Ãµes especiais e as participaÃ§Ãµes aos proprietários de terra. No entanto,
+%atualmente, segundo registros dos testes no sistema de informação, 10\% deles são falhos~\cite{LAUT_SERGIO}. Logo, é importante que
+%esses testes obtenham a melhor precisão possÃ­vel, a fim de garantir uma melhor qualidade, credibilidade e
+%transparência.
+
+
+This production test system has a important purpose in the process of extracting
+the oil. It is required to analyze the production capacity of wells and calculate
+the taxes government, special participations and participations for landowners.
+However, based in registers of test of information system, 10\% of production
+tests are failed tests~\cite{LAUT_SERGIO}. So, we have developed an embedded
+software verified until the assembly level to help the production test. Actually,
+the developed software is simplified, because its main objective is to evaluate
+and to improve the verification until assembly level.
+
+
+
+% Simplificação/abstração de detalhes não relevantes
+%O sistema de teste de produção é utilizado para controlar e avaliar a produção de petróleo. Ele possui um
+%sistema supervisório que calcula a produção de petróleo e controla as válvulas de acordo com os estados do
+%sistema, do sensor de interface e do radar. O radar informa o nÃ­vel total do fluido no tanque e o
+%sensor de interface informa a concentração de água na emulsão em um ponto local independente da
+%densidade, viscosidade e temperatura de operação, o que ajuda a identificação do nÃ­vel da interface. Esse sistema é complexo
+%e pode ser considerado sob vários pontos de vista, no entanto, ele é simplificado nessa proposta até o nÃ­vel de abstração
+%adequado para facilitar o entendimento. 
+
+%Uma série de técnicas e
+%cuidados fÃ­sicos deve ser aplicada para realização correta dos testes de produção. Dessa forma, o sistema de teste
+%envolve uma considerável complexidade. Além disso, os trabalhos de~\cite{LAUT_SERGIO,LAUT_LIMA} definem vários
+%detalhes fÃ­sicos e parÃ¢metros para melhorar a qualidade dos testes, os quais foram obtidos e aprimorados após
+%experimentos em campo. Esses detalhes podem ser consultados nos trabalhos citados, e nesse trabalho é
+%apresentada apenas uma visão geral do problema e a especificação de uma parte do sistema.
+
+The production test system is used to control and to evaluate the oil production. It has a system supervisor that calculate 
+the oil production and control the valves based in state of system and informations from sensor interface and radar. 
+The radar informs the total level of fluid in the tank and the interface sensor informs the concentration of water in oil that helps
+to identify the level of interface oil and water. Several physical precautions and techniques can be applied to realize correctly the
+production system test. 
+
+
+
+
+% % Como funciona o estudo de caso?
+% O teste de produção, resumidamente, possui três fases de acordo
+% com~\cite{LAUT_SERGIO}. Primeiramente, inicia a fase de condicionamento, o
+% sistema de controle do tanque é atualizado com dados coletados do último teste,
+% o sistema mantêm o poço alinhado\footnote{Um poço está alinhado quando as
+% válvulas da tubulação direcionam o fluxo do poço para o tanque.} e ao final dessa fase a válvula de drenagem é fechada.
+% Em seguida, inicia a fase de enchimento e decantação, logo após o enchimento e
+% a espera, que pode variar de 8 a 20 horas de decantação, começa a fase de
+% drenagem. Nessa Ãºltima fase, o sistema deve
+% controlar a válvula de drenagem para não permitir fluir o óleo extraÃ­do e calcular a sua quantidade.
+% E esse cálculo é o objeto de interesse do presente estudo de caso. 
+
+The production test has basicly three phases according to~\cite{LAUT_SERGIO}.
+First, begin the conditioning phase, the control system of the tank is updated
+with data collected from the last test, the system will keep the well aligned 
+\footnote{A well is aligned when the valves direct the flow pipe from the well
+to the tank.} and the end of this phase the drain valve is closed.
+
+Then the process of filling and decanting begins, after filling and waiting,
+which can range 80-20 hours of decanting, draining stage begins. On that last one phase, the
+system must control the drain valve to not allow the oil from flowing and to
+estimate its quantity. And this calculation is the object of interest of this
+case study.
+
+As três fases citadas são exibidas na mesma ordem na Figura~\ref{fig:EstudoDeCaso}. Nessa figura é
+possÃ­vel observar os dispositivos utilizados no teste de produção e os estados do tanque
+em cada fase.
+
+\begin{figure}[h] \centering \includegraphics[width=1.\textwidth]{images/FasesEstudoDeCaso.png}
+\caption{Fases do teste de produção.}
+\label{fig:EstudoDeCaso}
+\end{figure}
+
+Na fase de drenagem, o nÃ­vel de óleo desce relativamente rápido até aproximar-se do sensor de interface.
+Nesse instante a válvula de drenagem começa a fechar lentamente e, consequentemente, diminui a
+velocidade de  saÃ­da do fluido. Todo esse cuidado é importante para evitar a formação de vórtice\footnote{Vórtice
+é disposição concêntrica e raiada do fluido, ou seja, redemoinho ou pequenas
+ondas.}, o que afeta diretamente as propriedades do óleo extraÃ­do.
+
+
+% [DÃºvidas]
+% - O sistema de automação usa clp (microcontrolador), ok? Sim Onde? No controle da válvulas, no recebimento das
+% informaçÃµes e cálculo de nÃ­vel. Mais detalhes podem ser obtidos na dissertacao de LIMA
+% - O  computador supervisório ? Apenas monitora e envia comandos! O microcontrolador é quem trabalha mesmo! Mais
+% metalhes na {LAUT_LIMA}
+% - 
+
+%\begin{figure}[h]
+%\centering 
+%\includegraphics[width=.8\textwidth]{images/fluxograma_teste_drenagem.png}
+%\includegraphics[width=0.95\textwidth]{images/diagrama_de_atividades.png}
+%\caption{Diagrama de atividades do sistema de controle da válvula de drenagem do teste de produção
+%\cite{LAUT_SERGIO}.}
+
+%\label{fig:FluxogramaEstudoDeCaso}
+%\end{figure}
+
+%A Figura~\ref{fig:FluxogramaEstudoDeCaso} mostra o diagrama de atividades sobre o sistema de controle da
+%válvula de drenagem.
+% Contudo, para melhor entender o diagrama é necessário conhecer alguns conceitos: BSW
+%é a abreviação de \textit{Basic Sediments and Water} e mede a proporção de água e sedimentos no fluÃ­do
+%extraÃ­do; BSWe mede a proporção do volume de água contido na emulsão água e óleo entre o volume total
+%dessa emulsão; CW (\textit{cut water}) representa a capacidade do óleo emulsionado reter mais ou menos
+%água. De acordo com \cite{LAUT_SERGIO}, o CW é definido no programa como 20\% ou 40\%, conforme a
+%densidade do fluido; e esses valores foram pré-definidos após experimentos em campo. O sistema de controle
+%da válvula de drenagem começa inicializando as variáveis do sistema, esses valores são ajustados de acordo
+%com o teste realizado anteriormente e experimentos. Em seguida, o sistema passa a monitorar o estado do
+%sensor e do radar. O sistema vai ajustando lentamente o nÃ­vel de abertura da válvula de drenagem até o
+%sensor de interface identificar óleo. Finalmente, o processo de teste termina.
+
+% Paragrafo de acima adaptado em baixo
+
+Para melhor entender a fase de drenagem é importante conhecer o conceito de BSW, a abreviação de
+\textit{Basic Sediments and Water}, que representa a proporção de água e sedimentos no fluÃ­do extraÃ­do.
+%; BSWe
+%mede a proporção do volume de água contido na emulsão água e óleo entre o volume total dessa emulsão;
+% CW (\textit{cut water}) representa a capacidade do óleo emulsionado reter mais ou menos água. De acordo
+% com \cite{LAUT_SERGIO}, o CW é definido no programa como 20\% ou 40\%, conforme a densidade do fluido; e
+% esses valores foram pré-definidos após experimentos em campo.
+De acordo com o valor do BSW histórico do poço e outras propriedades do fluÃ­do, o sistema estima o nÃ­vel
+da interface água e óleo.
+% O sistema de controle da válvula de drenagem começa inicializando as variáveis do sistema, esses valores
+% são ajustados de acordo com o teste realizado anteriormente e experimentos.
+Em seguida, o sistema passa a controlar a válvula de drenagem e a monitorar o estado do sensor e do radar.
+O sistema vai ajustando lentamente o nÃ­vel de abertura da válvula de drenagem até o sensor de interface
+identificar a emulsão água e óleo. Finalmente, o processo de teste termina.
+
+% Motivação para o que pretendemos modelar
+Como uma medição exata reduz sensivelmente a margem de erro,
+a técnica desenvolvida por \cite{LAUT_SERGIO} pretende identificar com boa
+exatidão o atual nÃ­vel da lÃ¢mina de óleo através das informaçÃµes seguintes: valor
+do sensor de interface,  nÃ­vel do tanque obtido pelo radar e outros parÃ¢metros
+obtidos através de experimentos. Porém, uma garantia matemática sobre o correto
+funcionamento do sistema é fundamental. Assim, um cuidado especial deve ser
+realizado nesse sistema.
+
+% De que forma ?  O sistema verificado pode atuar ? Como um sistema redundante, visto o grau de confiança
+Para essa finalidade, um \textit{software} foi especificado, verificado, implementado e simulado. A princÃ­pio, o \textit{software}
+desenvolvido pode atuar como um sistema redundante na plataforma Z80 para interagir com os dispositivos e o sistema supervisório.
+Esse \textit{software} apenas realiza um cálculo relativo a produção de óleo, com a finalidade de avaliar se o sistema está funcionando corretamente.
+
+% O que pretende-se modelar ? O que foi feito ?
+%Assim, o software foi implementado em \textit{assembly} e simulado um
+%\textit{software} para calcular um fator de proporção de óleo bruto e água livre.
+
+Aparentemente, o projeto de desenvolvimento desse \textit{software} é uma atividade relativamente simples,
+porém como a técnica de verificação utilizada até o nÃ­vel de \textit{assembly} é completamente inovadora,
+então surgiram algumas dificuldades iniciais que levaram tempo para ser solucionadas. A seção seguinte
+apresenta mais detalhes sobre a modelagem desse \textit{software}. 
+%Essas funcionalidades foram modeladas em B
+%e apresentadas nas duas seçÃµes seguintes.
+
+
+
+
+%[explicar as conexão/comunicação entre os dispositivos]
+ % Para realizar a comunicação entre os dispositivos serão utilizados conversores analógico/digital. 
+ % As informaçÃµes estão representanda em 8 bits.
+ % Explicar o Wait bit de espera :D
+
+% \subsection{Modelagem B do controle da válvula de drenagem}
+% \label{sec:Modelagem B do controle da válvula de drenagem}
 % 
-%     Para controlar o registrador I, existem duas intrucoes:
-% 
-%     - LD A,I (carrega o acumulador com o valor contido em I);
-%     - LD I,A (carrega I com o valor contido no acumulador).
-% 
-%     A instrucao LD A,I possui uma funcao extra, ja discutida
-% em outra aula: ela carrega na flag de paridade/sobrecarga o
-% valor do IFF (Interruption Flip-Flop). Se IFF for 0, entao a
-% interrupcao mascaravel esta' desativada. Se IFF for 1, entao
-% ela esta ativada.
-% %%%% FIM - http://download.unesp.br/msx/asm/course_4.txt
+% %[Explicar o objetivo do modelo]- princ
+% [Rascunho]
+% O obejtivo principal da modelagem apresentada nesta seção é especificar a parte essencial do controle da
+% válvula de drenagem. Como visto anteriormente na fase de drenagem, essa válula  varia o
+% estado de abertura de acordo com dois critérios: o nÃ­vel da lÃ¢mina de óleo ou sensor de interface, o qual 
+% identifica óleo ou água no fundo do tanque. Considerando que se o sensor de interface
+% indica a presença de óleo, então o sistema deve fechar a válvula do dreno. Caso contrário, ou seja,
+% indica a presença de água livre, então o sistema deve ajustar a abertura da válvula proporcionalmente ao
+% nÃ­vel de água livre.
 % 
 % 
+% % O software que faz controle da válvula de drenagem pode ser separado em três partes:
+% % Cálculo do nÃ­vel inicial ( multiplicação e condicional \ldots )
+% % Atualização do nÃ­vel inicial ( Uma subtração e atualização da variável )
+% % Controle da abertura da válvula ( Atualização do controle da válvula )
+% % A modelagem dessa seção preocupa-se com o controle da válvula de abertura.
 % 
 % 
-% Instrucoes relacionadas com o sistema de interrupcaoo:
-%  HALT,EI,DI,M0,M1,M2 
+% Como visto na Figura \ref{fig:FluxogramaEstudoDeCaso} o valor da válvula é atualizado aproximadamente em
+% intervalos de 15 cm. Contudo, segundo \cite{LAUT_SERGIO}  é sugerido o uso de uma função do tipo rampa
+% $valve=k*t$, a fim de evitar fechamentos bruscos. Onde, $valve$ é o percentual de abertura, $k$ é uma
+% constante e $t$ é o tempo. Baseado na função utilizada atualmente, sugiro a seguinte função: $valve = k*H
+% + c1$. Onde, $H$ é o nÃ­vel de água livre, $k$ é igual Ã  $0,5$ e $c1$ é uma constante para abertura
+% adicional, o qual pode ser ajustado para evitar um tempo excessivo no processo de drenagem. 
+% 
+% A Figura~\ref{fig:GraficoFuncoes} ilustra as funçÃµes de controle da válvula de drenagem, o eixo vertical
+% representa o percentual de abertura da válvula de drenagem e o eixo horizontal representa $H$ (o nÃ­vel de
+% água livre), o que é inversamente proporcional ao tempo de drenagem.
+% 
+% A função representada em linha azul é a utilizada atualmente, a mesma descrita na Figura 
+% \ref{fig:FluxogramaEstudoDeCaso}. A representada em linha vermelha é a proposta por esse trabalho, essa
+% possui uma maior abertura inicial (100\%) e fechamento mais suave, o que reduz o tempo de
+% drenagem e evita a formação de vórtice.
+% 
+% 
+% \begin{figure}[h]
+% \centering 
+% %\includegraphics[width=.8\textwidth]{images/fluxograma_teste_drenagem.png}
+% \includegraphics[width=0.99\textwidth]{images/Grafico_funcoes_da_valvula.png}
+% \caption{Gráfico das funçÃµes que controla a válvula de drenagem..}
+% 
+% \label{fig:GraficoFuncoes}
+% \end{figure}
+% 
+% Manipulando a função ($valve = 0.5*H + c1$) e substituindo $H$ pelo parÃ¢metro $level$ temos a seguinte
+% função $valve = level/2 + c1$. O sistema também deve levar em consideração a informação obtida pelo
+% sensor de interface, o que informa a presença de água livre no fundo do tanque. Dessa forma, a operação
+% B seguinte modela essa funcionalidade. A operação ``ControlValve'' recebe como parÃ¢metro o nÃ­vel de água
+% livre ($level$) e o parÃ¢metro ($water$) para calcular a abertura da válvula de drenagem adequada.
+% 
+% \begin{tabular}[c]{l}
+% \hspace*{0.20in}\bf ControlValve\rm (\it level\rm , \it water\rm )\rm =\\
+% \hspace*{0.20in}\bf PRE\\
+% \hspace*{0.40in}\it level\hspace*{0.10in} $\in$  \rm 0 $\upto$ \rm 2\rm 0\rm 0  $\land$  \it water 
+% $\in$  \rm 0 $\upto$ \rm 1\\
+% \hspace*{0.20in}\bf THEN\\
+% \hspace*{0.40in}\bf IF \it water \rm = \rm 1 \bf THEN \it valve \rm := \it level $\div$ \rm 2 \rm + \it
+% c1\\
+% \hspace*{0.40in}\bf ELSE \it valve\rm :=\rm 0 \bf END\\
+% \hspace*{0.20in}\bf END
+% \end{tabular}
+% 
+% O primeiro refinamento dessa operação para o nÃ­vel de assembly é representado a seguir no texto.
+% Um fato interessante é que ele aproveita-se da propriedade da representação em \textit{bits}. Essa
+% propriedade diz que a rotação Ã  direita de um vetor de bits é semÃ¢nticamente equivalente Ã  divisão por
+% $2^{n}$, onde $n$ é o nÃºmero de rotaçÃµes. Na operação de rotação $\mathit{rotateright}$ $n$ é igual Ã  1,
+% porém essa é uma rotação circular, ou seja, o bit menos significativo é copiado para o bit mais
+% significativo. Para tornar a equivalente Ã  divisão por dois é o bit mais significativo é zerado através
+% da função $\mathit{bitclear}$.
+% 
+% \begin{tabular}[c]{l}
+% \hspace*{0.15in}\bf ControlValve \rm ( \it level \rm , \it water \rm ) \rm =\\
+% \hspace*{0.15in}\bf PRE\\
+% \hspace*{0.35in}\it level  $\in$  \rm 0  $\upto$  \rm 2\rm 5\rm 5  $\land$  \it water  $\in$  \rm 0 
+% $\upto$  \rm 1\\
+% \hspace*{0.15in}\bf THEN\\
+% \hspace*{0.35in}\bf IF \it water \rm = \rm 1\\
+% \hspace*{0.35in}\bf THEN\\
+% \hspace*{0.55in}\bf IF \it level  $\in$  \rm 2\rm 0\rm 1 $\upto$ \rm 2\rm 5\rm 5 \bf THEN \it valve\rm
+% :=\rm 1\rm 0\rm 0\\
+% \hspace*{0.55in}\bf ELSE \it valve \rm := \it byte\_uchar\rm (\it bitclear\rm (\it rotateright\rm (\it
+% uchar\_byte\rm (\it level\rm )\rm )\rm ,\rm 7\rm )\rm )\rm +\it c1 \\
+% \hspace*{0.55in}\bf END\\
+%  \hspace*{0.35in}\bf ELSE\\
+% \hspace*{0.55in}\it valve \rm := \rm 0\\
+% \hspace*{0.35in}\bf END\\
+% \hspace*{0.15in}\bf END\\
+% \end{tabular}
+% 
+% 
+% A seguir é ilustrado o modelo em nÃ­vel de assembly. 
+% \begin{tabular}[c]{l}
+% \ldots
+% \end{tabular}
+% 
+% 
+% Esse cógigo assembly foi simulado em \cite{Simulator_z80}. A Figura\ref{fig:control_valvula} ilustra o
+% final da execução os valores de entrada \ldots e saÃ­da \ldots
+% 
+% \begin{figure}[h]
+% \centering 
+% \includegraphics[width=0.45\textwidth]{images/Simulator_main.png}
+% \includegraphics[width=0.45\textwidth]{images/Simulator_Execution.png}
+% \includegraphics[width=0.45\textwidth]{images/Simulator_IO_ports.png}
+% \includegraphics[width=0.45\textwidth]{images/Simulator_Peripheral_Devices.png}
+% \caption{Simulação do controle da válvula de drenagem.}
+% \label{fig:control_valvula}
+% \end{figure}
+% 
+% 
+% 
+% [abstraçÃµes]- princ 
+% 
+% [explicar a modelagem]
+% Quais as entradas e saÃ­das do programa ?
+% [Colocar as images de simulação do Z80]
+% [explicar as estátisticas] [Explicar as dificuldades] 
+% [explicar as regras utilizadas]
+% % DICAS PARA DISSERTAÃÃO
+% % 
+% % -> Explicar uma das maiores dificuldades atuais! Que é a pouca simplificação realizada, o histórico que é mantido!
+% % A simplificação das expressÃµes poderia ser mais especÃ­fica. As regras de simplificação utilizadas no AtelierB muitas vezes perdem "informaçÃµes importantes".
+% % [Colocar um exemplo pequeno antes da simplificação e após a simplificação.]
+% % 
+% % Existem duas solu
+% % - Simplifificar utilizando novas regras
+% % - Utilizar o ambiente do ABTools e aproveitar o gerador de obrigaçÃµes de prova e simplificar as expressÃµes.
+% % 
+% % 
+% % Vantagens em calcular somente o nÃ­vel:
+% % - Pode-se se adequar a qualquer tamanho de tanque.
+% % Assim, o nÃ­vel e o determinado tanque que deve informar a quantidade de óleo produzido.
+% % 
+% % Posso pegar as obrigaçÃµes de prova e tentar explicar o que é provado!?!
+% % * Na documentação colocar o nÃºmero de provas óbvias e não obvias
+% % 
+% % -> Na conclusão colocar o nÃºmero total de obrigaçÃµes de provas não obvias realizadas!!!
+
+\subsection{Modelagem B } 
+%e o \textit{software} do cálculo dos fatores de óleo bruto e água livre produzidos}
+\label{sec:estudo_caso}
+
+% Overview 
+% [Explicar o objetivo do modelo]- princ
+% [explicar a modelagem]
+% - inicial, implementação, explicar o que refinamento garante,  e assembly código, explicar o
+% invariante, as entradas e saidas.
+% [explicar as estátisticas]
+% [Processo de prova](Pouca coisa,algumas linhas) citar o comando que resolveu 465 automaticamente entre
+% 568, é explicado em anexo.
+% [Simulação]
+% Explicar as images, a entrada e saÃ­da \ldots
+% [ConclusÃµes]
+%
+ 
+
+% Overview
+A presente seção apresenta a modelagem B e o \textit{software} do cálculo do fator de proporção de
+óleo bruto (emulsão água e óleo) e  água livre produzidos. 
+
+% [Ressalva -> onde tiver nÃ­vel substituir por proporção]
+Os fatores de proporção de óleo bruto e água livre são determinados através de informaçÃµes obtidas na
+fase de drenagem. As informaçÃµes utilizadas são os nÃ­veis do tanque: inicial (tanque cheio) e final (tanque com
+apenas óleo bruto) da fase de drenagem. Portanto, a subtração desse dois valores determina um fator de
+proporção de água livre produzida e o nÃ­vel final do tanque determina um fator de proporção de óleo bruto
+produzido. Para determinar exatamente a quantidade de óleo e água livre, é necessário que o resultado
+seja multiplicado por um fator de correção, o qual deve representar as distorçÃµes e o formato do tanque,
+já que o tanque não tem um formato perfeitamente cilÃ­ndrico. Dessa forma, esse \textit{software}
+embarcado torna-se genérico para qualquer formato de tanque.
+
+
+
+% Modelagem funcional
+A modelagem é iniciada com o modelo funcional \textit{TestCalc}. Esse modelo contém duas variáveis
+\textit{oil\_factor} e \textit{free\_water\_factor} que representam respectivamente o fator final de óleo e
+o de água livre. A seguir, é apresentado o invariante e a operação do modelo funcional. O invariante
+declara o tipo das variáveis como $\mathit{UCHAR}$, um inteiro positivo de 8 \textit{bits}, ou seja, pertencente ao
+intervalo de 0 até 255. A operação recebe como parÃ¢metro o valor inicial e final do nÃ­vel do tanque e
+então calcula o fator de óleo e água livre. Uma pré-condição dessa operação é que o nÃ­vel inicial do
+tanque cheio deve ser maior ou igual ao nÃ­vel após a remoção da água livre. Isso é uma simplificação e 
+evita que seja realizado tratamento de exceção até o nÃ­vel de \textit{assembly} para esse código.
+
+\small{
+\begin{sloppypar}
+%\bf MACHINE\\
+%\hspace*{0.20in}\it TestCalc\\
+% \bf SEES\\
+% \hspace*{0.20in}\it SCHAR\_DEFINITION\rm , \it UCHAR\_DEFINITION\\
+% \bf VARIABLES\\
+% \hspace*{0.20in}\it oil\_factor\rm ,\it free\_water\_factor\\
+\hspace*{-0.30in}\bf INVARIANT\\
+\hspace*{0.40in}\it oil\_factor  $\in$  \it UCHAR  $\land$  \it free\_water\_factor  $\in$  \it UCHAR\\
+\bf OPERATIONS\\
+\hspace*{0.20in}\bf update\_factor\rm (\it initial\_level\rm , \it final\_level\rm ) \rm =\\
+\hspace*{0.20in}\bf PRE\\ 
+\hspace*{0.40in}\it initial\_level  $\in$  \it UCHAR  $\land$  \it final\_level\hspace*{0.10in} $\in$ 
+\it UCHAR  $\land$\\
+\hspace*{0.40in}\it final\_level  $\leq$  \it initial\_level\\ 
+\hspace*{0.20in}\bf THEN\\
+\hspace*{0.40in}\it free\_water\_factor \rm := \it initial\_level \rm - \it final\_level $\para$\\ 
+\hspace*{0.40in}\it oil\_factor \rm := \it final\_level\\
+\hspace*{0.20in}\bf END
+%\bf END\\
+\end{sloppypar}
+}
+
+A operação \textit{update\_factor} do modelo funcional \textit{TestCalc} é similar Ã 
+sua modelagem algorÃ­tmica, exceto o fato das substituiçÃµes não acontecerem em paralelo, mas acontecem
+em sequência no modelo algorÃ­tmico, então o refinamento da modelagem algorÃ­tmica foi verificado e a sua 
+apresentação é omitida aqui.
+
+
+
+% 
+% \small{
+% \begin{sloppypar}
+% \bf INVARIANT\\
+% \hspace*{0.20in}\it oil\_factor  $\in$  \it UCHAR  $\land$  \it free\_water\_factor $\in$ \it UCHAR\\
+% \bf INITIALISATION\\
+% \hspace*{0.20in}\it oil\_factor \rm := \rm 0 \rm ;\hspace*{0.20in}\it free\_water\_factor\rm :=\rm 0\\
+% \bf OPERATIONS\\
+% \hspace*{0.15in}
+% 
+% \hspace*{0.20in}\bf update\_factor\rm (\it initial\_level \rm , \it final\_level\rm ) \rm =
+% 
+% \hspace*{0.20in}\bf ASSERT \it initial\_level  $\in$  \it UCHAR  $\land$  \it final\_level  $\in$  \it UCHAR
+% 
+% \hspace*{0.45in} $\land$  \it initial\_level $\geq$  \it final\_level
+% 
+% \hspace*{0.20in}\bf THEN
+% 
+% \hspace*{0.40in}\bf BEGIN
+% 
+% \hspace*{0.60in}\it free\_water\_factor \rm := \it initial\_level \rm - \it final\_level\rm ;
+% 
+% \hspace*{0.60in}\it oil\_factor \rm := \it final\_level
+% 
+% \hspace*{0.40in}\bf END
+% 
+% \hspace*{0.20in}\bf END
+% \end{sloppypar}
+% }
+
+Parte da modelagem B no nÃ­vel de \textit{assembly} é representada a seguir. Ela é especificada no modelo
+\textit{TestCalc\_basm} e possui a mesma semÃ¢ntica de manipulação das variáveis que o modelo abstrato
+(\textit{TestCalc}), entretanto utiliza operaçÃµes que representam instruçÃµes \textit{assembly} de
+uma instÃ¢ncia do modelo do Z80 para manipular a sua memória. 
+
+A cláusula invariante estabelece a relação das variáveis do modelo inicial (\textit{free\_water\_factor} e
+\textit{oil\_factor}) com os valores dos endereços 2 e 3 da porta de entrada e saÃ­da; para estabelecer
+essa relação são utilizadas funçÃµes que convertem valores da representação binária para representação de
+inteiro e vice-versa. Dessa forma, a verificação do refinamento garante que as operaçÃµes do modelo B
+\textit{assembly} são semÃ¢nticamente equivalentes  Ã s operaçÃµes do modelo mais abstrato de acordo com a
+relação estabelecida entre as variáveis no invariante.
+
+\small{
+\begin{sloppypar}
+\hspace*{-0.30in}\bf IMPORTS\\
+\hspace*{0.20in}\it Z80\\
+\bf INVARIANT\\
+\hspace*{0.20in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+=\hspace*{0.10in}\rm (\it free\_water\_factor \rm )  $\land$\\
+\hspace*{0.20in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+=\hspace*{0.10in}\rm (\it oil\_factor\rm )
+% \bf INITIALISATION\\
+% \hspace*{0.20in}\it ext\_update\_io\_ports\rm (\rm 2\rm ,\it uchar\_schar\rm (\rm 0\rm )\rm )\rm ;\\
+% \hspace*{0.20in}\it ext\_update\_io\_ports\rm (\rm 3\rm ,\it uchar\_schar\rm (\rm 0\rm )\rm )\\
+\end{sloppypar}
+}
+
+% entrada e saida%
+A seguir é apresentada a operação $\mathit{update\_factor}$ utilizando instruçÃµes em nÃ­vel de
+\textit{assembly}. Essa operação possui a mesma assinatura que o modelo mais abstrato, e os parÃ¢metros
+recebidos são convertidos para representação em binário e passados para a operação de atualização das
+portas do microcontrolador ($\mathit{ext\_update\_io\_ports}$).
+% Explicação geral do program
+Sucintamente, a sequência de instruçÃµes ilustradas a seguir realiza os seguintes procedimentos. As cinco
+primeiras instruçÃµes representam apenas a cópia dos dados externos ao microcontrolador para os
+registradores de memória ``A'' e ``C''. A instrução seguinte realiza uma subtração, então as demais copiam
+os fatores de proporção de água livre e óleo bruto respectivamente para as portas 2 e 3. O leitor pode
+consultar o anexo desse trabalho para entender detalhes da especificação de cada instrução e o invariante
+completo da operação $\mathit{update\_factor}$ ilustrada a seguir.
+
+
+   
+% Explicação sobre a construção do invariant
+\newpage
+
+\small{
+\begin{sloppypar}
+%\hspace*{0.20in}\bf OPERATIONS\\
+\hspace*{-0.30in}\bf update\_factor\rm (\it initial\_level\rm , \it final\_level\rm ) \rm =\\
+\hspace*{0.20in}\it ASSERT\\ 
+\hspace*{0.40in}\it initial\_level  $\in$  \it UCHAR  $\land$  \it final\_level\hspace*{0.10in} $\in$ 
+\it UCHAR%\\
+\hspace*{0.00in} $\land$  \it final\_level  $\leq$  \it initial\_level\\ 
+\hspace*{0.20in}\bf THEN\\
+\hspace*{0.40in}\bf VAR \it local\_pc \bf IN
+\hspace*{0.20in}\it local\_pc \rm := \rm 0\rm ;
+\hspace*{0.20in}\bf set\_pc\rm (\it local\_pc\rm )\rm ;\\
+\hspace*{0.60in}\bf WHILE \it local\_pc $<$ \rm 9 \bf DO\\
+\hspace*{0.80in}\bf CASE \it local\_pc \bf OF\\
+\hspace*{1.00in}\bf EITHER \rm 0 \bf THEN
+\bf ext\_update\_io\_ports\rm (\rm 0\rm ,\it uchar\_schar\rm (\it initial\_level\rm )\rm
+)\rm ;\\
+\hspace*{2.45in}\bf IN\_A\_9n0\rm (\rm 0\rm )\\
+\hspace*{1.00in}\bf OR \rm 1 \bf THEN\hspace*{0.50in}\bf LD\_r\_r\_\rm (\it b0\rm ,\it a0\rm )\\
+\hspace*{1.00in}\bf OR \rm 2 \bf THEN
+\hspace*{0.47in}\bf ext\_update\_io\_ports\rm (\rm 1\rm ,\it uchar\_schar\rm (\it final\_level\rm
+)\rm)\rm ;\\ \hspace*{2.47in}\bf IN\_A\_9n0\rm (\rm 1\rm )\\
+\hspace*{1.00in}\bf OR \rm 3 \bf THEN \hspace*{0.47in}\bf LD\_r\_r\_\rm (\it c0\rm ,\it a0\rm )\\
+\hspace*{1.00in}\bf OR \rm 4 \bf THEN \hspace*{0.47in}\bf LD\_r\_r\_\rm (\it a0\rm ,\it b0\rm )\\
+\hspace*{1.00in}\bf OR \rm 5 \bf THEN \hspace*{0.47in}\bf SUB\_A\_r\rm (\it c0\rm )\\
+\hspace*{1.00in}\bf OR \rm 6 \bf THEN \hspace*{0.47in}\bf OUT\_9n0\_A\rm (\rm 2\rm )\\ 
+\hspace*{1.00in}\bf OR \rm 7 \bf THEN \hspace*{0.47in}\bf LD\_r\_r\_\rm (\it a0\rm ,\it c0\rm )\\
+\hspace*{1.00in}\bf OR \rm 8 \bf THEN \hspace*{0.47in}\bf OUT\_9n0\_A\rm (\rm 3\rm )\\ 
+\hspace*{1.00in}\bf END
+\hspace*{0.20in}\bf END\rm ;
+\hspace*{0.20in}\it local\_pc  $\leftarrow$  \bf get\_pc\\
+\hspace*{0.70in}\bf INVARIANT\\
+\hspace*{0.80in}\it local\_pc  $\in$  \rm 0 $\upto$ \rm 9  $\land$  \it rgs8  $\in$  \it id\_reg\_8 
+$\fun$  \it BYTE\\
+\hspace*{0.80in} $\land$  \it r\_\hspace*{0.10in} $\in$  \it BYTE  $\land$  \it io\_ports  $\in$  \it
+BYTE  $\fun$  \it BYTE\\
+\hspace*{0.80in} $\land$  \it pc  $\in$  \rm 0 $\upto$ \rm 9  $\land$  \it free\_water\_factor  $\in$ 
+\it UCHAR  $\land$\\
+\hspace*{0.80in}\rm (\it local\_pc \rm = \rm 0  $\implies$  \rm ( \it pc \rm = \rm 0  $\land$  \it
+instruction\_next\rm (\it pc\rm ) \rm = \rm 1  $\land$\\
+\hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+=\hspace*{0.10in}\it free\_water\_factor  $\land$\\
+\hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+=\hspace*{0.10in}\it oil\_factor \rm ) $\land$\\
+\hspace*{1.10in}\ldots\\ 
+% \hspace*{0.80in}\rm (\it local\_pc \rm = \rm 1  $\implies$  \rm ( \it instruction\_next\rm (\it pc\rm )
+% \rm = \rm 2  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it initial\_level  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm
+% )\hspace*{0.15in} $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it free\_water\_factor  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it oil\_factor \rm ) \rm ) $\land$\\
+% \hspace*{0.80in}\rm (\it local\_pc \rm = \rm 2  $\implies$  \rm ( \it instruction\_next\rm (\it pc\rm )
+% \rm = \rm 3  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it initial\_level  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it b0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it free\_water\_factor  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it oil\_factor \rm ) \rm ) $\land$\\
+% \hspace*{0.80in}\rm (\it local\_pc \rm = \rm 3  $\implies$  \rm ( \it instruction\_next\rm (\it pc\rm )
+% \rm = \rm 4  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it initial\_level  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 1\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it final\_level  $\land$ \\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \it final\_level \rm ) 
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it b0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it free\_water\_factor  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it oil\_factor \rm ) \rm ) $\land$\\
+% \hspace*{0.80in}\rm (\it local\_pc \rm = \rm 4  $\implies$  \rm ( \it instruction\_next\rm (\it pc\rm )
+% \rm = \rm 5  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it initial\_level  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 1\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it final\_level  $\land$ \\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \it final\_level \rm ) 
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it c0\rm ) \rm ) \rm = \rm ( \it final\_level \rm ) 
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it b0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it free\_water\_factor  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it oil\_factor \rm ) \rm ) $\land$\\
+% \hspace*{0.80in}\rm (\it local\_pc \rm = \rm 5\hspace*{0.10in} $\implies$  \rm ( \it
+% instruction\_next\rm (\it pc\rm ) \rm = \rm 6  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it initial\_level  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 1\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it final\_level  $\land$ \\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it c0\rm ) \rm ) \rm = \rm ( \it final\_level \rm ) 
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it b0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it free\_water\_factor  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it oil\_factor \rm ) \rm ) $\land$ \\
+% \hspace*{0.80in}\rm (\it local\_pc \rm = \rm 6\hspace*{0.10in} $\implies$  \rm ( \it
+% instruction\_next\rm (\it pc\rm ) \rm = \rm 7  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it initial\_level  $\land$ \\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 1\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it final\_level  $\land$ \\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \rm (\it initial\_level
+% \rm - \it final\_level\rm )  $\mod$  \rm 2\rm 5\rm 6\rm )  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it c0\rm ) \rm ) \rm = \rm ( \it final\_level \rm ) 
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it b0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it free\_water\_factor  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it oil\_factor \rm ) \rm ) $\land$\\
+% \hspace*{0.80in}\rm (\it local\_pc \rm = \rm 7\hspace*{0.10in} $\implies$  \rm ( \it
+% instruction\_next\rm (\it pc\rm ) \rm = \rm 8  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it initial\_level  $\land$ \\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 1\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it final\_level  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \rm (\it initial\_level
+% \rm - \it final\_level\rm )  $\mod$  \rm 2\rm 5\rm 6\rm )  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it c0\rm ) \rm ) \rm = \rm ( \it final\_level \rm ) 
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it b0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\rm (\rm (\it initial\_level \rm - \it final\_level\rm )  $\mod$  \rm 2\rm 5\rm 6\rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it oil\_factor  $\land$\\
+% \hspace*{0.80in}\rm (\it local\_pc \rm = \rm 8\hspace*{0.10in} $\implies$  \rm ( \it
+% instruction\_next\rm (\it pc\rm ) \rm = \rm 9  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it initial\_level  $\land$ \hspace*{0.20in}\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 1\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it final\_level  $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \it final\_level\rm ) 
+% $\land$ \\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it c0\rm ) \rm ) \rm = \rm ( \it final\_level \rm ) 
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it b0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+% $\land$\\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\rm (\rm (\it initial\_level \rm - \it final\_level\rm )  $\mod$  \rm 2\rm 5\rm 6\rm )
+% $\land$\\
+% \hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+% =\hspace*{0.10in}\it oil\_factor )  $\land$\\ 
+\hspace*{0.80in}\rm (\it local\_pc \rm = \rm 9\hspace*{0.10in} $\implies$  \rm ( \it pc \rm = \rm 9 
+$\land$\\
+\hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 0\rm )\rm )\rm ) \rm
+=\hspace*{0.10in}\it initial\_level  $\land$ \hspace*{0.20in}\\
+\hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 1\rm )\rm )\rm ) \rm
+=\hspace*{0.10in}\it final\_level  $\land$\\
+\hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it a0\rm ) \rm ) \rm = \rm ( \it final\_level\rm ) 
+$\land$\\
+\hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it c0\rm ) \rm ) \rm = \rm ( \it final\_level \rm ) 
+$\land$\\
+\hspace*{1.10in}\it byte\_uchar\rm ( \it rgs8\rm (\it b0\rm ) \rm ) \rm = \rm ( \it initial\_level \rm )
+$\land$\\
+\hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 2\rm )\rm )\rm ) \rm
+=\hspace*{0.10in}\rm (\rm (\it initial\_level \rm - \it final\_level\rm )  $\mod$  \rm 2\rm 5\rm 6\rm ) 
+$\land$\\
+\hspace*{1.10in}\it byte\_uchar\rm (\it io\_ports\rm (\it uchar\_byte\rm (\rm 3\rm )\rm )\rm ) \rm
+=\hspace*{0.10in}\it final\_level \rm )\rm )\\
+\hspace*{0.70in}\bf VARIANT \rm (\rm 9 \rm - \it local\_pc\rm ) \bf END\hspace*{0.50in}\\
+\hspace*{0.70in}\bf END
+\hspace*{0.20in}\bf END\\
+\hspace*{0.40in}\bf END
+\end{sloppypar}
+}
+
+O invariante do $\WHILE$ deve formalizar o estado e o mapeamento das variáveis do modelo abstrato
+com os valores dos endereços de memória relacionado. Portanto, para cada iteração do \textit{while}, que
+é associada com o valor do contador de programa (\textit{pc}), deve existir uma expressão para realizar
+essa formalização. A cláusula variante deve expressar o limite superior do nÃºmero de instruçÃµes a ser
+executado para cada valor possÃ­vel do contador de programa.
+
+Um detalhe interessante desse modelo é que as instruçÃµes do Z80 podem receber valores inteiros,
+porém o modelo do Z80 representa internamente os dados na notação binária. Essa diferença na representação poderia
+dificultar bastante o processo de verificação. No entanto, os tipos, as funçÃµes e os lemas construÃ­dos
+para suportar e converter as duas representaçÃµes facilitaram bastante o processo de verificação.
+
+
+\subsection{Processo de verificação do modelo B assembly}
+
+Esta seção descreve o processo de verificação do modelo B \textit{assembly} \textit{TestCalc\_basm} e o
+efeito de uma das técnicas utilizadas. O modelo \textit{TestCalc\_basm} continha 200 obrigaçÃµes de prova
+do tipo EBD (ExpressÃµes Bem Definidas) e 568 não óbvias. As obrigaçÃµes de prova EBD foram rapidamente
+resolvidas através de comandos de prova e do provador interativo. As outras 568 não foram resolvidas tão
+facilmente. Felizmente, existe um comando de prova extremamente eficiente que agiliza a verificação, pois
+esse comando de prova é reusável em obrigaçÃµes de prova semelhantes, as quais são comuns na modelagem B
+\textit{assembly}.
+
+Este comando de prova praticamente resolve todas as obrigaçÃµes de prova as quais representam um fluxo de
+execução inválido, isto é, no caso do modelo \textit{TestCalc\_basm} representam a possibilidade de
+fluxos de execução não lineares. Essas obrigaçÃµes de prova são criadas porque o gerador de obrigaçÃµes de prova constrói fórmulas para avaliar todas as posibilidades
+do fluxo de execução do modelo. Como o modelo especificado tem um fluxo de execução linear, ou
+seja, o contador de programa ($\mathit{pc}$) efetua apenas saltos para a instrução seguinte, então o nÃºmero
+de possibilidades do fluxo de execução é mÃ­nimo. Nesse caso, o comando de prova citado ajudou a verificar
+rapidamente 465 obrigaçÃµes de prova (81\%). Um fato ainda mais interessante é que foi utilizado um \textit{time out}
+de um segundo para resolver cada obrigação de prova. Dessa forma, foi necessário no máximo 465 segundos para resolver 81\%
+das obrigaçÃµes de prova. As 103 demais obrigaçÃµes de prova foram resolvidas interativamente, pois essas eram mais
+complexas\footnote{Nenhuma das 103 obrigaçÃµes de prova foi resolvida no provador automático na força
+zero e com um \textit{time out} de 180 segundos.}. Para esse comando de prova funcionar é
+importante declarar no invariante do \textit{while} de cada instrução os possÃ­veis próximos valores do
+contador de programa. Esse e outros comandos de prova podem ser consultados no anexo deste trabalho.
+
+Nesse modelo os passos das provas interativas seguem alguns padrÃµes, os quais foram identificados pelo projetista
+e isso ajudou bastante a verificação. Contudo, o projetista ainda não conseguiu definir uma sequência de comandos de prova 
+suficientemente genérica para resolver várias obrigaçÃµes de prova entre as 103 não resolvidas
+automaticamente. Finalmente, a construção de um invariante válido e a realização das provas interativas
+do modelo \textit{TestCal\_basm} apresentado anteriormente são as atividades mais complexas do processo
+de verificação, já que essas duas atividades consomem aproximadamente 70\% e 80\% de todo o processo de especificação e
+ verificação.
+
+\subsection{Simulação do código assembly}
+
+A simulação do \textit{software}\footnote{A sequência de instruçÃµes representadas no modelo
+\textit{TestCalc\_basm} formam um \textit{software} em linguagem \textit{assembly} do Z80, o qual é
+ilustrado no lado superior direito da Figura~\ref{fig:simulacao}.} tem um papel importante para analisar
+seu comportamento, pois, no simulador, é possÃ­vel avaliar e manipular os valores dos registradores, da
+memória e das portas de entrada e saÃ­da. O uso do simulador permite ganhar confiança no programa \textit{assembly}
+desenvolvido, assim como no próprio modelo formal do conjunto de instruçÃµes do Z80, visto que o manual
+possui pequenos erros.
+
+Por conseguinte, do ponto de vista do sistema implantado em campo, o Z80 recebe do radar ou do sistema
+supervisório o valor do nÃ­vel do tanque no inÃ­cio da fase de drenagem. E ao término dessa fase, o Z80 recebe em outra porta o
+valor do nÃ­vel final do tanque. Em seguida, o Z80 deve calcular e disponibilizar em outras duas portas o fator
+de água livre e o do óleo bruto produzido.
+
+Esse código \textit{assembly} foi simulado com o aplicativo \cite{Simulator_z80}. A
+Figura~\ref{fig:simulacao} ilustra o final da execução do \textit{software} e os valores dos elementos do microcontrolador.
+Todos esses valores do simulador são representados no sistema de numeração hexadecimal e as portas
+de entrada e saÃ­da, também no sistema binário. A janela do lado superior esquerdo contém
+os estados dos registradores do microcontrolador e as opçÃµes para controlar a execução do
+programa. A janela superior do lado direito contém o código \textit{assembly} em execução e uma seta amarela
+indicando a posição atual do contador de programa. A janela inferior esquerda contém um editor da
+memória de dados do microcontrolador. A janela inferior direita contém as informaçÃµes que estão
+representadas nas portas de entrada e saÃ­da. A porta do endereço \textit{00H} contém o valor inicial do
+nÃ­vel do tanque (10); a do endereço \textit{01H}, o valor final do nÃ­vel do tanque (2); a do enderço
+\textit{02H}, o fator de proporção de água livre produzido (8) e do endereço \textit{03H}, o fator de
+proporção de óleo bruto produzido (2). O leitor pode conferir como cada elemento ilustrado na Figura~\ref{fig:simulacao}
+(resgistradores, portas de entrada e saÃ­da, interrupçÃµes e memória) foi especificado consultando o anexo deste trabalho. 
+
+
+% [explicar as conexão/comunicação entre os dispositivos]
+%Quanto a comunicação entre os dispositivos podem ser utilizados conversores analógico/digital de 8 \textit{bits},
+%pois esse é o tamanho do barramento de dados do Z80. Outro detalhe relativo a comunicação é que o Z80
+%precisa esperar as informaçÃµes estarem disponÃ­veis nas portas de entrada de dados para iniciar os
+%cálculos. Esse detalhe temporal não será representado na modelagem, pois o \textit{hardware} do Z80 possui
+%um bit (\textit{WAIT}) que bloqueia a execução do \textit{software} e aguarda a informação ser disponibilizada na
+%porta de entrada. Maiores detalhes sobre a comunicação dos dispositivos são abstraÃ­dos, pois esses são
+%simples e não está no foco do trabalho.
+
+
+
+\begin{figure}[h]
+\centering
+%\includegraphics[width=0.45\textwidth]{images/Simulator_main.png}
+%\includegraphics[width=0.45\textwidth]{images/Simulator_Execution.png}\\
+%\includegraphics[width=0.45\textwidth]{images/Simulator_memory.png}
+\includegraphics[width=1.0\textwidth]{images/Simulator_Full.png}
+%\includegraphics[width=0.45\textwidth]{images/Simulator_Peripheral_Devices.png}
+\caption{Janelas do simulador \cite{Simulator_z80}.}
+\label{fig:simulacao}
+\end{figure}
+
+
+
+% Conclusão
+
+\subsection{ConsideraçÃµes finais sobre o estudo de caso}
+
+%[ImportÃ¢ncia de ser o primeiro modelo 1Â° utilizando as bibliotecas]%[Completamente suportado pelo método B, principalmente devido ao uso de funçÃµes que convertem as representaçÃµes dos sistemas de numeração]
+%[A importÃ¢ncia das técnicas e a experiência adquirida]
+%[Explicar como pode ser Ãºtil para avaliar a vazão]
+%[ Finalmente, argumento mais importante : A técnica está sendo viabilizada,
+% pois o maior custo do processo está diminuindo devido aos avanços do atelierb e as técnicas descobertas  ]
+
+
+% [ImportÃ¢ncia do 1Â° modelo]
+O modelo \textit{TestCalc\_basm} foi o primeiro construÃ­do de acordo com a proposta de [Dantas et al.
+2008]  utilizando as bibliotecas de \textit{hardware} e tipos inteiros. Essas bibliotecas contêm tipos,
+funçÃµes e lemas que possibilitaram estabelecer a relação entre o modelo B \textit{assembly} e o modelo
+mais abstrato. Essas definiçÃµes mantiveram a assinatura das operaçÃµes do modelo abstrato com relação ao B
+\textit{assembly}, simplificaram o processo de verificação e tornaram mais fiel a representação do
+microcontrolador, tudo isso sem a necessidade de estender o método B.
+
+% [A importÃ¢ncia das técnicas e a experiência adquirida]
+A elaboração desse modelo foi muito importante para amadurecer o processo de verificação, pois a
+construção e verificação do modelo ajudou ao projetista adquirir experiências com o provador interativo e
+a descobrir comandos de prova que reduzem significativamente o tempo do processo de prova. Essa
+experiência torna mais viável a especificação de outros \textit{softwares} mais complexos, pois a
+maioria dos comandos de provas podem ser usados novamente em obrigaçÃµes de prova similares e o padrão de
+especificação utilizado ajuda na modelagem de novas plataformas. 
+
+%No entanto, esse mesmo \textit{software} poderia ser acoplado em dispositivo \textit{timer} e 
+%pois de forma bem eficiente foi resolvida  
+%Certamente reduzem bastante o custo de verificação,
+%pois o projetista desse modelo compreendeu a construção do invariante para linguagens assembly, 
+%é possÃ­vel aproveitar as caractéristicas das provas interativas para realizar algum tipo de automação nessa etapa,
+%tudo indica que a construção da cláusula invariante pode ser feita por um algorÃ­tmo simples e    
+%[Explicar como pode ser Ãºtil para avaliar a vazão] ]
+%Poderia se avaliando através da vazão, mas a modelagem ainda suporta bem aspectos temporais, por outro lado,
+%utilizando-se de um dispotivo \textit{timer} esse mesmo \textit{software} poderia calcular o tempo de enchimento do tanque
+%a vazão pode ser 
+
+%[ ImportÃ¢ncia para área de petróleo e gás ]
+Finalmente, o funcionamento do \textit{software} desenvolvido como um sistema redudante deve oferecer uma melhor confiança e qualidade,
+pois o engenheiro responsável terá mais um meio de comparação dos testes de produção e mais garantias. Essas garantias
+devem-se Ã  existência de um sistema redundante e a sua verificação formal até um dos Ãºltimos nÃ­veis de representação
+do \textit{software}. Logo, o sistema pode também melhorar a eficácia dos testes, visto que menos testes falhos podem existir.
+
+
+
+
+
+
+ 
+% \chapter{Projeto do compilador}
+% \label{cap:proj_compilador}
+% 
+% % Intro
+% Esta seção contém informaçÃµes importantes sobre o projeto do compilador e
+% ferramentas B, as quais podem ser reusadas nesse projeto. Adicionalmente, a atual
+% seção apresenta duas abordagens possÃ­veis para a construção do compilador. Desde
+% já, é importante entender o contexto da relação entre o projeto do compilador e
+% o estudo de caso.
+% 
+% 
+% % Porque construir o compilador
+% O estudo de caso descrito na seção \ref{sec:estudo_caso} será refinado até o
+% modelo algorÃ­tmico e posteriormente, o autor desse trabalho irá escrever
+% manualmente o programa \textit{assembly} e o modelo B \textit{assembly}
+% correspondente. No entanto, esse Ãºltimo passo pode ser automatizado através de um
+% compilador especÃ­fico. Por outro lado, o projeto desse tipo de compilador é uma
+% atividade relativamente complexa, pois esse tipo de compilador deve também
+% introduzir fórmulas no modelo B \textit{assembly} para possibilitar o processo
+% de verificação, de acordo com o que foi explicado no capÃ­tulo
+% \ref{cap:VerificacaoAssembly}.
+% 
+% Dessa forma, o presente trabalho fornecerá apenas informaçÃµes Ãºteis para o seu projeto inicial.
+% 
+% \subsection{Reuso do \textit{parser}}
+% % Explicar que é possÃ­vel reusar o parser
+% Para a construção do compilador é possÃ­vel reusar o
+% \textit{parser}\footnote{\textit{Parser} é um componente de \textit{software} que
+% reconhece uma sequência de caracteres de entrada (código fonte) e constrói uma
+% estrutura de dados para representação e manipulação dessa entrada.} de uma outra
+% ferramenta. Na comunidade existem vários \textit{parsers} para método B, no
+% entanto será comparado apenas os quatro mais significativos e viáveis. Esses
+% \textit{parsers} são utilizados nas seguintes ferramentas:
+% \textit{ABTools}, \textit{BSmart/Batcave},  \textit{BParser} e \textit{ComenC}.
+% 
+% O \textit{ABTools} segundo \cite{DBLP:conf/acsd/Boulanger03} é um ambiente de
+% desenvolvimento B composto de \textit{parser}, verificador de tipos, gerador:
+% de obrigaçÃµes de prova e documentação. \textit{ABTools} foi desenvolvido com o
+% intuito de facilitar o desenvolvimento de ferramentas de extensão para linguagem
+% B, o que é interessante para o projeto do compilador com verificação em nÃ­vel de
+% \textit{assembly}. Por outro lado, o \textit{ABTools} não vem sendo muito
+% utilizado na indÃºstria, o que não demonstra um forte amadurecimento.
+% 
 %  
-%  LD_A_R, LD_A_I\ldots,  
-%  CALL, RET,  RETI,RETN
- 
- 
- [To create a better link (safety rules -> Proofs)]
-The microcontroller model can specify security properties. For example, the
-last operation could have a restriction to write only in a defined region of memory.
+% As ferramentas \textit{BSmart}~\cite{deharbe06developing} e
+% \textit{Batcave}\\\cite{Batcave} utilizam um Ãºnico \textit{parser}, esse
+% \textit{parser} é uma evolução do utilizado na ferramenta
+% \textit{JBTools}~\cite{Tatibouet}. O \textit{parser} é desenvolvido na linguagem
+% \textit{Java}~\cite{Java} e utiliza o gerador de \textit{parser}
+% Javacc~\cite{Javacc}. \textit{Java} e \textit{Javacc} são bastante conhecidos na
+% comunidade e possuem ampla documentação disponÃ­vel, o que facilita o
+% desenvolvimento do compilador. Por outro lado, segundo~\cite{Fabian2008}, o
+% \textit{parser} do \textit{JBTools} usa uma árvore sintática com elementos
+% desnecessários e ele é difÃ­cil de manter e estender. Os empecilhos citados
+% levaram Ã  construção de um novo \textit{parser}, chamado \textit{BParser}.
+% 
+% O \textit{BParser}~\cite{Fabian2008} (\textit{Object Oriented Parser For B Specifications}) foi construÃ­do para ser
+% utilizado pelo \textit{ProB}~\cite{proB} e tinha como principais objetivos: melhorar a capacidade de manutenção e
+% extensão, e suportar completamente a sintaxe de B. Além disso, o \textit{BParser} tem código fonte cinco vezes
+% menor que \textit{parser} do \textit{JBTools}. Entretanto, o \textit{BParser} apresentou pequenos problemas em testes
+% realizados pelo autor desta dissertação, mas eles foram corrigidos rapidamente pelo autor do \textit{BParser}.
+% Logo, isso indica que o \textit{BParser} está em fase de amadurecimento. Outro \textit{parser} mais estável e
+% utilizado em escala industrial é o embutido na ferramenta \textit{ComenC}~\cite{ComenC}.
+% 
+% O \textit{ComenC} é um tradutor de B para a linguagem C. Ele é resultado da convergência de trabalhos
+% entre a indÃºstria e a pesquisa. Dessa forma, o \textit{ComenC} tem uma versão de \textit{software} bem estável e
+% recentemente vem disponibilizando atualizaçÃµes com frequência. Adicionalmente, existe uma ampla documentação
+% disponÃ­vel sobre o \textit{parser} do \textit{CommenC} e ele segue as especificaçÃµes padrÃµes da
+% linguagem B utilizada na indÃºstria. Portanto, o \textit{parser} do \textit{ComenC} é um forte candidato a ser
+% utilizado no projeto do compilador.
+% 
+% 
+% A Tabela \ref{tab:Comparacao_parsers} contém uma sÃ­ntese comparativa com as principais caracterÃ­sticas das
+% ferramentas, as quais podem ter o \textit{parser} reusados.
+% 
+% \begin{table}[h]
+% \begin{center}
+% \begin{tabular}{|l|c|c|c|c|c|c|}
+% \hline
+%   & \textbf{ABTools}  & \textbf{BSmart/Batcave}  &  \textbf{BParser} &  \textbf{ComenC}  \\
+%    \hline
+%  Idioma & Francês/Inglês & Português/Inglês  &  Inglês/Alemão &  Francês/Inglês  \\
+%  \hline
+%  Tecnologias & ANTLR & Java/Javacc  &   Java/SableCC & C++/C \\ \hline
+%  Código aberto &  Sim &  Sim  &  Sim  & Sim \\ \hline
+%  Licença &  \textit{GNU LGPL} &  \textit{GNU LGPL} & Não
+%  definido &  \textit{GNU GPL}\\ \hline
+%  %Mês da Ãºltima versão & 08/2008  & 02/2008 & 05/2009  \\ \hline
+%  Apoio & INRETS &  UFRN  & Heinrich-Heine & Clearsy  \\ \hline
+% \end{tabular}
+% \end{center}
+% \caption{Tabela comparativa com caracterÃ­sticas das ferramentas para o método B.}
+% \label{tab:Comparacao_parsers} 
+% \end{table}
+% 
+% 
+% \subsection{Abordagens para construção do compilador}
+% \label{sec:proj_compilador}
+% 
+% 
+% A princÃ­pio, existem duas abordagens possÃ­veis para a construção do compilador. Essas abordagens são
+% ilustradas através de dois diagramas de comunicação da UML, que mostram as colaboraçÃµes após a verificação do
+% modelo algorÃ­tmico.
+% 
+% A abordagem mais simples é ilustrada no diagrama de comunicação da Figura~\ref{fig:poucoreuso}. Nessa abordagem é
+% construÃ­do um Ãºnico novo componente de \textit{software}, que aproveita um \textit{parser} desenvolvido anteriormente e
+% adiciona a funcionalidade de transformar o modelo algorÃ­tmico B em \textit{assembly} e B \textit{assembly}. Então, o
+% próprio AtelierB deve verificar a consistência do código gerado. Logo, essa abordagem é simples, pois o
+% desenvolvedor provavelmente deve trabalhar com apenas uma tecnologia e componente de \textit{software}.  
+% 
+% 
+% \begin{figure}[h]
+% \centering 
+% \includegraphics[width=0.85\textwidth]{images/Diagrama_Comunicacao_Simplificado.png}
+% \caption{Diagrama de comunicação do processo de compilação e verificação na abordagem simplificada.}
+% \label{fig:poucoreuso}
+% \end{figure}
+% 
+% % Como funciona ?
+% Uma segunda abordagem para o projeto do compilador é ilustrada na
+% Figura~\ref{fig:altoreuso}. Essa abordagem separa as responsabilidades em vários
+% componentes de \textit{software}. Além disso, ela intensifica ainda mais o reuso.
+% Após os passos do método B tradicional, a segunda abordagem funciona da seguinte
+% forma: inicialmente é utilizado o \textit{ComenC} para gerar código C; na
+% sequência é utilizado o popular compilador \textit{gcc}~\cite{gcc}, ou qualquer
+% outro compilador C, para gerar código assembly para o Z80; após isso, o módulo de
+% \textit{software} ASM2BASM, a ser desenvolvido, deve transformar código \textit{assembly} puro para
+% B \textit{assembly}; finalmente, o \textit{AtelierB} deve verificar se o código é
+% consistente com relação ao modelo refinado. Essa abordagem não é muito
+% recomendada para o desenvolvimento com uma equipe pequena, pois um grande esforço
+% será necessário para compreender detalhes de todos os componentes de
+% \textit{software} envolvidos. Adicionalmente, essa abordagem possivelmente
+% dificultará a geração dos invariantes e variantes do modelo \textit{assembly}.
+%  
+% 
+% \begin{figure}[h]
+% \centering 
+% \includegraphics[width=0.999\textwidth]{images/Diagrama_comunicacao_com_muito_Reuso.png}
+% \caption{Diagrama de comunicação do processo de compilação e verificação na abordagem com alto reuso.}
+% \label{fig:altoreuso}
+% \end{figure}
+% 
+% %Resumo da comparação das duas abordagens
+% 
+% A grande vantagem da abordagem mais simples é a exigência de uma equipe menor de trabalho. Além disso, resultados
+% iniciais podem ser obtidos mais rapidamente. Por outro lado, a segunda abordagem é mais audaciosa, generalista e
+% pode aproveitar a capacidade do \textit{gcc} de gerar código \textit{assembly} para várias plataformas.
+%  
+% Finalmente, o projeto do compilador deve evoluir de acordo com as experiências obtidas nesse estudo de caso real.
+% Desta forma, as dificuldades e as novas soluçÃµes encontradas colaborarão diretamente para construção do compilador.
+% 
+%    
+% \subsection{Plano de desenvolvimento dos trabalhos propostos}
+% \label{sec:cronograma}
+% 
+% As atividades discentes planejadas para o segundo semestre deste ano estão relacionadas com: a modelagem e
+% verificação do estudo de caso da seção \ref{sec:estudo_caso}; relato de informaçÃµes Ãºteis ao projeto do compilador;
+% e a elaboração da dissertação.
+% 
+% \begin{enumerate}
+% 
+% \item A modelagem e a verificação do estudo de caso são realizadas em 4 etapas:
+% 	\begin{enumerate}
+%       \item A construção e verificação do modelo funcional;
+% 	  \item A elaboração e verificação do seu refinamento e modelo algorÃ­tmico;
+% 	  \item A implementação do código \textit{assembly} correspondente;
+% 	  \item A construção e verificação do modelo B \textit{assembly}. Essa Ãºltima
+% atividade é uma das etapas mais complexas e difÃ­ceis, no entanto, tal atividade é a mais importante para
+% o objetivo desse trabalho.
+% \end{enumerate}
+% 
+% % Inicialmente, os trabalhos serão realizados sobre um subconjunto da linguagem
+% % de B. Nesse sentido, uma gramática BNF foi desenvolvida e está nos anexos desse
+% % trabalho (capÃ­tulo \ref{cap:anexo}).
+% \item Quanto ao projeto do compilador citado anteriormente, informações na
+% dissertação serão apenas descritas,  se eventualmente essas forem Ãºteis para o
+% compilador.
+%  
+% \item Com relação Ã  dissertação, a escrita será realizada, aos poucos, com o
+% decorrer do desenvolvimento da modelagem e verificação do estudo de caso. Os
+% capÃ­tulos \ref{cap:MetodoB},\ref{cap:VerificacaoAssembly} e
+% \ref{cap:trabalhosdesenvolvidos} deste trabalho estão praticamente prontos para
+% dissertação. Então, falta apenas relatar sobre a modelagem do estudo de caso e
+% realizar alguns ajustes na introdução e conclusões. Finalmente, pouco tempo antes
+% da defesa será intensificada a escrita da dissertação.
+% 
+% \item Para a defesa será elaborada a apresentação e a revisão os Ãºltimos detalhes do trabalho. 
+% 
+% \end{enumerate}
+% % Elaboração de estudo de caso - Estudar em mais detalhes o estudo de caso.
+% % 							 - Construir um modelo funcional e validar o modelo.
+% % 							 - Elaborar os demais modelos algoritmos
+% % 							 
+% % Compilador 					 - Será relatado alguma ideia, caso surja.
+% % 							 -  
+% %  
+% % Dissertação					 - Ir elaborando paralelamente de acordo com o desenvolvimento dos trabalhos.
+% %\newpage
+% 
+% % O cronograma para realização dessas atividades discentes é apresentado na Tabela~\ref{cronograma}.
+% % 
+% % \newcommand{\drawbox}{\rule[0mm]{10mm}{3mm}}
+% % \begin{table}[!h]
+% % \begin{center}
+% % \begin{small}
+% % \begin{tabular}{|c|c|c|c|c|c|}
+% % \hline  & {\bf Jul.} & {\bf Ago.}  & {\bf Out.} & {\bf Nov.}  & {\bf Dez.}\\
+% % \hline
+% % 1(a)   & \drawbox  &   &   &   &   \\
+% % 1(b)   & \drawbox  &  \drawbox  &  &   &   \\
+% % 1(c)   & \drawbox &   \drawbox &   &   &   \\
+% % 1(d)   & \drawbox  & \drawbox  & \drawbox  &   &   \\
+% % 2   &   & \drawbox  & \drawbox  & \drawbox  &   \\
+% % % 2(c)   &   &   &   &   & \drawbox  \\
+% % % 3(a)   &   &  \drawbox & \drawbox  & \drawbox  & \drawbox  \\
+% % % 3(b)   &   &  \drawbox & \drawbox  & \drawbox  & \drawbox  \\
+% % % 3(c)   &   &   &   &   &   \\
+% % 3   & \drawbox  & \drawbox  & \drawbox  & \drawbox  & \drawbox  \\
+% % 4   &   &  &   &   & \drawbox  \\  
+% % \hline
+% % \end{tabular}
+% % \end{small}
+% % \end{center}
+% % \caption{Cronograma para o desenvolvimento das atividades discentes}
+% % \label{cronograma}
+% % \end{table}
+% % 
+% 
 
+\section{Verification}
+\label{sec:Verification}
 
-
-
-
-
-\section{Proofs}
-\label{sec:Proofs}
 [To get new informations from dissertation]
-% [O que as provas garantem? citar que dificeis, que � necess�rio buscar t�cnicas eficientes
+% [O que as provas garantem? citar que dificeis, que he necessherio buscar thecnicas eficientes
 % para realizar as provas ]
 
 The proof obligations allow to verify the data types, important system
-properties and if the expressions are well-defined (WD)\footnote{An
-  expression is called ``well-defined'' (or unambiguous) if its
-  definition assigns it a unique interpretation or value.}. The
+properties and if the expressions are well-defined (WD). The
 properties provide additional guarantees, because they can set many
 safety rules. However, the model can be very difficult to prove.
-Some statiscts are shown below:
+Some statistics are shown below:
 %[Groups]
 \begin{center}
 \begin{tabular}{llll}
@@ -1056,8 +2171,6 @@ to fine-tune the model of the microcontroller instructions by factoring common
 functionalities into auxiliary definitions.
 
 
-
-
 However, few proof commands\footnote{The proof commands are steps that direct the
 prover to find the proof, and cannot introduce false hypothesis.} need to be used
 to prove most proof obligations. As there are many similar assembly instructions,
@@ -1069,14 +2182,46 @@ facilities now provided in the B development environment. Finally, all of the
 2926 proof obligations were proved using the tool support of the development
 environment.
 
-\section{Related Works}
+
+Organizar melhor o texto abaixo desta seção
+____________________________________________
+
+-> Explicar o processo de prova como aconteceu no geral: o que foi utilizado para melhorar. 
+
+-> Explicar os proof commands, como eles funciona (basear no anexo conteúdo anexo da dissertacao)
+
+-> Estatíscas gerais e conclusões sobre o processo  de prova
+
+
+The level of automation of proof process was satisfactory, because the B method, its tools and features were too much explored.
+Case the proof process have gotten a low automation then the proof process could be very slow and difficult. Two requirements are important
+to verify quickly the proof obligations: a experience with interactive theorem prover from Atelierb, that is acquired from practicing, and 
+knowledge about proof commands (mathematical rules)\cite{Manual_MathematicalRules}. Naturally, the statics confirm the good level of proof process
+automation: approximately 89\% of obvious proof obligations and 99\% proof obligations well defined were verified automatically.   
+
+
+Proof commands
+
+A design with good division responsibility of modules reduces efforts. The modularization helps to build two simple libraries, that defines
+important basic lemmas, and also separated and organized the instructions specification in different modules, this important to verify the models 
+in parallel. 
+
+To verify the proof obligations from different modules were used four computers, each one with two cores. 
+The parallelization of proof process also increases many times the processing capacity.
+
+
+
+
+
+
+\section{Related works}
 \label{sec:relatedworks}
  
 There are in the literature of computer science some
 approaches~\cite{BHDL_2003,GEMPLUS_99} to model hardware and the virtual machines
 using the B method. Then, in both works the B method has been used successfully
-to model the operational semantic. However the cost of modelling was still expensive and this
-paper quoted some techniques to lower the cost of modelling.
+to model the operational semantic. However the cost of modeling was still expensive and this
+paper quoted some techniques to lower the cost of modeling.
 % Although, the modelling of the Z80 do not have modelled some small aspects.
 
 
@@ -1090,17 +2235,17 @@ Machine~\cite{GEMPLUS_99}.
 
 The main motivation of our research is the development of verified
 software up to the assembly level, which requires specifying the
-semantics of the underlying hardware. Thus, some aspects were not
-modelled in our work such as the execution time of the instructions.
-Also we did not consider the microarchitecture of the hardware as the scope of
+semantics of the underlying hardware. Thus some aspects were not
+modeled in our work such as the execution time of the instructions.
+Also we did not consider the micro architecture of the hardware as the scope of
 our work does not include hardware verification. However, there are
 many other specialized techniques to verify these questions.
  
 \section{Conclusions}
 \label{sec:conclusions} 
 
-This work has shown an approach to the formal modelling of the instruction set of
-microcontrollers using the B method. During the construction of this model, some
+This work has shown an approach to the formal modeling of the instruction set of
+microcontroller using the B method. During the construction of this model, some
 ambiguities and errors were encountered in the official reference for Z80
 microcontroller~\cite{Z80_manual}. As the B notation has a syntax that is not too
 distant from that of imperative programming languages, such model could be used
@@ -1114,7 +2259,7 @@ microcontroller state.
 % design microcontroller. Because, the building of formal model found some erros and ambiguities at the oficial
 % manual~\cite{Z80_manual}. The Z80's B model can replace the documentation used by assembler programmers, because the
 % formal model represents the instructions effects and the B-method has a easy language, that remembers the pascal
-% language. Besides, the formal model restricts the defintions to correct typing, use expressions well-defined and
+% language. Besides, the formal model restricts the definitions to correct typing, use expressions well-defined and
 % allow to verify properties on the model.
 
 
@@ -1125,49 +2270,22 @@ presented in this paper. The mechanic compilation from B algorithmic
 constructs to assembly platform is also envisioned.
 
 % The next steps of the work comprises the development of a real study case in the oil area and the
-% project of a compiler to aid the automatization of verification at the assembly level
+% project of a compiler to aid the automation of verification at the assembly level
  
 % The next works are the development of a real study case in the oil area and after the project of a
 % compiler to aid the automatization of verification at the assembler level.
   
 \paragraph{Acknowledges:}
-This work was partially supported by INES (www.ines.org.br), funded by CNPq grant \ldots 
+This work was partially supported by INES (www.ines.org.br), funded by CNPq
+grant \ldots
 %573964/2008-4 and by CNPq grants 553597/2008-6, 550946/2007-1, and 620132/2008-6..
 
-%\bibliographystyle{splncs}
-%\bibliography{paper}
-[To change the format; to add: thesis suggested by David, Article from ABZ 2010 suggested by David  ]
-\begin{thebibliography}{5}
+\bibliographystyle{splncs}
+\bibliography{paper}
+% [To change the format; to add: thesis suggested by David, Article from ABZ 2010 suggested by David  ]
+% \begin{thebibliography}{5}
+% 
 
-\bibitem {Abrial}
-Abrial, J. R. The B Book: Assigning Programs to Meanings. Cambridge University Press, United States of
-America, 1 edition, 1996.
-
-\bibitem {BHDL_2003}
-Aljer, P. Devienne; S. Tison  J-L. Boulanger and G. Mariano. Bhdl: Circuit Design in B. A. In
-ACSD, Third International Conference on Application of Concurrency to System Design, pages 241-242, 2003.
-
-\bibitem {GEMPLUS_99}
-Casset L.; Lanet J. L. A Formal Specification of the Java Bytecode Semantics using the B
-method.Technical Report, Gemplus. 1999.
-
-\bibitem {CLEARSY}
- Clearsy. Atelier B. http://www.atelierb.eu.
-
-\bibitem {Dantas_SBMF08}
-Dantas, B; D\'{e}harbe, D.; Galv\~{a}o, S. L.; Moreira, A. M. and
-Medeiros Jr, V. G.. Applying the B Method to Take on the Grand Challenge of
-Verified Compilation. In: SBMF, Savaldor, 2008. SBC.
-
-\bibitem {HOARE}
-Hoare, C. A. R. The verifying compiler, a grand challenge for computing research.
-In: VMCAI, p. 78-78, 2005.
-
-
-\bibitem{Z80_manual}
-Zilog. Z80 Family CPU User Manual. http://www.zilog.com/docs/z80/um0080.pdf
-
-\end{thebibliography}
 
 \end{document}
 %
