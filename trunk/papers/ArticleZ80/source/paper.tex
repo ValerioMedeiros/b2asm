@@ -1187,23 +1187,29 @@ and analyse several important properties.
 \section{Related works}
 \label{sec:relatedworks}
 
- 
-There are in the literature several
-approaches~\cite{BHDL_2003,DBLP:journals/entcs/EvansG08,DBLP:conf/fmco/Leuschel08,DBLP:conf/asm/Wright08}
-to model hardware and the virtual machines using B. In these works, the B
-has been used successfully to model the operational semantic. However the cost of modelling is still expensive. 
-
-These recent works \cite{Marc20113,springerlink:Yuan2011} have a similar approach using Event B. 
-However, our work use the B method, that seems more appropriated to software development, because it has
-implementable language defined, called B0, and tools to convert the models to a programming language.
+There are in the literature several similar approaches to model hardware and instruction set using B.
+The paper \cite{springerlink:Yuan2011} reports a method to specify, design and construct sound and complete instruction set model by stepwise refinement and formal proof using the formal method Event-B. It also discuss about desirable properties of instruction set model. However, our work \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B method, that seems more appropriated to software development, because it has implementable language defined, 
+called B0, and tools to convert the models to a programming language.
+In \cite{Marc20113} is present an related experience on using B in the design of secure micro-controllers. It tries to the feasibility of such a technique for high confidence trustful devices. The work \cite{Subotic2010} describes a similar approach with MIPS CPU architecture and it shows how the CPU is formally specified and implemented using the B method.
 
 
-The main motivation of our research is the development of verified
-software up to the assembly level, which requires specifying the
-semantics of the underlying hardware. Thus some aspects were not
-modelled in our work such as the execution time of the instructions.
-Also we did not consider the micro architecture of the hardware as the scope of
-our work does not include hardware verification. 
+% 
+%There are in the literature several
+%approaches~\cite{BHDL_2003,DBLP:journals/entcs/EvansG08,DBLP:conf/fmco/Leuschel08,DBLP:conf/asm/Wright08}
+%to model hardware and the virtual machines using B. In these works, the B
+%has been used successfully to model the operational semantic. However the cost of modelling is still expensive. 
+%
+%These recent works \cite{Marc20113,springerlink:Yuan2011} have a similar approach using Event B. 
+%However, our work use the B method, that seems more appropriated to software development, because it has
+%implementable language defined, called B0, and tools to convert the models to a programming language.
+%
+%
+%The main motivation of our research is the development of verified
+%software up to the assembly level, which requires specifying the
+%semantics of the underlying hardware. Thus some aspects were not
+%modelled in our work such as the execution time of the instructions.
+%Also we did not consider the micro architecture of the hardware as the scope of
+%our work does not include hardware verification. 
 
  
 \section{Conclusions}
