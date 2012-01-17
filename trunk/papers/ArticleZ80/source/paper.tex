@@ -43,7 +43,10 @@
 
 \title{Experiences in Modelling a Microcontroller Instruction Set Using B}
 %
-%\hyphenation{se-pa-ra-te}
+\hyphenation{se-pa-ra-te}
+\hyphenation{in-struc-tion}
+\hyphenation{re-gis-ter}
+\hyphenation{re-gis-ters}
 %
 %
 %
@@ -59,18 +62,14 @@
 
 \begin{abstract}
 
-  This paper describes an approach to model the functional aspects of the instruction set of
-  microcontroller platforms and several details about the representation of
-  elements from microcontrollers.  Several models were developed using the notation of the B method. 
-  They are used to develop a formally verified software up to the assembly level and allow the
-  simulation of models. This simulation is able to guarantee the consistency between the execution
-  of a software model and a real  execution of software, it has wide variety of usages in industry
-  and academia. This paper presents specifically the case of the Z80 platform and quote a theoretic 
-  case study important in tanks of the petroleum industry. This work is a contribution towards the
-  extension of the B method to handle developments up to the assembly level code.
+  This paper describes an approach to model the functional aspects of
+  the instruction set of microcontrollers and several details about
+  the representation of microcontrollers.  Different models were
+  developed using the notation of the B method. This paper presents
+  specifically a B-based formal model of the Z80 instruction set.
   
 %  \paragraph[Keywords]{
-   \textbf{Keywords}: Embedded Software, Simulation, B method and Verification%}
+%   \textbf{Keywords}: Embedded Software, Simulation, B method and Verification%}
 \end{abstract}
 
 
@@ -82,17 +81,15 @@
 
 \section{Introduction}
 
-The B method~\cite{Abrial} supports the construction of safety systems
-models by generating proof obligation that must be verified to guarantee its correctness. So,
-an initial abstract model of the system requirements is defined and
-then it is refined up to the implementation model. Development
-environments based on the B method also include source code generators
-for programming languages, but the result of this translation
-cannot be compared by formal means. \cite{Dantas_SBMF08} proposed
-an approach to extend the scope of the B method up to the
-assembly level language. One key component of this approach
-is to build, within the framework of the B method, formal models of
-the instruction set of such assembly languages. 
+The B method~\cite{Abrial} supports the formal development of software
+from a specification of functional requirements down to an imperative
+implementation of those requirements, amenable to synthesis to a
+programming language such as C or Ada. However, the synthesis step is
+not amenable to proof of correctness, and~\cite{Dantas_SBMF08} proposed
+an approach to extend the scope of the B method up to the assembly
+level language. One key component of this approach is to build, within
+the framework of the B method, formal models of the instruction set of
+such assembly languages.
 
 This work presents a formal modell of the instruction set of the Z80 
 microcontroller~\cite{Z80_manual}. This microcontroller
@@ -128,71 +125,90 @@ build a reference model for a formal compilation approach in B.
 
 
 \subsection{Problems in formalizing instruction set}
-
+% Compact version 
 In general, the manuals of microcontrollers can be more suited for
 developers in assembly language. Many times, each instruction of microcontrollers
 is shown in its official manual using textual description, math description, examples,
-encoding, number of cycles and other information.Some times, the instruction descriptions
+encoding, number of cycles and other information. Some times, the instruction descriptions
 have an own notation, some informations are organized in different sections of document 
 and the textual description are not standardized. This does not allow the interpretation by parser.
-% b) The case of Z80
-For example in official manual of the microcontroller Z80 \cite{Z80_manual}, if the users
-want to know the action of an instruction and its effects on the flag register then he needs
-to read an informal textual description. So, this description can add
-some ambiguities or even mistakes. The official manual has also several problems that were 
-identified over time~\cite{UndocumentedZ80}. The Z80 is a microcontroller that  has been
-tested and used for many years. This intensive use and test facilitated to find several
-errors in the description of the instructions in its manual. Several of these problems
-have been reported in a technical report \cite{UndocumentedZ80}. Some problems are inaccurate
-information, for example the description of the action of an instruction on the flag
-register, partial information and distributed on different pages of manual.
+The manuals also have semi-formal and informal descriptions, these descriptions may make mistakes.
+The official manual of the microcontroller Z80 has also several problems that were identified
+over time~\cite{UndocumentedZ80}. 
 
-
-% in the Z80 manual happens was that,
-
-%A simple example of error is in some official documentation saying that a group of instructions leaves the \textit{CF} flag unaffected and the \textit{NF}
-%flag is not always set, but may also be reset \cite{UndocumentedZ80}.
-%% \begin{itemize} \item Some input and output instructionsThe
-%% INI/INIR/IND/INDR/OUTI/OUTD/OTIR/OTDR instructions do affect the CF flag (some
-%% official documentation says they leave it unaffected, important!) and the NF
-%% flag is not always set but may also be reset (see 4.3 for exact operation)
-%% \cite{UndocumentedZ80}. Este erro he descrito na phegina (274 do documento e
-%% 294 do pdf) do manual oficial do Z80 (Z80_CPU_adotado.pdf) Citar apenas esse
-%% exemplo abaixo! \item
-%%when a determined interruption (NMI) is accepted, the bit IFF1 is not   
-%%copied to bit IFF2~\cite{UndocumentedZ80}. 
-%%
-%This example can cause serious problems for programmers.
-%% Este erro he descrito na pagina (22 do documento e 26do pdf) do manual
-%% official do Z80 (Z80_CPU_adotado.pdf) Only IFF1 is reset.
-%This error and others 7 different errors were previously identified by~\cite{UndocumentedZ80}. So to help the 
-%construction of Z80 B model, other references~\cite{UndocumentedZ80,Simulator_z80}
-%were also consulted.
-
-A solution to avoid ambiguity and inconsistencies is to specify formally the
+	A solution to avoid ambiguity and inconsistencies is to specify formally the
 assembly instruction set, this creates a pattern of representation and validates
 properties of instructions. The formal model also restricts the definitions to
 correct typing and uses only well-defined expressions. Furthermore, the developer
 can use with B method different levels of abstraction and add more specific details
 in refined models.
  
+
+
+%In general, the manuals of microcontrollers can be more suited for
+%developers in assembly language. Many times, each instruction of microcontrollers
+%is shown in its official manual using textual description, math description, examples,
+%encoding, number of cycles and other information.Some times, the instruction descriptions
+%have an own notation, some informations are organized in different sections of document 
+%and the textual description are not standardized. This does not allow the interpretation by parser.
+%% b) The case of Z80
+%For example in official manual of the microcontroller Z80 \cite{Z80_manual}, if the users
+%want to know the action of an instruction and its effects on the flag register then he needs
+%to read an informal textual description. So, this description can add
+%some ambiguities or even mistakes. The official manual has also several problems that were 
+%identified over time~\cite{UndocumentedZ80}. The Z80 is a microcontroller that  has been
+%tested and used for many years. This intensive use and test facilitated to find several
+%errors in the description of the instructions in its manual. Several of these problems
+%have been reported in a technical report \cite{UndocumentedZ80}. Some problems are inaccurate
+%information, for example the description of the action of an instruction on the flag
+%register, partial information and distributed on different pages of manual.
+%
+%
+%% in the Z80 manual happens was that,
+%
+%%A simple example of error is in some official documentation saying that a group of instructions leaves the \textit{CF} flag unaffected and the \textit{NF}
+%%flag is not always set, but may also be reset \cite{UndocumentedZ80}.
+%%% \begin{itemize} \item Some input and output instructionsThe
+%%% INI/INIR/IND/INDR/OUTI/OUTD/OTIR/OTDR instructions do affect the CF flag (some
+%%% official documentation says they leave it unaffected, important!) and the NF
+%%% flag is not always set but may also be reset (see 4.3 for exact operation)
+%%% \cite{UndocumentedZ80}. Este erro he descrito na phegina (274 do documento e
+%%% 294 do pdf) do manual oficial do Z80 (Z80_CPU_adotado.pdf) Citar apenas esse
+%%% exemplo abaixo! \item
+%%%when a determined interruption (NMI) is accepted, the bit IFF1 is not   
+%%%copied to bit IFF2~\cite{UndocumentedZ80}. 
+%%%
+%%This example can cause serious problems for programmers.
+%%% Este erro he descrito na pagina (22 do documento e 26do pdf) do manual
+%%% official do Z80 (Z80_CPU_adotado.pdf) Only IFF1 is reset.
+%%This error and others 7 different errors were previously identified by~\cite{UndocumentedZ80}. So to help the 
+%%construction of Z80 B model, other references~\cite{UndocumentedZ80,Simulator_z80}
+%%were also consulted.
+%
+%A solution to avoid ambiguity and inconsistencies is to specify formally the
+%assembly instruction set, this creates a pattern of representation and validates
+%properties of instructions. The formal model also restricts the definitions to
+%correct typing and uses only well-defined expressions. Furthermore, the developer
+%can use with B method different levels of abstraction and add more specific details
+%in refined models.
+% 
 %Finally, the main goal of this project, though, is to provide a basis for the
 %generation of software artefacts at the assembly level, those are amenable to 
 %refinement verification within the B method.
 
 %\subparagraph{Report structure}
-
-This work is focused on the presentation of modelling of assembly instruction
-set, including elementary libraries to describe hardware aspects; and the
-modelling and simulation of a case study of an embedded verified software that
-can be used in tanks of the petroleum industry.   
+%
+%This work is focused on the presentation of modelling of assembly instruction
+%set, including elementary libraries to describe hardware aspects; and the
+%modelling and simulation of a case study of an embedded verified software that
+%can be used in tanks of the petroleum industry.   
 
 This paper is structured as it follows. %Section~\ref{sec:B_method} provides a short introduction to the B method. 
 Section~\ref{sec:models} presents the elementary libraries and
 the modelling of some elements common to microcontrollers.  Section~\ref{sec:z80}
 presents the B model of the Z80 instruction set. %Section ~\ref{sec:Verification} provides some information on the proof effort needed to analyse the presented models.
-Section ~\ref{sec:studycase} explains the building and verifying assembly-level refinements. Related works are discussed in
-section~\ref{sec:relatedworks}. Finally, the last section is devoted to the conclusions.
+%Section ~\ref{sec:studycase} explains the building and verifying assembly-level refinements. 
+Related works are discussed in section~\ref{sec:relatedworks}. Finally, the last section is devoted to the conclusions.
 %
 %\section{Introduction to the B Method}
 %\label{sec:B_method}
@@ -484,11 +500,10 @@ Bit vectors of length 8 are bytes. They are a common entity in
 hardware design. We provide the following definitions:
 
 
-\hspace*{0.0in}\it BYTE\_WIDTH \rm = 8 $\land$ \it BYTE\_INDEX \rm = 1 $\upto$ \rm  BYTE\_WIDTH\rm  \hspace*{0.05in} $\land$
+\hspace*{0.0in}\it BYTE\_WIDTH \rm = 8 $\land$ \it BYTE\_INDEX \rm = 1 $\upto$ \rm  BYTE\_WIDTH\rm  \hspace*{0.03in} $\land$
 
-\hspace*{0.0in}\it PHYS\_BYTE\_INDEX \rm = \rm 0 $\upto$ \rm (\it BYTE\_WIDTH\rm -\rm 1\rm )\hspace*{0.10in} $\land$
+\hspace*{0.0in}\it PHYS\_BYTE\_INDEX \rm = \rm 0 $\upto$ \rm (\it BYTE\_WIDTH\rm -\rm 1\rm )\hspace*{0.03in} $\land$ \hspace*{0.0in}\it BYTE \rm =\rm (\it BYTE\_INDEX  $\fun$  \it BIT\rm )\hspace*{0.0in} $\land$  
 
-\hspace*{0.0in}\it BYTE \rm =\rm (\it BYTE\_INDEX  $\fun$  \it BIT\rm )\hspace*{0.10in} $\land$  \bf card\rm (\it BYTE\rm )\rm = $2^{8}$  $\land$
 
 \hspace*{0.0in}$\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BYTE  $\implies$  \bf size\rm (\it b1\rm )\rm =\it BYTE\_WIDTH  $\land$  \it b1  $\in$  \bf seq1\rm (\it BIT\rm )\rm ) 
 
@@ -599,12 +614,13 @@ Similarly, several other general functions and lemmas were created for all other
 %receives a $\textit{BYTE}$ and returns a $\textit{BYTE}$ that contains a sequence of bit:
 %a signal bit, 
 
-Nearly 50\% of all these proof obligations shown in the table~\ref{tab:types}
-are verified almost automatically. Although many others proof obligations are difficult to verify, because these
-check the type of functions with non-linear arithmetic is a difficult task.
+Nearly 50\% of all these proof obligations shown in the table~\ref{tab:types} 
+are verified almost automatically. Although many others proof obligations are difficult to verify,
+because they are functions of type conversion and contain arithmetic expressions difficult 
+to manipulate with the interactive prover of AtelierB.
 
 
-\subsection{Verification Process in Hardware Library and Types Library} 
+\subsection{Verification in Hardware Library and Types Library} 
 \label{sec:VerificationHardwareLibrary}
 
 
@@ -658,27 +674,28 @@ the modules of data types. Specific functions of the microcontroller are defined
 The main module includes an instance of the memory module and accesses the definitions from basic data
 types modules and the \textit{ALU} module.
 
-
-\begin{sloppypar}
-
-\bf MACHINE
-
-\hspace*{0.15in}\it Z80
-
-\bf INCLUDES
-
-\hspace*{0.10in}\it MEMORY
-
-\bf SEES
-
-\hspace*{0.10in}\it ALU, \it BIT\_DEFINITION, \it BIT\_VECTOR\_DEFINITION,
-
-\hspace*{0.10in}\it BYTE\_DEFINITION, \it BV16\_DEFINITION,
-
-\hspace*{0.10in}\it UCHAR\_DEFINITION, \it SCHAR\_DEFINITION,
-
-\hspace*{0.10in}\it SSHORT\_DEFINITION ,\it USHORT\_DEFINITION
-\end{sloppypar}
+	\begin{center}
+	\begin{sloppypar}
+	
+	  \begin{tabbing}
+	    \begin{array}[t]{l}
+		\bf MACHINE\\
+		\hspace*{0.15in}\it Z80\\
+		\bf INCLUDES\\
+		\hspace*{0.10in}\it MEMORY
+	    \end{array}
+	     \hspace*{1cm} 
+	    \begin{array}[t]{l}
+	    \bf SEES\\
+		\hspace*{0.10in}\it ALU, \it BIT\_DEFINITION, \it BIT\_VECTOR\_DEFINITION,\\
+		\hspace*{0.10in}\it BYTE\_DEFINITION, \it BV16\_DEFINITION,\\
+		\hspace*{0.10in}\it UCHAR\_DEFINITION, \it SCHAR\_DEFINITION,\\
+		\hspace*{0.10in}\it SSHORT\_DEFINITION ,\it USHORT\_DEFINITION\\
+	    \end{array}
+	  \end{tabbing}
+	  
+	 \end{sloppypar} 
+	\end{center}
 
 
 \subsection{Modelling registers}
@@ -687,23 +704,17 @@ The Z80 CPU includes alternative set of accumulator, flag and general registers.
 pointer ($\textit{sp}$), program counter ($\textit{pc}$), two index registers ($\textit{ix}$ and $\textit{iy}$), an
 interrupt register ($\textit{i\_}$), a refresh register ($\textit{r\_}$), two bits ($\textit{iff1}$,
 $\textit{iff2}$) used to control the interruptions, a pair of bits to define the interruption mode ($\textit{im}$)
-and the input and output ports ($\textit{i\_o\_ports}$). Below, its definitions are represented by
+and the input and output ports ($\textit{i\_o\_ports}$). These definitions are represented by
 \textit{INVARIANT}.
   
 \begin{sloppypar}
 \bf INVARIANT
 
-\hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ 
+\hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ \it pc  $\in$  \it INSTRUCTION  $\land$  \it sp  $\in$  \it BV16 $\land$  \it ix  $\in$  \it BV16  $\land$
 
-\hspace*{0.10in}\it pc  $\in$  \it INSTRUCTION  $\land$  \it sp  $\in$  \it BV16  $\land$  \it ix  $\in$  \it BV16  $\land$  \it iy  $\in$  \it BV16  $\land$ 
+\hspace*{0.10in}\it iy  $\in$  \it BV16  $\land$ \it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$ \it iff1  $\in$  \it BIT  $\land$ \it iff2  $\in$  \it BIT  $\land$ 
 
-\hspace*{0.10in}\it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$  
-
-\hspace*{0.10in}\it iff1  $\in$  \it BIT  $\land$ \hspace*{0.10in}\it iff2  $\in$  \it BIT  $\land$ 
-
-\hspace*{0.10in}\it im $\in$ (\it BIT $\times$ \it BIT\rm )  $\land$ 
-
-\hspace*{0.10in}\it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE
+\hspace*{0.10in}\it im $\in$ (\it BIT $\times$ \it BIT\rm )  $\land$  \it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE
 \end{sloppypar}
 
 % 
@@ -716,26 +727,31 @@ registers are represented by variable $\textit{rgs8}$. The domain of $\textit{rg
 ($\textit{id\_regs8}$) is a set formed by identifiers of registers of 8 bits. These registers are called
 main register set (\textit{a0,b0,c0,d0,e0,f0,h0,l0}) and alternate register set
 (\textit{a\_0,b\_0,c\_0,d\_0,e\_0,f\_0,h\_0,l\_0}). These registers can be accessed in pairs, forming
-16-bits, resulting in another set of identifiers of 16-bits registers, named $\textit{id\_reg16}$.
+16-bits, resulting in another set of identifiers of 16-bits registers, named $\textit{id\_reg16}$. These sets are represented below.
 
 \begin{sloppypar}
 
 	\bf SETS\\
-	\hspace*{0.10in}\it id\_reg\_8 \rm = \rm \{ \it a0 \rm , \it f0 \rm , \it f\_0 \rm , \it a\_0 \rm ,\\
-	\hspace*{0.93in}\it b0 \rm , \it c0 \rm , \it b\_0 \rm , \it c\_0\rm,\\
-	\hspace*{0.93in}\it d0 \rm , \it e0 \rm , \it d\_0 \rm , \it e\_0\rm,\\
-	\hspace*{0.93in}\it h0 \rm , \it l0 \rm , \it h\_0 \rm , \it l\_0\};\\
+	\hspace*{0.10in}\it id\_reg\_8 \rm = \rm \{ \it a0 \rm , \it f0 \rm ,\it b0 \rm , \it c0 \rm ,\it d0 \rm , \it e0 \rm ,\it h0 \rm , \it l0 \rm ,\it a\_0 \rm , \it f\_0 \rm ,\it b\_0 \rm , \it c\_0 \rm ,\it d\_0 \rm , \it e\_0 \rm ,\it h\_0 \rm , \it l\_0 \rm \};\\
 	\hspace*{0.10in}\it id\_reg\_16 \rm = \rm \{ \it BC \rm , \it DE \rm , \it HL \rm , \it SP \rm , \it AF \rm \}
 	
 
 \end{sloppypar}
 
-The main working register of Z80 is the accumulator ($\textit{rgs8(a0)}$) used for arithmetic/logic,
-input/output and loading/storing operations.
+%\begin{sloppypar}
+%
+%	\bf SETS\\
+%	\hspace*{0.10in}\it id\_reg\_8 \rm = \rm \{ \it a0 \rm , \it f0 \rm , \it f\_0 \rm , \it a\_0 \rm ,\\
+%	\hspace*{0.93in}\it b0 \rm , \it c0 \rm , \it b\_0 \rm , \it c\_0\rm,\\
+%	\hspace*{0.93in}\it d0 \rm , \it e0 \rm , \it d\_0 \rm , \it e\_0\rm,\\
+%	\hspace*{0.93in}\it h0 \rm , \it l0 \rm , \it h\_0 \rm , \it l\_0\};\\
+%	\hspace*{0.10in}\it id\_reg\_16 \rm = \rm \{ \it BC \rm , \it DE \rm , \it HL \rm , \it SP \rm , \it AF \rm \}
+%\end{sloppypar}
 
-\subsubsection{Flag register:}
-another important element is the ``f'' register ($\textit{rgs8(f0)}$),  that is
-used as a flag register. This register uses only six bits to represent the execution result status of each instruction.
+
+The main working register of Z80 is the accumulator ($\textit{rgs8(a0)}$) used for arithmetic/logic, input/output and loading/storing operations.
+Another important element is the ``f'' register ($\textit{rgs8(f0)}$),  that is
+used as a \textbf{flag register}. This register uses only six bits to represent the execution result status of each instruction.
 According to the official manual the bits 3 and 5 are not used and the others bits have the follow meaning: $\textit{bv\_get(rgs8(f0),0)}$ - the carry bit; $\textit{bv\_get(rgs8(f0),1)}$ - the add/subtract bit; $\textit{bv\_get(rgs8(f0),2)}$ - the parity or overflow bit; $\textit{bv\_get(rgs8(f0),4)}$ - the half carry bit; 
 $\textit{bv\_get(rgs8(f0),6)}$ - the zero bit; and $\textit{bv\_get(rgs8(f0),7)}$ - the sign bit.
 %\begin{description}
@@ -775,45 +791,38 @@ Another derived function is  $\textit{bv\_(ireg\_plus\_d)}$, this returns the va
 returned by $\textit{bv\_ireg\_plus\_d}$ function and its definition is similar.
 
 There is a specific function to refresh the flag register, it is named $\textit{update\_reg\_flag}$. It is typed and defined as follow:\it update\_flag\_reg \rm $\in$ \rm (\it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it
-BIT $\times$  \it BIT  $\times$  \it BIT\rm) $\fun$  \rm (\rm \{\it f0\rm \}  $\times$  \it BYTE\rm ). 
-
-\it update\_flag\_reg \rm =  $\lambda$  \rm (\it s7 \rm, \it z6 \rm,\it h4 \rm,\it pv2 \rm ,\it n1
+BIT $\times$  \it BIT  $\times$  \it BIT\rm) $\fun$  \rm (\rm \{\it f0\rm \}  $\times$  \it BYTE\rm ).  The definition is: \it update\_flag\_reg \rm =  $\lambda$  \rm (\it s7 \rm, \it z6 \rm,\it h4 \rm,\it pv2 \rm ,\it n1
 \rm ,\it c0 \rm) . 
-\rm ( \it s7 $\in$ \it BIT $\land$ \it z6 $\in$ \it BIT $\land$ \it h4 $\in$ \it BIT $\land$ \it pv2 $\in$ \it BIT $\land$ \it n1 $\in$ \it BIT $\land$ \it c0 $\in$ \it BIT \hspace*{0.20in}\rm $\mid$( \it f0  $\mapsto$  \rm \rm [\it c0\rm , \it n1\rm , \it pv2\rm , \rm 1\rm , \it h4\rm , \rm 1\rm , \it z6\rm , \it s7\rm \rm ]\rm ) \rm )
+\rm ( \it s7 $\in$ \it BIT $\land$ \it z6 $\in$ \it BIT $\land$ \it h4 $\in$ \it BIT $\land$ \it pv2 $\in$ \it BIT $\land$ \it n1 $\in$ \it BIT $\land$ \it c0 $\in$ \it BIT \rm $\mid$( \it f0  $\mapsto$ \rm [\it c0\rm , \it n1\rm , \it pv2\rm , \rm 1\rm , \it h4\rm , \rm 1\rm , \it z6\rm , \it s7\rm \rm ]\rm ) \rm )
 
 
 \subsection{Program, stack and data memory}
 
 The Z80 uses a unique memory for storing program instructions, data stack and
 general-purpose data. The memory has 16-bit addresses and each address holds a byte.
-Thus, the data from the memory module is very simple:
-
-\begin{sloppypar}
-\bf INVARIANT \\
-\hspace*{0.10in}\it mem  $\in$  \it BV16  $\fun$  \it BYTE 
-
-\end{sloppypar}
-  
+Thus, the memory is very simple: \it mem  $\in$  \it BV16  $\fun$  \it BYTE\rm.
+ 
 In general, the instructions can access all memory address, but it is dangerous. The user may mistakenly
 access and change data in memory. For added  security, it is important that the program instructions has
-limited access by region. Thus the designer can specify address regions to restrict the access from
+limited access by region. Thus the designer can specify address regions in a refinement model to restrict the access from
 instructions. The address regions can be specified using constants
 ($\textit{PROGRAM\_R\_ADR,DATA\_R\_ADR,STACK\_R\_ADR}$), these define respectively a range of restricted
 address for: programs instructions, general purpose data and data stack.
-
-$
-\begin{array}{l}
-\textit{PROGRAM\_R\_ADR} = 0..16384 \land\\
-\textit{DATA\_R\_ADR} = 16385..49151 \land\\
-\textit{STACK\_R\_ADR} = 49152..65535
-\end{array}
-$
+%
+%$
+%\begin{array}{l}
+%\textit{PROGRAM\_R\_ADR} = 0..16384 \land\\
+%\textit{DATA\_R\_ADR} = 16385..49151 \land\\
+%\textit{STACK\_R\_ADR} = 49152..65535
+%\end{array}
+%$
 
 \textbf{Assuring the absence of overlapping of address regions:}
  \emph{To assure that address regions are well defined, then the designer must to verify the expression:}
-\begin{sloppypar}
-\hspace*{0.10in}\it PROGRAM\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$  STACK\_R\_ADR $=$ \{\}
-\end{sloppypar}
+%\begin{sloppypar}
+%\hspace*{0.10in}
+\it PROGRAM\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ STACK\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ PROGRAM\_R\_ADR $\cap$  STACK\_R\_ADR  $=$ \{\} 
+%\end{sloppypar}
  
 \textbf{Preserving the consistency of the memory:} \emph{In general, the access to
 some address regions is dangerous. Then, each instruction has a specific pre-condition that verify
@@ -829,13 +838,10 @@ functions use basic definitions or previously defined functions. For example, th
 $\textit{half8UCHAR}$ is used to get the half part of $\textit{UCHAR}$ value.
 It is important to know the half carry and it is used in the function $\textit{add8UCHAR}$. 
 
-\hspace*{0.0in}
-
 \hspace*{0.0in}\it half8UCHAR  $\in$  \it UCHAR  $\fun$  \it UCHAR  $\land$ 
 
 \hspace*{0.0in}\it half8UCHAR \rm =  $\lambda$  \rm (\it ww\rm )\rm .\rm (\it ww  $\in$  \it UCHAR  $\mid$  \it ww  $\mod$  \it $2^{4}$\rm )
 
-\hspace*{0.0in}
 
  
 The function $\textit{add8UCHAR}$ receives a bit carry and two $\textit{UCHAR}$ values and returns respectively the 
@@ -854,8 +860,7 @@ w2\rm ) $<$ \rm 0\rm ),
 
 \hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it w1 \rm + \it w2 $>$ \it UCHAR\_MAX\rm )\rm ,
 
-\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it half8UCHAR\rm (\it w1\rm ) \rm + \it half8UCHAR\rm ( \it
-w2\rm )  $\geq$  \it $2^{4}$\rm )\rm,
+\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it half8UCHAR\rm (\it w1\rm) \rm + \it half8UCHAR\rm (\it w2\rm)  $\geq$  \it $2^{4}$\rm )\rm,
 
 \hspace*{0.40in}\it bool\_bit\rm ( \rm ( \rm (\it carry \rm + \it w1 \rm + \it w2 \rm )  $\mod$  \it $2^{8}$ \rm
 )\rm = \rm 0\rm )\rm )\hspace*{0.10in}\rm )
@@ -1190,7 +1195,7 @@ and analyse several important properties.
 There are in the literature several similar approaches to model hardware and instruction set using B.
 The paper \cite{springerlink:Yuan2011} reports a method to specify, design and construct sound and complete instruction set model by stepwise refinement and formal proof using the formal method Event-B. It also discuss about desirable properties of instruction set model. However, our work \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B method, that seems more appropriated to software development, because it has implementable language defined, 
 called B0, and tools to convert the models to a programming language.
-In \cite{Marc20113} is present an related experience on using B in the design of secure micro-controllers. It tries to the feasibility of such a technique for high confidence trustful devices. The work \cite{Subotic2010} describes a similar approach with MIPS CPU architecture and it shows how the CPU is formally specified and implemented using the B method.
+In \cite{Marc20113} is present an related experience on using B in the design of secure micro-controllers. It tries to show the feasibility of such a technique for high confidence trustful devices. The work \cite{Subotic2010} describes a similar approach with MIPS CPU architecture and it shows how the CPU is formally specified and implemented using the B method.
 
 
 % 
@@ -1253,6 +1258,11 @@ is also envisioned. Finally, another important activity is develop a formal mode
 
 
 
+\subsubsection{Acknowledgements:} This experiment could not have succeeded without the interesting work of Michael Leuschel who developed several improvements in the ProB and provided important aid to enable the animation of the Z80 modelling.
+
+% This work was partially supported by INES (www.ines.org.br),
+%funded by CNPq grant 573964/2008-4 and by CNPq grants 553597/2008-6, 550946/2007-
+%1, and 620132/2008-6
 
   
 %\paragraph{Acknowledges:}
