@@ -62,14 +62,19 @@
 
 \begin{abstract}
 
-  This paper describes an approach to model the functional aspects of
-  the instruction set of microcontrollers and several details about
-  the representation of microcontrollers.  Different models were
-  developed using the notation of the B method. This paper presents
-  specifically a B-based formal model of the Z80 instruction set.
-  
-%  \paragraph[Keywords]{
-%   \textbf{Keywords}: Embedded Software, Simulation, B method and Verification%}
+
+The rigorous development of an embedded software in a microcontroller requires 
+a specification of its instruction set and the software requirements specification. 
+The actual industrial practice is to report the instruction set informally using natural language
+or with added semi-formal notation. This practice may leave space for errors and inconsistencies \cite{springerlink:Yuan2011}.
+This paper presents specifically a B formal model of the Z80 instruction set. 
+This model  can be  used on documentation, simulation, test and  a model-driven approach
+to design and develop software from the functional specification level down to assembly.
+%Using this model-driven approach and the instruction set model, a small case study to
+%analyse a petroleum production test system in oil field was developed.
+%  
+% \paragraph[Keywords]{ \textbf{Keywords}: Embedded Software, Simulation, B
+% method and Verification%}
 \end{abstract}
 
 
@@ -955,15 +960,11 @@ $\land$ \it pv $\in$ \it BIT $\land$
 
 \hspace*{0.40in}\it negative \rm = \it is\_negative \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm )  $\land$ 
 
-\hspace*{0.40in}\it zero \rm = \it is\_zero \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm )  $\land$ 
-
-\hspace*{0.40in}\it half\_carry \rm = \rm 0  $\land$ 
+\hspace*{0.40in}\it zero \rm = \it is\_zero \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm )  $\land$ \it half\_carry \rm = \rm 0  $\land$ 
 
 \hspace*{0.40in}\it pv \rm = \it parity\_even \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm ) $\land$
-
-\hspace*{0.40in}\it add\_sub \rm =\hspace*{0.10in}\rm 0  $\land$ 
-
-\hspace*{0.40in}\it carry \rm = \it z\_c
+\it add\_sub \rm =\hspace*{0.10in}\rm 0  $\land$ 
+\it carry \rm = \it z\_c
 
 \hspace*{0.20in}\bf THEN
 
@@ -1245,7 +1246,6 @@ presents more details about the verification approach and a small example
 software verified up to assembly level in three different platforms. 
 The last work \cite{Valerio_SBMF09} shows a general view of the first version of Z80
 model and techniques used in verification process.
-
 %Link com o parágrafo anterior 
 These works created a important step to software verification up to assembly
 language, they show the actuals difficulties and suggest improvements in the
