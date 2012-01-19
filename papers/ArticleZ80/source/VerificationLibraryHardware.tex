@@ -1,14 +1,15 @@
 
  %\subsubsection{Used rules in hardware library}
 
-This section presents the proof process of modules from basic data types.
-By default, AtelierB~\cite{atelierB} does not verify the type of defined functions in the clause $PROPERTIES$ from Machine. For example, the function $inc$, defined as $inc \in \{0,1\} \fun \{0,1\} \land inc = \lambda(x).( x \in \{0,1\} | x + 1)$, does not create a proof obligation to check the consistency of the definition. However, this function is not well typed because $inc(1)=2$ and $ 2 \not\in \{0,1\}$. To guarantee the type of functions, it must be declared separately: the definition of the function in $PROPERTIES$ clause and its type in the $ASSERTIONS$ clause.
+This section presents the verification of modules from basic data types.
+By default, AtelierB~\cite{atelierB} does not verify the type of defined functions in the clause $PROPERTIES$ from Machine. For example, the function $inc$, defined as $inc \in \{0,1\} \fun \{0,1\} \land inc = \lambda(x).( x \in \{0,1\} | x + 1)$, does not create a proof obligation to check the consistency of the definition. However, this function is not well typed because $inc(1)=2$ and $ 2 \not\in \{0,1\}$. To guarantee the type of functions, it must be declared separately: the definition of the function in $PROPERTIES$ clause and its type in the $ASSERTIONS$ clause. There are conversion functions that need to check its type. 
+However, it was not possible to build proofs using the base of rules from the free distribution of AtelierB.
 
-Another solution is to check with ProB \cite{proB}, as it is able to verify the type of functions, but its support is more suitable for finite functions. However, these functions use the concept of sequence, that is an infinite set. So a better solution is to formalize rules to check these properties in AtelierB.
 
-These rules are assumed true hypotheses for the conversion functions and they are used in interactive prover of AtelierB. They were created because it was not possible to build proofs using the base of rules from the free distribution of AtelierB. Furthermore, AtelierB's prover cannot simplify easily arithmetic expressions.
+Another solution is to check with ProB \cite{proB}, as it is able to verify the type of functions, but its support is more suitable for finite functions. However, these functions use the concept of sequence, that is an infinite set. So a solution is to formalize rules to check these properties in AtelierB.
+These created rules are assumed true hypotheses for the conversion functions and they are used in interactive prover of AtelierB. These rules also are important, because  AtelierB's prover cannot simplify easily arithmetic expressions.
 
-The hardware library has many conversion functions with non-linear arithmetic, for example, Bit\_vector to Natural, Natural to Bit\_vector, Integer to Bit\_vector, Bit\_vector to Integer. These functions are organized in modules and each module contains auxiliary functions for a data type. The modules are represented by gray rectangles in Figure \ref{DiagramTypesRules}. %and they have the  mean: \textit{BYTE} is a bit vector with eight elements enumerated 
+The hardware library has many conversion functions with arithmetic, for example, Bit\_vector to Natural, Natural to Bit\_vector, Integer to Bit\_vector and Bit\_vector to Integer. These functions are organized in modules and each module contains auxiliary functions for a data type. The modules are represented by gray rectangles in Figure \ref{DiagramTypesRules}. %and they have the  mean: \textit{BYTE} is a bit vector with eight elements enumerated 
 %starting from one; \textit{UCHAR} is a range between 0 and 255; \textit{SCHAR} is a range between -128 and 127; 
 %\textit{BV16} is a bit vector with sixteen elements enumerated starting from one; \textit{USHORT} is a range 
 %between 0 and 65535; and \textit{SSHORT} is a range between -32768 and 32767.
@@ -21,19 +22,17 @@ The hardware library has many conversion functions with non-linear arithmetic, f
 \end{figure}
 
 
-We needed to verify the type of these conversion functions.% There are twenty rules associated this properties 
-Basically, these functions must keep two properties: to be bijective and equal to the inverse of the dual function.  This is not easy to verify it using AtelierB. Only these more simple proof obligations shown below were verified automatically with the AtelierB:
- 
-\begin{enumerate}
-
-\item (\it uchar\_schar\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{SCHAR})
-\item (\it schar\_uchar\rm \ $\in$ \textit{SCHAR} $\bij$ \textit{UCHAR})
-\item (\it byte\_bv16\rm \ $=$ \it bv16\_byte\rm $^{-1}$) 
-
-\end{enumerate}
-
+We needed to verify the type of these conversion functions. % There are twenty rules associated this properties 
+Basically, these functions must keep two properties: to be bijective and equal to the reverse function.  This is not easy to verify it using AtelierB. Only three more simple proof obligations were verified automatically with the AtelierB: (\it uchar\_schar\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{SCHAR}), (\it schar\_uchar\rm \ $\in$ \textit{SCHAR} $\bij$ \textit{UCHAR}) and (\it byte\_bv16\rm \ $=$ \it bv16\_byte\rm $^{-1}$).
+%\begin{enumerate}
+%
+%\item (\it uchar\_schar\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{SCHAR})
+%\item (\it schar\_uchar\rm \ $\in$ \textit{SCHAR} $\bij$ \textit{UCHAR})
+%\item (\it byte\_bv16\rm \ $=$ \it bv16\_byte\rm $^{-1}$) 
+%
+%\end{enumerate}
 However, there are similar proof obligations that needed to create associated rules, in general, they are almost identical then only three are illustrated here:
-%However, there are twenty rules associated with the last two properties, in general, they are almost identical then only three are illustrated here:
+
 
 %Four conditions are needed to be a bijective function:
 %
@@ -74,31 +73,36 @@ However, there are similar proof obligations that needed to create associated ru
 
 \begin{enumerate}
 
-\item (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$ \textit{UCHAR})\\ 
- $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm $\in$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )  $\bij$  \rm 0 $\upto$ \rm 2\rm 5\rm 5 \\
+\item The proof obligation (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$ \textit{UCHAR}) and its expansion in rule format is:\\ 
+$\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm $\in$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )  $\bij$  \rm 0 $\upto$ \rm 2\rm 5\rm 5 \\
 
-\item (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{BYTE})\\ 
-$\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5  $\mid$  \rm \rm  [\it v0  $\mod$  \rm 2 $\div$ 1 ,\it v0  $\mod$  \rm 4 $\div$ \rm 2\rm ,\it v0  $\mod$  \rm 8 $\div$ \rm 4\rm ,\it v0  $\mod$  \rm 1\rm 6 $\div$ \rm 8\rm ,\it v0  $\mod$  \rm 3\rm 2 $\div$ \rm 1\rm 6\rm ,\it v0  $\mod$  \rm 6\rm 4 $\div$ \rm 3\rm 2\rm ,\it v0  $\mod$  \rm 1\rm 2\rm 8 $\div$ \rm 6\rm 4\rm ,\it v0  $\mod$  \rm 2\rm 5\rm 6 $\div$ \rm 1\rm 2\rm 8\rm \rm ]\rm ) \rm   $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5   $\bij$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )\\
+\item The proof obligation (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{BYTE}) and its expansion in rule format is:\\ 
+$\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$  \rm 8)$\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$  \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm ) \rm   $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5   $\bij$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )\\
 
 
-\item  (   \it byte\_uchar\rm  =  \it uchar\_byte\rm$^{-1}$ )\\ 
-  $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm = \\
-\rm ( $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5  $\mid$  \rm \rm [\it v0  $\mod$  \rm 2 $\div$ \rm 1\rm ,\it v0  $\mod$  \rm 4 $\div$ \rm 2\rm ,\it v0  $\mod$  \rm 8 $\div$ \rm 4\rm ,\it v0  $\mod$  \rm 1\rm 6 $\div$ \rm 8\rm ,\it v0  $\mod$  \rm 3\rm 2 $\div$ \rm 1\rm 6\rm ,\it v0  $\mod$  \rm 6\rm 4 $\div$ \rm 3\rm 2\rm ,\it v0  $\mod$  \rm 1\rm 2\rm 8 $\div$ \rm 6\rm 4\rm ,\it v0  $\mod$  \rm 2\rm 5\rm 6 $\div$ \rm 1\rm 2\rm 8\rm \rm ]\rm )\rm ) $^{-1}$  \\
-
+\item  The proof obligation (\it byte\_uchar\rm  =  \it uchar\_byte\rm$^{-1}$) and its expansion in rule format is:\\ 
+  $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )=($\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$ \rm 8) $\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$ \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm )\rm)$^{-1}$
 \end{enumerate}
 
-Other four rules were used to demonstrated that the functions are finite: \it byte\_uchar  $ \in \finset$\rm (\it byte\_uchar\rm ); \it uchar\_byte  $ \in \finset$\rm (\it uchar\_byte\rm ); \it ushort\_bv16 $ \in \finset$\rm (\it ushort\_bv16\rm );\\ \it bv16\_ushort $ \in \finset$\rm (\it bv16\_ushort\rm ). 
-The expansion of the first rule is:
+Other four proof obligations are using rules to demonstrated that the functions
+are finite: \it byte\_uchar  $ \in \finset$\rm (\it byte\_uchar\rm ); \it
+uchar\_byte  $ \in \finset$\rm (\it uchar\_byte\rm ); \it ushort\_bv16 $ \in
+\finset$\rm (\it ushort\_bv16\rm ) and \it bv16\_ushort $ \in \finset$\rm (\it
+bv16\_ushort\rm ).
 \begin{enumerate}
-\item  (   \it byte\_uchar $\in$   $\finset$ \rm (\it byte\_uchar\rm ) )\\
+\item  The proof obligation (\it byte\_uchar $\in$   $\finset$ \rm (\it byte\_uchar\rm )) and its expansion in rule format is:\\ 
  $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) $\in$   $\finset$ \rm ( $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )\rm )  \\
 
 
 \end{enumerate}
 
 
-So there are in total twenty four rules related to binary arithmetic.These rules are used to facilitate the manipulation of theorem prover with binary arithmetic developed by \cite{Leibnizens}. They guarantee important properties that are demonstrated in \cite{James2010,Dasgupta2006}.
-The others properties with associated rules are very similar, they have just small differences, for example, the size of bit vectors. 
+So there are in total twenty four rules related to binary arithmetic.These rules
+are used to facilitate the manipulation of theorem prover with binary arithmetic
+developed by \cite{Leibnizens}. They guarantee important properties that are
+demonstrated in \cite{James2010,Dasgupta2006}. The others proof obligations with
+associated rule are very similar, they have just small differences, for example,
+the size of bit vectors.
 
 
 
