@@ -91,59 +91,64 @@ level language. One key component of this approach is to build, within
 the framework of the B method, formal models of the instruction set of
 such assembly languages.
 
-This work presents a formal modell of the instruction set of the Z80 
-microcontroller~\cite{Z80_manual}. This microcontroller
-was chosen because of several factors: it contains essential and common
-concepts in microcontrollers and until microprocessors; it has extensive
-documentation available; and it was widely used and is still in use. 
-A first Z80 modell presented in \cite{Valerio_SBMF09} was verified completely,
-but it uses constructs that are not well supported to animate. 
-This modelling was changed to support animation in ProB\cite{proB}.
-Basically, the new modelling\footnote{The interested reader in more
-details is invited to visit our repository at: http://code.google.com/p/b2asm/.}
-changed elements represented by infinite sets and adjusted the implications
-of this change. Using the responsibility division mechanisms provided by B, auxiliary
-libraries of basic modules were developed as part of the construction of microcontroller
-model. Such library has many definitions about common concepts used in
-the microcontrollers;besides the new Z80 model, a theoretic case study in 
-petroleum production test system was developed using Z80 assembly language
-to analyse the code simulation and verification process.
+This work presents a formal model of the instruction set of the Z80
+microcontroller~\cite{Z80_manual}. This microcontroller was chosen
+because of several factors: it contains essential and common concepts
+of microcontrollers and even microprocessors; it has extensive
+documentation available; and it has been widely used.  A first,
+partial, Z80 model presented in \cite{Valerio_SBMF09} was fully
+verified, but it uses constructs that make it impossible to animate.
 
+The new model supports animation in ProB\cite{proB}.  Essentially, the
+new model\footnote{The interested reader in more details is invited to
+  visit our repository at: http://code.google.com/p/b2asm/.}  no
+longer contains definitions derived from infinite sets. Using B
+constructs for modularity, auxiliary libraries of basic modules were
+developed as part of the construction of microcontroller model. Such
+library has many definitions of concepts common in microcontrollers.
+Besides the new Z80 model, a petroleum production test system was
+developed using Z80 assembly language to analyse the code simulation
+and verification process.
 
-The formal model of instruction set provides many benefits. The animation of 
-Z80 model allows to simulate the execution assembly programs including
-support for interrupts and input and output instructions. Other possible uses
-of a formal model of a microcontroller instruction set include documentation,
-the construction of simulators, and can be possibly the starting point of a 
-verification effort for the actual implementation of a Z80 design. Moreover, 
-the model of the instruction set could be instrumented with non-functional
-aspects, such as the number of cycles it takes to execute an instruction, to
-prove lower and upper bounds on the execution time of a routine.
-Two aspects of these formalization are of particular importance to us:
-provide a more solid documentation artifact for microcontrollers, 
-build a reference model for a formal compilation approach in B.
+Providing the formal model of an instruction set yields many
+benefits. The animation of Z80 model allows to simulate the execution
+assembly programs including support for interrupts and input and
+output instructions. Other possible uses of a formal model of a
+microcontroller instruction set include documentation, the
+construction of simulators, and can be possibly the starting point of
+a verification effort for the actual implementation of a Z80
+design. Moreover, the model of the instruction set could be
+instrumented with non-functional aspects, such as the number of cycles
+it takes to execute an instruction, to prove lower and upper bounds on
+the execution time of a routine.  Two aspects of these formalization
+are of particular importance to us: provide a more solid documentation
+artifact for microcontrollers, build a reference model for a formal
+compilation approach in B.
 
 
 \subsection{Problems in formalizing instruction set}
 % Compact version 
-In general, the manuals of microcontrollers can be more suited for
-developers in assembly language. Many times, each instruction of microcontrollers
-is shown in its official manual using textual description, math description, examples,
-encoding, number of cycles and other information. Some times, the instruction descriptions
-have an own notation, some informations are organized in different sections of document 
-and the textual description are not standardized. This does not allow the interpretation by parser.
-The manuals also have semi-formal and informal descriptions, these descriptions may make mistakes.
-The official manual of the microcontroller Z80 has also several problems that were identified
-over time~\cite{UndocumentedZ80}. 
 
-	A solution to avoid ambiguity and inconsistencies is to specify formally the
-assembly instruction set, this creates a pattern of representation and validates
-properties of instructions. The formal model also restricts the definitions to
-correct typing and uses only well-defined expressions. Furthermore, the developer
-can use with B method different levels of abstraction and add more specific details
+In general, the manuals of microcontrollers can be more suited for \marginpar{DD: o título da sub-seção não condiz com seu conteúdo. Não cita nenhum problema na formalização. Não vejo muito bem o que ele traz de novo que já não foi dito anteriormente.}
+developers in assembly language. Many times, each instruction of
+microcontrollers is shown in its official manual using textual
+description, math description, examples, encoding, number of cycles
+and other information. Sometimes, the instruction descriptions have
+an own notation, some informations are organized in different sections
+of document and the textual description are not standardized. This
+does not allow the interpretation by parser.  The manuals also have
+semi-formal and informal descriptions, these descriptions may make
+mistakes.  The official manual of the microcontroller Z80 has also
+several problems that were identified over
+time~\cite{UndocumentedZ80}.
+
+A solution to avoid ambiguity and inconsistencies is to specify
+formally the assembly instruction set, this creates a pattern of
+representation and validates properties of instructions. The formal
+model also restricts the definitions to correct typing and uses only
+well-defined expressions. Furthermore, the developer can use with B
+method different levels of abstraction and add more specific details
 in refined models.
- 
-
 
 %In general, the manuals of microcontrollers can be more suited for
 %developers in assembly language. Many times, each instruction of microcontrollers
@@ -203,12 +208,13 @@ in refined models.
 %modelling and simulation of a case study of an embedded verified software that
 %can be used in tanks of the petroleum industry.   
 
-This paper is structured as it follows. %Section~\ref{sec:B_method} provides a short introduction to the B method. 
-Section~\ref{sec:models} presents the elementary libraries and
-the modelling of some elements common to microcontrollers.  Section~\ref{sec:z80}
-presents the B model of the Z80 instruction set. %Section ~\ref{sec:Verification} provides some information on the proof effort needed to analyse the presented models.
-%Section ~\ref{sec:studycase} explains the building and verifying assembly-level refinements. 
-Related works are discussed in section~\ref{sec:relatedworks}. Finally, the last section is devoted to the conclusions.
+This paper is structured as it follows.  Section~\ref{sec:models}
+presents the elementary libraries and the modeling of some elements
+common to microcontrollers.  Section~\ref{sec:z80} presents the B
+model of the Z80 instruction set.  Related works are discussed in
+section~\ref{sec:relatedworks}. Finally, the last section is devoted
+to the conclusions.
+
 %
 %\section{Introduction to the B Method}
 %\label{sec:B_method}
@@ -328,7 +334,7 @@ type for bits, logical operations on bits (negation, conjunction,
 disjunction, exclusive disjunction), as well as a conversion function
 from Boolean to bit.
 
-First, bits are modelled as a set of integers: $\textit{BIT} =
+First, bits are modeled as a set of integers: $\textit{BIT} =
 \textit{0..1}$. The negation is an unary function on bits and it is
 defined as:
 
@@ -493,7 +499,7 @@ express properties on the size of the result of the operations
 as well as classical algebraic properties such as associativity
 and commutativity.
 
-\subsection{Modelling bytes and bit vectors of length 16}
+\subsection{Modeling bytes and bit vectors of length 16}
 \label{subsec:HardwareLibrary3}
 
 Bit vectors of length 8 are bytes. They are a common entity in
@@ -511,11 +517,11 @@ hardware design. We provide the following definitions:
 
 %\hspace*{0.0in}\it BYTE\_ZERO  $\in$  \it BYTE  $\land$ \it BYTE\_ZERO \rm = \it BYTE\_INDEX  $\times$  \rm \{\rm 0\rm \}
 
-The $\textit{BYTE\_INDEX}$ is the domain of the functions modelling bytes. It starts at 1 to obey a
+The $\textit{BYTE\_INDEX}$ is the domain of the functions modeling bytes. It starts at 1 to obey a
 definition of sequences from B. However, it is common in hardware architectures to start indexing from
 zero. The definition $\textit{PHYS\_BYTE\_INDEX}$ is used to provide functionalities obeying this
 convention. The $\textit{BYTE}$ type is as a specialized type of $\textit{BIT\_VECTOR}$, but it has a size
-limit. Other specific definitions are provided to facilitate further modelling: the type $\textit{BV16}$
+limit. Other specific definitions are provided to facilitate further modeling: the type $\textit{BV16}$
 is created for bit vector of length 16 in a similar way.
 
 
@@ -567,7 +573,7 @@ Each type module has functions to manipulate and convert its data. There are sev
 \end{table}
 
 Usually, each type module just needs to instantiate concepts that were already defined in the hardware
-modelling library.  For example, the function $\textit{bv\_to\_nat}$ from bit vector arithmetic is
+modeling library.  For example, the function $\textit{bv\_to\_nat}$ from bit vector arithmetic is
 specialized to $\textit{byte\_uchar}$. As the set $\textit{BYTE}$ is a subset of the
 $\textit{BIT\_VECTOR}$, this function can defined as follows:
 
@@ -698,7 +704,7 @@ types modules and the \textit{ALU} module.
 	\end{center}
 
 
-\subsection{Modelling registers}
+\subsection{Modeling registers}
 
 The Z80 CPU includes alternative set of accumulator, flag and general registers. The CPU contains a stack
 pointer ($\textit{sp}$), program counter ($\textit{pc}$), two index registers ($\textit{ix}$ and $\textit{iy}$), an
@@ -889,12 +895,12 @@ As the logic functions that are defined in the \textit{BYTE} and \textit{BV16}
 module are included in the \textit{ALU} module, they can be seen and used
 directly in the \textit{ALU} and \textit{Z80} modules.
 
-\subsection{Modelling the actions and instructions}
+\subsection{Modeling the actions and instructions}
 
 Each instruction is represented by a B operation in the module Z80. The main
 module (\textit{Z80}) has three categories of operations: a category represents the 
 instructions of microcontrollers, a second category represents the input and output of data 
-(shown in ~\ref{sec:modellingIO}) and the last category represents the external
+(shown in ~\ref{sec:modelingIO}) and the last category represents the external
 actions (shown in~\ref{sec:externalactions}). A simple example of instruction category is
 $\textit{LD\_(nn)\_A}$\footnoteremember{myfootnote}{The tools B does not allow
 to use parentheses in identifiers, and the characters \{``('',``)''\} are
@@ -923,8 +929,8 @@ The other instructions have a similar structure.
 
 
 
-\subsection{Modelling the input/output instructions}
-\label{sec:modellingIO}
+\subsection{Modeling the input/output instructions}
+\label{sec:modelingIO}
 The Z80 has an extensive set of input and output (I/O) instructions and 256 ports for
 devices. This model can transfer data blocks between the I/O devices and any
 of the internal registers or memory address.
@@ -994,11 +1000,11 @@ $\land$ \it pv $\in$ \it BIT $\land$
 
 
 
-\subsection{Modelling the external actions}
+\subsection{Modeling the external actions}
 \label{sec:externalactions}
 
 The external actions change the state of the microcontroller, for example, refreshing the I/O ports
-and interruptions request. The external actions are also modelled by operations and they are named with the
+and interruptions request. The external actions are also modeled by operations and they are named with the
 prefix ``$ext\_$'' and followed by the name of action. There are four external
 actions: $ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The
 $ext\_update\_io\_ports$ just change the state of I/O port, see.
@@ -1031,7 +1037,7 @@ maskable interruptions, setting  $\textit{iff1}$ to 1 and 0.
 
 
 The interruptions and the \textit{reset} action can change the state of
-program counter. Theses actions are modelled by B operations and its main
+program counter. Theses actions are modeled by B operations and its main
 effects are shown below\footnote{Some definitions of constants: $\textit{sp\_minus\_two}$ holds the value of stack pointer minus 2,
 %=$\textit{dec\_BV16(dec\_BV16(sp))}$
  $\textit{sp\_minus\_one}$ is the value of stack pointer minus 1,
@@ -1158,10 +1164,10 @@ f0 $\mapsto$ \rm [0,0,0,0,0,0,0,0] \rm \} $\para$
 
 % The animation
 
-The modelling of instruction set, interruptions and input/output ports become the animation interesting.
+The modeling of instruction set, interruptions and input/output ports become the animation interesting.
 The animation in ProB version is not so fast and practical as a simulation, for example in \cite{Simulator_z80},
 because ProB works manipulating logic and math concepts that can have infinite sets and non determinism, then ProB requires more processing, specially when it works analysing  complex expressions or very large expressions.
-However, a user of ProB with this modelling can: execute manually a sequence of Z80's instructions that represent a program and view the visited states of ports, memory and registers, it is important to debug the effect action on the state space computed; create a tracing of the states; analyse constants, functions and expressions; and search possible violations.
+However, a user of ProB with this modeling can: execute manually a sequence of Z80's instructions that represent a program and view the visited states of ports, memory and registers, it is important to debug the effect action on the state space computed; create a tracing of the states; analyse constants, functions and expressions; and search possible violations.
 
 
 
@@ -1182,8 +1188,8 @@ because the changes in Z80 model are recent and the verification time is long.
 A case study using the first version of Z80 model was also created and verified
 since the first abstract B model up to B assembly model. This case study is an
 object of the pilot project developed to analyse a petroleum production test
-system in each oil field. Its modelling was developed in according to \cite{LAUT_SERGIO}
-and its B assembly model can be executed manually in ProB. The modelling of
+system in each oil field. Its modeling was developed in according to \cite{LAUT_SERGIO}
+and its B assembly model can be executed manually in ProB. The modeling of
 instruction set and the B assembly model allow to simulate the execution of microcontroller
 and analyse several important properties.
 
@@ -1202,7 +1208,7 @@ In \cite{Marc20113} is present an related experience on using B in the design of
 %There are in the literature several
 %approaches~\cite{BHDL_2003,DBLP:journals/entcs/EvansG08,DBLP:conf/fmco/Leuschel08,DBLP:conf/asm/Wright08}
 %to model hardware and the virtual machines using B. In these works, the B
-%has been used successfully to model the operational semantic. However the cost of modelling is still expensive. 
+%has been used successfully to model the operational semantic. However the cost of modeling is still expensive. 
 %
 %These recent works \cite{Marc20113,springerlink:Yuan2011} have a similar approach using Event B. 
 %However, our work use the B method, that seems more appropriated to software development, because it has
@@ -1212,7 +1218,7 @@ In \cite{Marc20113} is present an related experience on using B in the design of
 %The main motivation of our research is the development of verified
 %software up to the assembly level, which requires specifying the
 %semantics of the underlying hardware. Thus some aspects were not
-%modelled in our work such as the execution time of the instructions.
+%modeled in our work such as the execution time of the instructions.
 %Also we did not consider the micro architecture of the hardware as the scope of
 %our work does not include hardware verification. 
 
@@ -1221,7 +1227,7 @@ In \cite{Marc20113} is present an related experience on using B in the design of
 \label{sec:conclusions} 
 
 % Um pequeno resumo do trabalho
-This work has shown an approach to the formal modelling of the instruction set of
+This work has shown an approach to the formal modeling of the instruction set of
 microcontroller using the B method. During the construction of this model, some
 problems were found in the official reference for Z80
 microcontroller~\cite{Z80_manual}. The designer fixed the found problems in
@@ -1258,7 +1264,7 @@ is also envisioned. Finally, another important activity is develop a formal mode
 
 
 
-\subsubsection{Acknowledgements:} This experiment could not have succeeded without the interesting work of Michael Leuschel who developed several improvements in the ProB and provided important aid to enable the animation of the Z80 modelling.
+\subsubsection{Acknowledgements:} This experiment could not have succeeded without the interesting work of Michael Leuschel who developed several improvements in the ProB and provided important aid to enable the animation of the Z80 modeling.
 
 % This work was partially supported by INES (www.ines.org.br),
 %funded by CNPq grant 573964/2008-4 and by CNPq grants 553597/2008-6, 550946/2007-
