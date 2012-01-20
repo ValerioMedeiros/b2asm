@@ -295,32 +295,38 @@ to the conclusions.
 % d) formalization of byte and word-level concepts
 % e) formalization of integer ranges 
 
-We have developed a reusable set of basic definitions to model hardware concepts and data types
-concepts. The models contains definitions to represent the: registers, interruptions, input and output
-ports, memory and instructions. These definitions are grouped into separated development projects
-and are available as libraries.
+We have developed a reusable set of basic definitions to model
+hardware concepts and data types concepts. The models contains
+definitions to represent the: registers, interruptions, input and
+output ports, memory and instructions. These definitions are grouped
+into separated development projects and are available as libraries.
+Thus the workspace is composed of the following: 
+\begin{description}
 
-Thus the workspace is composed of modules group and libraries: 
-\begin{itemize}
+\item[Power] contains the standard definition of exponentiation, as
+  well as some basic properties, e.g. values of different powers of
+  two. Given this definition, these properties have been proved
+  interactively with the Atelier-B prover.
 
-\item \textbf{Power}: it has the basics definitions to help the theorems
-prover about simple calculus of power, especially power of two. It contains the definition of power function
-and it has constants, that represent all required results of power function. 
-
-\item \textbf{Hardware Library}: it has the definition of bit vectors with size 8 and 16, basic functions to manipulate bit vectors and important assertions. This is presented in sections \ref{subsec:HardwareLibrary1}, \ref{subsec:HardwareLibrary2} and \ref{subsec:HardwareLibrary3}.
+\item[Hardware Library] defines bit vectors with size 8 and 16, basic
+  functions to manipulate bit vectors and important
+  assertions. Details are given in sections
+  \ref{subsec:HardwareLibrary1}, \ref{subsec:HardwareLibrary2} and
+  \ref{subsec:HardwareLibrary3}.
  
- \item \textbf{Types Library}: it has the definition of naturals and integers represented with  8 bits and 16 bits, basic conversion functions between the types and bit vectors and important assertions. This is presented in section \ref{subsec:Types}.
+\item[Types Library] defines sets of naturals and integers represented
+  with 8 bits and 16 bits, basic conversion functions between those
+  types and bit vectors, and important assertions. It is presented in
+  section \ref{subsec:Types}.
  
- \item \textbf{Platform}: it has the definition functions of arithmetic logic unit,  memory unit, registers and assembly instructions. This is presented in section \ref{sec:z80}.
+\item[Platform] defines functions of the arithmetic logic unit, memory
+  unit, registers and assembly instructions. Section \ref{sec:z80}
+  provides additional details.
  
+\end{description}
 
- 
-\end{itemize}
-
- The corresponding dependency
-diagram is depicted in Figure~\ref{fig:hardware-definition-graph}; information specific to each project is
-presented in the following.
-
+The dependencies between those libraries are depicted in
+Figure~\ref{fig:hardware-definition-graph}.
 
 \begin{figure}[h]
 \centering
@@ -329,55 +335,43 @@ presented in the following.
 \label{fig:hardware-definition-graph}
 \end{figure}
 
-
-
 \subsection{Bit representation and manipulation}
 \label{subsec:HardwareLibrary1}
 
 The entities defined in the module $\textit{BIT\_DEFINITION}$ are the
 type for bits, logical operations on bits (negation, conjunction,
-disjunction, exclusive disjunction), as well as a conversion function
-from Boolean to bit.
+disjunction, exclusive disjunction), and a conversion function from
+Booleans to bits.
 
-First, bits are modeled as a set of integers: $\textit{BIT} =
+We model bits as a set of integers: $\textit{BIT} =
 \textit{0..1}$. The negation is an unary function on bits and it is
 defined as:
-
-
-
-$
+$$
 \begin{array}{l}
 \textit{bit\_not}  \in  \textit{BIT}  \fun  \textit{BIT}  \land 
 \textit{bit\_not} \rm = \rm \{ \rm 0  \mapsto  \rm 1 , \rm 1  \mapsto  \rm 0 \rm \}
 \end{array}
-$
+$$
 %\forall ( \textit{bb}). (\textit{bb} \in \textit{BIT} \implies {bit\_not}(\textit{bb}) =1-\textit{bb})\\
-
-
 
 The module also provides lemmas on negation that may be useful for the
 users of the library to develop proofs:
-
-$
+$$
 \begin{array}{l}
 %  \textit{bit\_not}(0) = 1;  \textit{bit\_not}(1) = 0; \\
 \forall (\textit{bb}).(\textit{bb} \in \textit{BIT} \implies \textit{bit\_not}(\textit{bit\_not}(\textit{bb})) = \textit{bb})
 \end{array}
-$
-
+$$
 Conjunction is a binary function on bits and it is defined as:
-
-$
+$$
 \begin{array}{l}
 \textit{bit\_and} \in \textit{BIT} \times \textit{BIT} \fun \textit{BIT} \land \\
 \forall (\textit{b1}, \textit{b2}).(\textit{b1}  \in \textit{BIT}  \land \textit{b2} \in \textit{BIT} \implies \\
 \quad ((\textit{bit\_and}(\textit{b1}, \textit{b2}) = 1) \iff (\textit{b1} = 1)  \land  (\textit{b2} = 1)))
 \end{array}
-$
-
+$$
 The module provides the following lemmas for commutativity and associativity:
-
-$
+$$
 \begin{array}{l}
 %  \textit{bit\_and}(0,0) = 0;  \textit{bit\_and}(0,1) = 0; \\
 %  \textit{bit\_and}(1,0) = 0;  \textit{bit\_and}(1,1) = 1; \\
@@ -388,38 +382,36 @@ $
 % \forall (\textit{b1}).(\textit{b1} \in \textit{BIT} \implies (\textit{bit\_and}(\textit{b1}, 1) = \textit{b1})); \\
 % \forall (\textit{b1}).(\textit{b1} \in \textit{BIT} \implies (\textit{bit\_and}(\textit{b1}, 0) = 0));
 \end{array}
-$
-
+$$
 The module provides definitions of $\textit{bit\_or}$ (disjunction)
 and $\textit{bit\_xor}$ (exclusive disjunction), as well as lemmas on
 those operators. These are standard and their expression in B is
-similar as for $\textit{bit\_and}$, they are thus omitted from this paper.
+similar as for $\textit{bit\_and}$.
 
 Finally, the conversion from Boolean to bit is simply defined as:
-
-$
+$$
 \begin{array}{l}
 \textit{bool\_to\_bit} \in \BOOL \fun \textit{BIT} \land \textit{bool\_to\_bit} = \{ \TRUE \mapsto 1, \FALSE \mapsto 0 \} \\
 \end{array}
-$
-
-Observe that all the lemmas that are provided in this module have been
-mechanically proved by the theorem prover included with our B
-development environment. None of these proofs requires human insight.
+$$
+All the lemmas that are provided in this module have been
+automatically proved by the prover of Atelier-B.
 
 
 \subsection{Representation and manipulation of bit vectors}
 \label{subsec:HardwareLibrary2}
 
-Sequences are pre-defined in B, as functions whose the domain is an
-integer range with lower bound 1 (one). Indices in bit vectors usually
-range from 0 (zero) upwards and the model we propose obeys this
-convention by making an one-position shift where necessary. This shift
-is important to use the predefined functions of sequences. We thus
-define bit vectors as non-empty sequences of bits, and
-$\textit{BIT\_VECTOR}$ is the set of all such sequences:
-$\textit{BIT\_VECTOR} = \seq1(\textit{BIT})$. The $\textit{BIT\_VECTOR}$ is an infinite set and it hinders the animation in ProB. 
-To avoid this obstruction, the specialized types (\textit{BYTE} and \textit{BV16}) cannot reference directly \textit{BIT\_VECTOR}.
+Sequences are predefined objects in B and are natural candidate to
+represent bit vectors. In B, sequences are functions whose the domain
+is an integer range with lower bound 1 (one). Indices in bit vectors
+usually range from 0 (zero) upwards and the model we propose obeys
+this convention by making an offset where necessary, so that
+predefined functions and proof rules may be used. We define bit
+vectors as non-empty sequences of bits: $\textit{BIT\_VECTOR} =
+\seq1(\textit{BIT})$. As $\textit{BIT\_VECTOR}$ is an infinite set,
+this definition hinders the animation in ProB.  As a workaround, we
+defined specialized types \textit{BYTE} and \textit{BV16} without
+reference to \textit{BIT\_VECTOR}.
 
 % CAN COMMENT TO REDUCE SPACE
 %The function $\textit{bv\_size}$ returns the size of a given bit vector. It is basically a wrapper for the
@@ -432,23 +424,23 @@ To avoid this obstruction, the specialized types (\textit{BYTE} and \textit{BV16
 %\end{array}
 %$
 
-We also define two functions $\textit{bv\_set}$ and $\textit{bv\_clear}$ that, given a bit vector, and a
-position of the bit vector, return the bit vector resulting from setting the corresponding position to 0
-or to 1, and a function $\textit{bv\_get}$ that, given a bit vector, and a valid position, each one
-returns the value of the bit at that position. Only the first definition is shown here:
-
-
-$
+We also define two functions $\textit{bv\_set}$ and
+$\textit{bv\_clear}$ that, given a bit vector, and a position of the
+bit vector, return the bit vector resulting from setting the
+corresponding position to 1 and 0, and a function $\textit{bv\_get}$
+that, given a bit vector and a valid position, returns the value of
+the bit at that position. Only the first definition is shown here:
+$$
 \begin{array}{l}
 \textit{bv\_set} \in \textit{BIT\_VECTOR} \times \nat \fun \textit{BIT\_VECTOR} \land \textit{bv\_set} =\\
 \lambda v, n . (v \in \textit{BIT\_VECTOR} \land n \in \nat \land n <\textit{size}(v)
 \mid v \lover \{ n+1 \mapsto 1 \})
 \end{array}
-$
+$$
 
-
-The function $bv\_catenate$ takes as parameters two bit vectors $v$ and $w$, and returns the result of the
-concatenation of $v$ and $w$, such that $v$ constitutes the most significant part of the result.
+Function $bv\_catenate$ takes as parameters two bit vectors $v$ and
+$w$, and returns the result of the concatenation of $v$ and $w$, such
+that $v$ constitutes the most significant part of the result.
 
 
 % $
@@ -484,11 +476,9 @@ $\in$  \it BIT\_VECTOR $\land$ \it w $\in$  \it BIT\_VECTOR  $\mid$  \it v\^ \it
 Additionally, the module provides definitions for the classical
 logical combinations of bit vectors: $\textit{bit\_not}$,
 $\textit{bit\_and}$, $\textit{bit\_or}$ and $\textit{bit\_xor}$. Only
-the first two are presented here. Observe that the domain of the
-binary operators is restricted to pairs of bit vectors of the same
-length:
-
-$
+the first two are presented here. The domain of the binary operators
+is restricted to pairs of bit vectors of the same length:
+$$
 \begin{array}{l}
 \textit{bv\_not} \in \textit{BIT\_VECTOR} \fun \textit{BIT\_VECTOR} \land \\
 \textit{bv\_not} = \lambda v . (v \in \textit{BIT\_VECTOR} \mid \quad \lambda i . (1 .. \textit{size}(v)) \mid \textit{bit\_not}(v(i))) \land \\
@@ -497,8 +487,7 @@ $
 \textit{size}(v_1) = \textit{size}(v_2) \mid \lambda i . (1 .. \textit{size}(v_1)) \mid
 \textit{bit\_and}(v_1(i), v_2(i)))
 \end{array}
-$
-
+$$
 We provide several lemmas on bit vector operations. These lemmas
 express properties on the size of the result of the operations
 as well as classical algebraic properties such as associativity
@@ -507,9 +496,8 @@ and commutativity.
 \subsection{Modeling bytes and bit vectors of length 16}
 \label{subsec:HardwareLibrary3}
 
-Bit vectors of length 8 are bytes. They are a common entity in
-hardware design. We provide the following definitions:
-
+Bytes, i.e. bit vectors of length 8, are a common entity in hardware
+design. We provide the following definitions:
 
 \hspace*{0.0in}\it BYTE\_WIDTH \rm = 8 $\land$ \it BYTE\_INDEX \rm = 1 $\upto$ \rm  BYTE\_WIDTH\rm  \hspace*{0.03in} $\land$
 
@@ -522,77 +510,78 @@ hardware design. We provide the following definitions:
 
 %\hspace*{0.0in}\it BYTE\_ZERO  $\in$  \it BYTE  $\land$ \it BYTE\_ZERO \rm = \it BYTE\_INDEX  $\times$  \rm \{\rm 0\rm \}
 
-The $\textit{BYTE\_INDEX}$ is the domain of the functions modeling bytes. It starts at 1 to obey a
-definition of sequences from B. However, it is common in hardware architectures to start indexing from
-zero. The definition $\textit{PHYS\_BYTE\_INDEX}$ is used to provide functionalities obeying this
-convention. The $\textit{BYTE}$ type is as a specialized type of $\textit{BIT\_VECTOR}$, but it has a size
-limit. Other specific definitions are provided to facilitate further modeling: the type $\textit{BV16}$
-is created for bit vector of length 16 in a similar way.
-
-
+$\textit{BYTE\_INDEX}$ is the domain of the functions modeling
+bytes. It starts at 1 to be compatible with sequences. However, since
+the hardware community starts indexing from zero, definition
+$\textit{PHYS\_BYTE\_INDEX}$ provides functionalities obeying this
+convention. Type $\textit{BYTE}$ is as a specialized type of
+$\textit{BIT\_VECTOR}$, with a size constraint. Other specific
+definitions are provided to facilitate further modeling: the type
+$\textit{BV16}$ is created for bit vectors of length 16 in a similar
+way.
 
 \subsection{Bit vector arithmetic}
 \label{subsec:Types}
  
 
-Bit vectors are used to represent and combine numbers: integer ranges (signed or unsigned). Therefore, our
-library includes functions to manipulate such data, for example, the function $\textit{bv\_to\_nat}$ that
+Bit vectors are used to represent and combine numbers: integer ranges
+(signed or unsigned). Therefore, our library includes functions to
+manipulate such data, for example, the function $\textit{bv\_to\_nat}$
 maps bit vectors to natural numbers:
-
-$
+$$
 \begin{array}{l}
 \textit{bv\_to\_nat} \in \textit{BIT\_VECTOR} \fun \nat  \land \\
 \textit{bv\_to\_nat} = \lambda v .  (v \in \textit{BIT\_VECTOR} \mid  \sum i . (i \in \dom(v) . v(i)
 \times 2^{i-1}))
 \end{array}
-$
+$$
 
-An  associated lemma is: $\forall n . (n \in \nat_1 \implies \textit{bv\_to\_nat}(\textit{nat\_to\_bv}(n)) = n)$
+An important lemma associated to this definition is: 
+$$\forall n . (n \in \nat_1 \implies \textit{bv\_to\_nat}(\textit{nat\_to\_bv}(n)) = n).$$
 
 
 
-\subsection{Basics data types}
+\subsection{Basic data types}
 
-The instruction set architecture usually have common bit vector type and integer type.
-In table~\ref{tab:types}, the first three are placed in the hardware library and the last four types are placed in the integer types library. 
-Each type module has functions to manipulate and convert its data. There are seven common basic data types represented by modules.
-
+The definition of instruction sets usually have bit vector and integer
+types as listed in table~\ref{tab:types}. For each type, a number of
+functions are defined, including conversion between different types.
 
 \begin{table}
 \caption{Details of basic data types}
 \label{tab:types}
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
- $Type\ Name$ & $Range$ & $Physical\ Size $  & $Associated\ Proof\ Obligations$ \\\hline
- BIT & 0..1 & 1 bit &   118 \\\hline %49 + 69 = 118 \\\hline
- BYTE & -- & 1 bytes &  153\\\hline%17 + 136 = 153\\\hline
- BV16 & -- & 2 bytes &  75 \\ \hline%5 + 70 = 75 \\ \hline
- UCHAR & 0..255 & 1 byte &  30 \\\hline %4 + 26 = 30 \\\hline
- SCHAR & -128..127 & 1 byte & 26 \\\hline %2 + 24 = 26 \\\hline
- USHORT & 0..65.535 & 2 byte & 62 \\\hline % 4 + 58 = 62 \\\hline
- SSHORT & -32.768..32.767 & 2 byte & 58\\\hline %  2 + 56 = 58\\\hline
+ \textit{Type\ Name} & \textit{Range} & \textit{Physical Size}  & \textit{Num. POs} & \textit{Library} \\\hline
+ BIT & 0..1 & 1 bit &   118 & Hardware \\\hline %49 + 69 = 118 \\\hline
+ BYTE & -- & 1 bytes &  153 & Hardware \\\hline%17 + 136 = 153\\\hline
+ BV16 & -- & 2 bytes &  75 & Hardware \\ \hline%5 + 70 = 75 \\ \hline
+ UCHAR & 0..255 & 1 byte &  30 & Types \\\hline %4 + 26 = 30 \\\hline
+ SCHAR & -128..127 & 1 byte & 26 & Types \\\hline %2 + 24 = 26 \\\hline
+ USHORT & 0..65.535 & 2 byte & 62 & Types \\\hline % 4 + 58 = 62 \\\hline
+ SSHORT & -32.768..32.767 & 2 bytes & 58 & Types \\\hline %  2 + 56 = 58\\\hline
 %  &  & Total & 522\\\hline %  2 + 56 = 58\\\hline
 \end{tabular}
 \end{center}
 \end{table}
 
-Usually, each type module just needs to instantiate concepts that were already defined in the hardware
-modeling library.  For example, the function $\textit{bv\_to\_nat}$ from bit vector arithmetic is
-specialized to $\textit{byte\_uchar}$. As the set $\textit{BYTE}$ is a subset of the
+Usually, each type module just needs to specialize definitions that
+are given in the hardware modeling library.  For example, the function
+$\textit{bv\_to\_nat}$ from bit vector arithmetic is specialized to
+$\textit{byte\_uchar}$. As the set $\textit{BYTE}$ is a subset of the
 $\textit{BIT\_VECTOR}$, this function can defined as follows:
-
-
-$
+$$
 \begin{array}{l}
 \textit{byte\_uchar} \in \textit{BYTE} \fun \nat \land \\
 \textit{byte\_uchar} = \lambda (v) . ( v \in BYTE | bv\_to\_nat(v) )
 \end{array}
-$
+$$
 
-The definitions of the library types reuse the basic definitions from the hardware library. This provides
-greater confidence and facilitates the proof process, because the prover can reuse the previously defined
-lemma.
+The definitions of the library types reuse the basic definitions from
+the hardware library. This provides greater confidence and facilitates
+the proof process, because the prover can reuse the previously defined
+lemmas.
 
 
 %The inverse function $\textit{uchar\_byte}$ is easily defined:
@@ -604,18 +593,16 @@ lemma.
 %\end{array}
 %$
 
- We also created the following lemmas:
- 
- $
+We also created lemmas on pairs of dual conversion functions, such as:
+$$
  \begin{array}{l}
   \forall (val) . (val \in \textit{UCHAR} |
   \textit{byte\_uchar}(\textit{uchar\_byte}(val)) = val) \land\\
   \forall (by) . (by \in \textit{BYTE} |
   \textit{uchar\_byte}(\textit{byte\_uchar}(by)) = by)
  \end{array}
- $
+$$
 
-Similarly, several other general functions and lemmas were created for all other data types.
 %[NEW PARAGRAPH-TO-REVIEW]
 %Similarly, several other general functions and lemmas were created for all other data types.
 %Some times, we need create arithmetic and logic functions that are more specific for a
@@ -625,20 +612,318 @@ Similarly, several other general functions and lemmas were created for all other
 %receives a $\textit{BYTE}$ and returns a $\textit{BYTE}$ that contains a sequence of bit:
 %a signal bit, 
 
-Nearly 50\% of all these proof obligations shown in the table~\ref{tab:types} 
-are verified almost automatically. Although many others proof obligations are difficult to verify,
-because they are functions of type conversion and contain arithmetic expressions difficult 
-to manipulate with the interactive prover of AtelierB.
+Nearly 50\% of all these proof obligations shown in the
+table~\ref{tab:types} are verified automatically or with few user
+commands. However many others proof obligations are difficult to
+verify, as they involve functions that contain arithmetic expressions
+that are difficult to manipulate with the interactive prover of
+AtelierB.
 
 
-\subsection{Verification in Hardware Library and Types Library} 
+\subsection{Verification} 
 \label{sec:VerificationHardwareLibrary}
 
+This section presents the verification of the aforementioned modules
+using the AtelierB provers.  By default, AtelierB~\cite{atelierB} does
+not generate proof obligations of the type of functions defined in the
+clause $PROPERTIES$ of a machine. For example, the definition $inc \in
+\{0,1\} \fun \{0,1\} \land inc = \lambda(x).( x \in \{0,1\} | x + 1)$,
+does not create a proof obligation to check the consistency of the
+definition. However, this definition is inconsistent since $inc(1)=2$
+and $ 2 \not\in \{0,1\}$. 
 
-\input{VerificationLibraryHardware} 
+To avoid such inconsistencies, we state separately the required
+properties in the \textit{ASSERTIONS\/} clause, that cause
+corresponding proof obligations to be generated and verified. However,
+we have not been able to build the corresponding proofs using the base
+of rules included in the free distribution of AtelierB.
+
+A solution would be to carry out that verification with ProB
+\cite{proB}, as it is able to verify the type of functions, but its
+support is generally only suitable for finite functions. Since these
+functions use the concept of sequence (an infinite set), we have not
+succeded in showing type correctness of the conversion functions with
+ProB\marginpar{Estou perdido: não definiu tipos especiais BYTE e BV16
+  para poder usar o ProB?}. Eventually, we formalized new proof rules
+to check these properties in AtelierB and used them in the interactive
+prover of AtelierB.
+
+The hardware library has many conversion functions with
+arithmetic,\marginpar{Não seria interessante ter colocado
+  esta figura mais cedo? Na seção 2.5, por exemplo? E no texto da
+  seção 2.6 poderia enumerar os poucos casos verificados sem regras
+  adicionais.}  for example, Bit\_vector to Natural, Natural to
+Bit\_vector, Integer to Bit\_vector and Bit\_vector to Integer. These
+functions are organized in modules and each module contains auxiliary
+functions for a data type. The modules are represented by gray
+rectangles in Figure \ref{DiagramTypesRules}.
+
+%and they have the mean: \textit{BYTE} is a bit vector with eight elements enumerated
+%starting from one; \textit{UCHAR} is a range between 0 and 255; \textit{SCHAR} is a range between -128 and 127; 
+%\textit{BV16} is a bit vector with sixteen elements enumerated starting from one; \textit{USHORT} is a range 
+%between 0 and 65535; and \textit{SSHORT} is a range between -32768 and 32767.
+
+\begin{figure}[he]
+\centering
+\includegraphics[width=3.in]{images/Diagram_Types_and_Rules.pdf}
+\caption{Conversion functions}
+\label{DiagramTypesRules}
+\end{figure}
+
+
+\textbf{We needed to verify the type of these conversion
+  functions}.\marginpar{Não precisa repetir
+  isto.} % There are twenty rules associated this properties
+The conversion functions need to satisfy two properties: to be
+bijective and equal to the reverse of the dual conversion
+function. The three simplest proof obligations were verified
+automatically with the AtelierB: (\it uchar\_schar\rm \ $\in$
+\textit{UCHAR} $\bij$ \textit{SCHAR}), (\it schar\_uchar\rm \ $\in$
+\textit{SCHAR} $\bij$ \textit{UCHAR}) and (\it byte\_bv16\rm \ $=$ \it
+bv16\_byte\rm $^{-1}$).
+%\begin{enumerate}
+%
+%\item (\it uchar\_schar\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{SCHAR})
+%\item (\it schar\_uchar\rm \ $\in$ \textit{SCHAR} $\bij$ \textit{UCHAR})
+%\item (\it byte\_bv16\rm \ $=$ \it bv16\_byte\rm $^{-1}$) 
+%
+%\end{enumerate}
+For the remaining proof obligations, we again had to create new proof
+rules. There are three kinds of proof rules, that we illustrate by giving
+one example each:
+
+%Four conditions are needed to be a bijective function:
+%
+%\begin{description}
+%\item $func$ is a function:\\
+%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it func\rm )  $\land$  \it yy $\in$  \bf ran\rm (\it func\rm )  $\land$ \\ \it zz $\in$  \bf ran\rm (\it func\rm )  $\land$ \rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \it func  $\land$  \rm ( \it xx $\mapsto$  \it zz\rm )  $\in$  \it func  $\implies$  \it yy\rm =\it zz \rm )
+%
+%\item $func$ is an injective function:\\
+%$\forall$ \rm (\it vv\rm ,\it xx\rm )\rm .\rm ( \it vv $\in$  \bf dom\rm (\it func\rm )  $\land$  \it xx  $\in$  \bf dom\rm (\it func\rm )  $\implies$  \it func\rm (\it vv\rm )\rm =\it func\rm (\it xx\rm ) \rm )
+%
+%\item $func$ is a total function:\\
+%$\forall$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it func\rm )  $\implies$   $\exists$ \it yy\rm .\rm ( \it yy  $\in$  \bf ran\rm (\it func\rm )  $\land$  \it func\rm (\it xx\rm )\rm =\it yy \rm )\rm ) 
+%
+%\item $func$ is surjective function:\\
+% $\forall$ \it yy\rm .\rm ( \it yy $\in$  \bf ran\rm (\it func\rm ) $\implies$   $\exists$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it func\rm ) $\land$  \it func\rm (\it xx\rm )\rm =\it yy \rm )\rm ) 
+%
+%
+%\end{description} 
+%
+%Here, two conversion functions between bit vectors and the natural are presented. These functions are finite and convert from \textit{BYTE} to \textit{UCHAR} and vice versa.\textit{UCHAR} is a range between 0 and 255 and \textit{BYTE} is a bit vector with eight elements enumerated starting from 1. We need to prove that $byte\_uchar$  and $uchar\_byte$  are bijective functions and  $byte\_uchar = uchar\_byte^{-1}$. These functions are defined as follows:
+%\begin{description}
+%
+%
+%\item\it byte\_uchar \rm = $\lambda$  \rm ( \it v0 \rm ) \rm . \rm ( \it v0  $\in$  \it BYTE  $\mid$ \hspace*{0.10in}\it 2$^{7}$ $\times$ \it v0\rm (\rm 8\rm )\rm +\it 2$^{6}$  $\times$ \it v0\rm (\rm 7\rm )\rm + \it 2$^{5}$ $\times$ \it v0\rm (\rm 6\rm )\rm +\it 2$^{4}$ $\times$ \it v0\rm (\rm 5\rm ) \rm + \it 2$^{3}$  $\times$  \it v0\rm (\rm 4 \rm ) \rm + \it 2$^{2}$  $\times$ \it v0\rm (\rm 3\rm ) \rm + \it 2$^{1}$  $\times$  \it v0\rm (\rm 2\rm ) \rm + \it 2$^{0}$  $\times$  \it v0\rm (\rm 1\rm )\rm) 
+%
+%\item\it uchar\_byte \rm = $\lambda$  \rm ( \it v0 \rm ) \rm . \rm ( \it v0  $\in$  \it UCHAR $\mid$ \rm [\rm (\it v0   $\mod$ \it 2$^{1}$\rm ) $\div$ \it 2$^{0}$\rm , \rm (\it v0  $\mod$  \it 2$^{2}$\rm ) $\div$ \it 2$^{1}$\rm , \rm (\it v0  $\mod$  \it 2$^{3}$\rm ) $\div$ \it 2$^{2}$\rm , \rm (\it v0  $\mod$  \it 2$^{4}$\rm ) $\div$ \it 2$^{3}$\rm , \rm (\it v0  $\mod$  \it 2$^{5}$\rm ) $\div$ \it 2$^{4}$\rm , \rm(\it v0  $\mod$  \it 2$^{6}$\rm ) $\div$ \it 2$^{5}$\rm ,\rm (\it v0  $\mod$  \it 2$^{7}$\rm ) $\div$ \it 2$^{6}$\rm , \rm (\it v0  $\mod$  \it 2$^{8}$\rm ) $\div$ \it 2$^{7}$\rm \rm ] \rm)
+%
+%\end{description}
+%
+%The equivalent definitions using B sequence notation and set notation are:\\
+%\it uchar\_byte \rm = \rm \{ \rm 0 $\mapsto$ \rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ]\rm, \ldots  , \rm 2\rm 5\rm 5 $\mapsto$ \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ]\rm \}  \\
+%\it byte\_uchar \rm =  \rm \{\rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] $\mapsto$ \rm 0\rm, \ldots , \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ] $\mapsto$ \rm 2\rm 5\rm 5 \rm \} \rm 
+%
+%\paragraph{B Rules:}
+%These rules represent that  $byte\_uchar$  and $uchar\_byte$  are bijective functions and  $byte\_uchar = uchar\_byte^{-1}$. These rules are used on interactive prover of Atelierb.
 
 
 
+\begin{enumerate}
+
+\item The proof obligation (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$ \textit{UCHAR}) and its expansion in rule format is:\\ 
+$\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm $\in$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )  $\bij$  \rm 0 $\upto$ \rm 2\rm 5\rm 5 \\
+
+\item The proof obligation (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{BYTE}) and its expansion in rule format is:\\ 
+$\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$  \rm 8)$\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$  \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm ) \rm   $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5   $\bij$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )\\
+
+
+\item  The proof obligation (\it byte\_uchar\rm  =  \it uchar\_byte\rm$^{-1}$) and its expansion in rule format is:\\ 
+  $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )=($\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$ \rm 8) $\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$ \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm )\rm)$^{-1}$
+\end{enumerate}
+
+Finally, four proof obligations are using rules to demonstrate that
+the functions are finite\marginpar{Qual o objetivo de provar que as funções são finitas?}
+: \it byte\_uchar $ \in \finset$\rm (\it
+byte\_uchar\rm ); \it uchar\_byte $ \in \finset$\rm (\it
+uchar\_byte\rm ); \it ushort\_bv16 $ \in \finset$\rm (\it
+ushort\_bv16\rm ) and \it bv16\_ushort $ \in \finset$\rm (\it
+bv16\_ushort\rm ).
+\begin{enumerate}
+\item  The proof obligation (\it byte\_uchar $\in$   $\finset$ \rm (\it byte\_uchar\rm )) and its 
+expansion in rule format is\marginpar{Não entendi esta expansão.}:\\
+  $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) $\in$   $\finset$ \rm ( $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )\rm )  \\
+
+
+\end{enumerate}
+
+
+We have included twenty four rules related to binary arithmetic
+as\marginpar{Qual a motivação para provar estas propriedades? Parece
+  estar fora do escopo do trabalho apresentado no artigo.}  developed
+in~\cite{Leibnizens}. These rules are used in the interactive theorem
+prover with binary arithmetic to prove important
+properties~\cite{James2010,Dasgupta2006}.
+
+%
+%To guarantee these rules, a demonstration will be shown. We need verify if (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$ \textit{UCHAR}) then four conditions must be verified.
+%
+%Is $byte\_uchar$ a function ?\\
+%\begin{tabular}{l c}
+%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it byte\_uchar\rm )  $\land$  \it yy $\in$  \bf ran\rm (\it byte\_uchar\rm  )  \\
+%$\land$  \it zz $\in$  \bf ran\rm (\it byte\_uchar\rm )  $\land$ \rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \it byte\_uchar\rm  $\land$\\
+%\rm ( \it xx $\mapsto$  \it zz\rm )  $\in$  \it byte\_uchar\rm   $\implies$  \it yy\rm =\it zz \rm )\\\\
+%\end{tabular}
+%\\
+%Step 1 - Replacing the sets:\\
+%\begin{tabular}{l c}
+%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \it BYTE\rm  $\land$  \it yy $\in$  \it UCHAR\rm $\land$  \it zz $\in$  \it UCHAR \rm  \\
+%$\land$ \rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \it byte\_uchar \rm  $\land$ \rm ( \it xx $\mapsto$  \it zz\rm )  $\in$  \it byte\_uchar\rm  $\implies$  \it yy\rm =\it zz \rm )\\\\
+%\end{tabular}
+%\\
+%Step 2 - Expanding \it byte\_uchar \rm and replacing the sets:\\
+%\begin{tabular}{l c}
+%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \it BYTE \rm  $\land$  \it yy $\in$  \it UCHAR \rm $\land$  \it zz $\in$  \it UCHAR \rm  $\land$ & {\LARGE \checkmark} \\
+%\rm ( \it xx $\mapsto$  \it yy\rm ) $\in$  \rm \{\rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] $\mapsto$ \rm 0\rm, \ldots , \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ] $\mapsto$ \rm 2\rm 5\rm 5 \rm \} \rm  $\land$ \\
+%\rm ( \it xx $\mapsto$  \it zz\rm ) $\in$  \rm \{\rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] $\mapsto$ \rm 0\rm, \ldots , \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ] $\mapsto$ \rm 2\rm 5\rm 5 \rm \} \rm  $\implies$  \it yy\rm =\it zz \rm )\\\\
+%\end{tabular}
+%
+%
+%
+%Is $byte\_uchar$ an injective function?\\
+%\begin{tabular}{l c}
+%$\forall$ \rm (\it vv\rm ,\it xx\rm )\rm .\rm ( \it vv $\in$  \bf dom\rm (\it byte\_uchar\rm )  $\land$  \it xx  $\in$  \bf dom\rm (\it byte\_uchar\rm) & {\LARGE \checkmark} \\
+% $\implies$  \it byte\_uchar\rm (\it vv\rm )\rm =\it byte\_uchar\rm (\it xx\rm ) \rm )\\\\
+%\end{tabular}
+%
+%Is $byte\_uchar$ a total function?\\
+%\begin{tabular}{l c}
+%$\forall$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it byte\_uchar\rm )  $\implies$ & {\LARGE \checkmark} \\
+%$\exists$ \it yy\rm .\rm ( \it yy  $\in$  \bf ran\rm (\it byte\_uchar\rm )  $\land$  \it byte\_uchar\rm (\it xx\rm )\rm =\it yy \rm )\rm ) \\\\
+%\end{tabular}
+%
+%Is $byte\_uchar$ a surjective function? \\
+%\begin{tabular}{l c}
+%$\forall$ \it yy\rm .\rm ( \it yy $\in$  \bf ran\rm (\it byte\_uchar\rm  ) $\implies$ & {\LARGE \checkmark} \\
+%$\exists$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it byte\_uchar\rm  ) $\land$  \it byte\_uchar\rm  (\it xx\rm )\rm =\it yy \rm )\rm ) \\\\
+%\end{tabular}
+%
+%
+%We need verify if (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{BYTE}) then four conditions must be verified.
+%
+%Is $uchar\_byte$ a function ?\\
+%\begin{tabular}{l c}
+%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it uchar\_byte\rm )  $\land$  \it yy $\in$  \bf ran\rm (\it uchar\_byte\rm  )& {\LARGE \checkmark} \\
+%$\land$  \it zz $\in$  \bf ran\rm (\it uchar\_byte\rm )  $\land$ \rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \it uchar\_byte\rm  $\land$\\
+%\rm ( \it xx $\mapsto$  \it zz\rm )  $\in$  \it uchar\_byte\rm   $\implies$  \it yy\rm =\it zz \rm )\\\\
+%\end{tabular}
+%
+%Is $uchar\_byte$ an injective function?\\
+%\begin{tabular}{l c}
+%$\forall$ \rm (\it vv\rm ,\it xx\rm )\rm .\rm ( \it vv $\in$  \bf dom\rm (\it uchar\_byte\rm )  $\land$  \it xx  $\in$  \bf dom\rm (\it uchar\_byte\rm) & {\LARGE \checkmark} \\
+% $\implies$  \it uchar\_byte\rm (\it vv\rm )\rm =\it uchar\_byte\rm (\it xx\rm ) \rm )\\\\
+%\end{tabular}
+%
+%Is $uchar\_byte$ a total function?\\
+%\begin{tabular}{l c}
+%$\forall$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it uchar\_byte\rm )  $\implies$ & {\LARGE \checkmark} \\
+%$\exists$ \it yy\rm .\rm ( \it yy  $\in$  \bf ran\rm (\it uchar\_byte\rm )  $\land$  \it uchar\_byte\rm (\it xx\rm )\rm =\it yy \rm )\rm ) \\\\
+%\end{tabular}
+%
+%Is $uchar\_byte$ a surjective function? \\
+%\begin{tabular}{l c}
+%$\forall$ \it yy\rm .\rm ( \it yy $\in$  \bf ran\rm (\it uchar\_byte\rm  ) $\implies$ & {\LARGE \checkmark} \\
+%$\exists$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it uchar\_byte\rm  ) $\land$  \it uchar\_byte\rm  (\it xx\rm )\rm =\it yy \rm )\rm ) \\\\
+%\end{tabular}
+%
+%The $byte\_uchar$  and $uchar\_byte$  are bijective functions consequently each one has an inverse function, but is $byte\_uchar = uchar\_byte ^{-1}$  true ?\\
+%
+%$\forall$ \rm (\it xx\rm ,\it yy\rm )\rm .\rm ( \it xx  $\in$  \it UCHAR\rm   $\land$  \it yy $\in$  \it BYTE \rm   $\implies$ \\
+%\rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  $byte\_uchar$   $\land$  \rm ( \it yy $\mapsto$  \it xx\rm )  $\in$  $uchar\_byte$ ) \\
+%
+%Step 1 - Expanding \it byte\_uchar \rm  and \it uchar\_byte \rm \\\\
+%\begin{tabular}{l c}
+%$\forall$ \rm (\it xx\rm ,\it yy\rm )\rm .\rm ( \it xx  $\in$  \it UCHAR\rm   $\land$  \it yy $\in$  \it BYTE \rm   $\implies$  & {\LARGE \checkmark} \\
+%\rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \rm \{ \rm 0 $\mapsto$ \rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] \rm , \ldots  , \rm 2\rm 5\rm 5 $\mapsto$ \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ]\rm \}  $\land$ \\
+%\rm ( \it yy $\mapsto$  \it xx\rm )  $\in$  \rm \{\rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] $\mapsto$ \rm 0 \rm , \ldots , \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ] $\mapsto$ \rm 2\rm 5\rm 5\rm \} \rm ) \\ \\ 
+%\end{tabular}
+
+
+%
+%
+%% Conclusão
+%\subsection{Final considerations }
+%%\subsection{Considerações finais sobre o estudo de caso}
+%
+%%[Importáncia de ser o primeiro modelo 1Â° utilizando as bibliotecas]%[Completamente suportado pelo método B, principalmente devido ao uso de funções que convertem as representações dos sistemas de numeração]
+%%[A importáncia das técnicas e a experiência adquirida]
+%%[Explicar como pode ser Ãºtil para avaliar a vazão]
+%%[ Finalmente, argumento mais importante : A técnica está sendo viabilizada,
+%% pois o maior custo do processo está diminuindo devido aos avanços do atelierb e as técnicas descobertas  ]
+%
+%
+%The \textit{TestCalc\_basm} model was the first developed model according to
+%the proposal of \cite{Dantas_SBMF08} using the hardware and integer libraries. These
+%libraries contain type definitions, functions and lemmas that
+%could establish the relation between the B assembly model and its more
+%abstract model. These definitions kept the signature of operations relating to 
+%the B abstract model and the B assembly model; these simplified the
+%verification process and become more faithful to the representation of
+%microcontroller, everything without the need to extend the B method.
+%
+%% % [Importáncia do 1Â° modelo]
+%% O modelo \textit{TestCalc\_basm} foi o primeiro construído de acordo com a proposta de [Dantas et al.
+%% 2008]  utilizando as bibliotecas de \textit{hardware} e tipos inteiros. Essas bibliotecas contêm tipos,
+%% funções e lemas que possibilitaram estabelecer a relação entre o modelo B \textit{assembly} e o modelo
+%% mais abstrato. Essas definições mantiveram a assinatura das operações do modelo abstrato com relação ao B
+%% \textit{assembly}, simplificaram o processo de verificação e tornaram mais fiel a representação do
+%% microcontrolador, tudo isso sem a necessidade de estender o método B.
+%
+%The development of this model was too much important to improve the verification
+%process, because the development and verification help the design to get new
+%experiences with theorem prover (manual and interactive) and find proof
+%commands\footnote{The proof commands are steps that direct the prover to find the
+%proof, and cannot introduce false hypothesis.} that reduce too much the proof
+%process time. These experiences become the development and verification up to
+%assembly more feasible, mainly, because the most of the proof commands are
+%generic. So, these proof commands can be used again in several similar proof
+%obligations. In addition, the specification pattern used helps to model new and
+%different platforms.
+%
+%% % [A importáncia das técnicas e a experiência adquirida]
+%% A elaboração desse modelo foi muito importante para amadurecer o processo de verificação, pois a
+%% construção e verificação do modelo ajudou ao projetista adquirir experiências com o provador interativo e
+%% a descobrir comandos de prova que reduzem significativamente o tempo do processo de prova. Essa
+%% experiência torna mais viável a especificação de outros \textit{softwares} mais complexos, pois a
+%% maioria dos comandos de provas podem ser usados novamente em obrigações de prova similares e o padrão de
+%% especificação utilizado ajuda na modelagem de novas plataformas. 
+%
+%%No entanto, esse mesmo \textit{software} poderia ser acoplado em dispositivo \textit{timer} e 
+%%pois de forma bem eficiente foi resolvida  
+%%Certamente reduzem bastante o custo de verificação,
+%%pois o projetista desse modelo compreendeu a construção do invariante para linguagens assembly, 
+%%é possível aproveitar as caractéristicas das provas interativas para realizar algum tipo de automação nessa etapa,
+%%tudo indica que a construção da cláusula invariante pode ser feita por um algorítmo simples e    
+%%[Explicar como pode ser util para avaliar a vazão] ]
+%%Poderia se avaliando através da vazão, mas a modelagem ainda suporta bem aspectos temporais, por outro lado,
+%%utilizando-se de um dispotivo \textit{timer} esse mesmo \textit{software} poderia calcular o tempo de enchimento do tanque
+%%a vazão pode ser 
+%
+%Finally, the developed embedded software can work like a redundant system and it
+%could provide a better confidence and quality, because the responsible engineer
+%has one more way to analyse the production test and more warranties. So, the
+%system can also improve the effectiveness of the test, because less failed tests
+%happen.
+%
+%% %[ Importáncia para área de petróleo e gás ] Finalmente, o funcionamento do
+%% \textit{software} desenvolvido como um sistema redudante deve oferecer uma
+%% melhor confiança e qualidade, pois o engenheiro responsável terá mais um meio
+%% de comparação dos testes de produção e mais garantias. Essas garantias devem-se
+%% Ã  existência de um sistema redundante e a sua verificação formal até um dos
+%% Ãºltimos níveis de representação do \textit{software}. Logo, o sistema pode
+%% também melhorar a eficácia dos testes, visto que menos testes falhos podem
+%% existir.
+%
 
 
 \section{A B model of the Z80 instruction set}
@@ -1264,7 +1549,10 @@ is also envisioned. Finally, another important activity is develop a formal mode
 
 
 
-\subsubsection{Acknowledgements:} This experiment could not have succeeded without the interesting work of Michael Leuschel who developed several improvements in the ProB and provided important aid to enable the animation of the Z80 modeling.
+\subsubsection{Acknowledgements:} The animation of the model would not
+have been possible without the help of Michael Leuschel who kindly
+provided feedback and developed several improvements to ProB to meet our
+needs.
 
 % This work was partially supported by INES (www.ines.org.br),
 %funded by CNPq grant 573964/2008-4 and by CNPq grants 553597/2008-6, 550946/2007-
