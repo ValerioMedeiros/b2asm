@@ -18,7 +18,7 @@
 \geometry{a4paper} % or letterpaper (US) or a5paper or....
 
 \usepackage[english]{babel} %\usepackage{supertabular} % used in B Symbols
-\usepackage{hyperref} % add URL in bibliography
+%\usepackage{hyperref} % add URL in bibliography
 \usepackage{url} % allow add URL in document
 
 
@@ -140,12 +140,14 @@ microcontrollers is shown in its official manual using textual
 description, math description, examples, encoding, number of cycles
 and other information. Sometimes, the instruction descriptions have
 an own notation, some informations are organized in different sections
-of document and the textual description are not standardized. This
-does not allow the interpretation by parser.  The manuals also have
-semi-formal and informal descriptions, these descriptions may make
-mistakes.  The official manual of the microcontroller Z80 has also
-several problems that were identified over
-time~\cite{UndocumentedZ80}.
+of document and the textual description are not standardized. 
+The manuals also have semi-formal and informal descriptions, these descriptions
+may leave errors, inconsistency and ambiguity.  
+For example in official manual of the microcontroller Z80 \cite{Z80_manual}, if the users \marginpar{VM: Adicionei um exemplo real e uma referência  que cita vários problemas identificados no Manual do Z80.} 
+want to know the action of an instruction and its effects on the flag register then he needs
+to read an informal textual description, that  some times can be placed in different pages. 
+Furthermore, the official manual of the microcontroller Z80 has also several
+problems that were identified over time~\cite{UndocumentedZ80}.
 
 A solution to avoid ambiguity and inconsistencies is to specify
 formally the assembly instruction set, this creates a pattern of
@@ -632,21 +634,12 @@ does not create a proof obligation to check the consistency of the
 definition. However, this definition is inconsistent since $inc(1)=2$
 and $ 2 \not\in \{0,1\}$. 
 
-To avoid such inconsistencies, we state separately the required
-properties in the \textit{ASSERTIONS\/} clause, that cause
-corresponding proof obligations to be generated and verified. However,
-we have not been able to build the corresponding proofs using the base
-of rules included in the free distribution of AtelierB.
-
-A solution would be to carry out that verification with ProB
-\cite{proB}, as it is able to verify the type of functions, but its
-support is generally only suitable for finite functions. Since these
-functions use the concept of sequence (an infinite set), we have not
-succeded in showing type correctness of the conversion functions with
-ProB\marginpar{Estou perdido: não definiu tipos especiais BYTE e BV16
-  para poder usar o ProB?}. Eventually, we formalized new proof rules
-to check these properties in AtelierB and used them in the interactive
-prover of AtelierB.
+To avoid such inconsistencies, we state separately the required properties in the
+\textit{ASSERTIONS\/} clause, that cause corresponding proof obligations to be
+generated and verified. However, we have not been able to build the corresponding
+proofs using the base of rules included in the free distribution of AtelierB. So
+we formalized new proof rules to check these properties in AtelierB and used them
+in the interactive prover of AtelierB.
 
 The hardware library has many conversion functions with
 arithmetic,\marginpar{Não seria interessante ter colocado
@@ -671,9 +664,9 @@ rectangles in Figure \ref{DiagramTypesRules}.
 \end{figure}
 
 
-\textbf{We needed to verify the type of these conversion
-  functions}.\marginpar{Não precisa repetir
-  isto.} % There are twenty rules associated this properties
+%\textbf{We needed to verify the type of these conversion
+%  functions}.\marginpar{Não precisa repetir
+%  isto.} % There are twenty rules associated this properties
 The conversion functions need to satisfy two properties: to be
 bijective and equal to the reverse of the dual conversion
 function. The three simplest proof obligations were verified
@@ -1028,8 +1021,8 @@ main register set (\textit{a0,b0,c0,d0,e0,f0,h0,l0}) and alternate register set
 \begin{sloppypar}
 
 	\bf SETS\\
-	\hspace*{0.10in}\it id\_reg\_8 \rm = \rm \{ \it a0 \rm , \it f0 \rm ,\it b0 \rm , \it c0 \rm ,\it d0 \rm , \it e0 \rm ,\it h0 \rm , \it l0 \rm ,\it a\_0 \rm , \it f\_0 \rm ,\it b\_0 \rm , \it c\_0 \rm ,\it d\_0 \rm , \it e\_0 \rm ,\it h\_0 \rm , \it l\_0 \rm \};\\
-	\hspace*{0.10in}\it id\_reg\_16 \rm = \rm \{ \it BC \rm , \it DE \rm , \it HL \rm , \it SP \rm , \it AF \rm \}
+	\hspace*{0.10in}\it id\_reg\_8 \rm = \rm \{ \it a0\rm, \it f0\rm,\it b0\rm, \it c0\rm,\it d0\rm, \it e0\rm,\it h0\rm, \it l0\rm,\it a\_0\rm, \it f\_0\rm,\it b\_0\rm, \it c\_0\rm,\it d\_0\rm, \it e\_0\rm,\it h\_0\rm, \it l\_0 \rm \};\\
+	\hspace*{0.10in}\it id\_reg\_16 \rm = \rm \{ \it BC\rm, \it DE\rm, \it HL\rm, \it SP\rm, \it AF \rm \}
 	
 
 \end{sloppypar}
@@ -1117,13 +1110,13 @@ address for: programs instructions, general purpose data and data stack.
  \emph{To assure that address regions are well defined, then the designer must to verify the expression:}
 %\begin{sloppypar}
 %\hspace*{0.10in}
-\it PROGRAM\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ STACK\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ PROGRAM\_R\_ADR $\cap$  STACK\_R\_ADR  $=$ \{\} 
+\it PROGRAM\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ STACK\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ PROGRAM\_R\_ADR $\cap$  STACK\_R\_ADR  $=$ \{\} \rm
 %\end{sloppypar}
  
 \textbf{Preserving the consistency of the memory:} \emph{In general, the access to
 some address regions is dangerous. Then, each instruction has a specific pre-condition that verify
 if the new address memory, that will be updated, is member of its region. For example, the $\textit{PUSH}$
-program instruction allows write only in the region of stack ($\textit{STACK\_R\_ADR}$).}
+program instruction allows write only in the region of stack ($\textit{STACK\_R\_ADR}$\rm).}
 
 
 
@@ -1206,9 +1199,7 @@ The other instructions have a similar structure.
 
 \hspace*{0.00in}\bf LD\_9nn0\_A \rm ( \it nn \rm ) \rm =
 
-\hspace*{0.20in}\bf PRE \it nn $\in$ \it USHORT\hspace*{0.15in} $\land$ \hspace*{0.10in}\it nn\hspace*{0.10in} $\in$  \it DATA\_R\_ADR
-
-\hspace*{0.20in}\bf THEN
+\hspace*{0.20in}\bf PRE \it nn $\in$ \it USHORT\hspace*{0.15in} $\land$ \hspace*{0.10in}\it nn\hspace*{0.10in} $\in$  \it DATA\_R\_ADR \hspace*{0.10in}\bf THEN
 
 \hspace*{0.20in}\bf updateAddressMem \rm ( \it ushort\_bv16 \rm ( \it nn \rm ) \rm , \it rgs8 \rm ( \it a0 \rm )
 \rm )  $\para$
@@ -1232,9 +1223,7 @@ by the following B operation. It receives an register identifier ``$\textit{rr}$
 
 \hspace*{0.0in}\bf PRE \it rr  $\in$  \it id\_reg\_8  $\land$  \it rr  $\not =$  \it f0\hspace*{0.15in}\bf THEN
 
-\hspace*{0.20in}\bf ANY
-
-\hspace*{0.40in}\it negative \rm , \it zero \rm , \it half\_carry \rm , \it pv \rm , \it add\_sub \rm , \it carry
+\hspace*{0.20in}\bf ANY \hspace*{0.10in}\it negative \rm , \it zero \rm , \it half\_carry \rm , \it pv \rm , \it add\_sub \rm , \it carry
 
 \hspace*{0.20in}\bf WHERE 
 
@@ -1258,6 +1247,8 @@ $\land$ \it pv $\in$ \it BIT $\land$
 \hspace*{0.40in}\it update\_flag\_reg\rm (\it negative\rm,\it zero\rm,\it half\_carry\rm,\it pv\rm,\it add\_sub\rm,\it carry)\rm\}$\para$
 
 \hspace*{0.40in}\it pc \rm := \it instruction\_next \rm ( \it pc \rm )  $\para$  \it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
+
+\hspace*{0.20in}\bf END
 
 \hspace*{0.0in}\bf END \rm
 
@@ -1481,7 +1472,7 @@ and analyse several important properties.
 
  
 
-\section{Related works}
+\section{Related work}
 \label{sec:relatedworks}
 
 There are in the literature several similar approaches to model hardware and instruction set using B.
