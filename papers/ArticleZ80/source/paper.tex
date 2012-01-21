@@ -41,7 +41,7 @@
 %
 \begin{document}
 
-\title{Experiences in Modelling a Microcontroller Instruction Set Using B}
+\title{Experience in Modeling a Microcontroller Instruction Set Using B}
 %
 \hyphenation{se-pa-ra-te}
 \hyphenation{in-struc-tion}
@@ -63,17 +63,18 @@
 \begin{abstract}
 
 
-The rigorous development of an embedded software in a microcontroller requires 
-a specification of its instruction set and the software requirements specification. 
-The actual industrial practice is to report the instruction set informally using natural language
-or with added semi-formal notation. This practice may leave space for errors and inconsistencies \cite{springerlink:Yuan2011}.
-This paper presents specifically a B formal model of the Z80 instruction set. 
-This model  can be  used on documentation, simulation, test and  a model-driven approach
-to design and develop software from the functional specification level down to assembly.
-%Using this model-driven approach and the instruction set model, a small case study to
-%analyse a petroleum production test system in oil field was developed.
-%  
-% \paragraph[Keywords]{ \textbf{Keywords}: Embedded Software, Simulation, B
+The rigorous development of an embedded software in a microcontroller requires a
+specification of its instruction set and the software requirements specification.
+The actual industrial practice is to document the instruction set informally
+using natural language or with added semi-formal notation. This practice leaves
+space for errors and inconsistencies \cite{springerlink:Yuan2011}. This paper
+presents specifically a B formal model of the Z80 instruction set. This model 
+can be  used to document, simulate, test and in a model-driven approach to
+design and develop software from the functional specification level down to
+assembly.
+% Using this model-driven approach and the instruction set model, a small case
+% study to analyse a petroleum production test system in oil field was developed.
+%  \paragraph[Keywords]{ \textbf{Keywords}: Embedded Software, Simulation, B
 % method and Verification%}
 \end{abstract}
 
@@ -134,10 +135,8 @@ compilation approach in B.
 \subsection{Problems in formalizing instruction set}
 % Compact version 
 
-In general, the manuals of microcontrollers can be more suited for \marginpar{DD: o título da sub-seção não condiz com seu conteúdo. Não cita nenhum problema na formalização. Não vejo muito bem o que ele traz de novo que já não foi dito anteriormente.}
-developers in assembly language. Many times, each instruction of
-microcontrollers is shown in its official manual using textual
-description, math description, examples, encoding, number of cycles
+Many times, each instruction of microcontrollers is shown in its official manual
+using textual description, math description, examples, encoding, number of cycles
 and other information. Sometimes, the instruction descriptions have
 an own notation, some informations are organized in different sections
 of document and the textual description are not standardized. 
@@ -145,7 +144,7 @@ The manuals also have semi-formal and informal descriptions, these descriptions
 may leave errors, inconsistency and ambiguity.  
 For example in official manual of the microcontroller Z80 \cite{Z80_manual}, if the users \marginpar{VM: Adicionei um exemplo real e uma referência  que cita vários problemas identificados no Manual do Z80.} 
 want to know the action of an instruction and its effects on the flag register then he needs
-to read an informal textual description, that  some times can be placed in different pages. 
+to read an informal textual description, that  sometimes can be placed in different pages. 
 Furthermore, the official manual of the microcontroller Z80 has also several
 problems that were identified over time~\cite{UndocumentedZ80}.
 
@@ -572,7 +571,7 @@ Usually, each type module just needs to specialize definitions that
 are given in the hardware modeling library.  For example, the function
 $\textit{bv\_to\_nat}$ from bit vector arithmetic is specialized to
 $\textit{byte\_uchar}$. As the set $\textit{BYTE}$ is a subset of the
-$\textit{BIT\_VECTOR}$, this function can defined as follows:
+$\textit{BIT\_VECTOR}$, this function can be defined as follows:
 $$
 \begin{array}{l}
 \textit{byte\_uchar} \in \textit{BYTE} \fun \nat \land \\
@@ -626,7 +625,7 @@ AtelierB.
 \label{sec:VerificationHardwareLibrary}
 
 This section presents the verification of the aforementioned modules
-using the AtelierB provers.  By default, AtelierB~\cite{atelierB} does
+using AtelierB provers.  By default, AtelierB~\cite{atelierB} does
 not generate proof obligations of the type of functions defined in the
 clause $PROPERTIES$ of a machine. For example, the definition $inc \in
 \{0,1\} \fun \{0,1\} \land inc = \lambda(x).( x \in \{0,1\} | x + 1)$,
@@ -670,7 +669,7 @@ rectangles in Figure \ref{DiagramTypesRules}.
 The conversion functions need to satisfy two properties: to be
 bijective and equal to the reverse of the dual conversion
 function. The three simplest proof obligations were verified
-automatically with the AtelierB: (\it uchar\_schar\rm \ $\in$
+automatically with AtelierB: (\it uchar\_schar\rm \ $\in$
 \textit{UCHAR} $\bij$ \textit{SCHAR}), (\it schar\_uchar\rm \ $\in$
 \textit{SCHAR} $\bij$ \textit{UCHAR}) and (\it byte\_bv16\rm \ $=$ \it
 bv16\_byte\rm $^{-1}$).
@@ -724,39 +723,47 @@ one example each:
 
 \begin{enumerate}
 
-\item The proof obligation (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$ \textit{UCHAR}) and its expansion in rule format is:\\ 
+\item For the proof obligation (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$
+\textit{UCHAR}), the proof rule is:\\
 $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm $\in$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )  $\bij$  \rm 0 $\upto$ \rm 2\rm 5\rm 5 \\
 
-\item The proof obligation (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{BYTE}) and its expansion in rule format is:\\ 
-$\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$  \rm 8)$\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$  \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm ) \rm   $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5   $\bij$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )\\
+\item For the proof obligation (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$
+\textit{BYTE}), the proof rule is:\\ $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$  \rm 8)$\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$  \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm ) \rm   $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5   $\bij$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )\\
 
 
-\item  The proof obligation (\it byte\_uchar\rm  =  \it uchar\_byte\rm$^{-1}$) and its expansion in rule format is:\\ 
-  $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )=($\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$ \rm 8) $\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$ \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm )\rm)$^{-1}$
+\item For the proof obligation (\it byte\_uchar\rm  =  \it
+uchar\_byte\rm$^{-1}$), the proof rule is:\\ $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )=($\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$ \rm 8) $\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$ \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm )\rm)$^{-1}$
 \end{enumerate}
 
-Finally, four proof obligations are using rules to demonstrate that
-the functions are finite\marginpar{Qual o objetivo de provar que as funções são finitas?}
-: \it byte\_uchar $ \in \finset$\rm (\it
-byte\_uchar\rm ); \it uchar\_byte $ \in \finset$\rm (\it
-uchar\_byte\rm ); \it ushort\_bv16 $ \in \finset$\rm (\it
-ushort\_bv16\rm ) and \it bv16\_ushort $ \in \finset$\rm (\it
-bv16\_ushort\rm ).
-\begin{enumerate}
-\item  The proof obligation (\it byte\_uchar $\in$   $\finset$ \rm (\it byte\_uchar\rm )) and its 
-expansion in rule format is\marginpar{Não entendi esta expansão.}:\\
-  $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) $\in$   $\finset$ \rm ( $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )\rm )  \\
+Eight proof obligations require that conversion functions are finite. %: \it
+% byte\_uchar $\in$ $\finset$\rm (\it byte\_uchar\rm ); \it uchar\_byte  $\in$
+% $\finset$\rm (\it uchar\_byte\rm ); \it ushort\_bv16 $ \in \finset$\rm (\it
+% ushort\_bv16\rm ); \it bv16\_ushort $ \in \finset$\rm (\it bv16\_ushort\rm ); \it
+% byte\_schar $ \in \finset$\rm (\it byte\_schar\rm ); \it schar\_byte $ \in
+% \finset$\rm (\it schar\_byte\rm ); \it sshort\_bv16 $ \in \finset$\rm (\it
+% sshort\_bv16\rm ); and \it bv16\_sshort $ \in \finset$\rm (\it bv16\_sshort\rm).
+ These proof obligations were verified using the expression evaluator of ProB.
+Finally, we have included rules related to binary arithmetic as developed
+in~\cite{Leibnizens}. These rules are used in the interactive theorem prover with
+binary arithmetic to prove important properties~\cite{James2010,Dasgupta2006}.
 
 
-\end{enumerate}
+
+% Finally, four proof obligations  are using rules to demonstrate that
+% the functions are finite\marginpar{Qual o objetivo de provar que as funções são finitas?}
+% : \it byte\_uchar $ \in \finset$\rm (\it
+% byte\_uchar\rm ); \it uchar\_byte $ \in \finset$\rm (\it
+% uchar\_byte\rm ); \it ushort\_bv16 $ \in \finset$\rm (\it
+% ushort\_bv16\rm ) and \it bv16\_ushort $ \in \finset$\rm (\it
+% bv16\_ushort\rm ).
+% \begin{enumerate}
+% \item  For the proof obligation (\it byte\_uchar $\in$   $\finset$ \rm (\it byte\_uchar\rm )) , the proof rule is:\\
+%   $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) $\in$   $\finset$ \rm ( $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )\rm )  \\
+% 
+% 
+% \end{enumerate}
 
 
-We have included twenty four rules related to binary arithmetic
-as\marginpar{Qual a motivação para provar estas propriedades? Parece
-  estar fora do escopo do trabalho apresentado no artigo.}  developed
-in~\cite{Leibnizens}. These rules are used in the interactive theorem
-prover with binary arithmetic to prove important
-properties~\cite{James2010,Dasgupta2006}.
 
 %
 %To guarantee these rules, a demonstration will be shown. We need verify if (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$ \textit{UCHAR}) then four conditions must be verified.
@@ -1021,8 +1028,11 @@ main register set (\textit{a0,b0,c0,d0,e0,f0,h0,l0}) and alternate register set
 \begin{sloppypar}
 
 	\bf SETS\\
-	\hspace*{0.10in}\it id\_reg\_8 \rm = \rm \{ \it a0\rm, \it f0\rm,\it b0\rm, \it c0\rm,\it d0\rm, \it e0\rm,\it h0\rm, \it l0\rm,\it a\_0\rm, \it f\_0\rm,\it b\_0\rm, \it c\_0\rm,\it d\_0\rm, \it e\_0\rm,\it h\_0\rm, \it l\_0 \rm \};\\
-	\hspace*{0.10in}\it id\_reg\_16 \rm = \rm \{ \it BC\rm, \it DE\rm, \it HL\rm, \it SP\rm, \it AF \rm \}
+\hspace*{0.10in}\it id\_reg\_8 \rm = \rm \{ \it a0\rm, \it f0\rm, \it b0\rm, \it
+c0\rm, \it d0\rm, \it e0\rm, \it h0\rm, \it l0\rm, \it a\_0\rm,  \it f\_0\rm,
+\it b\_0\rm, \it c\_0\rm, \it d\_0\rm, \it e\_0\rm, \it h\_0\rm, \it l\_0 \rm
+\};\\ \hspace*{0.10in}\it id\_reg\_16 \rm = \rm \{  \it AF \rm, \it BC\rm, \it
+DE\rm, \it HL\rm, \it SP\rm\}
 	
 
 \end{sloppypar}
@@ -1441,10 +1451,17 @@ f0 $\mapsto$ \rm [0,0,0,0,0,0,0,0] \rm \} $\para$
 
 % The animation
 
-The modeling of instruction set, interruptions and input/output ports become the animation interesting.
-The animation in ProB version is not so fast and practical as a simulation, for example in \cite{Simulator_z80},
-because ProB works manipulating logic and math concepts that can have infinite sets and non determinism, then ProB requires more processing, specially when it works analysing  complex expressions or very large expressions.
-However, a user of ProB with this modeling can: execute manually a sequence of Z80's instructions that represent a program and view the visited states of ports, memory and registers, it is important to debug the effect action on the state space computed; create a tracing of the states; analyse constants, functions and expressions; and search possible violations.
+The modeling of instruction set, interruptions and input/output ports become the
+animation interesting. The animation in ProB is not so fast and practical as a
+simulation, for example in \cite{Simulator_z80}, because ProB works manipulating
+logic and math concepts that can have infinite sets and non determinism, then
+ProB requires more processing, specially when it works analysing  complex
+expressions or very large expressions. However, a user of ProB with this modeling
+can: execute manually a sequence of Z80's instructions that represent a program
+and view the visited states of ports, memory and registers. It is important to
+debug the effect action on the state space computed; create a tracing of the
+states; analyse constants, functions and expressions; and search possible
+violations.
 
 
 
@@ -1515,16 +1532,16 @@ assembly level.
 
 % TODO: Adaptar para apenas fundamentar melhor o trabalho já desenvolvido. Citar o artigo SBMF e a dissertação. 
 % Os meus trabalhos já desenvolvidos/ resultados atuais.
-The next works quoted are directly related to the objective this paper.
+The following works quoted are directly related to the objective this paper.
 The first work \cite{DantasSemish2008} shows the developed metodology to verify
 software up to assembly level using B. A second work\cite{Dantas_SBMF08}
-presents more details about the verification approach and a small example
-software verified up to assembly level in three different platforms. 
+presents more details about the verification approach and a small 
+software that was verified up to assembly level in three different platforms. 
 The last work \cite{Valerio_SBMF09} shows a general view of the first version of Z80
 model and techniques used in verification process.
 %Link com o parágrafo anterior 
-These works created a important step to software verification up to assembly
-language, they show the actuals difficulties and suggest improvements in the
+These works created an important step to software verification up to assembly
+language, they show the current difficulties and suggest improvements in the
 B tools. 
 
 
@@ -1536,7 +1553,8 @@ B tools.
 Future works comprise the development of software with the B method from
 functional specification to assembly level, using the Z80 model presented in this
 work. The mechanic compilation from B algorithmic constructs to assembly platform
-is also envisioned. Finally, another important activity is develop a formal model of a platform used in LLVM Compiler~\cite{DBLP:conf/cgo/LattnerA04}.
+is also envisioned. Finally, another important activity is to develop a formal
+model of a platform used in LLVM Compiler~\cite{DBLP:conf/cgo/LattnerA04}.
 
 
 
