@@ -53,25 +53,23 @@
 \author{Val\'{e}rio Medeiros Jr\inst{1}, David D\'{e}harbe\inst{2}}
 
 
-\institute{ Federal Institute of Education, Science and Technology of Rio Grande do Norte, Natal RN 59015-000, Brazil
-           \and 
-		    Federal University of Rio Grande do Norte, Natal RN 59078-970, Brazil}
+\institute{Federal Institute of Education, Science and Technology of Rio Grande do Norte, Natal, RN, Brazil
+  \and 
+  Federal University of Rio Grande do Norte, Natal, RN, Brazil}
 
 \maketitle
 
 
 \begin{abstract}
 
-
-The rigorous development of an embedded software in a microcontroller requires a
-specification of its instruction set and the software requirements specification.
-The actual industrial practice is to document the instruction set informally
-using natural language or with added semi-formal notation. This practice leaves
-space for errors and inconsistencies \cite{springerlink:Yuan2011}. This paper
-presents specifically a B formal model of the Z80 instruction set. This model 
-can be  used to document, simulate, test and in a model-driven approach to
-design and develop software from the functional specification level down to
-assembly.
+  This paper presents a formal model, developed in B, of the Z80
+  instruction set. The formal model includes different libraries that
+  specify entities commonly used in microcontrolers and
+  microprocessors. Not only this model can be used for documentation
+  purposes, but also to simulate and test the assembly code. It is also
+  a fundamental component to extend the reach of the B method from the
+  specification of the functional requirements of a system to an assembly-level
+  implementation thereof.
 % Using this model-driven approach and the instruction set model, a small case
 % study to analyse a petroleum production test system in oil field was developed.
 %  \paragraph[Keywords]{ \textbf{Keywords}: Embedded Software, Simulation, B
@@ -116,45 +114,42 @@ Besides the new Z80 model, a petroleum production test system was
 developed using Z80 assembly language to analyse the code simulation
 and the verification process.
 
-Providing the formal model of an instruction set yields many
-benefits. The animation of Z80 model allows to simulate the execution
-assembly programs including support for interrupts and input and
-output instructions. Other possible uses of a formal model of a
-microcontroller instruction set include documentation, the
+The formal model of an instruction set has several
+applications. Animation allows to simulate the execution of assembly
+programs including support for interrupts, input and output
+instructions. Other possible uses include documentation, the
 construction of simulators, and can be possibly the starting point of
 a verification effort for the actual implementation of a Z80
 design. Moreover, the model of the instruction set could be
 instrumented with non-functional aspects, such as the number of cycles
 it takes to execute an instruction, to prove lower and upper bounds on
-the execution time of a routine.  Two aspects of these formalization
+the execution time of a routine.  Two aspects of such formalization
 are of particular importance to us: provide a more solid documentation
 artifact for microcontrollers and build a reference model for a formal
 compilation approach in B.
 
-
-\subsection{Problems in formalizing instruction set}
-% Compact version 
-
-Many times, each instruction of microcontrollers is shown in its official manual
-using textual description, math description, examples, encoding, number of cycles
-and other information. Sometimes, the instruction descriptions have
-an own notation, some informations are organized in different sections
-of document and the textual description are not standardized. 
-The manuals also have semi-formal and informal descriptions, these descriptions
-may leave errors, inconsistency and ambiguity.  
-For example in official manual of the microcontroller Z80 \cite{Z80_manual}, if the users  
-want to know the action of an instruction and its effects on the flag register then he needs
-to read an informal textual description, that  sometimes can be placed in different pages. 
-Furthermore, the official manual of the microcontroller Z80 has also several
-problems that were identified over time~\cite{UndocumentedZ80}.
+It is often the case that the official documentation of an instruction
+uses textual description, mathematical formulas, examples,
+etc. Sometimes, the instruction descriptions have a specific notation,
+some informations are organized in different sections of document and
+the textual descriptions are not standardized.  The manuals also have
+semi-formal and informal descriptions, these descriptions may leave
+errors, inconsistency and ambiguity.  For example, in the official
+manual of the microcontroller Z80 \cite{Z80_manual}, the semantics of
+an instruction (in particular its effects on the flag register) are
+described informally, and is this description is scattered in
+different pages.  Furthermore, the official manual of the
+microcontroller Z80 has also several problems that were identified
+over time~\cite{UndocumentedZ80}.
 
 A solution to avoid ambiguity and inconsistencies is to specify
-formally the assembly instruction set, this creates a pattern of
-representation and validates properties of instructions. The formal
-model also restricts the definitions to correct typing and uses only
-well-defined expressions. Furthermore, the developer can use with B
-method different levels of abstraction and add more specific details
-in refined models.
+formally the assembly instruction set, making it possible to prove
+properties of the instructions. The formal model also restricts the
+definitions to correct typing and uses only well-defined
+expressions. Furthermore, the developer may use the refinement
+capabilities of the B method to specify at different levels of
+abstraction and add more specific details or useful restrictions in
+refined models.
 
 %In general, the manuals of microcontrollers can be more suited for
 %developers in assembly language. Many times, each instruction of microcontrollers
@@ -625,36 +620,28 @@ AtelierB.
 \label{sec:VerificationHardwareLibrary}
 
 This section presents the verification of the aforementioned modules
-using AtelierB provers.  By default, AtelierB~\cite{atelierB} does
-not generate proof obligations of the type of functions defined in the
- $PROPERTIES$ clause of a machine. For example, the definition $inc \in
-\{0,1\} \fun \{0,1\} \land inc = \lambda(x).( x \in \{0,1\} | x + 1)$,
-does not create a proof obligation to check the consistency of the
-definition. However, this definition is inconsistent since $inc(1)=2$
-and $ 2 \not\in \{0,1\}$. 
+using AtelierB provers.  By default, AtelierB~\cite{atelierB} does not
+generate proof obligations to check the type of functions defined in
+the $PROPERTIES$ clause of a machine. For example, the definition $inc
+\in \{0,1\} \fun \{0,1\} \land inc = \lambda(x).( x \in \{0,1\} | x +
+1)$, does not create a proof obligation to check the consistency of
+the definition. However, this definition is inconsistent since
+$inc(1)=2$ and $ 2 \not\in \{0,1\}$.
 
-To avoid such inconsistencies, we state separately the required properties in the
-\textit{ASSERTIONS\/} clause, that cause corresponding proof obligations to be
-generated and verified. However, we have not been able to build the corresponding
-proofs using the base of rules included in the free distribution of AtelierB. So
-we formalized new proof rules to check these properties in AtelierB and used them
-in the interactive prover of AtelierB.
+To avoid such inconsistencies, we state separately the required
+properties in the \textit{ASSERTIONS\/} clause: this causes
+corresponding proof obligations to be generated and verified. However,
+we have not been able to build the corresponding proofs using the base
+of rules included in the free distribution of AtelierB. So we
+formalized new proof rules to check these properties in AtelierB and
+used them in the interactive prover of AtelierB.
 
-%\marginpar{Não seria interessante ter colocado
-%  esta figura mais cedo? Na seção 2.5, por exemplo? E no texto da
-%  seção 2.6 poderia enumerar os poucos casos verificados sem regras
-%  adicionais.}
 The hardware library has many conversion functions with
 arithmetic,  for example, Bit\_vector to Natural, Natural to
 Bit\_vector, Integer to Bit\_vector and Bit\_vector to Integer. These
 functions are organized in modules and each module contains auxiliary
 functions for a data type. The modules are represented by gray
 rectangles in Figure \ref{DiagramTypesRules}.
-
-%and they have the mean: \textit{BYTE} is a bit vector with eight elements enumerated
-%starting from one; \textit{UCHAR} is a range between 0 and 255; \textit{SCHAR} is a range between -128 and 127; 
-%\textit{BV16} is a bit vector with sixteen elements enumerated starting from one; \textit{USHORT} is a range 
-%between 0 and 65535; and \textit{SSHORT} is a range between -32768 and 32767.
 
 \begin{figure}[he]
 \centering
@@ -664,16 +651,12 @@ rectangles in Figure \ref{DiagramTypesRules}.
 \end{figure}
 
 
-%\textbf{We needed to verify the type of these conversion
-%  functions}.\marginpar{Não precisa repetir
-%  isto.} % There are twenty rules associated this properties
-The conversion functions need to satisfy two properties: to be
-bijective and to be equal to the reverse of the dual conversion
-function. The three simplest proof obligations were verified
-automatically with AtelierB: (\it uchar\_schar\rm \ $\in$
-\textit{UCHAR} $\bij$ \textit{SCHAR}), (\it schar\_uchar\rm \ $\in$
-\textit{SCHAR} $\bij$ \textit{UCHAR}) and (\it byte\_bv16\rm \ $=$ \it
-bv16\_byte\rm $^{-1}$).
+The conversion functions need to satisfy two properties: bijectivity
+and equality to the reverse of the dual conversion function. Three
+such proof obligations were verified automatically with AtelierB: (\it
+uchar\_schar\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{SCHAR}), (\it
+schar\_uchar\rm \ $\in$ \textit{SCHAR} $\bij$ \textit{UCHAR}) and (\it
+byte\_bv16\rm \ $=$ \it bv16\_byte\rm $^{-1}$).
 %\begin{enumerate}
 %
 %\item (\it uchar\_schar\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{SCHAR})
@@ -931,10 +914,10 @@ binary arithmetic to prove important properties~\cite{James2010,Dasgupta2006}.
 \label{sec:z80}
 
 The \textit{Z80} is a CISC microcontroller developed by
-\textit{Zilog}~\cite{Z80_manual}. The Z80 is composed by different elements and a
-simplified internal organization is shown in the Figure \ref{fig:DiagramBlock}.
-This figure has some important elements of Z80 CPU: ALU, registers of 8 and 16
-bits and input/output ports.
+\textit{Zilog}~\cite{Z80_manual}. The Z80 is composed by different
+elements and a simplified internal organization is shown in the Figure
+\ref{fig:DiagramBlock}.  This figure has some important elements of
+Z80 CPU: ALU, registers of 8 and 16 bits and input/output ports.
 
 \begin{figure}[h] \centering
 \includegraphics[width=0.70\textwidth]{images/Architecture.png}
@@ -1496,10 +1479,24 @@ and analyse several important properties.
 \section{Related work}
 \label{sec:relatedworks}
 
-There are in the literature several similar approaches to model hardware and instruction set using B.
-The paper \cite{springerlink:Yuan2011} reports a method to specify, design and construct sound and complete instruction set model by stepwise refinement and formal proof using Event-B. It also discusses about desirable properties of instruction set model. However, our work \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B method, that seems quite appropriated to software development, because it has 
-an implementable language defined, called B0, a model-driven approach \cite{Dantas_SBMF08} to develop software from the functional specification level down to assembly, and tools to convert the models to a programming language. An related experience on using B in the design of secure micro-controllers is present in \cite{Marc20113}. It tries to show the feasibility of such a technique for high confidence trustful devices. The work \cite{Subotic2010} describes a similar approach with MIPS CPU architecture and it shows how the CPU is formally specified and implemented using the B method.
+There exists several approaches to model hardware and instruction set
+using B a.  The paper \cite{springerlink:Yuan2011} reports a method to
+specify, design and construct sound and complete instruction set model
+by stepwise refinement and formal proof using Event-B. It also
+discusses desirable properties of the instruction set model. However,
+our work \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B
+method, that seems quite appropriated to software development, because
+it has an implementable language defined, called B0, a model-driven
+approach \cite{Dantas_SBMF08} to develop software from the functional
+specification level down to assembly, and tools to convert the models
+to a programming language. 
 
+A related experience on using B in the design of secure
+micro-controllers is present in \cite{Marc20113}. It tries to show the
+feasibility of such a technique for high confidence trustful
+devices. The work \cite{Subotic2010} describes a similar approach with
+MIPS CPU architecture and it shows how the CPU is formally specified
+and implemented using the B method.
 
 % 
 %There are in the literature several
@@ -1524,39 +1521,43 @@ an implementable language defined, called B0, a model-driven approach \cite{Dant
 \label{sec:conclusions} 
 
 % Um pequeno resumo do trabalho
-This work has shown an approach to the formal modeling of the instruction set of
-microcontroller using the B method.  During the construction of this model, some
-problems were found in the official reference for Z80
-microcontroller~\cite{Z80_manual}. We have consulted different sources \cite{Simulator_z80,UndocumentedZ80,Z80_manual}  to avoid problems in modeling and have developed a case study: a verified embedded software.
-This case study was interesting to analyse the technique of formal verification up to assembly level. 
+This work has shown an approach to the formal modeling of the
+instruction set of microcontroller using the B method.  During the
+construction of this model, some problems were found in the official
+reference for Z80 microcontroller~\cite{Z80_manual}. We have consulted
+different sources \cite{Simulator_z80,UndocumentedZ80,Z80_manual} to
+avoid such problems in modeling and have developed a case study: a
+verified embedded software.  This case study was interesting to as a
+feasibility analysis of the approach to derive formally assembly code
+from a specification of functional requirements in the B method.
 
 % TODO: Adaptar para apenas fundamentar melhor o trabalho já desenvolvido. Citar o artigo SBMF e a dissertação. 
 % Os meus trabalhos já desenvolvidos/ resultados atuais.
-The following works quoted are directly related to the objective this paper.
-The first work \cite{DantasSemish2008} shows the developed metodology to verify
-software up to assembly level using B. A second work\cite{Dantas_SBMF08}
-presents more details about the verification approach and a small 
-software that was verified up to assembly level in three different platforms. 
-The last work \cite{Valerio_SBMF09} shows a general view of the first version of Z80
-model and techniques used in verification process. Basically, the new Z80 model presented here has added support for animation in ProB and the representation of external actions (interruptions).
+The following works are directly related to the objective this paper.
+The approach to develop verified software down to the assembly level
+using B was described in~\cite{DantasSemish2008}. A first case study
+for this approach was reported in~\cite{Dantas_SBMF08}, presenting
+more details as well as a small software that developed up to assembly
+level in three different platforms. A general view of a previous used
+in verification process were presented in~\cite{Valerio_SBMF09}. The
+model presented in the current paper added support for animation in
+ProB and the representation of external actions (interruptions).
 %Link com o parágrafo anterior 
-These works created an important step to software verification up to assembly
-language, they show the current difficulties and suggest improvements in the
-B tools. 
-
-
-
+This set of papers present an important step to software verification
+up to assembly language, showing the current difficulties and
+suggesting improvements in tools supporting the B method.
 
 % TODO
 % [Trabalhos futuros ] LLVM:Existe também a pretensão de especificar as
 
-Future works comprise the development of software with the B method from
-functional specification to assembly level, using the Z80 model presented in this
-work. The mechanic compilation from B algorithmic constructs to assembly platform
-is also envisioned. Finally, another important activity is to develop a formal
-model of a platform used in LLVM Compiler~\cite{DBLP:conf/cgo/LattnerA04}.
-
-
+In the future, we plan to improve the support for the development of
+software with the B method from functional specification to assembly
+level, using the Z80 model presented in this work. For instance, the
+mechanic compilation from B algorithmic constructs to assembly
+platform is also envisioned. Finally, another important activity is to
+develop a formal model of a platform used in LLVM
+Compiler~\cite{DBLP:conf/cgo/LattnerA04}, which would enable us to
+integrate different compilation techniques into our B-based framework.
 
 \subsubsection{Acknowledgements:} The animation of the model would not
 have been possible without the help of Michael Leuschel who kindly
