@@ -1354,10 +1354,9 @@ $\textit{pc\_low}$ holds the least significant 8 bits.}.
 
  \begin{itemize}
    
-  \item The mode 0 is compatible with 8080 and this mode is selected when \it im \rm = \rm ( \rm 0 $\mapsto$  \rm 0 \rm ). When a 
-  non-maskable interrupt happens, the CPU fetches an instruction of one byte
+  \item The mode 0 is compatible with 8080 and this mode is selected when \it im \rm = \rm ( \rm 0 $\mapsto$  \rm 0 \rm ). When a  non-maskable interrupt happens, the CPU fetches an instruction of one byte
   from an external device, usually an RST instruction, and the CPU executes it.
-  The instruction code is received from an external device by data bus and it is represented by integer parameter called $\textit{byte\_bus}$ .
+  The instruction code is received from an external device by data bus and it is represented by integer parameter called $\textit{byte\_bus}$.
 
  
   \item The mode 1 is the simplest and this mode is selected when \it im \rm = \rm ( \rm 0  $\mapsto$  \rm 1
@@ -1481,8 +1480,8 @@ because the changes in Z80 model are recent and the verification time is long.
 
 A case study using the first version of Z80 model was also created and verified
 since the first abstract B model up to B assembly model. This case study is an
-object of the pilot project developed to analyse a petroleum production test
-system in each oil field. Its modeling was developed in according to \cite{LAUT_SERGIO}
+object from the pilot project developed to analyse a petroleum production test
+system in each oil field. Its modeling was developed according to \cite{LAUT_SERGIO}
 and its B assembly model can be executed manually in ProB. The modeling of
 instruction set and the B assembly model allow to simulate the execution of microcontroller
 and analyse several important properties.
@@ -1493,9 +1492,8 @@ and analyse several important properties.
 \label{sec:relatedworks}
 
 There are in the literature several similar approaches to model hardware and instruction set using B.
-The paper \cite{springerlink:Yuan2011} reports a method to specify, design and construct sound and complete instruction set model by stepwise refinement and formal proof using the formal method Event-B. It also discuss about desirable properties of instruction set model. However, our work \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B method, that seems more appropriated to software development, because it has implementable language defined, 
-called B0, and tools to convert the models to a programming language.
-In \cite{Marc20113} is present an related experience on using B in the design of secure micro-controllers. It tries to show the feasibility of such a technique for high confidence trustful devices. The work \cite{Subotic2010} describes a similar approach with MIPS CPU architecture and it shows how the CPU is formally specified and implemented using the B method.
+The paper \cite{springerlink:Yuan2011} reports a method to specify, design and construct sound and complete instruction set model by stepwise refinement and formal proof using Event-B. It also discusses about desirable properties of instruction set model. However, our work \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B method, that seems quite appropriated to software development, because it has 
+an implementable language defined, called B0, a model-driven approach \cite{Dantas_SBMF08} to develop software from the functional specification level down to assembly, and tools to convert the models to a programming language. An related experience on using B in the design of secure micro-controllers is present in \cite{Marc20113}. It tries to show the feasibility of such a technique for high confidence trustful devices. The work \cite{Subotic2010} describes a similar approach with MIPS CPU architecture and it shows how the CPU is formally specified and implemented using the B method.
 
 
 % 
@@ -1522,13 +1520,10 @@ In \cite{Marc20113} is present an related experience on using B in the design of
 
 % Um pequeno resumo do trabalho
 This work has shown an approach to the formal modeling of the instruction set of
-microcontroller using the B method. During the construction of this model, some
+microcontroller using the B method.  During the construction of this model, some
 problems were found in the official reference for Z80
-microcontroller~\cite{Z80_manual}. The designer fixed the found problems in
-documentation and also developed a case study: a verified embedded software. This
-case study was interesting to analyse the technique of formal verification up to
-assembly level. 
-
+microcontroller~\cite{Z80_manual}. We have consulted different sources \cite{Simulator_z80,UndocumentedZ80,Z80_manual}  to avoid problems in modeling and have developed a case study: a verified embedded software.
+This case study was interesting to analyse the technique of formal verification up to assembly level. 
 
 % TODO: Adaptar para apenas fundamentar melhor o trabalho já desenvolvido. Citar o artigo SBMF e a dissertação. 
 % Os meus trabalhos já desenvolvidos/ resultados atuais.
@@ -1538,7 +1533,7 @@ software up to assembly level using B. A second work\cite{Dantas_SBMF08}
 presents more details about the verification approach and a small 
 software that was verified up to assembly level in three different platforms. 
 The last work \cite{Valerio_SBMF09} shows a general view of the first version of Z80
-model and techniques used in verification process.
+model and techniques used in verification process. Basically, the new Z80 model presented here has added support for animation in ProB and the representation of external actions (interruptions).
 %Link com o parágrafo anterior 
 These works created an important step to software verification up to assembly
 language, they show the current difficulties and suggest improvements in the
