@@ -1,0 +1,190 @@
+\documentclass{entcs} 
+\usepackage{entcsmacro}
+\usepackage{graphicx}
+\sloppy
+% The following is enclosed to allow easy detection of differences in
+% ascii coding.
+% Upper-case    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+% Lower-case    a b c d e f g h i j k l m n o p q r s t u v w x y z
+% Digits        0 1 2 3 4 5 6 7 8 9
+% Exclamation   !           Double quote "          Hash (number) #
+% Dollar        $           Percent      %          Ampersand     &
+% Acute accent  '           Left paren   (          Right paren   )
+% Asterisk      *           Plus         +          Comma         ,
+% Minus         -           Point        .          Solidus       /
+% Colon         :           Semicolon    ;          Less than     <
+% Equals        =3D           Greater than >          Question mark ?
+% At            @           Left bracket [          Backslash     \
+% Right bracket ]           Circumflex   ^          Underscore    _
+% Grave accent  `           Left brace   {          Vertical bar  |
+% Right brace   }           Tilde        ~
+
+% A couple of exemplary definitions:
+
+\newcommand{\Nat}{{\mathbb N}}
+\newcommand{\Real}{{\mathbb R}}
+
+\def\lastname{Martins Moreira}
+
+\begin{document}
+\begin{frontmatter}
+  \title{Modeling the Java Card API (or Interface?) in B} \author{A. Martins Moreira\thanksref{ALL}\thanksref{anamaria}}
+  \address{DIMAp-UFRN, Natal, RN, Brazil} \author{Simone - Bruno - David \thanksref{coemail}}
+  \address{DIMAp-UFRN, Natal, RN, Brazil} \thanks[ALL]{INES-CAPES-projeto GD?... o que mais?} \thanks[anamaria]{Email:
+    \href{mailto:anamaria@dimap.ufrn.br} {\texttt{\normalshape
+        anamaria@dimap.ufrn.br}}} \thanks[coemail]{Email:
+    \href{mailto:couserid@codept.coinst.coedu} {\texttt{\normalshape
+        couserid@codept.coinst.coedu}}}
+
+% AMM: Precisa ser arrumado: The ENTCS macro package provides two alternatives to listing authors
+% names and addresses.  These are described in detail in the file
+% \texttt{instraut.dvi}. Basically, listing each author and his or her
+% address in turn, is the simplest method.  But, if there are several
+% authors and two or more share the same address (but not all authors
+% are at this address), then the method of listing authors first, and
+% then the addresses, and of referencing addresses to authors should be
+% used.
+
+
+\begin{abstract} 
+  The B method development process starts from an abstract model of a
+  set of services that are to be developed, and includes formally
+  verified refinements, which introduce implementation details. At a
+  final refinement step these implementation details depend on the
+  language for which code is to be generated. To rigorously develop
+  Java Card Applications with the B method, then, it is necessary to
+  model in B the constructs of Java Card, so that the gap between the
+  B formally verified implementation model and the Java Card generated
+  code is as small as it can be. In the context of the BSmart project,
+  we have developed the specification of the Java Card Application
+  Programming Interface (Java Card API), to be used in the development
+  of Java Card applications with B.
+\end{abstract}
+\begin{keyword}
+  Java Card, smart cards, B method, formal methods
+\end{keyword}
+\end{frontmatter}
+\section{Introduction}\label{intro}
+
+In the context of the BSmart project, we are interested in the use of
+B to develop Java Card~\cite{chen:2000} applications.  Java Card is a
+restricted and optimized version of Java which allows memory and
+processor constrained devices, such as smart cards, to store and run
+small applications.  Java Card applications have characteristics
+(small size and need for security) which make then good candidates for
+formal development with the B method. They also present some
+regularity of structure that induced our group into the definition of
+a method and a tool which specialize B for development of such
+applications, providing greater support for the developer than pure B
+tools \cite{atelierB, proB}. They are the BSmart method and tool
+presented in \cite{mainpapers}.
+
+Previous works have also dealt with B for Java Card, \cite{BOM,
+  JBTools e cia}, but none has, at our knowledge, specified Java Card
+in B so that the formal development includes Java Card aspects. In the
+first versions of BSmart \cite{}, these aspects were included by the code
+ganerator, and in JBTools \cite{}, the generated code needed to be edited by
+the developer to include these aspects.
+
+These works lacked then the ability to formally verify the Java Card
+dependent aspects of the application. To be able to change this, a B
+specification of these aspects is needed, and this contribution is
+what we present in this paper: the B specification of the Java Card
+API, with...  This specification can be used with the BSmart tool,
+independently, in any B tool, or even as a complement to the official
+Java Card documentation \cite{}.
+
+In the following...
+
+\section{Smart Cards and Java Card}\label{sec:javacard}
+
+
+AMM: TRECHOS EXTRAIDOS E JA UM POUCO ALTERADOS DO ABZ 2010. DEPENDENDO
+DO QUE VAMOS MOSTRAR NA ESPECIFICAÇAO PODEMOS DEIXAR MAIS OU MENOS
+DETALHES AQUI. NO FINAL, PRECISAMOS VERIFICAR QUE NAO COPIAMOS DEMAIS
+O QUE ESTAVA LA.
+
+A smart card application is distributed between on-card and off-card
+components.  The server application on the card side (called applet)
+provides the application services. The off-card client (called host
+application) resides in a computer or electronic terminal.
+
+The information exchange between the host and card applications is
+made through a a half-duplexed low level protocol, named
+\emph{Application Protocol Data Unit} (APDU).  The ISO 7816-4 standard
+specifies two kinds of APDU's, which are the command and the response
+APDU (Figure~\ref{fig:APDUs}). Both specify data packets. A command APDU
+is sent by the host, requiring some applet service and a response APDU is
+sent by the applet, responding to the host request with the result of the
+service processing.
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[scale=0.3]{figs/comandoAPDU.jpg}
+%\includegraphics[scale=0.3]{figs/respostaAPDU.jpg}
+\caption{Command and response APDUs. Source:~\cite{ortiz1intro:2003}}
+\label{fig:APDUs}
+\end{figure}
+
+The main component of the Java Card platform (Figure~\ref{fig:jcre})
+is its runtime environment (JCRE), composed of a Java Card Virtual
+Machine (JCVM), an API, and, usually, system and
+industry-specific classes~\cite{chen:2000}. The JCRE acts as a small
+operating system, being responsible for the control of the application
+lifetime, security and resource management.
+
+\begin{figure}[h]
+\centering
+%\includegraphics[width=0.35\textwidth]{figs/jcplatform.png}
+\caption{Java Card platform components. Adapted from:~\cite{ortiz1intro:2003}}
+\label{fig:jcre}
+\end{figure}
+
+
+\paragraph{Java Card applets}\label{sec:applets}
+
+A Java Card applet is a class that inherits the
+\emph{javacard.framewok.Applet} class of the Java Card API and is
+implemented upon the Java Card subset of Java.  During the applet
+conversion for card installation, a verification phase is performed to
+check conformance of the classes with Java Card restrictions.
+
+The current usual Java Card specification (2.2.x) allows two kinds of
+applets.  The older, and most commonly used, kind of applet manipulates
+directly the APDU protocol packages while the newer one abstracts from
+the lower level protocol using Remote Method Invocation (RMI). In this
+paper we will call the lower level applet \emph{APDU applet} and the
+higher level one, \emph{RMI applet}. RMI introduces a layer of
+abstraction above the APDU protocol, and, due to this fact, it is usually
+less efficient than APDU applets.
+
+
+\section{B specification of the Java Card API}
+
+\section{Using the model in BSmart}
+
+Uma discussão a ser feita quanto a essa parte:
+
+ainda não publicamos nada em revista relacionado ao BSmart - como já
+tem muitas publicações pontuais, acho que uma possibilidade de
+publicar em revista seria fazer algo muito completo: método,
+ferramenta, host e cartão, kit, estudo(s) de caso, verificações de
+correção... A dúvida então é: será que falar aqui do passport vai
+prejudicar uma publicação mais importante? Vamos tentar essa
+publicação mais importante ou não? Eu acho que podemos usar o passport aqui só para mostrar um exemplo concreto de uso da especificação da API, sem focar na parte da avaliação do BSmart. Concordam?
+ 
+
+
+
+
+
+
+
+\section{Conclusions}
+
+
+
+\bibliographystyle{plain}
+\bibliography{bib}
+
+\end{document}
