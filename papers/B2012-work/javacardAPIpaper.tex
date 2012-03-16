@@ -28,13 +28,41 @@
 
 \begin{document}
 \begin{frontmatter}
-  \title{Modeling the Java Card API (or Interface?) in B} \author{A. Martins Moreira\thanksref{ALL}\thanksref{anamaria}}
-  \address{DIMAp-UFRN, Natal, RN, Brazil} \author{Simone - Bruno - David \thanksref{coemail}}
-  \address{DIMAp-UFRN, Natal, RN, Brazil} \thanks[ALL]{INES-CAPES-projeto GD?... o que mais?} \thanks[anamaria]{Email:
+%  \title{Modeling the Java Card API (or Interface?) in B} \author{A. Martins Moreira\thanksref{ALL}\thanksref{anamaria}}
+%  \address{DIMAp-UFRN, Natal, RN, Brazil} \author{S. de Oliveira Santos \thanksref{simone}}
+%  \address{DIMAp-UFRN, Natal, RN, Brazil} \author{B. Emerson Gurgel Gomes \thanksref{bruno}}
+%    \address{IFRN, Currais Novos, RN, Brazil} \author{D. Boris Paul D\'{e}harbe \thanksref{david}}
+%      \address{DIMAp-UFRN, Natal, RN, Brazil} \thanks[ALL]{INES-CAPES-projeto GD?... o que mais?} \thanks[anamaria]{Email:
+%    \href{mailto:anamaria@dimap.ufrn.br} {\texttt{\normalshape
+%        anamaria@dimap.ufrn.br}}} 
+%      \thanks[simone]{Email:
+%    \href{mailto:simone82@ppgsc.ufrn.br} {\texttt{\normalshape
+%        simone82@ppgsc.ufrn.br}}}
+%      \thanks[bruno]{Email:
+%    \href{mailto:bruno.gurgel@ifrn.edu.br} {\texttt{\normalshape
+%        bruno.gurgel@ifrn.edu.br}}}
+%       \thanks[david]{Email:
+%    \href{mailto:david@dimap.ufrn.br} {\texttt{\normalshape
+%        david@dimap.ufrn.br}}}
+
+  \title{Modeling the Java Card API (or Interface?) in B} \author[ufrn]{A. Martins Moreira\thanksref{ALL}\thanksref{anamaria}}
+  \author[ufrn]{S. de Oliveira Santos \thanksref{simone}}
+  \author[ifrn]{B. Emerson Gurgel Gomes \thanksref{bruno}}
+  \author[ufrn]{D. Boris Paul D\'{e}harbe \thanksref{david}}
+  \address[ufrn]{DIMAp-UFRN, Natal, RN, Brazil} \thanks[ALL]{INES-CAPES-projeto GD?... o que mais? REUNI?}  \address[ifrn]{IFRN, Currais Novos, RN, Brazil} 
+ \thanks[anamaria]{Email:
     \href{mailto:anamaria@dimap.ufrn.br} {\texttt{\normalshape
-        anamaria@dimap.ufrn.br}}} \thanks[coemail]{Email:
-    \href{mailto:couserid@codept.coinst.coedu} {\texttt{\normalshape
-        couserid@codept.coinst.coedu}}}
+        anamaria@dimap.ufrn.br}}} 
+      \thanks[simone]{Email:
+    \href{mailto:simone82@ppgsc.ufrn.br} {\texttt{\normalshape
+        simone82@ppgsc.ufrn.br}}}
+      \thanks[bruno]{Email:
+    \href{mailto:bruno.gurgel@ifrn.edu.br} {\texttt{\normalshape
+        bruno.gurgel@ifrn.edu.br}}}
+       \thanks[david]{Email:
+    \href{mailto:david@dimap.ufrn.br} {\texttt{\normalshape
+        david@dimap.ufrn.br}}}
+
 
 % AMM: Precisa ser arrumado: The ENTCS macro package provides two alternatives to listing authors
 % names and addresses.  These are described in detail in the file
@@ -76,14 +104,15 @@ formal development with the B method. They also present some
 regularity of structure that induced our group into the definition of
 a method and a tool which specialize B for development of such
 applications, providing greater support for the developer than pure B
-tools \cite{atelierB, proB}. They are the BSmart method and tool
-presented in \cite{mainpapers}.
+tools \cite{atelierB,proB}. They are the BSmart method and tool
+presented in \cite{Gomes10}.
+%colocar o de 2008 também
 
-Previous works have also dealt with B for Java Card, \cite{BOM,
-  JBTools e cia}, but none has, at our knowledge, specified Java Card
+Previous works have also dealt with B for Java Card, 
+\cite{BOM,JBtools,e cia}, but none has, at our knowledge, specified Java Card
 in B so that the formal development includes Java Card aspects. In the
-first versions of BSmart \cite{}, these aspects were included by the code
-ganerator, and in JBTools \cite{}, the generated code needed to be edited by
+first versions of BSmart \cite{Gomes10}, these aspects were included by the code
+ganerator, and in JBTools \cite{JBtools}, the generated code needed to be edited by
 the developer to include these aspects.
 
 These works lacked then the ability to formally verify the Java Card
@@ -92,7 +121,7 @@ specification of these aspects is needed, and this contribution is
 what we present in this paper: the B specification of the Java Card
 API, with...  This specification can be used with the BSmart tool,
 independently, in any B tool, or even as a complement to the official
-Java Card documentation \cite{}.
+Java Card documentation \cite{oracle}.
 
 In the following...
 
