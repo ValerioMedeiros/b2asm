@@ -190,6 +190,25 @@ less efficient than APDU applets.
 
 \section{B specification of the Java Card API}
 
+Among the different components of the Java Card platform, the Java Card API is the one without which no refinement into Java Card code could be done.
+Suppose, for instance, that we had the B abstract machine of fig \ref{maquina}, which models ...  Of course, this is a very simple example, but it is enough to show the importance of having the model of the Java Card API modeled in B.  As all data in it is implementable in C, for instance, and it is a deterministic specification, B tools can directly generate code for it in C, and the resulting code would be very similar to the original B machine. However,  Java Card code corresponding to it would look like the one presented in fig. \ref{impl java card}. In a rigorous development process, we don't want the code generator to carry out all these non-verified transformations in the code. So, we need to be able to refine the original B machine into something like the B refinement of fig. \ref{B ref usando a API}. Then, code generation would be straightforward, as it should be. This is then the reason why it needed to be the first Java Card component to be modeled in B. (AMM: maybe also cite related work ? WHich are the formalization works that did not focus on the API?)
+
+The Java Card API, in its version 2.2.2, is defined in 14 packages, containing 93 classes and interfaces, as shown in table \ref{incluir a tabela da dissert da simone}. Their interfaces have all been modeled in B, and the resulting models are available at LINK. Differently from  JML and OCL, though, B is not object oriented, and some modeling solutions had to be found to cope with this lack of resources.  We present in the following the main characteristics and restrictions of our models:
+
+\begin{itemize}
+
+\item Only the abstract models corresponding to each class or interface have been developed. Two reasons led to this choice: (1) code is not to be generated from the specification of the API, as we are only creating an abstract layer to existing implementations; and (2)  in B, only the abstract machines are seen by modules that build upon others, through the SEES, USES, IMPORTS, INCLUDES and EXTENDS clauses.
+
+\item Conditions on method inputs which lead to exception raising in the Java Card platform specification are coded into pre-conditions in B.
+(em que casos isso não é feito - NULL? outros?)
+
+\item Method outputs are modeled in B as taking any value of the correct type (e em que casos temos um pouco mais).
+
+
+
+
+
+\end{itemize}
 
 
 
