@@ -89,7 +89,7 @@ B to develop Java Card~\cite{chen:2000} applications.  Java Card is a
 restricted and optimized version of Java which allows memory and
 processor constrained devices, such as smart cards, to store and run
 small applications.  Java Card applications have characteristics
-(small size and need for security) which make then good candidates for
+(small size and need for security) which make them good candidates for
 formal development with the B method. They also present some
 regularity of structure that induced our group into the definition of
 a method and a tool which specialize B for development of such
@@ -108,10 +108,6 @@ These works lacked then the ability to formally verify the Java Card dependent a
 specification of these aspects is needed, and this contribution is what we present in this paper: the B specification of the Java Card
 API, with its primitive types and all classes of the 14 packages which define the API. This specification can be used with the BSmart tool,
 independently, in any B tool, or even as a complement to the official Java Card documentation \cite{oracle}.
-
-
-SIMONE -> verifique que está certo o que falei acima sobre a especificação.
-COMENT SIMONE -> Acho que está muito bom, não tenho o que acrescentar.
 
 In the following...
 
@@ -181,10 +177,7 @@ less efficient than APDU applets.
 \section{B specification of the Java Card API}
 
 Among the different components of the Java Card platform, the Java Card API is the one without which no refinement into Java Card code could be done.
-Suppose, for instance, that we had the B abstract machine of Fig. \ref{fig:Bmachine}, which models a bus card with a variable that controls balance and a operation to add credits to the balance. Of course, this is a very simple example, but it is enough to show the importance of having the model of the Java Card API modeled in B.  As all data in it is implementable in C, for instance, and it is a deterministic specification, B tools can directly generate code for it in C, and the resulting code would be very similar to the original B machine. However,  Java Card code corresponding to it would look like the one presented in Fig. \ref{fig:jcapplet}. In a rigorous development process, we don't want the code generator to carry out all these non-verified transformations in the code. So, we need to be able to refine the original B machine into something such as the B refinement of fig. \ref{B ref usando a API}. Then, code generation would be straightforward, as it should be. This is then the reason why it needed to be the first Java Card component to be modeled in B. (AMM: maybe also cite related work ? WHich are the formalization works that did not focus on the API?)
-
-SIMONE -> por favor proponha um bem pequeno exemplo para colocarmos aqui. A idéia é que mostre que ser B0 não basta para gerar o código Java Card.
-COMENT SIMONE -> coloquei duas figuras, veja o que acha do exemplo, é o mesmo que foi usado na dissertação, ele é simples e pequeno. Coloquei a máquina abstrata e o modelo do applet Java Card (veja o que acha do tamanho das figuras), estou vendo com o Bruno como a implementação desta máquina fica com a API, porque o modelo dela que fizemos foi sem o uso da API, ela possui apenas o uso dos tipos primitivos e as operações de soma e comparação deles. O exemplo que nós usamos na validação do trabalho que tinha o uso da API foi um refinamento da máquina applet.
+Suppose, for instance, that we had the B abstract machine of Fig. \ref{fig:Bmachine}, which models a bus card with a variable that controls balance and a operation to add credits to the balance. Of course, this is a very simple example, but it is enough to show the importance of having the model of the Java Card API modeled in B.  As all data in it is implementable in C, for instance, and it is a deterministic specification, B tools can directly generate code for it in C, and the resulting code would be very similar to the original B machine.
 
 \begin{figure}[h]
 \centering
@@ -193,6 +186,9 @@ COMENT SIMONE -> coloquei duas figuras, veja o que acha do exemplo, é o mesmo qu
 \label{fig:Bmachine}
 \end{figure}
 
+However,  Java Card code corresponding to it would look like the one presented in Fig. \ref{fig:jcapplet}. In a rigorous development process, we don't want the code generator to carry out all these non-verified transformations in the code. So, we need to be able to refine the original B machine into something such as the B refinement of fig. \ref{B ref usando a API}. Then, code generation would be straightforward, as it should be. This is then the reason why it needed to be the first Java Card component to be modeled in B. (AMM: maybe also cite related work ? WHich are the formalization works that did not focus on the API?)
+
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{figs/appletJC.png}
@@ -200,30 +196,35 @@ COMENT SIMONE -> coloquei duas figuras, veja o que acha do exemplo, é o mesmo qu
 \label{fig:jcapplet}
 \end{figure}
 
-The Java Card API, in its version 2.2.2, is defined in 14 packages, containing 93 classes and interfaces, as shown in Table \ref{tab:packages}. Their interfaces have all been modeled in B, and the resulting models are available at LINK. Differently from  JML and OCL, though, B is not object oriented, and some modeling solutions had to be found to cope with this lack of resources.  We present in the following the main characteristics and restrictions of our models:
+
+COMENT SIMONE -> coloquei duas figuras, veja o que acha do exemplo, é o mesmo que foi usado na dissertação, ele é simples e pequeno. Coloquei a máquina abstrata e o modelo do applet Java Card (veja o que acha do tamanho das figuras), estou vendo com o Bruno como a implementação desta máquina fica com a API, porque o modelo dela que fizemos foi sem o uso da API, ela possui apenas o uso dos tipos primitivos e as operações de soma e comparação deles. O exemplo que nós usamos na validação do trabalho que tinha o uso da API foi um refinamento da máquina applet.
+
+PARA SIMONE -> Por favor, coloque os exemplos sob a forma de listing. Fica mais fácil de editar, controlar o tamanho e conteúdo e fica mais legível.
+Quanto ao código javacard, basta o da operação addcredit. Aliás, o nome não está batendo. Não verifiquei o resto. Por favor verifique.
+
+
+The Java Card API, in its version 2.2.2, is defined in 14 packages, containing 93 classes and interfaces, as shown in Table \ref{tab:packages}. Their interfaces have all been modeled in B, and the resulting models are available at the KitSmart project page\footnote{https://code.google.com/p/kitsmart/}. Differently from  JML and OCL, though, B is not object oriented, and some modeling solutions had to be found to cope with this lack of resources.  We present in the following the main characteristics and restrictions of our models:
 
 \begin{table}[h]
 \begin{center}
-\caption{Packages of the Java Card API (2.2.2)}
+\caption{Packages of the Java Card API (2.2.2) and the number of classes in each package.}
 \begin{tabular}{|l|c||l|c|}
  \hline
-\textbf{Package} & \textbf{classes/} & \textbf{Package} & \textbf{classes/} \\ 
-				 & \textbf{package}  &					& \textbf{package} \\ \hline \hline
-java.io & 1 & javacardx.biometry & 5 \\ \hline
-java.lang & 12 & javacardx.crypto & 2 \\ \hline
-java.rmi & 2 & javacardx.external & 3 \\ \hline
-javacard.framework & 19 & javacardx.framework.math & 3 \\ \hline
-javacard.framework.service & 8 & javacardx.framework.tlv & 7 \\ \hline
-javacard.security & 27 & javacardx.framework.util & 2 \\ \hline
-javacardx.apdu & 1 & javacardx.framework.util.intx & 1 \\
+ 
+\textbf{\small{Package}} & \textbf{\small{classes}} & \textbf{\small{Package}} & \textbf{\small{classes}}\\ \hline \hline
+\small{java.io} & \small{1} & \small{javacardx.biometry} & \small{5} \\ \hline
+\small{java.lang} & \small{12} & \small{javacardx.crypto }& \small{2} \\ \hline
+\small{java.rmi} & \small{2} & \small{javacardx.external} & \small{3} \\ \hline
+\small{javacard.framework} & \small{19} & \small{javacardx.framework.math} & \small{3} \\ \hline
+\small{javacard.framework.service} & \small{8} & \small{javacardx.framework.tlv} & \small{7} \\ \hline
+\small{javacard.security} & \small{27} & \small{javacardx.framework.util} & \small{2} \\ \hline
+\small{javacardx.apdu} & \small{1} & \small{javacardx.framework.util.intx} & \small{1} \\
+
  \hline
 \end{tabular}
 \label{tab:packages}
 \end{center}
 \end{table}
-
-SIMONE-> coloque a tabela, por favor. o LINK pode ser substituído pela página do google code.
-COMENT SIMONE -> A tabela está no formato que estava lá na dissertação (muito grande?), tem que ver se tem algum modelo padrão a ser seguido para as tabelas, se tiver é so me passar que eu faço os ajustes. Sobre o link do google code, eu não sei qual o link público lá.
 
 \begin{itemize}
 
