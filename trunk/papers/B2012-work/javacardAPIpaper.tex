@@ -186,8 +186,8 @@ Among the different components of the Java Card platform, the Java
 Card API is the one without which no refinement into Java Card code
 could be done.  Suppose, for instance, that we had the B abstract
 machine of Fig.~\ref{fig:Bmachine}, which models a bus card with a
-variable that controls balance and a operation to add credits to the
-balance. This is simple example provides enough evidence of the
+variable that keeps track of the current credit the user has (\texttt{balance}) and an operation to add credits to this
+balance (\texttt{add\_credit}!!! verificar). This simple example provides enough evidence of the
 importance of having a B model of the Java Card API.  As all data in
 it is implementable in C, for instance, and it is a deterministic
 specification, B tools can directly generate code for it in C, and the
@@ -222,9 +222,10 @@ did not focus on the API?)
 
 COMENT SIMONE -> coloquei duas figuras, veja o que acha do exemplo, é o mesmo que foi usado na dissertação, ele é simples e pequeno. Coloquei a máquina abstrata e o modelo do applet Java Card (veja o que acha do tamanho das figuras), estou vendo com o Bruno como a implementação desta máquina fica com a API, porque o modelo dela que fizemos foi sem o uso da API, ela possui apenas o uso dos tipos primitivos e as operações de soma e comparação deles. O exemplo que nós usamos na validação do trabalho que tinha o uso da API foi um refinamento da máquina applet.
 
-[[[ PARA SIMONE -> Por favor, coloque os exemplos sob a forma de listing. Fica mais fácil de editar, controlar o tamanho e conteúdo e fica mais legível.
-Quanto ao código javacard, basta o da operação addcredit. Aliás, o nome não está batendo. Não verifiquei o resto. Por favor verifique. ]]]
+[[[ PARA SIMONE -> Por favor, coloque os exemplos sob a forma de listing. Fica mais facil de editar, controlar o tamanho e conteudo e fica mais legivel.
+Quanto ao codigo javacard, basta o da operacao addcredit. Alias, o nome não esta batendo. Nao verifiquei o resto. Por favor verifique. ]]]
 
+[[[ PARA SIMONE -> tambem precisamos com urgencia daquela anelise sobre o que muda da 2.2.2 para a 3 ]]]
 
 The Java Card API, in its version 2.2.2, is composed of 14 packages,
 containing 93 classes and interfaces, as shown in
@@ -280,10 +281,16 @@ our models:
 
 \end{itemize}
 
+As previously stated,  we chose to model exception raising conditions as operation pre-conditions in the B models. For instance, if the Java Card specification states that a method should throw an exception in case a parameter array is empty, the pre-condition of the corresponding B operation will require that this parameter is not empty. The B method then requires that every call to that operation satisfies the operation's pre-condition. As a consequence, code that is formally generated using the B method and the Java Card API specification should never raise this specific exception, as it is statically proved that all calls to this operation are made with non-empty parameter arrays. Not all situations leading to exceptional conditions are modeled, however, as some of them depend on the Java Card Runtime Environment (JCRE) and its state, which has not yet been modeled, and some require a more detailed specification of the contents of some data and other internal behavior. 
+
 \section{Using the model in BSmart}
 
-\section{Conclusions}
 
+
+\section{Conclusions and future work}
+
+With the current level of abstraction of the model and the fact that the Java Card Runtime Environment (JCRE) has not been modeled, some
+conditions which may lead to exception raising are not yet modeled. Being able to model them would make developed applications even more sure, as more static verification could be carried out. Continuation of this work then will enlarge the scope of the modeling to cope statically with a larger set of situations.
 
 
 \bibliographystyle{plain}
