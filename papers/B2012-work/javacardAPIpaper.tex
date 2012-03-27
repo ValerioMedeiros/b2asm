@@ -1,6 +1,52 @@
 \documentclass{entcs} 
 \usepackage{entcsmacro}
 \usepackage{graphicx}
+
+\usepackage{listings}
+% Define B sintaxe
+\lstdefinelanguage{B}  {
+keywords={MACHINE, REFINEMENT, REFINES, IMPLEMENTATION, SEES, IMPORTS, SETS, INCLUDES, EXTENDS, CONSTANTS, CONCRETE_CONSTANTS, CONCRETE_VARIABLES, PROPERTIES, DEFINITIONS, VARIABLES, ABSTRACT_VARIABLES, INITIALISATION, INVARIANT, VALUES, OPERATIONS, BEGIN, PRE, THEN, END, NAT, NAT1, BOOL, MAXINT, IF, ELSE, ELSIF, ANY, WHERE, CHOICE, OR, EITHER, SELECT, VAR, IN},
+sensitive=true,% 
+alsoletter={\$},% 
+comment=[l]{\#},% 
+string=[b]",% 
+string=[b]'% 
+}
+
+% Set listing styles
+\lstset{ %
+%language=Pseudo,                % the language of the code
+basicstyle=\footnotesize\ttfamily,            % the size of the fonts that are used for the code
+extendedchars=true,
+numbers=left,                   % where to put the line-numbers
+numberstyle=\tiny,      % the size of the fonts that are used for the line-numbers 
+%stepnumber=2,                   % the step between two line-numbers. If it's 1, each line will be numbered
+%numbersep=5pt,                  % how far the line-numbers are from the code
+%backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+%showspaces=false,               % show spaces adding particular underscores
+%showstringspaces=false,         % underline spaces within strings
+%showtabs=false,                 % show tabs within strings adding particular underscores
+frame=b,   %trBL,                   % adds a frame around the code
+stringstyle=\color{white}\ttfamily,
+%linewidth=0.8\textwidth, % width of the line
+tabsize=2,                      % sets default tabsize to 2 spaces
+columns=fixed,
+basewidth=.6em,
+xleftmargin=20pt,
+xrightmargin=5pt,
+%captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+showspaces=false,           % Leerzeichen anzeigen ?
+showtabs=false,             % Tabs anzeigen ?
+%backgroundcolor=\color{lightgray},
+keywordstyle=\color{red},
+showstringspaces=false
+%breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%title=\lstname,                 % show the filename of files included with \lstinputlisting; also try caption instead of title
+%escapeinside={\%*}{*)},         % if you want to add a comment within your code
+%keywords={}            % if you want to add more keywords to the set
+}
+
 \sloppy
 % The following is enclosed to allow easy detection of differences in
 % ascii coding.
@@ -185,7 +231,7 @@ less efficient than APDU applets.
 Among the different components of the Java Card platform, the Java
 Card API is the one without which no refinement into Java Card code
 could be done.  Suppose, for instance, that we had the B abstract
-machine of Fig.~\ref{fig:Bmachine}, which models a bus card with a
+machine of Fig.~\ref{lis:buscard}, which models a bus card with a
 variable that keeps track of the current credit the user has (\texttt{balance}) and an operation to add credits to this
 balance (\texttt{add\_credit}!!! verificar). This simple example provides enough evidence of the
 importance of having a B model of the Java Card API.  As all data in
@@ -193,15 +239,32 @@ it is implementable in C, for instance, and it is a deterministic
 specification, B tools can directly generate code for it in C, and the
 resulting code would be very similar to the original B machine.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.8\textwidth]{figs/machineB.png}
-\caption{Example B machine.}
-\label{fig:Bmachine}
-\end{figure}
+\lstset{language=B, caption={B machine Buscard},label=lis:buscard}
+\begin{lstlisting}
+MACHINE
+	Buscard
+CONSTANTS
+	maximum
+PROPERTIES
+	maximum : INTEGER & maximum = 100
+VARIABLES
+	balance
+INVARIANT
+	balance : INTEGER & balance <= maximum
+INITIALISATION
+	balance := 0
+OPERATIONS
+	add(credit) =
+	PRE
+		credit : INTEGER & credit > 0  & balance + credit <= maximum
+	THEN
+		balance := balance + credit
+	END
+END
+\end{lstlisting}
 
 However, Java Card code corresponding to it would look like the one
-presented in Fig.~\ref{fig:jcapplet}. In a rigorous development
+presented in Fig.~\ref{lis:add}. In a rigorous development
 process, we do not want the code generator to carry out all these
 non-verified transformations in the code. So, we need to be able to
 refine the original B machine into something such as the B refinement
@@ -211,19 +274,24 @@ needed to be the first Java Card component to be modeled in B. (AMM:
 maybe also cite related work ? Which are the formalization works that
 did not focus on the API?)
 
+\lstset{language=Java, caption={Method add in applet Java Card},label=lis:add}
+\begin{lstlisting}
+public void add(APDU apdu) {
+	byte[] buffer = apdu.getBuffer();
+	byte credit = (byte) Util.makeShort((byte) buffer[ISO7816.OFFSET_P1], (byte)buffer[ISO7816.OFFSET_P2]);
+	if (!(credit >= 0)) {
+		ISOException.throwIt(EXCEPTIONS.negative_credit);
+	}
+	else if (!(balance + credit <= MAXIMUM)) {
+		ISOException.throwIt(EXCEPTIONS.balance_exceeded);
+	}
+	else {
+		balance = (balance + credit);
+	}
+}
+\end{lstlisting}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.8\textwidth]{figs/appletJC.png}
-\caption{Example Java Card applet.}
-\label{fig:jcapplet}
-\end{figure}
 
-
-COMENT SIMONE -> coloquei duas figuras, veja o que acha do exemplo, é o mesmo que foi usado na dissertação, ele é simples e pequeno. Coloquei a máquina abstrata e o modelo do applet Java Card (veja o que acha do tamanho das figuras), estou vendo com o Bruno como a implementação desta máquina fica com a API, porque o modelo dela que fizemos foi sem o uso da API, ela possui apenas o uso dos tipos primitivos e as operações de soma e comparação deles. O exemplo que nós usamos na validação do trabalho que tinha o uso da API foi um refinamento da máquina applet.
-
-[[[ PARA SIMONE -> Por favor, coloque os exemplos sob a forma de listing. Fica mais facil de editar, controlar o tamanho e conteudo e fica mais legivel.
-Quanto ao codigo javacard, basta o da operacao addcredit. Alias, o nome não esta batendo. Nao verifiquei o resto. Por favor verifique. ]]]
 
 [[[ PARA SIMONE -> tambem precisamos com urgencia daquela anelise sobre o que muda da 2.2.2 para a 3 ]]]
 
