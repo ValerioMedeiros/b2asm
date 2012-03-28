@@ -233,7 +233,7 @@ Card API is the one without which no refinement into Java Card code
 could be done.  Suppose, for instance, that we had the B abstract
 machine of Fig.~\ref{lis:buscard}, which models a bus card with a
 variable that keeps track of the current credit the user has (\texttt{balance}) and an operation to add credits to this
-balance (\texttt{add\_credit}!!! verificar). This simple example provides enough evidence of the
+balance (\texttt{add}). This simple example provides enough evidence of the
 importance of having a B model of the Java Card API.  As all data in
 it is implementable in C, for instance, and it is a deterministic
 specification, B tools can directly generate code for it in C, and the
@@ -263,18 +263,15 @@ OPERATIONS
 END
 \end{lstlisting}
 
-However, Java Card code corresponding to it would look like the one
-presented in Fig.~\ref{lis:add}. In a rigorous development
+However, Java Card code corresponding to the operation \texttt{add} of this B specification would look like the one
+presented in Fig.~\ref{lis:addjavacard}. In a rigorous development
 process, we do not want the code generator to carry out all these
 non-verified transformations in the code. So, we need to be able to
 refine the original B machine into something such as the B refinement
-of Fig.~\ref{B ref usando a API}. Then, code generation would be
-straightforward (as it should be). This is then the reason why it
-needed to be the first Java Card component to be modeled in B. (AMM:
-maybe also cite related work ? Which are the formalization works that
-did not focus on the API?)
+of Fig.~\ref{lis:addimplementation}. Then, code generation would be
+straightforward (as it should be).  
 
-\lstset{language=Java, caption={Method add in applet Java Card},label=lis:add}
+\lstset{language=Java, caption={Method add in applet Java Card},label=lis:addjavacard}
 \begin{lstlisting}
 public void add(APDU apdu) {
 	byte[] buffer = apdu.getBuffer();
@@ -292,8 +289,50 @@ public void add(APDU apdu) {
 \end{lstlisting}
 
 
+\lstset{language=B, caption={B machine Buscard},label=lis:addimplementation}
+\begin{lstlisting}
+	add(apdu) =
+	BEGIN
+		buffer <- - getBuffer();
+		credit <-- cast ( );
+		IF 
+			not(credit >= 0)      !!! byte version
+		THEN
+			ISOException.throwIt(EXCEPTIONS.negative_credit)
+		ELSIF 
+			not(balance + credit <= MAXIMUM)     !!! byte version
+		THEN
+			ISOException.throwIt(EXCEPTIONS.balance_exceeded)
+		ELSE
+		        balance := sum_byte (balance, credit)  
+		END
+	END
+	
+	[[[[BRUNO e SIMONE: isso esta todo errado - coloquei aqui mais ou menos o que eu acho que deve ser a cara da implementacao B que gera o codigo java card. Voces devem ter algum exemplo para recuperar a estrutura certa, nao?]]]]
+	
+\end{lstlisting}
 
-[[[ PARA SIMONE -> tambem precisamos com urgencia daquela anelise sobre o que muda da 2.2.2 para a 3 ]]]
+
+We can identify two main kinds of transformation that had to be carried out in order to obtain the code  of operation \texttt{add} in figs. \ref{lis:addjavacard} and \ref{lis:addimplementation} from the abstract specification in fig. \ref{lis:buscard}:
+
+\begin{enumerate}
+\item the transition into a defensive style of programming by the inclusion of explicit tests to check that the input conditions (pre conditions in the  B specification) are satisfied before executing the corresponding action;
+
+\item the inclusion of Java Card specific aspects, such as the change of interface of \texttt{add} due to the need of passing data via the APDU protocol and the manipulation of the APDU buffer by methods offered the Java Card API.
+
+\end{enumerate}
+
+The transition into a defensive style of programming is part of the BSmart method, and implemented by the BSmart Full Function component. This component generates a B refinement of the original specification where pre-conditions are transformed into conditionals (IF-THEN-ELSE-END constructs), with the indication of the need to throw the corresponding exception when conditions are not met by input data and states.
+The resulting B model can then be formally verified as usual in the B method.
+
+The change of interface is also taken care of by the BSmart method, so that the development can be done without need to extend the B method. More details on this [[[???? (we haven't published this part but there is the technical report )]]].
+
+But all of these transformations rely, at the bottom, on the need to reference Java Card API types, classes and methods on the B level.
+This is then the reason why the Java Card API needed to be the first Java Card component to be modeled in B. 
+
+[[[(PARA SIMONE e BRUNO: maybe also cite related work ? Which are the formalization works that did not focus on the API?)]]]
+
+[[[ PARA SIMONE -> tambem precisamos com urgencia daquela analise sobre o que muda da 2.2.2 para a 3 ]]]
 
 The Java Card API, in its version 2.2.2, is composed of 14 packages,
 containing 93 classes and interfaces, as shown in
@@ -346,10 +385,20 @@ our models:
   correct type 
 
   [[[ AMM (e em que casos temos um pouco mais). ]]]
+  
+\item Each machine corresponding to a Java Card class defines an abstract set with the same name (distinction on character cases, only). For instance, the machine Throwable declares the abstract set THROWABLE. This set can then be used to reference the type corresponding to the class.
+
+\item The hierarchy of the Java Card API objects is partially modeled by abstract set inclusion. For instance, the class Throwable extends the class Object, in Java Card. In our model, we also have that the machine Throwable EXTENDS the machine Object, but the meaning of a machine extension in B is different from the meaning of a class extension in Java Card. To show that all throwables are indeed objects, a property stating that  THROWABLE is a subset of OBJECT is included in the Throwable machine.
 
 \end{itemize}
 
 As previously stated,  we chose to model exception raising conditions as operation pre-conditions in the B models. For instance, if the Java Card specification states that a method should throw an exception in case a parameter array is empty, the pre-condition of the corresponding B operation will require that this parameter is not empty. The B method then requires that every call to that operation satisfies the operation's pre-condition. As a consequence, code that is formally generated using the B method and the Java Card API specification should never raise this specific exception, as it is statically proved that all calls to this operation are made with non-empty parameter arrays. Not all situations leading to exceptional conditions are modeled, however, as some of them depend on the Java Card Runtime Environment (JCRE) and its state, which has not yet been modeled, and some require a more detailed specification of the contents of some data and other internal behavior. 
+
+
+[[[ incluir aqui parte da discussao sobre as opcoes de modelagem  com o argumento pela escolha dos subsets para a tipagem ]]] 
+As our focus was on the interfaces of the Java Card API methods, 
+
+
 
 \section{Using the model in BSmart}
 
