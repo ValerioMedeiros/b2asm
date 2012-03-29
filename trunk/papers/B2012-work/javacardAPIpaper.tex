@@ -288,29 +288,56 @@ public void add(APDU apdu) {
 }
 \end{lstlisting}
 
-
-\lstset{language=B, caption={B machine Buscard},label=lis:addimplementation}
+\lstset{language=B, caption={B implementation},label=lis:addimplementation}
 \begin{lstlisting}
-	add(apdu) =
-	BEGIN
-		buffer <- - getBuffer();
-		credit <-- cast ( );
-		IF 
-			not(credit >= 0)      !!! byte version
+add (apdu) =
+	VAR 
+		bf, cr,  apdu_state, res, curr_bal
+	IN
+		bf          <-- apdu.getBuffer;
+		apdu_state  <-- apdu.getCurrentState;
+		curr_bal <-- bal.get_num;
+		
+		IF (apdu_state = STATE_INITIAL) 
 		THEN
-			ISOException.throwIt(EXCEPTIONS.negative_credit)
-		ELSIF 
-			not(balance + credit <= MAXIMUM)     !!! byte version
-		THEN
-			ISOException.throwIt(EXCEPTIONS.balance_exceeded)
-		ELSE
-		        balance := sum_byte (balance, credit)  
+			res <-- apdu.setIncomingAndReceive
+		ELSIF (OFFSET_CDATA >= 0 &
+			sum_short(OFFSET_CDATA, 2) <= size(bf) & 
+			bf /= [])
+		THEN 
+			cr  <-- util.getShort(bf, OFFSET_CDATA);
+
+			IF sum_short (curr_bal, cr) <= MAX_BALANCE & 
+				sum_short (curr_bal, cr) >= 0 
+			THEN 
+				bal.add (cr)
+			END
 		END
-	END
-	
-	[[[[BRUNO e SIMONE: isso esta todo errado - coloquei aqui mais ou menos o que eu acho que deve ser a cara da implementacao B que gera o codigo java card. Voces devem ter algum exemplo para recuperar a estrutura certa, nao?]]]]
-	
+END;
 \end{lstlisting}
+
+%\lstset{language=B, caption={B machine Buscard},label=lis:addimplementation}
+%\begin{lstlisting}
+%	add(apdu) =
+%	BEGIN
+%		buffer <- - getBuffer();
+%		credit <-- cast ( );
+%		IF 
+%			not(credit >= 0)      !!! byte version
+%		THEN
+%			ISOException.throwIt(EXCEPTIONS.negative_credit)
+%		ELSIF 
+%			not(balance + credit <= MAXIMUM)     !!! byte version
+%		THEN
+%			ISOException.throwIt(EXCEPTIONS.balance_exceeded)
+%		ELSE
+%		        balance := sum_byte (balance, credit)  
+%		END
+%	END
+%	
+%	[[[[BRUNO e SIMONE: isso esta todo errado - coloquei aqui mais ou menos o que eu acho que deve ser a cara da implementacao B que gera o codigo java card. Voces devem ter algum exemplo para recuperar a estrutura certa, nao?]]]]
+%	
+%\end{lstlisting}
 
 
 We can identify two main kinds of transformation that had to be carried out in order to obtain the code  of operation \texttt{add} in figs. \ref{lis:addjavacard} and \ref{lis:addimplementation} from the abstract specification in fig. \ref{lis:buscard}:
