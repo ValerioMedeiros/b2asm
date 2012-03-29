@@ -246,17 +246,17 @@ MACHINE
 CONSTANTS
 	maximum
 PROPERTIES
-	maximum : INTEGER & maximum = 100
+	maximum : INTEGER & MAX_BALANCE  = 100
 VARIABLES
 	balance
 INVARIANT
-	balance : INTEGER & balance <= maximum
+	balance : INTEGER & balance <= MAX_BALANCE 
 INITIALISATION
 	balance := 0
 OPERATIONS
 	add(credit) =
 	PRE
-		credit : INTEGER & credit > 0  & balance + credit <= maximum
+		credit : INTEGER & credit > 0  & balance + credit <= MAX_BALANCE 
 	THEN
 		balance := balance + credit
 	END
@@ -273,47 +273,63 @@ straightforward (as it should be).
 
 \lstset{language=Java, caption={Method add in applet Java Card},label=lis:addjavacard}
 \begin{lstlisting}
-public void add(APDU apdu) {
-	byte[] buffer = apdu.getBuffer();
-	byte credit = (byte) Util.makeShort((byte) buffer[ISO7816.OFFSET_P1], (byte)buffer[ISO7816.OFFSET_P2]);
-	if (!(credit >= 0)) {
-		ISOException.throwIt(EXCEPTIONS.negative_credit);
-	}
-	else if (!(balance + credit <= MAXIMUM)) {
-		ISOException.throwIt(EXCEPTIONS.balance_exceeded);
-	}
-	else {
-		balance = (balance + credit);
-	}
+public void add (APDU apdu) { 
+	byte[] bf;  short cr; byte apdu_state; short res;
+			
+	bf = apdu.getBuffer();
+	apdu_state = apdu.getCurrentState();
+			
+	if (apdu_state == STATE_INITIAL) {
+		res = apdu.setIncomingAndReceive();
+	} else if (ISO7816.OFFSET_CDATA >= 0 && 
+			(short) (ISO7816.OFFSET_CDATA + 2) <= bf.length && 
+			bf != null) {
+				
+		cr = Util.getShort (bf, ISO7816.OFFSET_CDATA);
+				
+		if (!((short) (balance + cr) <= MAX_BALANCE)) {
+			ISOException.throwIt(EX_BALANCE_EXCEEDED);
+		} else if (!((short) (balance + cr) >= 0)) {
+			ISOException.throwIt(EX_NEGATIVE_BALANCE);
+		} else if (! (cr > 0)) {
+			ISOException.throwIt(EX_NEGATIVE_CREDIT);
+		} else {
+			balance = (short) (balance + cr);
+		}
+	} 
 }
 \end{lstlisting}
 
 \lstset{language=B, caption={B implementation},label=lis:addimplementation}
 \begin{lstlisting}
-add (apdu) =
-	VAR 
-		bf, cr,  apdu_state, res, curr_bal
-	IN
-		bf          <-- apdu.getBuffer;
-		apdu_state  <-- apdu.getCurrentState;
-		curr_bal <-- bal.get_num;
-		
-		IF (apdu_state = STATE_INITIAL) 
-		THEN
-			res <-- apdu.setIncomingAndReceive
-		ELSIF (OFFSET_CDATA >= 0 &
-			sum_short(OFFSET_CDATA, 2) <= size(bf) & 
-			bf /= [])
+add (apdu) = 
+VAR 
+	bf, cr, apdu_state, res
+IN
+	bf  <-- apdu.getBuffer;		
+    	apdu_state  <-- apdu.getCurrentState;
+	    
+	IF (apdu_state = STATE_INITIAL) 
+	THEN
+		res <-- apdu.setIncomingAndReceive                
+	ELSIF (OFFSET_CDATA >= 0 &
+		sum_short(OFFSET_CDATA, 2) <= size(bf) & 
+		bf /= [])
+	THEN 
+		cr  <-- Util.getShort(bf, OFFSET_CDATA);
+		    
+		IF not (sum_short (balance, cr) <= MAX_BALANCE)
 		THEN 
-			cr  <-- util.getShort(bf, OFFSET_CDATA);
-
-			IF sum_short (curr_bal, cr) <= MAX_BALANCE & 
-				sum_short (curr_bal, cr) >= 0 
-			THEN 
-				bal.add (cr)
-			END
+			ISOException.throwIt(EX_BALANCE_EXCEEDED)
+		ELSIF not (sum_short (balance, cr) >= 0)
+		THEN ISOException.throwIt(EX_NEGATIVE_BALANCE)
+		ELSIF not (cr > 0)
+		THEN ISOException.throwIt(EX_NEGATIVE_CREDIT) 
+		ELSE  
+			balance := sum_short(balance, cr)
 		END
-END;
+	END
+END
 \end{lstlisting}
 
 
