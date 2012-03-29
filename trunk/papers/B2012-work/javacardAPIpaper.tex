@@ -214,15 +214,15 @@ A Java Card applet is a class that inherits the
 \emph{javacard.framewok.Applet} class of the Java Card API and is
 implemented upon the Java Card subset of Java.  During the applet
 conversion for card installation, a verification phase is performed to
-check conformance of the classes with Java Card restrictions.
+check conformance of the classes to Java Card restrictions.
 
 The current usual Java Card specification (2.2.x) allows two kinds of
-applets.  The older, and most commonly used, kind of applet manipulates
-directly the APDU protocol packages while the newer one abstracts from
-the lower level protocol using Remote Method Invocation (RMI). In this
-paper we will call the lower level applet \emph{APDU applet} and the
-higher level one, \emph{RMI applet}. RMI introduces a layer of
-abstraction above the APDU protocol, and, due to this fact, it is usually
+applets.  The older, and most commonly used, kind of applet
+manipulates directly the APDU protocol packages while the newer one
+abstracts from the lower level protocol using Remote Method Invocation
+(RMI). In this paper we will call the lower level applet \emph{APDU
+  applet} and the higher level one, \emph{RMI applet}. RMI introduces
+a layer of abstraction above the APDU protocol, and hence is usually
 less efficient than APDU applets.
 
 
@@ -232,10 +232,11 @@ Among the different components of the Java Card platform, the Java
 Card API is the one without which no refinement into Java Card code
 could be done.  Suppose, for instance, that we had the B abstract
 machine of Fig.~\ref{lis:buscard}, which models a bus card with a
-variable that keeps track of the current credit the user has (\texttt{balance}) and an operation to add credits to this
-balance (\texttt{add}). This simple example provides enough evidence of the
+variable that keeps track of the current credit the user has
+(\texttt{balance}) and an operation to add credits to this balance
+(\texttt{add}). This simple example provides enough evidence of the
 importance of having a B model of the Java Card API.  As all data in
-it is implementable in C, for instance, and it is a deterministic
+it is implementable in C, for instance, and as it is a deterministic
 specification, B tools can directly generate code for it in C, and the
 resulting code would be very similar to the original B machine.
 
@@ -256,20 +257,22 @@ INITIALISATION
 OPERATIONS
 	add(credit) =
 	PRE
-		credit : INTEGER & credit > 0  & balance + credit <= MAX_BALANCE 
+		credit : INTEGER & credit > 0  & 
+                balance + credit <= MAX_BALANCE 
 	THEN
 		balance := balance + credit
 	END
 END
 \end{lstlisting}
 
-However, Java Card code corresponding to the operation \texttt{add} of this B specification would look like the one
-presented in Fig.~\ref{lis:addjavacard}. In a rigorous development
-process, we do not want the code generator to carry out all these
-non-verified transformations in the code. So, we need to be able to
-refine the original B machine into something such as the B refinement
-of Fig.~\ref{lis:addimplementation}. Then, code generation would be
-straightforward (as it should be).  
+However, Java Card code corresponding to the operation \texttt{add} of
+this B specification would look like the one presented in
+Fig.~\ref{lis:addjavacard}. In a rigorous development process, we do
+not want the code generator to carry out all these non-verified
+transformations in the code. So, we need to be able to refine the
+original B machine into something such as the B refinement of
+Fig.~\ref{lis:addimplementation}. Then, code generation would be
+straightforward (as it should be).
 
 \lstset{language=Java, caption={Method add in applet Java Card},label=lis:addjavacard}
 \begin{lstlisting}
@@ -333,32 +336,63 @@ END
 \end{lstlisting}
 
 
-We can identify two main kinds of transformation that had to be carried out in order to obtain the code  of operation \texttt{add} in figs. \ref{lis:addjavacard} and \ref{lis:addimplementation} from the abstract specification in fig. \ref{lis:buscard}:
+We can identify two main kinds of transformation that have to be
+carried out in order to obtain the code of operation \texttt{add} in
+figs.~\ref{lis:addjavacard} and~\ref{lis:addimplementation} from the
+abstract specification in fig.~\ref{lis:buscard}:
 
 \begin{enumerate}
-\item the transition into a defensive style of programming by the inclusion of explicit tests to check that the input conditions (pre conditions in the  B specification) are satisfied before executing the corresponding action;
+\item the transition into a defensive style of programming by the
+  inclusion of explicit tests to check that the input conditions (pre
+  conditions in the B specification) are satisfied before executing
+  the corresponding action;
 
-\item the inclusion of Java Card specific aspects, such as the change of interface of \texttt{add} due to the need of passing data via the APDU protocol and the manipulation of the APDU buffer by methods offered the Java Card API.
+\item the inclusion of Java Card specific aspects, such as changing
+  the signature of \texttt{add} so that data is transmitted via the
+  APDU protocol and the APDU buffer is manipulated by methods offered
+  the Java Card API.
 
 \end{enumerate}
 
-The transition into a defensive style of programming is part of the BSmart method, and implemented by the BSmart Full Function component. This component generates a B refinement of the original specification where pre-conditions are transformed into conditionals (IF-THEN-ELSE-END constructs), with the indication of the need to throw the corresponding exception when the specified conditions are not met by input data and states.
-The resulting B model can then be formally verified as usual in the B method.
+The transition to a defensive style of programming is part of the
+BSmart method, and implemented by the BSmart Full Function
+component. This component generates a B refinement of the original
+specification where pre-conditions are transformed into conditionals
+(IF-THEN-ELSE-END constructs), with the indication of the need to
+throw the corresponding exception when the specified conditions are
+not met by input data and states.  The resulting B model can then be
+formally verified as usual in the B method.
 
-The change of interface is also taken care of by the BSmart method, so that the development can be done without need to extend the B method. More details on this [[[???? (we haven't published this part but there is the technical report )]]].
+The change of interface is also taken care of by the BSmart method, so
+that the development can be done without need to extend the B
+method, as detailed in~\cite{Gomes10}.
 
-But all of these transformations rely on the need to reference Java Card API types, classes and methods on the B level.
-This is then the reason why the Java Card API needed to be the first Java Card component to be modeled in B. 
+But all of these transformations rely on the need to reference Java
+Card API types, classes and methods on the B level.  This is then the
+reason why the Java Card API needed to be the first Java Card
+component to be modeled in B.
 
 [[[(PARA SIMONE e BRUNO: maybe also cite related work ? Which are the formalization works that did not focus on the API?)]]]
 
 [[[ PARA SIMONE -> tambem precisamos com urgencia daquela analise sobre o que muda da 2.2.2 para a 3 ]]]
 
 
-The Java Card API, in its version 2.2.2\footnote{Java Card 2.2.2, although not the most recent version of the Java Card platform, is still widely used, and can easily be extended to Java Card 3 Classic Edition,  a backward compatible evolution of version 2.2.2., including some bug fixes, clarifications against the Java Card v2.2.2 specifications and new security algorithms (Java Card 3 Platform Release Notes, available at http://java.sun.com/javacard/3.0.1/specs.jsp).}, is composed of 14 packages, containing 93 classes and interfaces, as shown in
-Table~\ref{tab:packages}. Their interfaces have all been modeled in B, and the resulting models are available at the KitSmart project
-page\footnote{https://code.google.com/p/kitsmart/}. 
-Differently from JML and OCL, though, B is not object oriented, and some modeling solutions had to be found to cope with this lack of resources.  We present in the following the main characteristics and some restrictions of our models:
+The Java Card API, in its version 2.2.2\footnote{Java Card 2.2.2,
+  although not the most recent version of the Java Card platform, is
+  still widely used, and can easily be extended to Java Card 3 Classic
+  Edition, a backward compatible evolution of version 2.2.2.,
+  including some bug fixes, clarifications against the Java Card
+  v2.2.2 specifications and new security algorithms (Java Card 3
+  Platform Release Notes, available at
+  http://java.sun.com/javacard/3.0.1/specs.jsp).}, is composed of 14
+packages, containing 93 classes and interfaces, as shown in
+Table~\ref{tab:packages}. Their interfaces have all been modeled in B,
+and the resulting models are available at the KitSmart project
+page\footnote{https://code.google.com/p/kitsmart/}.  Differently from
+JML and OCL, though, B is not object oriented, and some modeling
+solutions had to be found to cope with this lack of resources.  We
+present in the following the main characteristics and some
+restrictions of our models:
 
 \begin{table}[h]
 \begin{center}
@@ -391,23 +425,71 @@ Differently from JML and OCL, though, B is not object oriented, and some modelin
   upon others, through the SEES, USES, IMPORTS, INCLUDES and EXTENDS
   clauses.
 
-\item Conditions on method inputs which may lead to exception raising in the Java Card platform specification are coded into pre-conditions
-  in B.  
+\item Conditions on method inputs which may lead to exception raising
+  in the Java Card platform specification are coded into
+  pre-conditions in B.
   
- \item Method outputs are modeled in B as taking any value of the correct type, or, when possible in the current abstraction level, any value of a more restricted set of specified return values. 
+\item Method outputs are modeled in B as taking any value of the
+  correct type, or, when possible in the current abstraction level,
+  any value of a more restricted set of specified return values.
   
-\item Each machine corresponding to a Java Card class defines an abstract set with the same name (distinction on character cases, only). For instance, the machine Throwable declares the abstract set THROWABLE. This set can then be used to reference the type corresponding to the class.
+\item Each machine corresponding to a Java Card class defines an
+  abstract set with the same name (distinction on character cases,
+  only). For instance, the machine Throwable declares the abstract set
+  THROWABLE. This set can then be used to reference the type
+  corresponding to the class.
 
-\item The hierarchy of the Java Card API objects is partially modeled by abstract set inclusion. For instance, the class Throwable extends the class Object, in Java Card. In our model, we also have that the machine Throwable EXTENDS the machine Object, but the meaning of a machine extension in B is different from the meaning of a class extension in Java Card. To show that all throwables are indeed objects, a property stating that THROWABLE is a subset of OBJECT is included in the Throwable machine.
+\item The hierarchy of the Java Card API objects is partially modeled
+  by abstract set inclusion. For instance, the class Throwable extends
+  the class Object, in Java Card. In our model, we also have that the
+  machine Throwable EXTENDS the machine Object, but the meaning of a
+  machine extension in B is different from the meaning of a class
+  extension in Java Card. To show that all throwables are indeed
+  objects, a property stating that THROWABLE is a subset of OBJECT is
+  included in the Throwable machine.
 
-\item Overloading is not allowed in B and occurs frequently in Java Card. To model overloaded methods in B an extension to overloaded method names was included. We then have equals, equals\_1, equals\_2, etc. 
+\item Overloading is not allowed in B and occurs frequently in Java
+  Card. To model overloaded methods in B an extension to overloaded
+  method names was included. We then have equals, equals\_1,
+  equals\_2, etc.
 \end{itemize}
 
-As previously stated,  we chose to model exception raising conditions as operation pre-conditions in the B models. For instance, if the Java Card specification states that a method should throw an exception in case a parameter array is empty, the pre-condition of the corresponding B operation will require that this parameter is not empty. The B method then requires that every call to that operation satisfies the operation's pre-condition. As a consequence, code that is formally generated using the B method and the Java Card API specification should never raise this specific exception, as it is statically proved that all calls to this operation are made with non-empty parameter arrays. Not all situations leading to exceptional conditions are modeled, however, as some of them depend on the Java Card Runtime Environment (JCRE) and its state, which has not yet been modeled, and some require a more detailed specification of the contents of some data and other internal behavior. In these cases, the  exception raising conditions are only left as comments to the B specification, and can be used as additional documentation or to be considered in future work. 
+As previously stated, we chose to model exception raising conditions
+as operation pre-conditions in the B models. For instance, if the Java
+Card specification states that a method should throw an exception in
+case a parameter array is empty, the pre-condition of the
+corresponding B operation will require that this parameter is not
+empty. The B method then requires that every call to that operation
+satisfies the operation's pre-condition. As a consequence, code that
+is formally generated using the B method and the Java Card API
+specification should never raise this specific exception, as it is
+statically proved that all calls to this operation are made with
+non-empty parameter arrays. Not all situations leading to exceptional
+conditions are modeled, however, as some of them depend on the Java
+Card Runtime Environment (JCRE) and its state, which has not yet been
+modeled, and some require a more detailed specification of the
+contents of some data and other internal behavior. In these cases, the
+exception raising conditions are only left as comments to the B
+specification, and can be used as additional documentation or to be
+considered in future work.
 
-One delicate issue to be dealt with both by the user of the API specification and the tools designed to work with it, is the use of overloaded methods in an application development. When overloaded operations are used in an application development, the user must explicitly choose which version of the overloaded operation is to be used. Then, verifications will be carried out considering this specific version of the operation. When code is generated, either the code generator will remove the name extension automatically, if designed for it, or the user will have to edit the generated code manually. In any case, it is important that the actual method called in the Java Card code is the one with which verifications have been carried out.   In case of overriding, in particular, it will the user's responsibility to choose in B the one which is on scope at this specific point in Java, unless a extra verification step is included in the code generator that checks that the operation used in B is the one in scope in Java and registers an error in case it is not.
-
-
+One delicate issue to be dealt with both by the user of the API
+specification and the tools designed to work with it, is the use of
+overloaded methods in an application development. When overloaded
+operations are used in an application development, the user must
+explicitly choose which version of the overloaded operation is to be
+used. Then, verifications will be carried out considering this
+specific version of the operation. When code is generated, either the
+code generator will remove the name extension automatically, if
+designed for it, or the user will have to edit the generated code
+manually. In any case, it is important that the actual method called
+in the Java Card code is the one with which verifications have been
+carried out.  In case of overriding, in particular, it will be either
+the user's responsibility to choose the B one which is in scope at
+this specific point in Java, or an extra verification step will be
+included in the code generator to check that the operation used in
+B is the one in scope in Java and registers an error in case it is
+not.
 
 [[[ incluir aqui parte da discussao sobre as opcoes de modelagem  com o argumento pela escolha dos subsets para a tipagem ]]] 
 As our focus was on the interfaces of the Java Card API methods, 
@@ -420,8 +502,13 @@ As our focus was on the interfaces of the Java Card API methods,
 
 \section{Conclusions and future work}
 
-With the current level of abstraction of the model and the fact that the Java Card Runtime Environment (JCRE) has not been modeled, some
-conditions which may lead to exception raising are not yet modeled. Being able to model them would make developed applications even more sure, as more static verification could be carried out. Continuation of this work then will enlarge the scope of the modeling to cope statically with a larger set of situations.
+With the current level of abstraction of the model and the fact that
+the Java Card Runtime Environment (JCRE) has not been modeled, some
+conditions which may lead to exception raising are not yet
+modeled. Being able to model them would make developed applications
+even more sure, as more static verification could be carried
+out. Continuation of this work then will enlarge the scope of the
+modeling to cope statically with a larger set of situations.
 
 
 \bibliographystyle{plain}
