@@ -245,9 +245,9 @@ resulting code would be very similar to the original B machine.
 MACHINE
 	Buscard
 CONSTANTS
-	maximum
+	MAX_BALANCE
 PROPERTIES
-	maximum : INTEGER & MAX_BALANCE  = 100
+	MAX_BALANCE : INTEGER & MAX_BALANCE  = 100
 VARIABLES
 	balance
 INVARIANT
@@ -257,7 +257,7 @@ INITIALISATION
 OPERATIONS
 	add(credit) =
 	PRE
-		credit : INTEGER & credit > 0  & 
+		 credit : INTEGER & credit > 0  & credit <= MAX_BALANCE &
                 balance + credit <= MAX_BALANCE 
 	THEN
 		balance := balance + credit
@@ -277,7 +277,7 @@ straightforward (as it should be).
 \lstset{language=Java, caption={Method add in applet Java Card},label=lis:addjavacard}
 \begin{lstlisting}
 public void add (APDU apdu) { 
-	byte[] bf;  short cr; byte apdu_state; short res;
+	byte[] bf;  byte cr; byte apdu_state; short res;
 			
 	bf = apdu.getBuffer();
 	apdu_state = apdu.getCurrentState();
@@ -290,7 +290,9 @@ public void add (APDU apdu) {
 				
 		cr = Util.getShort (bf, ISO7816.OFFSET_CDATA);
 				
-		if (!((short) (balance + cr) <= MAX_BALANCE)) {
+		if (!(cr <= MAX_BALANCE)) {
+			ISOException.throwIt(EX_CREDIT_EXCEEDED);
+		} else if (!((short) (balance + cr) <= MAX_BALANCE)) {
 			ISOException.throwIt(EX_BALANCE_EXCEEDED);
 		} else if (!((short) (balance + cr) >= 0)) {
 			ISOException.throwIt(EX_NEGATIVE_BALANCE);
@@ -321,7 +323,10 @@ IN
 	THEN 
 		cr  <-- Util.getShort(bf, OFFSET_CDATA);
 		    
-		IF not (sum_short (balance, cr) <= MAX_BALANCE)
+		IF not (cr <= MAX_BALANCE)
+		THEN 
+			ISOException.throwIt(EX_CREDIT_EXCEEDED)
+		ELSIF not (sum_short (balance, cr) <= MAX_BALANCE)
 		THEN 
 			ISOException.throwIt(EX_BALANCE_EXCEEDED)
 		ELSIF not (sum_short (balance, cr) >= 0)
