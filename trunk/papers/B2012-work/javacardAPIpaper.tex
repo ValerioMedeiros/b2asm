@@ -157,39 +157,28 @@ exchange between the host and card applications is
 made through a a half-duplexed low level protocol, named
 \emph{Application Protocol Data Unit} (APDU).  
 
-The main component of the Java Card platform (Figure~\ref{fig:jcre})
+The main component of the Java Card platform
 is its runtime environment (JCRE), composed of a Java Card Virtual
-Machine (JCVM), an API, and, usually, system and
+Machine (JCVM), an Application Programming Interface (API), and, usually, system and
 industry-specific classes~\cite{chen:2000}. The JCRE acts as a small
 operating system, being responsible for the control of the application
 lifetime, security and resource management.
 
-The Java Card API provides the means to deal with the APDU protocol, 
+The Java Card API is the part of the Java Card platform that a developer of any Java Card application must use. It defines the constituents of an applet, provides the means to deal with the APDU protocol and communicate data and commands between the host application and the card, and defines some basic services for security and cryptography implementation. 
 
-\paragraph{Java Card applets}\label{sec:applets}
-
-A Java Card applet is a class that inherits the
-\emph{javacard.framewok.Applet} class of the Java Card API and is
-implemented upon the Java Card subset of Java.  During the applet
+In a Java Card application, the applet is the part which defines the card provided services. 
+An applet inherits the \emph{javacard.framewok.Applet} class of the Java Card API and is
+implemented upon the Java Card subset of Java to provide these services.  During the applet
 conversion for card installation, a verification phase is performed to
 check conformance of the classes to Java Card restrictions.
 
-The current usual Java Card specification (2.2.x) allows two kinds of
-applets.  The older, and most commonly used, kind of applet
-manipulates directly the APDU protocol packages while the newer one
-abstracts from the lower level protocol using Remote Method Invocation
-(RMI). In this paper we will call the lower level applet \emph{APDU
-  applet} and the higher level one, \emph{RMI applet}. RMI introduces
-a layer of abstraction above the APDU protocol, and hence is usually
-less efficient than APDU applets.
-
-
 \section{B specification of the Java Card API}\label{sec:api-spec}
 
+\paragraph{Motivation}
 Among the different components of the Java Card platform, the Java
 Card API is the one without which no refinement into Java Card code
 could be done.  Suppose, for instance, that we had the B abstract
-machine of Fig.~\ref{lis:buscard}, which models a bus card with a
+machine of Listing~\ref{lis:buscard}, which models a bus card with a
 variable that keeps track of the current credit the user has
 (\texttt{balance}) and an operation to add credits to this balance
 (\texttt{add}). This simple example provides enough evidence of the
@@ -226,11 +215,11 @@ END
 
 However, Java Card code corresponding to the operation \texttt{add} of
 this B specification would look like the one presented in
-Fig.~\ref{lis:addjavacard}. In a rigorous development process, we do
+Listing~\ref{lis:addjavacard}. In a rigorous development process, we do
 not want the code generator to carry out all these non-verified
 transformations in the code. So, we need to be able to refine the
 original B machine into something such as the B refinement of
-Fig.~\ref{lis:addimplementation}. Then, code generation would be
+Listing~\ref{lis:addimplementation}. Then, code generation would be
 straightforward (as it should be).
 
 \lstset{language=Java, caption={Method add in applet Java Card},label=lis:addjavacard}
@@ -300,7 +289,7 @@ END
 We can identify two main kinds of transformation that have to be
 carried out in order to obtain the code of operation \texttt{add} in
 figs.~\ref{lis:addjavacard} and~\ref{lis:addimplementation} from the
-abstract specification in fig.~\ref{lis:buscard}:
+abstract specification in Listing~\ref{lis:buscard}:
 
 \begin{enumerate}
 \item the transition into a defensive style of programming by the
@@ -334,6 +323,7 @@ reason why the Java Card API needed to be the first Java Card
 component to be modeled in B. This is a common choice, as we can see in previous work on the formalization of 
 Java Card in JML \cite{pollBerg01} and OCL \cite{Larsson:2004}. 
 
+\paragraph{The model}
 The Java Card API, in its version 2.2.2\footnote{Java Card 2.2.2,
   although not the most recent version of the Java Card platform, is
   still widely used, and can easily be extended to Java Card 3 Classic
@@ -402,7 +392,7 @@ restrictions of our models:
 \item The hierarchy of the Java Card API objects is partially modeled
   by abstract set inclusion. For instance, the class Throwable extends
   the class Object, in Java Card. In our model, we  have that the
-  machine Throwable SEES the machine Object, and too show that all throwables are indeed
+  machine Throwable SEES the machine Object, and to show that all throwables are indeed
   objects, a property stating that THROWABLE is a subset of OBJECT is
   included, associated to the Throwable machine.
 
@@ -412,6 +402,51 @@ restrictions of our models:
   equals\_2, etc.
 \end{itemize}
 
+A small piece of specification with some of the characteristics described above is presented in Listing \ref{lis:object}. It presents two \texttt{java.lang} classes: \texttt{Object} and \texttt{Throwable}.  \texttt{Object} is  superclass to almost all API classes, with its only method  \texttt{equals} that checks if an object (from which a reference is received as argument) is the same as the current one. \texttt{Throwable} extends \texttt{Object}, but does not define any other method nor redefines \texttt{equals}. The inheritance hierarchy is partially simulated in B by the corresponding set inclusion. These abstract sets are then used to refer to the corresponding class as a type as can be seen in Listing \ref{lis:class-types}.
+
+\lstset{language=B, caption={Basic API Definitions},label=lis:object}
+\begin{lstlisting}
+MACHINE Object
+SEES  ObjectSet
+OPERATIONS
+ 	result <-- equals(obj) =
+	PRE obj : OBJECT   /* declared in the ObjectSet machine */
+	THEN
+		result :: {TRUE, FALSE}
+	END
+END
+
+MACHINE Throwable
+/* This class extends java.lang.Object */
+SEES
+    Object,
+    ThrowableSet
+END
+
+MACHINE ObjectSet
+SETS
+     OBJECT   
+END
+
+MACHINE ThrowableSet
+SEES 
+    ObjectSet    
+CONSTANTS  THROWABLE
+PROPERTIES THROWABLE <: OBJECT
+END
+
+
+\end{lstlisting}
+
+\lstset{language=B, caption={Using classes as types},label=lis:class-types}
+\begin{lstlisting}
+op(anObject,otherObject) = 
+	PRE	
+		anObject : OBJECT & otherObject : THROWABLE
+...
+\end{lstlisting}
+
+\paragraph{Discussions on the model}
 As previously stated, we chose to model exception raising conditions
 as operation pre-conditions in the B models. For instance, if the Java
 Card specification states that a method should throw an exception in
@@ -451,38 +486,6 @@ not.
 
 Finally, the choices related to class derived types and return values were consequences of our focus on the interfaces of the Java Card API methods. The declaration of an abstract set for each class allows to model in B that a parameter of a particular class is expected or is to be returned by a method. 
 
-
-\lstset{language=B, caption={Basic API Definitions},label=lis:object}
-\begin{lstlisting}
-MACHINE Object
-SEES  ObjectSet
-OPERATIONS
- 	result <-- equals(obj) =
-	PRE obj : OBJECT   /* declared in the ObjectSet machine */
-	THEN
-		result :: {TRUE, FALSE}
-	END
-END
-
-MACHINE Throwable
-/* This class extends java.lang.Object */
-SEES
-    Object,
-    ThrowableSet
-END
-
-MACHINE ObjectSet
-SETS
-     OBJECT   
-END
-
-MACHINE ThrowableSet
-SEES 
-    ObjectSet    
-CONSTANTS  THROWABLE
-PROPERTIES THROWABLE <: OBJECT
-END
-\end{lstlisting}
 
 
 
