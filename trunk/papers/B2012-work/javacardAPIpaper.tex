@@ -149,33 +149,13 @@ In the following...
 
 \section{Smart Cards and Java Card}\label{sec:javacard}
 
-
-AMM: TRECHOS EXTRAIDOS E JA UM POUCO ALTERADOS DO ABZ 2010. DEPENDENDO
-DO QUE VAMOS MOSTRAR NA ESPECIFICAÇAO PODEMOS DEIXAR MAIS OU MENOS
-DETALHES AQUI. NO FINAL, PRECISAMOS VERIFICAR QUE NAO COPIAMOS DEMAIS
-O QUE ESTAVA LA.
-
 A smart card application is distributed between on-card and off-card
 components.  The server application on the card side (called applet)
 provides the application services. The off-card client (called host
-application) resides in a computer or electronic terminal.
-
-The information exchange between the host and card applications is
+application) resides in a computer or electronic terminal. The information 
+exchange between the host and card applications is
 made through a a half-duplexed low level protocol, named
-\emph{Application Protocol Data Unit} (APDU).  The ISO 7816-4 standard
-specifies two kinds of APDU's, which are the command and the response
-APDU (Figure~\ref{fig:APDUs}). Both specify data packets. A command APDU
-is sent by the host, requiring some applet service and a response APDU is
-sent by the applet, responding to the host request with the result of the
-service processing.
-
-\begin{figure}[!ht]
-\centering
-%\includegraphics[scale=0.3]{figs/comandoAPDU.jpg}
-%\includegraphics[scale=0.3]{figs/respostaAPDU.jpg}
-\caption{Command and response APDUs. Source:~\cite{ortiz1intro:2003}}
-\label{fig:APDUs}
-\end{figure}
+\emph{Application Protocol Data Unit} (APDU).  
 
 The main component of the Java Card platform (Figure~\ref{fig:jcre})
 is its runtime environment (JCRE), composed of a Java Card Virtual
@@ -184,13 +164,7 @@ industry-specific classes~\cite{chen:2000}. The JCRE acts as a small
 operating system, being responsible for the control of the application
 lifetime, security and resource management.
 
-\begin{figure}[h]
-\centering
-%\includegraphics[width=0.35\textwidth]{figs/jcplatform.png}
-\caption{Java Card platform components. Adapted from:~\cite{ortiz1intro:2003}}
-\label{fig:jcre}
-\end{figure}
-
+The Java Card API provides the means to deal with the APDU protocol, 
 
 \paragraph{Java Card applets}\label{sec:applets}
 
@@ -478,7 +452,7 @@ not.
 Finally, the choices related to class derived types and return values were consequences of our focus on the interfaces of the Java Card API methods. The declaration of an abstract set for each class allows to model in B that a parameter of a particular class is expected or is to be returned by a method. 
 
 
-\lstset{language=B, caption={B machine Buscard},label=lis:object}
+\lstset{language=B, caption={Basic API Definitions},label=lis:object}
 \begin{lstlisting}
 MACHINE Object
 SEES  ObjectSet
@@ -497,7 +471,7 @@ SEES
     ThrowableSet
 END
 
-MACHINE ObjectSet    
+MACHINE ObjectSet
 SETS
      OBJECT   
 END
@@ -512,13 +486,9 @@ END
 
 
 
-
-
-
-
 \section{Using the model in BSmart}
 
-The models are used in the different phases of the 
+The models of the Java Card API are used in the different phases of the 
 BSmart method development. Initially, the application 
 abstract specification uses the models of basic Java types, 
 since Java Card specific aspects are ideally related only
@@ -530,17 +500,17 @@ of \emph{ISOException} machine, which receives, in its \emph{throwIt} operation,
 a short value corresponding to the \emph{status} code that must be returned to 
 the client when the conditions are not satisfied.  
 
-In the B implementation, the whole set of the API can be related. Usually, besides
-ISOException (or other exception model), in a typical Java Card development 
-are imported \emph{Apdu} and \emph{Util}  modules. The fist defines operations
-to start the process of receiving (from host) and sending (to host) information 
-through the \emph{apdu buffer}. The preconditions of these sending/receiving 
-operations aid the verification process, since the specifier must to observe 
-the correct order in operation calling. The \emph{Util} component contains useful 
-operations to effectively get and put data in the buffer. When translating to 
-\emph{Java Card} the operation calling are translated to the corresponding 
-\emph{Java Card} method. 
-
+In the B implementation, the whole API can be referenced. Usually,
+besides ISOException (or another exception model), a typical Java Card
+development imports the \emph{Apdu} and \emph{Util} modules. The first
+defines operations to start the process of receiving (from host) and
+sending (to host) information through the \emph{apdu buffer}. The
+preconditions of these sending/receiving operations aid the
+verification process, since the specifier must observe the correct
+order of operation calls. The \emph{Util} component contains useful
+operations to effectively get and put data in the buffer. When
+translating to \emph{Java Card} the operation calls are translated
+to the corresponding \emph{Java Card} method.
 
 \section{Conclusions and future work}
 
