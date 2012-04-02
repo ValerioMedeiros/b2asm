@@ -145,7 +145,8 @@ API. This specification can be used with the BSmart tool,
 independently, in any B tool, or even as a complement to the official
 Java Card documentation \cite{oracle}.
 
-In the following...
+In the following we present some important aspects of the Java Card platform, in section \ref{sec:javacard}, and we introduce the B model of the Java Card API,  in section \ref{sec:api-spec}. We conclude with some notes on the use of the proposed model, in section \ref{sec:using-the-API}, and some conclusions and future work (in section \ref{sec:conc}).
+
 
 \section{Smart Cards and Java Card}\label{sec:javacard}
 
@@ -489,7 +490,7 @@ Finally, the choices related to class derived types and return values were conse
 
 
 
-\section{Using the model in BSmart}
+\section{Using the model in BSmart}\label{sec:using-the-API}
 
 The models of the Java Card API are used in the different phases of the 
 BSmart method development. Initially, the application 
@@ -515,15 +516,16 @@ operations to effectively get and put data in the buffer. When
 translating to \emph{Java Card} the operation calls are translated
 to the corresponding \emph{Java Card} method.
 
-\section{Conclusions and future work}
+As a case study on the use of this API on the formal development of Java Card applications, part of the electronic passport specification\footnote{Available at http://www.icao.int.} is being modeled and developed in BSmart, showing that it is feasible to have a Java Card-like B refinement  such as the one presented in Listing \ref{lis:addimplementation}.
 
-With the current level of abstraction of the model and the fact that
-the Java Card Runtime Environment (JCRE) has not been modeled, some
-conditions which may lead to exception raising are not yet
-modeled. Being able to model them would make developed applications
-even more sure, as more static verification could be carried
-out. Continuation of this work then will enlarge the scope of the
-modeling to cope statically with a larger set of situations.
+\section{Conclusions and future work}\label{sec:conc}
+
+The B model described in this paper has as intent to be of use to Java Card application developers, either as additional (formal) documentation to the official one, or, better, as an imported library to be used in the formal development of applications with the B method. In section \ref{sec:api-spec} some characteristics and limitations of the work have been presented. Current work on using the API model to formally develop Java Card applications with B shows promising results. 
+
+Among the limitations of this work, some may be dealt with by adapted tools and some will actually require some special attention from the developer, even with tool support, such as method overloading and overriding . These are the characteristics that are related to the fact that B is not object oriented and does not include exception raising and handling mechanisms. Some work on this last item can be seen on \cite{BR2003}, but it has not been implemented.
+
+With the current level of abstraction of the model and the fact that the Java Card Runtime Environment (JCRE) has not been modeled, different conditions which may lead to exception raising are not yet modeled. Being able to model them would make developed applications even more sure, as more static verification could be carried
+out. Continuation of this work then will enlarge the scope of the modeling to cope statically with a larger set of situations.
 
 
 \bibliographystyle{plain}
