@@ -74,24 +74,8 @@ showstringspaces=false
 
 \begin{document}
 \begin{frontmatter}
-%  \title{Modeling the Java Card API (or Interface?) in B} \author{A. Martins Moreira\thanksref{ALL}\thanksref{anamaria}}
-%  \address{DIMAp-UFRN, Natal, RN, Brazil} \author{S. de Oliveira Santos \thanksref{simone}}
-%  \address{DIMAp-UFRN, Natal, RN, Brazil} \author{B. Emerson Gurgel Gomes \thanksref{bruno}}
-%    \address{IFRN, Currais Novos, RN, Brazil} \author{D. Boris Paul D\'{e}harbe \thanksref{david}}
-%      \address{DIMAp-UFRN, Natal, RN, Brazil} \thanks[ALL]{INES-CAPES-projeto GD?... o que mais?} \thanks[anamaria]{Email:
-%    \href{mailto:anamaria@dimap.ufrn.br} {\texttt{\normalshape
-%        anamaria@dimap.ufrn.br}}} 
-%      \thanks[simone]{Email:
-%    \href{mailto:simone82@ppgsc.ufrn.br} {\texttt{\normalshape
-%        simone82@ppgsc.ufrn.br}}}
-%      \thanks[bruno]{Email:
-%    \href{mailto:bruno.gurgel@ifrn.edu.br} {\texttt{\normalshape
-%        bruno.gurgel@ifrn.edu.br}}}
-%       \thanks[david]{Email:
-%    \href{mailto:david@dimap.ufrn.br} {\texttt{\normalshape
-%        david@dimap.ufrn.br}}}
 
-  \title{Modeling the Java Card API (or Interface?) in B}
+  \title{Modeling the Java Card API in B}
   \author[ufrn]{A. Martins Moreira\thanksref{ALL}\thanksref{anamaria}}
   \author[ufrn]{S. de Oliveira Santos \thanksref{simone}}
   \author[ifrn]{B. Gurgel Gomes \thanksref{bruno}} \author[ufrn]{D.
@@ -235,9 +219,9 @@ machine of Fig.~\ref{lis:buscard}, which models a bus card with a
 variable that keeps track of the current credit the user has
 (\texttt{balance}) and an operation to add credits to this balance
 (\texttt{add}). This simple example provides enough evidence of the
-importance of having a B model of the Java Card API.  As all data in
-it is implementable in C, for instance, and as it is a deterministic
-specification, B tools can directly generate code for it in C, and the
+importance of having a B model of the Java Card API.  B tools can directly 
+generate code for it in C, for instance, because it  is a deterministic specification and all data in
+it is implementable in C.  The
 resulting code would be very similar to the original B machine.
 
 \lstset{language=B, caption={B machine Buscard},label=lis:buscard}
@@ -257,7 +241,8 @@ INITIALISATION
 OPERATIONS
 	add(credit) =
 	PRE
-		 credit : INTEGER & credit > 0  & credit <= MAX_BALANCE &
+		 credit : INTEGER & 
+		 credit > 0  & credit <= MAX_BALANCE &
                 balance + credit <= MAX_BALANCE 
 	THEN
 		balance := balance + credit
@@ -294,8 +279,6 @@ public void add (APDU apdu) {
 			ISOException.throwIt(EX_CREDIT_EXCEEDED);
 		} else if (!((short) (balance + cr) <= MAX_BALANCE)) {
 			ISOException.throwIt(EX_BALANCE_EXCEEDED);
-		} else if (!((short) (balance + cr) >= 0)) {
-			ISOException.throwIt(EX_NEGATIVE_BALANCE);
 		} else if (! (cr > 0)) {
 			ISOException.throwIt(EX_NEGATIVE_CREDIT);
 		} else {
@@ -329,10 +312,9 @@ IN
 		ELSIF not (sum_short (balance, cr) <= MAX_BALANCE)
 		THEN 
 			ISOException.throwIt(EX_BALANCE_EXCEEDED)
-		ELSIF not (sum_short (balance, cr) >= 0)
-		THEN ISOException.throwIt(EX_NEGATIVE_BALANCE)
 		ELSIF not (cr > 0)
-		THEN ISOException.throwIt(EX_NEGATIVE_CREDIT) 
+		THEN 
+			ISOException.throwIt(EX_NEGATIVE_CREDIT) 
 		ELSE  
 			balance := sum_short(balance, cr)
 		END
@@ -370,17 +352,13 @@ formally verified as usual in the B method.
 
 The change of interface is also taken care of by the BSmart method, so
 that the development can be done without need to extend the B
-method, as detailed in~\cite{Gomes10}.
+method, as presented in~\cite{Gomes10}.
 
 But all of these transformations rely on the need to reference Java
 Card API types, classes and methods on the B level.  This is then the
 reason why the Java Card API needed to be the first Java Card
-component to be modeled in B.
-
-[[[(PARA SIMONE e BRUNO: maybe also cite related work ? Which are the formalization works that did not focus on the API?)]]]
-
-[[[ PARA SIMONE -> tambem precisamos com urgencia daquela analise sobre o que muda da 2.2.2 para a 3 ]]]
-
+component to be modeled in B. This is a common choice, as we can see in previous work on the formalization of 
+Java Card in JML \cite{pollBerg01} and OCL \cite{Larsson:2004}. 
 
 The Java Card API, in its version 2.2.2\footnote{Java Card 2.2.2,
   although not the most recent version of the Java Card platform, is
@@ -438,6 +416,9 @@ restrictions of our models:
   correct type, or, when possible in the current abstraction level,
   any value of a more restricted set of specified return values.
   
+  \item In the current version of the specification, states are not modeled. 
+  The B machines corresponding to Java Card classes or interfaces are stateless machines. 
+  
 \item Each machine corresponding to a Java Card class defines an
   abstract set with the same name (distinction on character cases,
   only). For instance, the machine Throwable declares the abstract set
@@ -446,12 +427,10 @@ restrictions of our models:
 
 \item The hierarchy of the Java Card API objects is partially modeled
   by abstract set inclusion. For instance, the class Throwable extends
-  the class Object, in Java Card. In our model, we also have that the
-  machine Throwable EXTENDS the machine Object, but the meaning of a
-  machine extension in B is different from the meaning of a class
-  extension in Java Card. To show that all throwables are indeed
+  the class Object, in Java Card. In our model, we  have that the
+  machine Throwable SEES the machine Object, and too show that all throwables are indeed
   objects, a property stating that THROWABLE is a subset of OBJECT is
-  included in the Throwable machine.
+  included, associated to the Throwable machine.
 
 \item Overloading is not allowed in B and occurs frequently in Java
   Card. To model overloaded methods in B an extension to overloaded
@@ -475,14 +454,14 @@ Card Runtime Environment (JCRE) and its state, which has not yet been
 modeled, and some require a more detailed specification of the
 contents of some data and other internal behavior. In these cases, the
 exception raising conditions are only left as comments to the B
-specification, and can be used as additional documentation or to be
+specification, and can either be used as additional documentation or be
 considered in future work.
 
 One delicate issue to be dealt with both by the user of the API
 specification and the tools designed to work with it, is the use of
 overloaded methods in an application development. When overloaded
 operations are used in an application development, the user must
-explicitly choose which version of the overloaded operation is to be
+explicitly choose which version (in B) of the overloaded operation is to be
 used. Then, verifications will be carried out considering this
 specific version of the operation. When code is generated, either the
 code generator will remove the name extension automatically, if
@@ -496,8 +475,44 @@ included in the code generator to check that the operation used in
 B is the one in scope in Java and registers an error in case it is
 not.
 
-[[[ incluir aqui parte da discussao sobre as opcoes de modelagem  com o argumento pela escolha dos subsets para a tipagem ]]] 
-As our focus was on the interfaces of the Java Card API methods, 
+Finally, the choices related to class derived types and return values were consequences of our focus on the interfaces of the Java Card API methods. The declaration of an abstract set for each class allows to model in B that a parameter of a particular class is expected or is to be returned by a method. 
+
+
+\lstset{language=B, caption={B machine Buscard},label=lis:object}
+\begin{lstlisting}
+MACHINE Object
+SEES  ObjectSet
+OPERATIONS
+ 	result <-- equals(obj) =
+	PRE obj : OBJECT   /* declared in the ObjectSet machine */
+	THEN
+		result :: {TRUE, FALSE}
+	END
+END
+
+MACHINE Throwable
+/* This class extends java.lang.Object */
+SEES
+    Object,
+    ThrowableSet
+END
+
+MACHINE ObjectSet    
+SETS
+     OBJECT   
+END
+
+MACHINE ThrowableSet
+SEES 
+    ObjectSet    
+CONSTANTS  THROWABLE
+PROPERTIES THROWABLE <: OBJECT
+END
+\end{lstlisting}
+
+
+
+
 
 
 
