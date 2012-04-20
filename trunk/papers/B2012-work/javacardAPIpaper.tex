@@ -1,5 +1,4 @@
-\documentclass{entcs} 
-\usepackage{entcsmacro}
+\documentclass{llncs} 
 \usepackage{graphicx}
 
 \usepackage{listings}
@@ -39,7 +38,7 @@ breaklines=true,                % sets automatic line breaking
 showspaces=false,           % Leerzeichen anzeigen ?
 showtabs=false,             % Tabs anzeigen ?
 %backgroundcolor=\color{lightgray},
-keywordstyle=\color{red},
+%keywordstyle=\color{red},
 showstringspaces=false
 %breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
 %title=\lstname,                 % show the filename of files included with \lstinputlisting; also try caption instead of title
@@ -70,30 +69,20 @@ showstringspaces=false
 \newcommand{\Nat}{{\mathbb N}}
 \newcommand{\Real}{{\mathbb R}}
 
-\def\lastname{Martins Moreira}
-
 \begin{document}
-\begin{frontmatter}
 
-  \title{Modeling the Java Card API in B}
-  \author[ufrn]{A. Martins Moreira\thanksref{ALL}\thanksref{anamaria}}
-  \author[ufrn]{S. de Oliveira Santos \thanksref{simone}}
-  \author[ifrn]{B. Gurgel Gomes \thanksref{bruno}} \author[ufrn]{D.
-    D\'{e}harbe \thanksref{david}} \address[ufrn]{DIMAp-UFRN, Natal,
-    RN, Brazil} \thanks[ALL]{This work is partly supported by CAPES
-    and CNPq grants 306033/2009-7, 560014/2010-4 and 573964/2008-4
-    (National Institute of Science and Technology for Software
-    Engineering---INES, \texttt{www.ines.org.br}).}
-\address[ifrn]{IFRN, Currais Novos, RN, Brazil}
-\thanks[anamaria]{Email: \href{mailto:anamaria@dimap.ufrn.br}
-  {\texttt{\normalshape anamaria@dimap.ufrn.br}}}
-\thanks[simone]{Email: \href{mailto:simone82@ppgsc.ufrn.br}
-  {\texttt{\normalshape simone82@ppgsc.ufrn.br}}}
-\thanks[bruno]{Email: \href{mailto:bruno.gurgel@ifrn.edu.br}
-  {\texttt{\normalshape bruno.gurgel@ifrn.edu.br}}}
-\thanks[david]{Email: \href{mailto:david@dimap.ufrn.br}
-  {\texttt{\normalshape david@dimap.ufrn.br}}}
+\mainmatter
 
+\title{Modeling the Java Card API in B \thanks{This work is partly supported by CAPES
+ and CNPq grants 306033/2009-7, 560014/2010-4 and 573964/2008-4
+ (National Institute of Science and Technology for Software Engineering---INES, \texttt{www.ines.org.br}).}}
+
+\author{A. Martins Moreira\ \and S. de Oliveira Santos \and B. Gurgel Gomes \and D. D\'{e}harbe}
+\institute{Federal University of Rio Grande do Norte (UFRN); Natal; Brazil}
+%email{\{anamaria,david\}@dimap.ufrn.br, simone82@ppgsc.ufrn.br,bruno.gurgel@ifrn.edu.br}
+
+
+\maketitle
 
 \begin{abstract} 
   The B method development process starts from an abstract model of a
@@ -109,21 +98,18 @@ showstringspaces=false
   Programming Interface (Java Card API), to be used in the development
   of Java Card applications with B.
 \end{abstract}
-\begin{keyword}
-  Java Card, smart cards, B method, formal methods
-\end{keyword}
-\end{frontmatter}
+
 \section{Introduction}\label{intro}
 
 In the context of the BSmart project, we are interested in the use of
-B to develop Java Card~\cite{chen:2000} applications.  Java Card is a
+B~\cite{BBook} to develop Java Card~\cite{chen:2000} applications.  Java Card is a
 restricted and optimized version of Java which allows memory and
 processor constrained devices, such as smart cards, to store and run
 small applications.  Java Card applications have characteristics
 (small size and need for security) which make them good candidates for
 formal development with the B method. They also present some
 regularity of structure that led our group to define a method and
-implement a tool which specialize B for development of such
+implement a tool which specialize B for the development of such
 applications, providing greater support for the developer than pure B
 tools \cite{atelierB,proB}. They are the BSmart method and tool,
 presented in \cite{BSmart08,Gomes10}.
@@ -134,9 +120,7 @@ our knowledge, specified Java Card in B so that the formal development
 includes Java Card aspects. In the first versions of BSmart
 \cite{Gomes10}, these aspects were included by the code generator, and
 in JBTools \cite{JBtools}, the generated code needed to be edited by
-the developer to include these aspects.
-
-These works lacked then the ability to formally verify the Java Card
+the developer to include these aspects. These works lacked then the ability to formally verify the Java Card
 dependent aspects of the application. To be able to change this, a B
 specification of these aspects is needed, and this is the contribution
 of this paper: the B specification of the Java Card API, with its
@@ -155,7 +139,7 @@ components.  The server application on the card side (called applet)
 provides the application services. The off-card client (called host
 application) resides in a computer or electronic terminal. The information 
 exchange between the host and card applications is
-made through a a half-duplexed low level protocol, named
+made through a  low level protocol, named
 \emph{Application Protocol Data Unit} (APDU).  
 
 The main component of the Java Card platform
@@ -190,26 +174,18 @@ resulting code would be very similar to the original B machine.
 
 \lstset{language=B, caption={B machine Buscard},label=lis:buscard}
 \begin{lstlisting}
-MACHINE
-	Buscard
-CONSTANTS
-	MAX_BALANCE
-PROPERTIES
-	MAX_BALANCE : INTEGER & MAX_BALANCE  = 100
-VARIABLES
-	balance
-INVARIANT
-	balance : INTEGER & balance <= MAX_BALANCE 
-INITIALISATION
-	balance := 0
+MACHINE	Buscard
+CONSTANTS	MAX_BALANCE
+PROPERTIES	MAX_BALANCE : INTEGER & MAX_BALANCE  = 100
+VARIABLES	balance
+INVARIANT	balance : INTEGER & balance <= MAX_BALANCE 
+INITIALISATION balance := 0
 OPERATIONS
 	add(credit) =
-	PRE
-		 credit : INTEGER & 
-		 credit > 0  & credit <= MAX_BALANCE &
-                balance + credit <= MAX_BALANCE 
-	THEN
-		balance := balance + credit
+	PRE 	credit : INTEGER &  
+		credit > 0  & credit <= MAX_BALANCE & 
+		balance + credit <= MAX_BALANCE 
+	THEN balance := balance + credit
 	END
 END
 \end{lstlisting}
@@ -226,61 +202,44 @@ straightforward (as it should be).
 \lstset{language=Java, caption={Method add in applet Java Card},label=lis:addjavacard}
 \begin{lstlisting}
 public void add (APDU apdu) { 
-	byte[] bf;  byte cr; byte apdu_state; short res;
-			
+	byte[] bf;  byte cr; byte apdu_state; short res;			
 	bf = apdu.getBuffer();
 	apdu_state = apdu.getCurrentState();
-			
-	if (apdu_state == STATE_INITIAL) {
-		res = apdu.setIncomingAndReceive();
-	} else if (ISO7816.OFFSET_CDATA >= 0 && 
-			(short) (ISO7816.OFFSET_CDATA + 2) <= bf.length && 
-			bf != null) {
-				
-		cr = Util.getShort (bf, ISO7816.OFFSET_CDATA);
-				
-		if (!(cr <= MAX_BALANCE)) {
+	if (apdu_state == STATE_INITIAL) { 
+			res = apdu.setIncomingAndReceive();} 
+	else if ( ISO7816.OFFSET_CDATA >= 0 && bf != null &&
+		(short) (ISO7816.OFFSET_CDATA + 2) <= bf.length) {
+			cr = Util.getShort (bf, ISO7816.OFFSET_CDATA);
+		if (!(cr <= MAX_BALANCE)) {	
 			ISOException.throwIt(EX_CREDIT_EXCEEDED);
 		} else if (!((short) (balance + cr) <= MAX_BALANCE)) {
 			ISOException.throwIt(EX_BALANCE_EXCEEDED);
-		} else if (! (cr > 0)) {
+		} else if (! (cr > 0)) { 
 			ISOException.throwIt(EX_NEGATIVE_CREDIT);
-		} else {
-			balance = (short) (balance + cr);
-		}
-	} 
-}
+		} else {balance = (short) (balance + cr);}}}
 \end{lstlisting}
 
 \lstset{language=B, caption={B implementation},label=lis:addimplementation}
 \begin{lstlisting}
 add (apdu) = 
-VAR 
-	bf, cr, apdu_state, res
+VAR 	bf, cr, apdu_state, res
 IN
 	bf  <-- apdu.getBuffer;		
     	apdu_state  <-- apdu.getCurrentState;
-	    
 	IF (apdu_state = STATE_INITIAL) 
-	THEN
-		res <-- apdu.setIncomingAndReceive                
+	THEN res <-- apdu.setIncomingAndReceive                
 	ELSIF (OFFSET_CDATA >= 0 &
 		sum_short(OFFSET_CDATA, 2) <= size(bf) & 
 		bf /= [])
 	THEN 
 		cr  <-- Util.getShort(bf, OFFSET_CDATA);
-		    
 		IF not (cr <= MAX_BALANCE)
-		THEN 
-			ISOException.throwIt(EX_CREDIT_EXCEEDED)
+		THEN ISOException.throwIt(EX_CREDIT_EXCEEDED)
 		ELSIF not (sum_short (balance, cr) <= MAX_BALANCE)
-		THEN 
-			ISOException.throwIt(EX_BALANCE_EXCEEDED)
+		THEN ISOException.throwIt(EX_BALANCE_EXCEEDED)
 		ELSIF not (cr > 0)
-		THEN 
-			ISOException.throwIt(EX_NEGATIVE_CREDIT) 
-		ELSE  
-			balance := sum_short(balance, cr)
+		THEN ISOException.throwIt(EX_NEGATIVE_CREDIT) 
+		ELSE  balance := sum_short(balance, cr)
 		END
 	END
 END
@@ -306,8 +265,7 @@ abstract specification in Listing~\ref{lis:buscard}:
 \end{enumerate}
 
 The transition to a defensive style of programming is part of the
-BSmart method, and implemented by the BSmart Full Function
-component. This component generates a B refinement of the original
+BSmart method and tool, which generates a B refinement of the original
 specification where pre-conditions are transformed into conditionals
 (IF-THEN-ELSE-END constructs), with the indication of the need to
 throw the corresponding exception when the specified conditions are
@@ -333,35 +291,34 @@ The Java Card API, in its version 2.2.2\footnote{Java Card 2.2.2,
   v2.2.2 specifications and new security algorithms (Java Card 3
   Platform Release Notes, available at
   http://www.oracle.com/technetwork/java/javame/javacard/download/overview/index.html).}, is composed of 14
-packages, containing 93 classes and interfaces, as shown in
-Table~\ref{tab:packages}. Their interfaces have all been modeled in B,
+packages, containing 93 classes and interfaces. Their interfaces have all been modeled in B,
 and the resulting models are available at the KitSmart project
 page\footnote{https://code.google.com/p/kitsmart/}.  Differently from
 JML and OCL, though, B is not object oriented, and some modeling
 solutions had to be found to cope with this lack of resources.  We
 present in the following the main characteristics and some
 restrictions of our models:
-
-\begin{table}[h]
-\begin{center}
-\caption{Packages of the Java Card API (2.2.2) and the number of classes in each package.}
-\begin{tabular}{|l|c||l|c|}
- \hline
- 
-\textbf{\small{Package}} & \textbf{\small{classes}} & \textbf{\small{Package}} & \textbf{\small{classes}}\\ \hline \hline
-\small{java.io} & \small{1} & \small{javacardx.biometry} & \small{5} \\ \hline
-\small{java.lang} & \small{12} & \small{javacardx.crypto }& \small{2} \\ \hline
-\small{java.rmi} & \small{2} & \small{javacardx.external} & \small{3} \\ \hline
-\small{javacard.framework} & \small{19} & \small{javacardx.framework.math} & \small{3} \\ \hline
-\small{javacard.framework.service} & \small{8} & \small{javacardx.framework.tlv} & \small{7} \\ \hline
-\small{javacard.security} & \small{27} & \small{javacardx.framework.util} & \small{2} \\ \hline
-\small{javacardx.apdu} & \small{1} & \small{javacardx.framework.util.intx} & \small{1} \\
-
- \hline
-\end{tabular}
-\label{tab:packages}
-\end{center}
-\end{table}
+%
+%\begin{table}[h]
+%\begin{center}
+%\caption{Packages of the Java Card API (2.2.2) and the number of classes in each package.}
+%\begin{tabular}{|l|c||l|c|}
+% \hline
+% 
+%\textbf{\small{Package}} & \textbf{\small{classes}} & \textbf{\small{Package}} & \textbf{\small{classes}}\\ \hline \hline
+%\small{java.io} & \small{1} & \small{javacardx.biometry} & \small{5} \\ \hline
+%\small{java.lang} & \small{12} & \small{javacardx.crypto }& \small{2} \\ \hline
+%\small{java.rmi} & \small{2} & \small{javacardx.external} & \small{3} \\ \hline
+%\small{javacard.framework} & \small{19} & \small{javacardx.framework.math} & \small{3} \\ \hline
+%\small{javacard.framework.service} & \small{8} & \small{javacardx.framework.tlv} & \small{7} \\ \hline
+%\small{javacard.security} & \small{27} & \small{javacardx.framework.util} & \small{2} \\ \hline
+%\small{javacardx.apdu} & \small{1} & \small{javacardx.framework.util.intx} & \small{1} \\
+%
+% \hline
+%\end{tabular}
+%\label{tab:packages}
+%\end{center}
+%\end{table}
 
 \begin{itemize}
 
@@ -395,48 +352,33 @@ restrictions of our models:
   the class Object, in Java Card. In our model, we  have that the
   machine Throwable SEES the machine Object, and to show that all throwables are indeed
   objects, a property stating that THROWABLE is a subset of OBJECT is
-  included, associated to the Throwable machine.
+  included.
 
 \item Overloading is not allowed in B and occurs frequently in Java
   Card. To model overloaded methods in B an extension to overloaded
-  method names was included. We then have equals, equals\_1,
-  equals\_2, etc.
-\end{itemize}
+  method names was included.
+  
+  \end{itemize}
 
-A small piece of specification with some of the characteristics described above is presented in Listing \ref{lis:object}. It presents two \texttt{java.lang} classes: \texttt{Object} and \texttt{Throwable}.  \texttt{Object} is  superclass to almost all API classes, with its only method  \texttt{equals} that checks if an object (from which a reference is received as argument) is the same as the current one. \texttt{Throwable} extends \texttt{Object}, but does not define any other method nor redefines \texttt{equals}. The inheritance hierarchy is partially simulated in B by the corresponding set inclusion. These abstract sets are then used to refer to the corresponding class as a type as can be seen in Listing \ref{lis:class-types}.
+A small piece of specification with some of the characteristics described above is presented in Listing \ref{lis:object}. It presents two \texttt{java.lang} classes: \texttt{Object} and \texttt{Throwable}.  \texttt{Object} is  superclass to  all API classes, with its only method  \texttt{equals} that checks if an object (from which a reference is received as argument) is the same as the current one. \texttt{Throwable} extends \texttt{Object}, but does not define any other method nor redefines \texttt{equals}. The inheritance hierarchy is partially simulated in B by the corresponding set inclusion. These abstract sets are then used to refer to the corresponding class as a type as can be seen in Listing \ref{lis:class-types}.
 
 \lstset{language=B, caption={Basic API Definitions},label=lis:object}
 \begin{lstlisting}
 MACHINE Object
-SEES  ObjectSet
+SEES  javaLangClasses 
 OPERATIONS
  	result <-- equals(obj) =
-	PRE obj : OBJECT   /* declared in the ObjectSet machine */
-	THEN
-		result :: {TRUE, FALSE}
-	END
-END
+	   PRE obj : OBJECT  /* declared in javaLangClasses */
+	   THEN result :: {TRUE, FALSE}
 
-MACHINE Throwable
-/* This class extends java.lang.Object */
+MACHINE Throwable  /* extends java.lang.Object */
 SEES
-    Object,
-    ThrowableSet
-END
+    Object,  javaLangClasses 
 
-MACHINE ObjectSet
-SETS
-     OBJECT   
-END
-
-MACHINE ThrowableSet
-SEES 
-    ObjectSet    
-CONSTANTS  THROWABLE
-PROPERTIES THROWABLE <: OBJECT
-END
-
-
+MACHINE javaLangClasses
+SETS  OBJECT   
+CONSTANTS  THROWABLE , ...			
+PROPERTIES  THROWABLE <: OBJECT & ...
 \end{lstlisting}
 
 \lstset{language=B, caption={Using classes as types},label=lis:class-types}
@@ -508,11 +450,9 @@ In the B implementation, the whole API can be referenced. Usually,
 besides ISOException (or another exception model), a typical Java Card
 development imports the \emph{Apdu} and \emph{Util} modules. The first
 defines operations to start the process of receiving (from host) and
-sending (to host) information through the \emph{apdu buffer}. The
-preconditions of these sending/receiving operations aid the
-verification process, since the specifier must observe the correct
-order of operation calls. The \emph{Util} component contains useful
-operations to effectively get and put data in the buffer. When
+sending (to host) information through the \emph{apdu buffer}.  
+The \emph{Util} component contains useful
+operations to get and put data in the buffer. When
 translating to \emph{Java Card} the operation calls are translated
 to the corresponding \emph{Java Card} method.
 
