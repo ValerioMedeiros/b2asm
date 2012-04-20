@@ -109,19 +109,19 @@ small applications.  Java Card applications have characteristics
 (small size and need for security) which make them good candidates for
 formal development with the B method. They also present some
 regularity of structure that led our group to define a method and
-implement a tool which specialize B for the development of such
-applications, providing greater support for the developer than pure B
+implement a tool which specializes B for the development of such
+applications, providing more focussed support for the developer than pure B
 tools \cite{atelierB,proB}. They are the BSmart method and tool,
 presented in \cite{BSmart08,Gomes10}.
 
 Previous works have also dealt with B for Smart Cards,
-\cite{Bert:2003,JBtools,tatibouet:lncs,requetBtoC}, but none has, at
+\cite{Bert:2003,JBtools,tatibouet:lncs,requetBtoC}, but none has, to
 our knowledge, specified Java Card in B so that the formal development
 includes Java Card aspects. In the first versions of BSmart
-\cite{Gomes10}, these aspects were included by the code generator, and
-in JBTools \cite{JBtools}, the generated code needed to be edited by
+\cite{Gomes10}, these aspects were included by the code generator. In 
+contrast, with the JBTools~\cite{JBtools} approach, the generated code needed to be edited by
 the developer to include these aspects. These works lacked then the ability to formally verify the Java Card
-dependent aspects of the application. To be able to change this, a B
+dependent aspects of the application. To change this, a B
 specification of these aspects is needed, and this is the contribution
 of this paper: the B specification of the Java Card API, with its
 primitive types and all the classes of the 14 packages composing the
@@ -129,7 +129,7 @@ API. This specification can be used with the BSmart tool,
 independently, in any B tool, or even as a complement to the official
 Java Card documentation \cite{oracle}.
 
-In the following we present some important aspects of the Java Card platform, in section \ref{sec:javacard}, and we introduce the B model of the Java Card API,  in section \ref{sec:api-spec}. We conclude with some notes on the use of the proposed model, in section \ref{sec:using-the-API}, and some conclusions and future work (in section \ref{sec:conc}).
+In the following, we present some important aspects of the Java Card platform, in section \ref{sec:javacard}, and we introduce the B model of the Java Card API,  in section \ref{sec:api-spec}. We conclude with some notes on the use of the proposed model, in section \ref{sec:using-the-API}, and some conclusions and future work (in section \ref{sec:conc}).
 
 
 \section{Smart Cards and Java Card}\label{sec:javacard}
@@ -149,7 +149,7 @@ industry-specific classes~\cite{chen:2000}. The JCRE acts as a small
 operating system, being responsible for the control of the application
 lifetime, security and resource management.
 
-The Java Card API is the part of the Java Card platform that a developer of any Java Card application must use. It defines the constituents of an applet, provides the means to deal with the APDU protocol and communicate data and commands between the host application and the card, and defines some basic services for security and cryptography implementation. 
+The Java Card API is the part of the Java Card platform that a developer of any Java Card application must use. It defines the constituents of an applet, provides the means to deal with the APDU protocol and to communicate data and commands between the host application and the card. It also defines some basic security services such as encryption.
 
 In a Java Card application, the applet is the part which defines the card provided services. 
 An applet inherits the \emph{javacard.framewok.Applet} class of the Java Card API and is
@@ -167,10 +167,10 @@ machine of Listing~\ref{lis:buscard}, which models a bus card with a
 variable that keeps track of the current credit the user has
 (\texttt{balance}) and an operation to add credits to this balance
 (\texttt{add}). This simple example provides enough evidence of the
-importance of having a B model of the Java Card API.  B tools can directly 
-generate code for it in C, for instance, because it  is a deterministic specification and all data in
-it is implementable in C.  The
-resulting code would be very similar to the original B machine.
+importance of having a B model of the Java Card API.  B tools can
+directly generate code for it in C, for instance, because it is a
+deterministic specification and all data in it is implementable in C.
+The resulting code would be very similar to the original B machine.
 
 \lstset{language=B, caption={B machine Buscard},label=lis:buscard}
 \begin{lstlisting}
@@ -245,7 +245,6 @@ IN
 END
 \end{lstlisting}
 
-
 We can identify two main kinds of transformation that have to be
 carried out in order to obtain the code of operation \texttt{add} in
 figs.~\ref{lis:addjavacard} and~\ref{lis:addimplementation} from the
@@ -273,14 +272,15 @@ not met by input data and states.  The resulting B model can then be
 formally verified as usual in the B method.
 
 The change of interface is also taken care of by the BSmart method, so
-that the development can be done without need to extend the B
+that the development can be done without extending the B
 method, as presented in~\cite{Gomes10}.
 
 But all of these transformations rely on the need to reference Java
 Card API types, classes and methods on the B level.  This is then the
 reason why the Java Card API needed to be the first Java Card
-component to be modeled in B. This is a common choice, as we can see in previous work on the formalization of 
-Java Card in JML \cite{pollBerg01} and OCL \cite{Larsson:2004}. 
+component to be modeled in B. This is a common choice, as we can see
+in previous work on the formalization of Java Card in JML
+\cite{pollBerg01} and OCL \cite{Larsson:2004}.
 
 \paragraph{The model}
 The Java Card API, in its version 2.2.2\footnote{Java Card 2.2.2,
@@ -325,7 +325,7 @@ restrictions of our models:
 \item Only the abstract models corresponding to each class or
   interface have been developed. Two reasons led to this choice: (1)
   code is not to be generated from the specification of the API, as we
-  are only creating an abstract layer to existing implementations; and
+  are only creating a model fo existing implementations; and
   (2) in B, only the abstract machines are seen by modules that build
   upon others, through the SEES, USES, IMPORTS, INCLUDES and EXTENDS
   clauses.
@@ -338,8 +338,9 @@ restrictions of our models:
   correct type, or, when possible in the current abstraction level,
   any value of a more restricted set of specified return values.
   
-  \item In the current version of the specification, states are not modeled. 
-  The B machines corresponding to Java Card classes or interfaces are stateless machines. 
+\item In the current version of the specification, states are not
+  modeled.  The B machines corresponding to Java Card classes or
+  interfaces are stateless.
   
 \item Each machine corresponding to a Java Card class defines an
   abstract set with the same name (distinction on character cases,
@@ -350,7 +351,7 @@ restrictions of our models:
 \item The hierarchy of the Java Card API objects is partially modeled
   by abstract set inclusion. For instance, the class Throwable extends
   the class Object, in Java Card. In our model, we  have that the
-  machine Throwable SEES the machine Object, and to show that all throwables are indeed
+  machine Throwable SEES the machine Object, and to constrain that all throwables are indeed
   objects, a property stating that THROWABLE is a subset of OBJECT is
   included.
 
@@ -360,7 +361,7 @@ restrictions of our models:
   
   \end{itemize}
 
-A small piece of specification with some of the characteristics described above is presented in Listing \ref{lis:object}. It presents two \texttt{java.lang} classes: \texttt{Object} and \texttt{Throwable}.  \texttt{Object} is  superclass to  all API classes, with its only method  \texttt{equals} that checks if an object (from which a reference is received as argument) is the same as the current one. \texttt{Throwable} extends \texttt{Object}, but does not define any other method nor redefines \texttt{equals}. The inheritance hierarchy is partially simulated in B by the corresponding set inclusion. These abstract sets are then used to refer to the corresponding class as a type as can be seen in Listing \ref{lis:class-types}.
+A small piece of specification with some of the characteristics described above is presented in Listing \ref{lis:object}. It presents two \texttt{java.lang} classes: \texttt{Object} and \texttt{Throwable}.  \texttt{Object} is a superclass to  all API classes, with a single method  \texttt{equals} that checks if an object (from which a reference is received as argument) is the same as the current one. \texttt{Throwable} extends \texttt{Object}, but does not define any other method nor redefines \texttt{equals}. The inheritance hierarchy is partially simulated in B by the corresponding set inclusion. These abstract sets are then used to refer to the corresponding class as a type as can be seen in Listing \ref{lis:class-types}.
 
 \lstset{language=B, caption={Basic API Definitions},label=lis:object}
 \begin{lstlisting}
@@ -409,7 +410,7 @@ exception raising conditions are only left as comments to the B
 specification, and can either be used as additional documentation or be
 considered in future work.
 
-One delicate issue to be dealt with both by the user of the API
+One subtle issue to be dealt with both by the user of the API
 specification and the tools designed to work with it, is the use of
 overloaded methods in an application development. When overloaded
 operations are used in an application development, the user must
@@ -421,16 +422,17 @@ designed for it, or the user will have to edit the generated code
 manually. In any case, it is important that the actual method called
 in the Java Card code is the one with which verifications have been
 carried out.  In case of overriding, in particular, it will be either
-the user's responsibility to choose the B one which is in scope at
+the user's responsibility to choose the B operation in scope at
 this specific point in Java, or an extra verification step will be
 included in the code generator to check that the operation used in
 B is the one in scope in Java and registers an error in case it is
 not.
 
-Finally, the choices related to class derived types and return values were consequences of our focus on the interfaces of the Java Card API methods. The declaration of an abstract set for each class allows to model in B that a parameter of a particular class is expected or is to be returned by a method. 
-
-
-
+Finally, the choices related to class derived types and return values
+were consequences of our focus on the interfaces of the Java Card API
+methods. The declaration of an abstract set for each class allows to
+model in B that a parameter of a particular class is expected or is to
+be returned by a method.
 
 \section{Using the model in BSmart}\label{sec:using-the-API}
 
@@ -462,11 +464,10 @@ As a case study on the use of this API on the formal development of Java Card ap
 
 The B model described in this paper has as intent to be of use to Java Card application developers, either as additional (formal) documentation to the official one, or, better, as an imported library to be used in the formal development of applications with the B method. In section \ref{sec:api-spec} some characteristics and limitations of the work have been presented. Current work on using the API model to formally develop Java Card applications with B shows promising results. 
 
-Among the limitations of this work, some may be dealt with by adapted tools and some will actually require some special attention from the developer, even with tool support, such as method overloading and overriding . These are the characteristics that are related to the fact that B is not object oriented and does not include exception raising and handling mechanisms. Some work on this last item can be seen on \cite{BR2003}, but it has not been implemented.
+Among the limitations of this work, some may be dealt with by adapted tools and some will actually require some special attention from the developer, even with tool support, such as method overloading and overriding . These are consequence of B not being object oriented and not providing exception raising and handling mechanisms. Some work on this last item can be seen on \cite{BR2003}, but it has not been implemented.
 
-With the current level of abstraction of the model and the fact that the Java Card Runtime Environment (JCRE) has not been modeled, different conditions which may lead to exception raising are not yet modeled. Being able to model them would make developed applications even more sure, as more static verification could be carried
+With the current level of abstraction of the model and the fact that the Java Card Runtime Environment (JCRE) has not been modeled, different conditions which may lead to exception raising are not yet modeled. Extending the model to include them would make developed applications more reliable, as more static verification could be carried
 out. Continuation of this work then will enlarge the scope of the modeling to cope statically with a larger set of situations.
-
 
 \bibliographystyle{plain}
 \bibliography{bib}
