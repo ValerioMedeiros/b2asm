@@ -25,7 +25,7 @@
 \include{comandos}
 \include{SymbolsB_AtelierB} 
 
-
+%TODO: Verificar possíveis diferenças do FORMATO LNCS
 
 % Allow use multiples footnote references 
 \newcommand{\footnoteremember}[2]{
@@ -47,6 +47,7 @@
 \hyphenation{in-struc-tion}
 \hyphenation{re-gis-ter}
 \hyphenation{re-gis-ters}
+
 %
 %
 %
@@ -77,11 +78,6 @@
 \end{abstract}
 
 
-%\keywords{ Validation, Verification, Microcontroller, Hardware}
-%
-%\setcounter{secnumdepth}{1}
-%\setcounter{chapter}{1}
-%\setcounter{section}{1}
 
 \section{Introduction}
 
@@ -103,27 +99,27 @@ available documentation; and it has been widely used.  A first,
 partial, Z80 model presented in \cite{Valerio_SBMF09} was fully
 verified, but it used constructs that made it impossible to animate.
 
-The new model supports animation in ProB\cite{proB}.  Essentially, the
+The new model supports animation in ProB~\cite{proB}.  Essentially, the
 new model\footnote{The interested reader in more details is invited to
   visit our repository at: http://code.google.com/p/b2asm/.}  no
 longer contains definitions derived from infinite sets. Using B
 constructs for modularity, auxiliary libraries of basic modules were
-developed as part of the construction of microcontroller model. Such
-library has many definitions of concepts common in microcontrollers.
+developed as part of the construction of the microcontroller model. Such
+a library has many definitions of concepts common to microcontrollers.
 Besides the new Z80 model, a petroleum production test system was
-developed using Z80 assembly language to analyse the code simulation
+developed using the Z80 assembly language to analyse the code simulation
 and the verification process.
 
 The formal model of an instruction set has several
 applications. Animation allows to simulate the execution of assembly
 programs including support for interrupts, input and output
 instructions. Other possible uses include documentation, the
-construction of simulators, and can be possibly the starting point of
+construction of simulators, and can possibly be the starting point of
 a verification effort for the actual implementation of a Z80
 design. Moreover, the model of the instruction set could be
 instrumented with non-functional aspects, such as the number of cycles
 it takes to execute an instruction, to prove lower and upper bounds on
-the execution time of a routine.  Two aspects of such formalization
+the execution time of a routine.  Two aspects of such formalizations
 are of particular importance to us: provide a more solid documentation
 artifact for microcontrollers and build a reference model for a formal
 compilation approach in B.
@@ -131,19 +127,19 @@ compilation approach in B.
 It is often the case that the official documentation of an instruction
 uses textual description, mathematical formulas, examples,
 etc. Sometimes, the instruction descriptions have a specific notation,
-some informations are organized in different sections of document and
+some informations are organized in different sections of a document and
 the textual descriptions are not standardized.  The manuals also have
 semi-formal and informal descriptions, these descriptions may leave
 errors, inconsistency and ambiguity.  For example, in the official
 manual of the microcontroller Z80 \cite{Z80_manual}, the semantics of
 an instruction (in particular its effects on the flag register) are
-described informally, and is this description is scattered in
+described informally, and this description is scattered in
 different pages.  Furthermore, the official manual of the
 microcontroller Z80 has also several problems that were identified
 over time~\cite{UndocumentedZ80}.
 
-A solution to avoid ambiguity and inconsistencies is to specify
-formally the assembly instruction set, making it possible to prove
+A solution to avoid ambiguity and inconsistencies is to formally
+specify the assembly instruction set, making it possible to prove
 properties of the instructions. The formal model also restricts the
 definitions to correct typing and uses only well-defined
 expressions. Furthermore, the developer may use the refinement
@@ -292,7 +288,7 @@ to the conclusions.
 % e) formalization of integer ranges 
 
 We have developed a reusable set of basic definitions to model
-hardware concepts and data types concepts. The models contains
+hardware concepts and data types concepts. The models contain
 definitions to represent: registers, interruptions, input and
 output ports, memory and instructions. These definitions are grouped
 into separated development projects and are available as libraries.
@@ -382,7 +378,7 @@ $$
 The module provides definitions of $\textit{bit\_or}$ (disjunction)
 and $\textit{bit\_xor}$ (exclusive disjunction), as well as lemmas on
 those operators. These are standard and their expression in B is
-similar as for $\textit{bit\_and}$.
+similar to $\textit{bit\_and}$.
 
 Finally, the conversion from Boolean to bit is simply defined as:
 $$
@@ -397,14 +393,14 @@ automatically proved by the prover of Atelier-B.
 \subsection{Representation and manipulation of bit vectors}
 \label{subsec:HardwareLibrary2}
 
-Sequences are predefined objects in B and are natural candidate to
-represent bit vectors. In B, sequences are functions whose the domain
+Sequences are predefined objects in B and are natural candidates to
+represent bit vectors. In B, sequences are functions whose domain
 is an integer range with lower bound 1 (one). Indices in bit vectors
 usually range from 0 (zero) upwards and the model we propose obeys
 this convention by making an offset where necessary, so that
 predefined functions and proof rules may be used. We define bit
 vectors as non-empty sequences of bits: $\textit{BIT\_VECTOR} =
-\seq1(\textit{BIT})$. As $\textit{BIT\_VECTOR}$ is an infinite set,
+\seq1 (\textit{BIT})$. As $\textit{BIT\_VECTOR}$ is an infinite set,
 this definition hinders the animation in ProB.  As a workaround, we
 defined specialized types \textit{BYTE} and \textit{BV16} without
 reference to \textit{BIT\_VECTOR}.
@@ -421,14 +417,14 @@ reference to \textit{BIT\_VECTOR}.
 %$
 
 We also define two functions $\textit{bv\_set}$ and
-$\textit{bv\_clear}$ that, given a bit vector, and a position of the
-bit vector, return the bit vector resulting from setting the
+$\textit{bv\_clear}$ that, given a bit vector, and a position in a
+bit vector, returns the bit vector resulting from setting the
 corresponding position to 1 and 0, and a function $\textit{bv\_get}$
 that, given a bit vector and a valid position, returns the value of
 the bit at that position. Only the first definition is shown here:
 $$
 \begin{array}{l}
-\textit{bv\_set} \in \textit{BIT\_VECTOR} \times \nat \fun \textit{BIT\_VECTOR} \land \textit{bv\_set} =\\
+\textit{bv\_set} \in \textit{BIT\_VECTOR} \times \nat \fun \textit{BIT\_VECTOR} \land \\ \textit{bv\_set} =
 \lambda v, n . (v \in \textit{BIT\_VECTOR} \land n \in \nat \land n <\textit{size}(v)
 \mid v \lover \{ n+1 \mapsto 1 \})
 \end{array}
@@ -543,21 +539,20 @@ The definition of instruction sets usually have bit vector and integer
 types as listed in table~\ref{tab:types}. For each type, a number of
 functions are defined, including conversion between different types.
 
-\begin{table}
+\begin{table}[h]
 \caption{Details of basic data types}
 \label{tab:types}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
  \textit{Type\ Name} & \textit{Range} & \textit{Physical Size}  & \textit{Num. POs} & \textit{Library} \\\hline
- BIT & 0..1 & 1 bit &   118 & Hardware \\\hline %49 + 69 = 118 \\\hline
- BYTE & -- & 1 bytes &  153 & Hardware \\\hline%17 + 136 = 153\\\hline
- BV16 & -- & 2 bytes &  75 & Hardware \\ \hline%5 + 70 = 75 \\ \hline
- UCHAR & 0..255 & 1 byte &  30 & Types \\\hline %4 + 26 = 30 \\\hline
- SCHAR & -128..127 & 1 byte & 26 & Types \\\hline %2 + 24 = 26 \\\hline
- USHORT & 0..65.535 & 2 byte & 62 & Types \\\hline % 4 + 58 = 62 \\\hline
- SSHORT & -32.768..32.767 & 2 bytes & 58 & Types \\\hline %  2 + 56 = 58\\\hline
-%  &  & Total & 522\\\hline %  2 + 56 = 58\\\hline
+ BIT & 0..1 & 1 bit &   118 & Hardware \\\hline 
+ BYTE & -- & 1 bytes &  154 & Hardware \\\hline
+ BV16 & -- & 2 bytes &  75 & Hardware \\ \hline
+ UCHAR & 0..255 & 1 byte &  30 & Types \\\hline
+ SCHAR & -128..127 & 1 byte & 30 & Types \\\hline 
+ USHORT & 0..65535 & 2 byte & 62 & Types \\\hline
+ SSHORT & -32768..32767 & 2 bytes & 62 & Types \\\hline 
 \end{tabular}
 \end{center}
 \end{table}
@@ -609,14 +604,14 @@ $$
 %a signal bit, 
 
 Nearly 50\% of all these proof obligations shown in the
-Table~\ref{tab:types} are verified automatically or with few user
-commands. However many others proof obligations are difficult to
-verify, as they involve functions that contain arithmetic expressions
-that are difficult to manipulate with the interactive prover of
-AtelierB.
+Table~\ref{tab:types} are verified automatically or with few proof
+commands\footnote{The proof commands are steps that help the prover to find the proof.} .
+However many others proof obligations are difficult to verify, as they involve functions
+that contain arithmetic expressions that are difficult to manipulate with the interactive
+prover of AtelierB. However, all theses 531 proof obligations were verified completely.
 
 
-\subsection{Verification} 
+\subsection{Verification of hardware library and types library} 
 \label{sec:VerificationHardwareLibrary}
 
 This section presents the verification of the aforementioned modules
@@ -631,8 +626,8 @@ $inc(1)=2$ and $ 2 \not\in \{0,1\}$.
 To avoid such inconsistencies, we state separately the required
 properties in the \textit{ASSERTIONS\/} clause: this causes
 corresponding proof obligations to be generated and verified. However,
-we have not been able to build the corresponding proofs using the base
-of rules included in the free distribution of AtelierB. So we
+we have not been able to build the corresponding proofs using the 
+rule base included in the free distribution of AtelierB. So we
 formalized new proof rules to check these properties in AtelierB and
 used them in the interactive prover of AtelierB.
 
@@ -733,183 +728,6 @@ binary arithmetic to prove important properties~\cite{James2010,Dasgupta2006}.
 
 
 
-% Finally, four proof obligations  are using rules to demonstrate that
-% the functions are finite\marginpar{Qual o objetivo de provar que as funções são finitas?}
-% : \it byte\_uchar $ \in \finset$\rm (\it
-% byte\_uchar\rm ); \it uchar\_byte $ \in \finset$\rm (\it
-% uchar\_byte\rm ); \it ushort\_bv16 $ \in \finset$\rm (\it
-% ushort\_bv16\rm ) and \it bv16\_ushort $ \in \finset$\rm (\it
-% bv16\_ushort\rm ).
-% \begin{enumerate}
-% \item  For the proof obligation (\it byte\_uchar $\in$   $\finset$ \rm (\it byte\_uchar\rm )) , the proof rule is:\\
-%   $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) $\in$   $\finset$ \rm ( $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )\rm )  \\
-% 
-% 
-% \end{enumerate}
-
-
-
-%
-%To guarantee these rules, a demonstration will be shown. We need verify if (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$ \textit{UCHAR}) then four conditions must be verified.
-%
-%Is $byte\_uchar$ a function ?\\
-%\begin{tabular}{l c}
-%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it byte\_uchar\rm )  $\land$  \it yy $\in$  \bf ran\rm (\it byte\_uchar\rm  )  \\
-%$\land$  \it zz $\in$  \bf ran\rm (\it byte\_uchar\rm )  $\land$ \rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \it byte\_uchar\rm  $\land$\\
-%\rm ( \it xx $\mapsto$  \it zz\rm )  $\in$  \it byte\_uchar\rm   $\implies$  \it yy\rm =\it zz \rm )\\\\
-%\end{tabular}
-%\\
-%Step 1 - Replacing the sets:\\
-%\begin{tabular}{l c}
-%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \it BYTE\rm  $\land$  \it yy $\in$  \it UCHAR\rm $\land$  \it zz $\in$  \it UCHAR \rm  \\
-%$\land$ \rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \it byte\_uchar \rm  $\land$ \rm ( \it xx $\mapsto$  \it zz\rm )  $\in$  \it byte\_uchar\rm  $\implies$  \it yy\rm =\it zz \rm )\\\\
-%\end{tabular}
-%\\
-%Step 2 - Expanding \it byte\_uchar \rm and replacing the sets:\\
-%\begin{tabular}{l c}
-%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \it BYTE \rm  $\land$  \it yy $\in$  \it UCHAR \rm $\land$  \it zz $\in$  \it UCHAR \rm  $\land$ & {\LARGE \checkmark} \\
-%\rm ( \it xx $\mapsto$  \it yy\rm ) $\in$  \rm \{\rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] $\mapsto$ \rm 0\rm, \ldots , \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ] $\mapsto$ \rm 2\rm 5\rm 5 \rm \} \rm  $\land$ \\
-%\rm ( \it xx $\mapsto$  \it zz\rm ) $\in$  \rm \{\rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] $\mapsto$ \rm 0\rm, \ldots , \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ] $\mapsto$ \rm 2\rm 5\rm 5 \rm \} \rm  $\implies$  \it yy\rm =\it zz \rm )\\\\
-%\end{tabular}
-%
-%
-%
-%Is $byte\_uchar$ an injective function?\\
-%\begin{tabular}{l c}
-%$\forall$ \rm (\it vv\rm ,\it xx\rm )\rm .\rm ( \it vv $\in$  \bf dom\rm (\it byte\_uchar\rm )  $\land$  \it xx  $\in$  \bf dom\rm (\it byte\_uchar\rm) & {\LARGE \checkmark} \\
-% $\implies$  \it byte\_uchar\rm (\it vv\rm )\rm =\it byte\_uchar\rm (\it xx\rm ) \rm )\\\\
-%\end{tabular}
-%
-%Is $byte\_uchar$ a total function?\\
-%\begin{tabular}{l c}
-%$\forall$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it byte\_uchar\rm )  $\implies$ & {\LARGE \checkmark} \\
-%$\exists$ \it yy\rm .\rm ( \it yy  $\in$  \bf ran\rm (\it byte\_uchar\rm )  $\land$  \it byte\_uchar\rm (\it xx\rm )\rm =\it yy \rm )\rm ) \\\\
-%\end{tabular}
-%
-%Is $byte\_uchar$ a surjective function? \\
-%\begin{tabular}{l c}
-%$\forall$ \it yy\rm .\rm ( \it yy $\in$  \bf ran\rm (\it byte\_uchar\rm  ) $\implies$ & {\LARGE \checkmark} \\
-%$\exists$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it byte\_uchar\rm  ) $\land$  \it byte\_uchar\rm  (\it xx\rm )\rm =\it yy \rm )\rm ) \\\\
-%\end{tabular}
-%
-%
-%We need verify if (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$ \textit{BYTE}) then four conditions must be verified.
-%
-%Is $uchar\_byte$ a function ?\\
-%\begin{tabular}{l c}
-%$\forall$ \rm (\it xx\rm ,\it yy\rm ,\it zz\rm )\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it uchar\_byte\rm )  $\land$  \it yy $\in$  \bf ran\rm (\it uchar\_byte\rm  )& {\LARGE \checkmark} \\
-%$\land$  \it zz $\in$  \bf ran\rm (\it uchar\_byte\rm )  $\land$ \rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \it uchar\_byte\rm  $\land$\\
-%\rm ( \it xx $\mapsto$  \it zz\rm )  $\in$  \it uchar\_byte\rm   $\implies$  \it yy\rm =\it zz \rm )\\\\
-%\end{tabular}
-%
-%Is $uchar\_byte$ an injective function?\\
-%\begin{tabular}{l c}
-%$\forall$ \rm (\it vv\rm ,\it xx\rm )\rm .\rm ( \it vv $\in$  \bf dom\rm (\it uchar\_byte\rm )  $\land$  \it xx  $\in$  \bf dom\rm (\it uchar\_byte\rm) & {\LARGE \checkmark} \\
-% $\implies$  \it uchar\_byte\rm (\it vv\rm )\rm =\it uchar\_byte\rm (\it xx\rm ) \rm )\\\\
-%\end{tabular}
-%
-%Is $uchar\_byte$ a total function?\\
-%\begin{tabular}{l c}
-%$\forall$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it uchar\_byte\rm )  $\implies$ & {\LARGE \checkmark} \\
-%$\exists$ \it yy\rm .\rm ( \it yy  $\in$  \bf ran\rm (\it uchar\_byte\rm )  $\land$  \it uchar\_byte\rm (\it xx\rm )\rm =\it yy \rm )\rm ) \\\\
-%\end{tabular}
-%
-%Is $uchar\_byte$ a surjective function? \\
-%\begin{tabular}{l c}
-%$\forall$ \it yy\rm .\rm ( \it yy $\in$  \bf ran\rm (\it uchar\_byte\rm  ) $\implies$ & {\LARGE \checkmark} \\
-%$\exists$ \it xx\rm .\rm ( \it xx  $\in$  \bf dom\rm (\it uchar\_byte\rm  ) $\land$  \it uchar\_byte\rm  (\it xx\rm )\rm =\it yy \rm )\rm ) \\\\
-%\end{tabular}
-%
-%The $byte\_uchar$  and $uchar\_byte$  are bijective functions consequently each one has an inverse function, but is $byte\_uchar = uchar\_byte ^{-1}$  true ?\\
-%
-%$\forall$ \rm (\it xx\rm ,\it yy\rm )\rm .\rm ( \it xx  $\in$  \it UCHAR\rm   $\land$  \it yy $\in$  \it BYTE \rm   $\implies$ \\
-%\rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  $byte\_uchar$   $\land$  \rm ( \it yy $\mapsto$  \it xx\rm )  $\in$  $uchar\_byte$ ) \\
-%
-%Step 1 - Expanding \it byte\_uchar \rm  and \it uchar\_byte \rm \\\\
-%\begin{tabular}{l c}
-%$\forall$ \rm (\it xx\rm ,\it yy\rm )\rm .\rm ( \it xx  $\in$  \it UCHAR\rm   $\land$  \it yy $\in$  \it BYTE \rm   $\implies$  & {\LARGE \checkmark} \\
-%\rm ( \it xx $\mapsto$  \it yy\rm )  $\in$  \rm \{ \rm 0 $\mapsto$ \rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] \rm , \ldots  , \rm 2\rm 5\rm 5 $\mapsto$ \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ]\rm \}  $\land$ \\
-%\rm ( \it yy $\mapsto$  \it xx\rm )  $\in$  \rm \{\rm \rm [\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm ,\rm 0\rm \rm ] $\mapsto$ \rm 0 \rm , \ldots , \rm \rm [\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm ,\rm 1\rm \rm ] $\mapsto$ \rm 2\rm 5\rm 5\rm \} \rm ) \\ \\ 
-%\end{tabular}
-
-
-%
-%
-%% Conclusão
-%\subsection{Final considerations }
-%%\subsection{Considerações finais sobre o estudo de caso}
-%
-%%[Importáncia de ser o primeiro modelo 1Â° utilizando as bibliotecas]%[Completamente suportado pelo método B, principalmente devido ao uso de funções que convertem as representações dos sistemas de numeração]
-%%[A importáncia das técnicas e a experiência adquirida]
-%%[Explicar como pode ser Ãºtil para avaliar a vazão]
-%%[ Finalmente, argumento mais importante : A técnica está sendo viabilizada,
-%% pois o maior custo do processo está diminuindo devido aos avanços do atelierb e as técnicas descobertas  ]
-%
-%
-%The \textit{TestCalc\_basm} model was the first developed model according to
-%the proposal of \cite{Dantas_SBMF08} using the hardware and integer libraries. These
-%libraries contain type definitions, functions and lemmas that
-%could establish the relation between the B assembly model and its more
-%abstract model. These definitions kept the signature of operations relating to 
-%the B abstract model and the B assembly model; these simplified the
-%verification process and become more faithful to the representation of
-%microcontroller, everything without the need to extend the B method.
-%
-%% % [Importáncia do 1Â° modelo]
-%% O modelo \textit{TestCalc\_basm} foi o primeiro construído de acordo com a proposta de [Dantas et al.
-%% 2008]  utilizando as bibliotecas de \textit{hardware} e tipos inteiros. Essas bibliotecas contêm tipos,
-%% funções e lemas que possibilitaram estabelecer a relação entre o modelo B \textit{assembly} e o modelo
-%% mais abstrato. Essas definições mantiveram a assinatura das operações do modelo abstrato com relação ao B
-%% \textit{assembly}, simplificaram o processo de verificação e tornaram mais fiel a representação do
-%% microcontrolador, tudo isso sem a necessidade de estender o método B.
-%
-%The development of this model was too much important to improve the verification
-%process, because the development and verification help the design to get new
-%experiences with theorem prover (manual and interactive) and find proof
-%commands\footnote{The proof commands are steps that direct the prover to find the
-%proof, and cannot introduce false hypothesis.} that reduce too much the proof
-%process time. These experiences become the development and verification up to
-%assembly more feasible, mainly, because the most of the proof commands are
-%generic. So, these proof commands can be used again in several similar proof
-%obligations. In addition, the specification pattern used helps to model new and
-%different platforms.
-%
-%% % [A importáncia das técnicas e a experiência adquirida]
-%% A elaboração desse modelo foi muito importante para amadurecer o processo de verificação, pois a
-%% construção e verificação do modelo ajudou ao projetista adquirir experiências com o provador interativo e
-%% a descobrir comandos de prova que reduzem significativamente o tempo do processo de prova. Essa
-%% experiência torna mais viável a especificação de outros \textit{softwares} mais complexos, pois a
-%% maioria dos comandos de provas podem ser usados novamente em obrigações de prova similares e o padrão de
-%% especificação utilizado ajuda na modelagem de novas plataformas. 
-%
-%%No entanto, esse mesmo \textit{software} poderia ser acoplado em dispositivo \textit{timer} e 
-%%pois de forma bem eficiente foi resolvida  
-%%Certamente reduzem bastante o custo de verificação,
-%%pois o projetista desse modelo compreendeu a construção do invariante para linguagens assembly, 
-%%é possível aproveitar as caractéristicas das provas interativas para realizar algum tipo de automação nessa etapa,
-%%tudo indica que a construção da cláusula invariante pode ser feita por um algorítmo simples e    
-%%[Explicar como pode ser util para avaliar a vazão] ]
-%%Poderia se avaliando através da vazão, mas a modelagem ainda suporta bem aspectos temporais, por outro lado,
-%%utilizando-se de um dispotivo \textit{timer} esse mesmo \textit{software} poderia calcular o tempo de enchimento do tanque
-%%a vazão pode ser 
-%
-%Finally, the developed embedded software can work like a redundant system and it
-%could provide a better confidence and quality, because the responsible engineer
-%has one more way to analyse the production test and more warranties. So, the
-%system can also improve the effectiveness of the test, because less failed tests
-%happen.
-%
-%% %[ Importáncia para área de petróleo e gás ] Finalmente, o funcionamento do
-%% \textit{software} desenvolvido como um sistema redudante deve oferecer uma
-%% melhor confiança e qualidade, pois o engenheiro responsável terá mais um meio
-%% de comparação dos testes de produção e mais garantias. Essas garantias devem-se
-%% Ã  existência de um sistema redundante e a sua verificação formal até um dos
-%% Ãºltimos níveis de representação do \textit{software}. Logo, o sistema pode
-%% também melhorar a eficácia dos testes, visto que menos testes falhos podem
-%% existir.
-%
-
-
 \section{A B model of the Z80 instruction set}
 \label{sec:z80}
 
@@ -926,7 +744,7 @@ Z80 CPU: ALU, registers of 8 and 16 bits and input/output ports.
 \end{figure}
 
 
-The Z80 has 158 different instructions, including all the 78 from Intel 8080
+The Z80 has 158 different instructions, including all the 78 from the Intel 8080
 microprocessor, and all of them were formally specified in B. These instructions are classified
 into these categories: load and exchange; block transfer and search; arithmetic
 and logical; rotate and shift; bit manipulation; jump, call and return;
@@ -946,7 +764,7 @@ in the \textit{INVARIANT} clause and the initial state is defined in the
 clause \textit{OPERATIONS} and, in general, each instruction has three actions: update 
 the program counter, update the flag register and its main effect.
 %Several functions were created to Z80.
-General functions that can be used in others microcontroller models are defined in
+General functions that can be used in other microcontroller models are defined in
 the modules of data types. Specific functions of the microcontroller are defined in the ALU (arithmetic logic unit) module.
 
 
@@ -1037,17 +855,16 @@ DE\rm, \it HL\rm, \it SP\rm\}
 The main working register of Z80 is the accumulator ($\textit{rgs8(a0)}$) used for arithmetic/logic, input/output and loading/storing operations.
 Another important element is the ``f'' register ($\textit{rgs8(f0)}$),  that is
 used as a \textbf{flag register}. This register uses only six bits to represent the execution result status of each instruction.
-According to the official manual the bits 3 and 5 are not used and the others bits have the follow meaning: $\textit{bv\_get(rgs8(f0),0)}$ - the carry bit; $\textit{bv\_get(rgs8(f0),1)}$ - the add/subtract bit; $\textit{bv\_get(rgs8(f0),2)}$ - the parity or overflow bit; $\textit{bv\_get(rgs8(f0),4)}$ - the half carry bit; 
-$\textit{bv\_get(rgs8(f0),6)}$ - the zero bit; and $\textit{bv\_get(rgs8(f0),7)}$ - the sign bit.
-%\begin{description}
-%  \item[$\textit{bv\_get(rgs8(f0),0)}$] - The Carry bit
-%  \item[$\textit{bv\_get(rgs8(f0),1)}$] - The Add/Subtract bit
-%  \item[$\textit{bv\_get(rgs8(f0),2)}$] - The Parity or Overflow bit
-%  \item[$\textit{bv\_get(rgs8(f0),4)}$] - The Half Carry bit
-%  \item[$\textit{bv\_get(rgs8(f0),6)}$] - The Zero bit
-%  \item[$\textit{bv\_get(rgs8(f0),7)}$] - The Sign bit 
-%\end{description}
-These bits also can be used to specify security properties for microcontroller programs.   
+According to the official manual the bits 3 and 5 are not used and the others bits have the follow meaning: %$\textit{bv\_get(rgs8(f0),0)}$ - the carry bit; $\textit{bv\_get(rgs8(f0),1)}$ - the add/subtract bit; $\textit{bv\_get(rgs8(f0),2)}$ - the parity or overflow bit; $\textit{bv\_get(rgs8(f0),4)}$ - the half carry bit; $\textit{bv\_get(rgs8(f0),6)}$ - the zero bit; and $\textit{bv\_get(rgs8(f0),7)}$ - the sign bit.
+\begin{description}
+  \item[$\textit{bv\_get(rgs8(f0),0)}$] - The Carry bit.
+  \item[$\textit{bv\_get(rgs8(f0),1)}$] - The Add/Subtract bit.
+  \item[$\textit{bv\_get(rgs8(f0),2)}$] - The Parity or Overflow bit.
+  \item[$\textit{bv\_get(rgs8(f0),4)}$] - The Half Carry bit.
+  \item[$\textit{bv\_get(rgs8(f0),6)}$] - The Zero bit.
+  \item[$\textit{bv\_get(rgs8(f0),7)}$] - The Sign bit.
+\end{description}
+These bits can also be used to specify security properties for microcontroller programs.   
 
 \textbf{Assuring the absence of overflow:}
  \emph{To assure that an overflow does not happen, the developer can add this
@@ -1072,8 +889,8 @@ used as a base to point to a region in memory from which data is to be stored or
 \hspace*{0.20in}$\mid$ \it ushort\_bv16 \rm ( \rm (\it bv16\_ushort \rm ( \it ix\_iy \rm ) \rm + \it offset \rm ) 
 \textbf{\textit{mod}} $2^{16}$ ) \rm )\\
 
-Another derived function is  $\textit{bv\_(ireg\_plus\_d)}$, this returns the value in the memory  address
-returned by $\textit{bv\_ireg\_plus\_d}$ function and its definition is similar.
+Another derived function is  $\textit{bv\_(ireg\_plus\_d)}$, which returns the value in the memory  address
+returned by the $\textit{bv\_ireg\_plus\_d}$ function and its definition is similar.
 
 There is a specific function to refresh the flag register, it is named $\textit{update\_reg\_flag}$. It is typed and defined as follow:\it update\_flag\_reg \rm $\in$ \rm (\it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it
 BIT $\times$  \it BIT  $\times$  \it BIT\rm) $\fun$  \rm (\rm \{\it f0\rm \}  $\times$  \it BYTE\rm ).  This function is defined as:\\
@@ -1089,7 +906,7 @@ The Z80 uses a unique memory for storing program instructions, data stack and
 general-purpose data. The memory has 16-bit addresses and each address holds a byte.
 Thus, the memory is very simple: \it mem  $\in$  \it BV16  $\fun$  \it BYTE\rm.
  
-In general, the instructions can access all memory address, but it is dangerous. The user may mistakenly
+In general, the instructions can access all memory addresses, but it is dangerous. The user may mistakenly
 access and change data in memory. For added  security, it is important that the program instructions has
 limited access by region. Thus the designer can specify address regions in a refinement model to restrict the access from
 instructions. The address regions can be specified using constants
@@ -1105,16 +922,16 @@ address for: programs instructions, general purpose data and data stack.
 %$
 
 \textbf{Assuring the absence of overlapping of address regions:}
- \emph{To assure that address regions are well defined, then the designer must to verify the expression:}
+ \emph{To assure that address regions are well defined, then the designer must verify the expression:}
 %\begin{sloppypar}
 %\hspace*{0.10in}
 \it PROGRAM\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ STACK\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ PROGRAM\_R\_ADR $\cap$  STACK\_R\_ADR  $=$ \{\} \rm
 %\end{sloppypar}
  
-\textbf{Preserving the consistency of the memory:} \emph{In general, the access to
-some address regions is dangerous. Then, each instruction has a specific pre-condition that verify
-if the new address memory, that will be updated, is member of its region. For example, the $\textit{PUSH}$
-program instruction allows write only in the region of stack ($\textit{STACK\_R\_ADR}$\rm).}
+\textbf{Preserving the memory consistency:} \emph{In general, the access to
+some address regions is dangerous. Then, each instruction has a specific pre-condition that verifies
+if the new address memory, that will be updated, is a member of its region. For example, the $\textit{PUSH}$
+program instruction permits write only in the region of stack ($\textit{STACK\_R\_ADR}$\rm).}
 
 
 
@@ -1182,7 +999,7 @@ Each instruction is represented by a B operation in Z80 module. The main
 module (\textit{Z80}) has three categories of operations: a category represents the 
 instructions of microcontrollers, a second category represents the input and output of data 
 (shown in ~\ref{sec:modelingIO}) and the last category represents the external
-actions (shown in~\ref{sec:externalactions}). A simple example of instruction category is
+actions (shown in~\ref{sec:externalactions}). A simple example of instruction is
 $\textit{LD\_(nn)\_A}$\footnoteremember{myfootnote}{The B tools does not allow
 to use parentheses in identifiers, and the characters \{``('',``)''\} are
 replaced respectively by \{``9'',``0''\} in the actual specification.} shown below. The
@@ -1215,7 +1032,7 @@ devices. This model can transfer data blocks between the I/O devices and any
 of the internal registers or memory address.
 
 The $\textit{IN\_r(C)}$\footnoterecall{myfootnote} instruction is represented
-by the following B operation. It receives an register identifier ``$\textit{rr}$'' and, it stores the value from ``rr'' in the $\textit{C}$ port address. Besides, it increments the program counter and updates the flag registers.
+by the following B operation. It receives a register identifier ``$\textit{rr}$'' and, it stores the value from ``rr'' in the $\textit{C}$ port address. Besides, it increments the program counter and updates the flag registers.
 
 \hspace*{0.0in}\bf IN\_r\_9C0 \rm ( \it rr \rm ) \rm =
 
@@ -1279,10 +1096,10 @@ $\land$ \it pv $\in$ \it BIT $\land$
 \label{sec:externalactions}
 
 The external actions change the state of the microcontroller, for example, refreshing the I/O ports
-and interruptions request. The external actions are also modeled by operations and they are named with the
+and interruption request. The external actions are also modeled by operations and they are named with the
 prefix ``$ext\_$'' and followed by the name of action. There are four external
-actions: $ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The
-$ext\_update\_io\_ports$ just change the state of I/O port, see.
+actions: $ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The instruction
+$ext\_update\_io\_ports$ just changes the state of I/O port, see.
 
 \hspace*{0.20in}\bf ext\_update\_io\_ports\rm (\it address\rm ,\it value\rm )\rm =
 
@@ -1293,8 +1110,8 @@ value \rm )
 
 \hspace*{0.20in}\bf END\rm 
 
-The other external actions are related to interruptions. The interruptions allow
-that the devices suspend a routine from CPU and start another service routine.
+The other external actions are related to interruptions. Interruptions allow
+devices to suspend a routine from CPU and start another service routine.
 This service routine can exchange data or signals between CPU and external
 devices. When a routine is finished, then the CPU comes back to the last routine
 that was interrupted.
@@ -1450,21 +1267,120 @@ debug the effect action on the state space computed; create a tracing of the
 states; analyse constants, functions and expressions; and search possible
 violations.
 
+\subsection{Verification process}% ESTOU TRABALHANDO AQUI
+
+% parágrafo inicial
+This project has many proof obligations and its construction of then model was a difficult task, as several
+% iterations were needed to provide the good library definitions
+% as well as to optimize the definition of the functionality of
+% the microprocessor instructions by grouping common data
+% manipulation into auxiliary functions.
+ 
+ 
+
+% [O que as provas garantem? citar que dificeis, que é necessário buscar técnicas eficientes
+% para realizar as provas ]
+
+The proof obligations allow to verify the data types, important system
+properties and if the expressions are well-defined (WD)\footnote{An
+  expression is called ``well-defined'' (or unambiguous) if its
+  definition assigns it a unique interpretation or value.}. The
+properties provide additional guarantees, because they can set many
+safety rules. However, the model can be very difficult to prove.
+
+% Conclusão: toque final
+Several iterations were needed to provide the good library definitions as well as
+to fine-tune the model of the microcontroller instructions by factoring common
+functionalities into auxiliary definitions. 
+ 
+%OK -> como as regras foram utilizadas ?  Respondido na seção das regras - 
+
+%-> Quanto tempo foi gasto nessa verificação ? a minha dissertação diz que aproximadamente dois meses. Utilizando as regras este tempo caiu p/ 5 dias (linkar com este parágrafo)
+
+%-> Aproximadamente quanto tempo de processamento elas reduziram ?
+% Porque o modelo não foi verificado completamente ? Isto é viavel ?
+ %There are many benefits when a formal model is
+%developed, but to verify the model is not an easy task, the first version of Z80 model have already verified %completely,but the new Z80 model with support to animation in ProB has not been verified completely,
+%because the changes in Z80 model are recent and the verification time is long.
 
 
-%\subsection{Considerations about the Z80 model}
+
+TODO:ENGLISH REVIEW
+
+
+
+%Decomposição do módulo Z80
+The Z80 module was decomposed in 8 modules of instructions, it was very helpful to decrease the time verification, because the AtelierB can start the simultaneously 8 instances of provers reducing the time verification by up to 8 times, when it uses a processor with 8 cores.
+
+ %-> O que significa cada coluna e linha da tabela ?  	
+The follow table~\ref{tab:completestatistcs} contains the results of verification process, it shows only the number of no obvious proof obligations and the titles of columns use acronyms: {\small \textbf{PO}} - number of proof obligations; {\small \textbf{UPO}} - number of unproved proof obligations; {\small \textbf{WD PO}} - number of proof obligations  related to well definition lemmas; {\small \textbf{UWD PO}} - number of unproved proof obligations related to well definition lemmas.
+ 
+\begin{table} [h]
+\caption{Verification statistics }
+\label{tab:completestatistcs}
+\begin{center} 
+\begin{tabular}{|p{3.1cm}|c|c||c|c||c|c|c|}
+\hline 
+{\small \textbf{Component}}&{\small \textbf{PO}}&{\small \textbf{UPO}}&{\small \textbf{WD PO}}&{\small \textbf{UWD PO }}&{\small \textbf{Total PO}}&{\small \textbf{Total UPO}}& {\small \textbf{Total Percentage}}  \\\hline
+BIT&49&0&69&0&118&0&100\%\\\hline
+BV16&6&0&69&0&75&0&100\%\\\hline
+BYTE&18&0&136&0&154&0&100\%\\\hline
+POWER&3&0&4&0&7&0&100\%\\\hline
+POWER2&18&0 &0&0&18&0&100\%\\\hline
+SCHAR&4&0&26&0&30&0&100\%\\\hline
+SSHORT&4&0&58&0&62&0&100\%\\\hline
+TYPES&71&0&0&0&71&0&100\%\\\hline
+UCHAR&4&0&26&0&30&0&100\%\\\hline
+USHORT&4&0&58&0&62&0&100\%\\\hline
+ALU&51&22&117&47&168&69&59\%\\\hline
+MEMORY&13&0&0&0&13&0&100\%\\\hline
+Z80 -  {\scriptsize Initialization, Properties, Assertions} &66&9&150&11&216&20&91\%\\\hline
+Z80 - {\scriptsize Input and Output}&46&11&281&16&327&27&92\%\\\hline
+Z80 - {\scriptsize Logic Arithmetic 1}&88&33&343&84&431&117&73\%\\\hline
+Z80 - {\scriptsize Logic Arithmetic 2}&40&20&178&27&218&47&79\%\\\hline
+Z80 - {\scriptsize Bit Control}&111&34&763&157&874&191&78\%\\\hline
+Z80 - {\scriptsize External Actions}&31&0&60&38&91&38&59\%\\\hline
+Z80 - {\scriptsize General 1}&81&19&420&20&501&39&92\%\\\hline
+Z80 - {\scriptsize General 2}&26&10&139&14&165&24&86\%\\\hline
+
+\textbf{Total}&\textbf{734}&\textbf{158}&\textbf{2897}&\textbf{364}&\textbf{3631}&\textbf{569}&\textbf{84}\%\\\hline
+
+\end{tabular}
+\end{center} 
+\end{table}
+
+
+
+
+
+
+
+% Resumo de como aconteceu o processo de verificação, (melhor está após as estátisticas) ( )Atualizar dados
+However, few proof commands need to be used to prove most proof obligations. As there are many similar assembly instructions,
+some human-directed proofs, when replayed, could discharge other proof
+obligations. A good example is a set of 17 proof commands that quickly aided the
+verification of 99\% (2295) of WD proofs. We also set up a proving environment
+consisting of networked computers to take advantage of the distribution
+facilities now provided in the B development environment. Finally, all of the
+2926 proof obligations were proved using the tool support of the development
+environment.
+
+
+
+
+\subsection{Considerations about the Z80 model}
 
 
 The Z80 formal model provides many benefits, because of the verification of
 generated proof obligations guarantees: the correct use of data types, the developed
-security properties  and the well-defined of all the expressions. %\footnote{An expression is called ``well-defined'' (or unambiguous) if its definition assigns it a unique interpretation or value.}.
-Furthermore, the designer has a big flexibility to create new and specific security properties, this is very useful
+security properties  and the well-defined of all the expressions. 
+Furthermore, the designer has a big flexibility to create new and specific security properties, this is very useful %TODO: COLOCAR APÓS TODOS OS BENEFICIOS PROPORCIONADOS COM A SIMULAÇÃO e COMPATIBILIDADE COM O PROB. (OBTER DO PARAGRAFO ANTERIOR DA SEÇAO VERIFICATION PROCESS).
 to adjust the verification in accordance with the requirements. Moreover, this
 example of model could replace or improve the used documentation for users and
 assembly programmers. Z80 model is also useful to develop verified software 
-up to the assembly level. %There are many benefits when a formal model is
-%developed, but to verify the model is not an easy task, the first version of Z80 model have already verified %completely,but the new Z80 model with support to animation in ProB has not been verified completely,
-%because the changes in Z80 model are recent and the verification time is long.
+up to the assembly level.
+
+
 
 A case study using the first version of Z80 model was also created and verified
 since the first abstract B model up to B assembly model. This case study is an
@@ -1474,7 +1390,13 @@ and its B assembly model can be executed manually in ProB. The modeling of
 instruction set and the B assembly model allow to simulate the execution of microcontroller
 and analyse several important properties.
 
+
+
+
+
  
+
+
 
 \section{Related work}
 \label{sec:relatedworks}
@@ -1531,7 +1453,11 @@ verified embedded software.  This case study was interesting to as a
 feasibility analysis of the approach to derive formally assembly code
 from a specification of functional requirements in the B method.
 
-% TODO: Adaptar para apenas fundamentar melhor o trabalho já desenvolvido. Citar o artigo SBMF e a dissertação. 
+%TODO: COLOCAR AQUI OS PRINCIPAIS BENEFÍCIOS PROPORCIONADOS PELO TRABALHO
+
+
+
+% fundamenta melhor o trabalho já desenvolvido. Citar o artigo SBMF e a dissertação. 
 % Os meus trabalhos já desenvolvidos/ resultados atuais.
 The following works are directly related to the objective this paper.
 The approach to develop verified software down to the assembly level
@@ -1547,9 +1473,8 @@ This set of papers present an important step to software verification
 up to assembly language, showing the current difficulties and
 suggesting improvements in tools supporting the B method.
 
-% TODO
-% [Trabalhos futuros ] LLVM:Existe também a pretensão de especificar as
 
+% [Trabalhos futuros ] LLVM:Existe também a pretensão de especificar as
 In the future, we plan to improve the support for the development of
 software with the B method from functional specification to assembly
 level, using the Z80 model presented in this work. For instance, the
