@@ -1283,12 +1283,12 @@ possible violations.
 % OK -> como as regras foram utilizadas ?  Respondido na seção das regras
 % TODO:ENGLISH REVIEW parágrafo inicial: VISÃO GERAL
 This project has many proof obligations and its verification can be a hard task,
-hence this section explains about how happen the verification process of proof
+hence this section explains about the verification process of proof
 obligations and its importance. % [O que as provas garantem? citar que énecessário buscar técnicas eficientes para realizar as provas ]
 The proof obligations allow to verify the data types, important system properties and if
 the expressions are well-defined (WD)\footnote{An expression is called ``well-defined''
 (or unambiguous) if its definition assigns it a unique interpretation or value.}. The
-properties provide additional guarantees, because they can set many safety
+properties provide additional guarantees because they can set many safety
 rules. However, the model can be very difficult to prove.
 
 
@@ -1343,8 +1343,8 @@ Z80 - {\scriptsize General 2}&26&10&139&14&165&24&86\%\\\hline
 % Porque o modelo não foi verificado completamente ?
 There are many benefits when a formal model is developed, but to verify the
 model is not an easy task, the first version of Z80 model have already verified
-completely, however this new Z80 model with support to animation in ProB has not
-been verified completely, because the changes in Z80 model are recent and the
+completely. However, this new Z80 model with support to animation in ProB has not
+been verified completely because the changes in Z80 model are recent and the
 verification time is long.
 % ->Quanto tempo foi gasto nessa verificação ?  Aproximadamente quanto tempo de
 % processamento elas reduziram ?
@@ -1356,19 +1356,18 @@ obligations (84\%) and remaining only 569 proof obligations (16\%) not yet
 verified.
 
 Two development strategies were important to improve the verification of 3062
-proof obligations: the intensive use of parallelism and user pass. %Decomposição
-do módulo Z80 The Z80 module was decomposed in 8 modules of instructions, it was
-very helpful to decrease the time for verification, because AtelierB can start 
-simultaneously \textit{N} instances of provers, one per module, reducing the
-time verification by up to \textit{N}  times when a processor with \textit{N} 
-cores is used  or the process is submitted to \textit{N} networked computers. So
-we also set up a proving environment consisting of networked computers to take
-advantage of the distribution facilities provided in the B development
+proof obligations: the intensive use of parallelism and user pass. The Z80 module
+was decomposed in 8 modules of instructions, it was very helpful to decrease the
+time for verification. Because AtelierB can run simultaneously \textit{N} instances of 
+provers, one per module, reducing the time verification by up to \textit{N}  times when
+a processor with \textit{N} cores is used  or the process is submitted to \textit{N} 
+networked computers. So we also set up a proving environment consisting of networked
+computers to take advantage of the distribution facilities provided in the B development
 environment.
 % Resumo de como aconteceu o processo de verificação,
 A second interesting strategy  was to reuse the user pass. Usually, an used
 user pass to aid the verification of one proof obligation can solve several
-similar proof obligations. Thus few generic user pass are needed to prove many
+similar proof obligations. Thus, few generic user pass are needed to prove many
 proof obligations. As there are many similar assembly instructions, some
 human-directed proofs, when replayed, could discharge other proof obligations. A
 good example is a set of 17 user pass that quickly aided the verification of
