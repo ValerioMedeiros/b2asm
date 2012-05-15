@@ -594,21 +594,19 @@ $$
  \end{array}
 $$
 
-%[NEW PARAGRAPH-TO-REVIEW]
-%Similarly, several other general functions and lemmas were created for all other data types.
-%Some times, we need create arithmetic and logic functions that are more specific for a
-%determined computer architecture. These functions are developed in the module ALU 
-%(arithmetic  logic unit). The following shows some examples of specific functions used in
-%microcontroller model of Z80. For example, the function $\textit{instruction_next}$
-%receives a $\textit{BYTE}$ and returns a $\textit{BYTE}$ that contains a sequence of bit:
-%a signal bit, 
+%TODO:[NEW PARAGRAPH-TO-REVIEW]
+Similarly, several other general functions and lemmas were created for all other data types.
+Some times, we need  create arithmetic and logic functions that are more specific for a
+determined microprocessor, like Z80 that is presented in the section \ref{sec:z80}. 
 
-Nearly 50\% of all these proof obligations shown in the
-Table~\ref{tab:types} are verified automatically or with few proof
-commands\footnote{The proof commands are steps that help the prover to find the proof.} .
-However many others proof obligations are difficult to verify, as they involve functions
-that contain arithmetic expressions that are difficult to manipulate with the interactive
-prover of AtelierB. However, all theses 531 proof obligations were verified completely.
+%TODO:[NEW PARAGRAPH-TO-REVIEW]
+The definitions, functions and properties from hardware library and types library are difficult to verify,
+on the other hand  these libraries can be reused in several others  microprocessors without to verify again.
+Nearly 50\% of all these proof obligations shown in the Table~\ref{tab:types} are verified automatically 
+or with few user pass\footnote{The user pass are steps that aid the prover to find the proof.} .
+But many others proof obligations are difficult to verify, because they involve functions
+that contain arithmetic expressions that are complex to manipulate with the interactive
+prover of AtelierB.  However, all theses 531 proof obligations were verified completely.
 
 
 \subsection{Verification of hardware library and types library} 
@@ -752,25 +750,27 @@ input/output; and basic cpu control. Each category of instruction has different
 elements of specification.
 
 
-This section shows the elements that make up the different types of instructions.
-The main elements are specified in the microcontroller module Z80 and parts of it
-are presented below.  Basically, the state of microcontroller is formed by data 
-from program counter, ports, registers, etc. The transitions between the states 
-are actioned by execution of instruction or an external action. Groups of registers
-are represented by the variables of the specification states that appear in clause
-\textit{VARIABLES}. The declaration of valid states of variables is
-in the \textit{INVARIANT} clause and the initial state is defined in the
-\textit{INITIALISATION} clause. The assembly instructions are defined by the
-clause \textit{OPERATIONS} and, in general, each instruction has three actions: update 
-the program counter, update the flag register and its main effect.
-%Several functions were created to Z80.
-General functions that can be used in other microcontroller models are defined in
-the modules of data types. Specific functions of the microcontroller are defined in the ALU (arithmetic logic unit) module.
+This section shows the elements that make up the different types of
+instructions. The main elements are specified in the microcontroller module Z80
+and parts of it are presented below.  Basically, the state of microcontroller is
+formed by data from program counter, ports, registers, etc. The transitions
+between the states are actioned by execution of instruction or an external
+action. Groups of registers are represented by the variables of the
+specification states that appear in clause \textit{VARIABLES}. The declaration
+of valid states of variables is in the \textit{INVARIANT} clause and the initial
+state is defined in the \textit{INITIALISATION} clause. The assembly
+instructions are defined by the clause \textit{OPERATIONS} and, in general, each
+instruction has three actions: update the program counter, update the flag
+register and its main effect.
+% Several functions were created to Z80.
+General functions that can be used in other microcontroller models are defined
+in the modules of data types. Specific functions of the microcontroller are
+defined in the ALU (arithmetic logic unit) module.
 
 
 
-The main module includes an instance of the memory module and accesses the definitions from basic data
-types modules and the \textit{ALU} module.
+The main module includes an instance of the memory module and accesses the
+definitions from basic data types modules and the \textit{ALU} module.
 
 	\begin{center}
 	\begin{sloppypar}
@@ -798,11 +798,13 @@ types modules and the \textit{ALU} module.
 
 \subsection{Modeling registers}
 
-The Z80 CPU includes alternative set of accumulator, flag and general registers. The CPU contains a stack
-pointer ($\textit{sp}$), program counter ($\textit{pc}$), two index registers ($\textit{ix}$ and $\textit{iy}$), an
-interrupt register ($\textit{i\_}$), a refresh register ($\textit{r\_}$), two bits ($\textit{iff1}$,
-$\textit{iff2}$) used to control the interruptions, a pair of bits to define the interruption mode ($\textit{im}$)
-and the input and output ports ($\textit{i\_o\_ports}$). These definitions are represented by
+The Z80 CPU includes alternative set of accumulator, flag and general registers.
+The CPU contains a stack pointer ($\textit{sp}$), program counter
+($\textit{pc}$), two index registers ($\textit{ix}$ and $\textit{iy}$), an
+interrupt register ($\textit{i\_}$), a refresh register ($\textit{r\_}$), two
+bits ($\textit{iff1}$, $\textit{iff2}$) used to control the interruptions, a
+pair of bits to define the interruption mode ($\textit{im}$) and the input and
+output ports ($\textit{i\_o\_ports}$). These definitions are represented by
 \textit{INVARIANT}.
   
 
@@ -820,14 +822,17 @@ and the input and output ports ($\textit{i\_o\_ports}$). These definitions are r
  
 
 % Features of microcontroller
-  The internal registers contains 176 bits of read/write memory that are represented by
-identifiers used as parameters in the instructions . It includes two sets of six general purpose
-registers which may be used individually as 8-bit registers or as 16-bit register pairs.  The working
-registers are represented by variable $\textit{rgs8}$. The domain of $\textit{rgs8}$
-($\textit{id\_reg8}$) is a set formed by identifiers of registers of 8 bits. These registers are called
-main register set (\textit{a0,b0,c0,d0,e0,f0,h0,l0}) and alternate register set
-(\textit{a\_0,b\_0,c\_0,d\_0,e\_0,f\_0,h\_0,l\_0}). These registers can be accessed in pairs, forming
-16-bits, resulting in another set of identifiers of 16-bits registers, named $\textit{id\_reg16}$. These sets are represented below.
+The internal registers contains 176 bits of read/write memory that are
+represented by identifiers used as parameters in the instructions . It includes
+two sets of six general purpose registers which may be used individually as
+8-bit registers or as 16-bit register pairs.  The working registers are
+represented by variable $\textit{rgs8}$. The domain of $\textit{rgs8}$
+($\textit{id\_reg8}$) is a set formed by identifiers of registers of 8 bits.
+These registers are called main register set (\textit{a0,b0,c0,d0,e0,f0,h0,l0})
+and alternate register set (\textit{a\_0,b\_0,c\_0,d\_0,e\_0,f\_0,h\_0,l\_0}).
+These registers can be accessed in pairs, forming 16-bits, resulting in another
+set of identifiers of 16-bits registers, named $\textit{id\_reg16}$. These sets
+are represented below.
 
 \begin{sloppypar}
 
@@ -1095,11 +1100,12 @@ $\land$ \it pv $\in$ \it BIT $\land$
 \subsection{Modeling the external actions}
 \label{sec:externalactions}
 
-The external actions change the state of the microcontroller, for example, refreshing the I/O ports
-and interruption request. The external actions are also modeled by operations and they are named with the
-prefix ``$ext\_$'' and followed by the name of action. There are four external
-actions: $ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The instruction
-$ext\_update\_io\_ports$ just changes the state of I/O port, see.
+The external actions change the state of the microcontroller, for example,
+refreshing the I/O ports and interruption request. The external actions are also
+modeled by operations and they are named with the prefix ``$ext\_$'' and
+followed by the name of action. There are four external actions:
+$ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The
+instruction $ext\_update\_io\_ports$ just changes the state of I/O port, see.
 
 \hspace*{0.20in}\bf ext\_update\_io\_ports\rm (\it address\rm ,\it value\rm )\rm =
 
@@ -1128,14 +1134,15 @@ instructions $\textit{EI}$ and $\textit{DI}$ respectively enable and disable the
 maskable interruptions, setting  $\textit{iff1}$ to 1 and 0.
 
 
-The interruptions and the \textit{reset} action can change the state of
-program counter. Theses actions are modeled by B operations and its main
-effects are presented here\footnote{Some definitions of constants: $\textit{sp\_minus\_two}$ holds the value of stack pointer minus 2,
-%=$\textit{dec\_BV16(dec\_BV16(sp))}$
+The interruptions and the \textit{reset} action can change the state of program
+counter. Theses actions are modeled by B operations and its main effects are
+presented here\footnote{Some definitions of constants: $\textit{sp\_minus\_two}$
+holds the value of stack pointer minus 2,
+% =$\textit{dec\_BV16(dec\_BV16(sp))}$
  $\textit{sp\_minus\_one}$ is the value of stack pointer minus 1,
-%=$\textit{dec\_BV16(sp)}$
-$\textit{pc\_high}$ holds the most significant 8 bits and
-$\textit{pc\_low}$ holds the least significant 8 bits.}.
+% =$\textit{dec\_BV16(sp)}$
+$\textit{pc\_high}$ holds the most significant 8 bits and $\textit{pc\_low}$
+holds the least significant 8 bits.}.
 
 
  \textbf{NMI} - Non-maskable interrupts cannot be disabled
@@ -1151,33 +1158,38 @@ $\textit{pc\_low}$ holds the least significant 8 bits.}.
 \it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )\\
 \end{sloppypar}
 
-  \textbf{INT} - Maskable Interrupt is usually reserved for important functions that can be enabled and
-  disabled by the programmer. When a maskable interrupt action happens, both $\textit{iff1}$ and $\textit{iff2}$ are
-  cleared, disabling the interrupts, $sp$ is pushed, the refresh register is updated and the other effects
-  depend on the interrupt mode register (\it im\rm).
+  \textbf{INT} - Maskable Interrupt is usually reserved for important functions
+  that can be enabled and disabled by the programmer. When a maskable interrupt
+  action happens, both $\textit{iff1}$ and $\textit{iff2}$ are cleared,
+  disabling the interrupts, $sp$ is pushed, the refresh register is updated and
+  the other effects depend on the interrupt mode register (\it im\rm).
  
 
  \begin{itemize}
    
-  \item The mode 0 is compatible with 8080 and this mode is selected when \it im \rm = \rm ( \rm 0 $\mapsto$  \rm 0 \rm ). When a  non-maskable interrupt happens, the CPU fetches an instruction of one byte
-  from an external device, usually an RST instruction, and the CPU executes it.
-  The instruction code is received from an external device by data bus and it is represented by integer parameter called $\textit{byte\_bus}$.
+  \item The mode 0 is compatible with 8080 and this mode is selected when \it im
+  \rm = \rm ( \rm 0 $\mapsto$  \rm 0 \rm ). When a  non-maskable interrupt
+  happens, the CPU fetches an instruction of one byte from an external device,
+  usually an RST instruction, and the CPU executes it.
+  The instruction code is received from an external device by data bus and it is
+  represented by integer parameter called $\textit{byte\_bus}$.
 
  
-  \item The mode 1 is the simplest and this mode is selected when \it im \rm = \rm ( \rm 0  $\mapsto$  \rm 1
-  \rm ). Simply, when a non-maskable interruption happens, the program counter
-  receives $38H$ (56 in decimal).
+  \item The mode 1 is the simplest and this mode is selected when \it im \rm =
+  \rm ( \rm 0  $\mapsto$  \rm 1 \rm ). Simply, when a non-maskable interruption
+  happens, the program counter receives $38H$ (56 in decimal).
   
-  \item The mode 2 is the most flexible and this mode is selected when \it im \rm = \rm ( \rm 1  $\mapsto$
-  \rm 1 \rm ). When a non-maskable interruption happens, an indirect call can be
-  made to any address memory. The program counter receives a bit vector of size
-  16 composed with two parts: the most significant part of the $\textit{i\_}$
-  register and the least significant part of the $\textit{byte\_bus}$ with the
-  last bit cleared.
+  \item The mode 2 is the most flexible and this mode is selected when \it im
+  \rm = \rm ( \rm 1  $\mapsto$ \rm 1 \rm ). When a non-maskable interruption
+  happens, an indirect call can be made to any address memory. The program
+  counter receives a bit vector of size 16 composed with two parts: the most
+  significant part of the $\textit{i\_}$ register and the least significant part
+  of the $\textit{byte\_bus}$ with the last bit cleared.
   
  \end{itemize}
 
-The essential part of maskable interrupt is shown below, where $\textit{byte\_bus}$ is a parameter of the $\textit{INT}$ operation:
+The essential part of maskable interrupt is shown below, where
+$\textit{byte\_bus}$ is a parameter of the $\textit{INT}$ operation:
  
 
 
@@ -1260,60 +1272,35 @@ animation interesting. The animation in ProB is not so fast and practical as a
 simulation, for example in \cite{Simulator_z80}, because ProB works manipulating
 logic and math concepts that can have infinite sets and non determinism, then
 ProB requires more processing, specially when it works analysing  complex
-expressions or very large expressions. However, a user of ProB with this modeling
-can: execute manually a sequence of Z80's instructions that represent a program
-and view the visited states of ports, memory and registers. It is important to
-debug the effect action on the state space computed; create a tracing of the
-states; analyse constants, functions and expressions; and search possible
-violations.
+expressions or very large expressions. However, a user of ProB with this
+modeling can: execute manually a sequence of Z80's instructions that represent a
+program and view the visited states of ports, memory and registers. It is
+important to debug the effect action on the state space computed; create a
+tracing of the states; analyse constants, functions and expressions; and search
+possible violations.
 
 \subsection{Verification process}% ESTOU TRABALHANDO AQUI
-
-% parágrafo inicial
-This project has many proof obligations and its construction of then model was a difficult task, as several
-% iterations were needed to provide the good library definitions
-% as well as to optimize the definition of the functionality of
-% the microprocessor instructions by grouping common data
-% manipulation into auxiliary functions.
- 
- 
-
-% [O que as provas garantem? citar que dificeis, que é necessário buscar técnicas eficientes
-% para realizar as provas ]
-
-The proof obligations allow to verify the data types, important system
-properties and if the expressions are well-defined (WD)\footnote{An
-  expression is called ``well-defined'' (or unambiguous) if its
-  definition assigns it a unique interpretation or value.}. The
-properties provide additional guarantees, because they can set many
-safety rules. However, the model can be very difficult to prove.
-
-% Conclusão: toque final
-Several iterations were needed to provide the good library definitions as well as
-to fine-tune the model of the microcontroller instructions by factoring common
-functionalities into auxiliary definitions. 
- 
-%OK -> como as regras foram utilizadas ?  Respondido na seção das regras - 
-
-%-> Quanto tempo foi gasto nessa verificação ? a minha dissertação diz que aproximadamente dois meses. Utilizando as regras este tempo caiu p/ 5 dias (linkar com este parágrafo)
-
-%-> Aproximadamente quanto tempo de processamento elas reduziram ?
-% Porque o modelo não foi verificado completamente ? Isto é viavel ?
- %There are many benefits when a formal model is
-%developed, but to verify the model is not an easy task, the first version of Z80 model have already verified %completely,but the new Z80 model with support to animation in ProB has not been verified completely,
-%because the changes in Z80 model are recent and the verification time is long.
+% OK -> como as regras foram utilizadas ?  Respondido na seção das regras
+% TODO:ENGLISH REVIEW parágrafo inicial: VISÃO GERAL
+This project has many proof obligations and its verification can be a hard task,
+hence this section explains about how happen the verification process of proof
+obligations and its importance. % [O que as provas garantem? citar que énecessário buscar técnicas eficientes para realizar as provas ]
+The proof obligations allow to verify the data types, important system properties and if
+the expressions are well-defined (WD)\footnote{An expression is called ``well-defined''
+(or unambiguous) if its definition assigns it a unique interpretation or value.}. The
+properties provide additional guarantees, because they can set many safety
+rules. However, the model can be very difficult to prove.
 
 
-
-TODO:ENGLISH REVIEW
-
-
-
-%Decomposição do módulo Z80
-The Z80 module was decomposed in 8 modules of instructions, it was very helpful to decrease the time verification, because the AtelierB can start the simultaneously 8 instances of provers reducing the time verification by up to 8 times, when it uses a processor with 8 cores.
-
- %-> O que significa cada coluna e linha da tabela ?  	
-The follow table~\ref{tab:completestatistcs} contains the results of verification process, it shows only the number of no obvious proof obligations and the titles of columns use acronyms: {\small \textbf{PO}} - number of proof obligations; {\small \textbf{UPO}} - number of unproved proof obligations; {\small \textbf{WD PO}} - number of proof obligations  related to well definition lemmas; {\small \textbf{UWD PO}} - number of unproved proof obligations related to well definition lemmas.
+ % -> O que significa cada coluna e linha da tabela ?
+The Table~\ref{tab:completestatistcs} contains some statistics of verification
+process, it shows only the number of no obvious proof
+obligations\footnote{Obvious proof obligations are simple formulas automatically eliminated by
+the tool.} and the titles of columns use acronyms: {\small \textbf{PO}} - number
+of proof obligations; {\small \textbf{UPO}} - number of unproved proof
+obligations; {\small \textbf{WD PO}} - number of proof obligations  related to
+well definition lemmas; {\small \textbf{UWD PO}} - number of unproved proof
+obligations related to well definition lemmas.
  
 \begin{table} [h]
 \caption{Verification statistics }
@@ -1350,22 +1337,42 @@ Z80 - {\scriptsize General 2}&26&10&139&14&165&24&86\%\\\hline
 \end{table}
 
 
+%->Explicaçao de mais detalhes da tabela. 
 
 
+% Porque o modelo não foi verificado completamente ?
+There are many benefits when a formal model is developed, but to verify the
+model is not an easy task, the first version of Z80 model have already verified
+completely, however this new Z80 model with support to animation in ProB has not
+been verified completely, because the changes in Z80 model are recent and the
+verification time is long.
+% ->Quanto tempo foi gasto nessa verificação ?  Aproximadamente quanto tempo de
+% processamento elas reduziram ?
+Nevertheless this project has 3631 proof obligations and the first version of
+Z80 model spent approximately two months of work to finish the verification
+process. The same  developed verification strategies were adjusted and reused in
+new Z80 model, so approximately  7 days of work was enough to verify 3062  proof
+obligations (84\%) and remaining only 569 proof obligations (16\%) not yet
+verified.
 
-
-
-% Resumo de como aconteceu o processo de verificação, (melhor está após as estátisticas) ( )Atualizar dados
-However, few proof commands need to be used to prove most proof obligations. As there are many similar assembly instructions,
-some human-directed proofs, when replayed, could discharge other proof
-obligations. A good example is a set of 17 proof commands that quickly aided the
-verification of 99\% (2295) of WD proofs. We also set up a proving environment
-consisting of networked computers to take advantage of the distribution
-facilities now provided in the B development environment. Finally, all of the
-2926 proof obligations were proved using the tool support of the development
+Two development strategies were important to improve the verification of 3062
+proof obligations: the intensive use of parallelism and user pass. %Decomposição
+do módulo Z80 The Z80 module was decomposed in 8 modules of instructions, it was
+very helpful to decrease the time for verification, because AtelierB can start 
+simultaneously \textit{N} instances of provers, one per module, reducing the
+time verification by up to \textit{N}  times when a processor with \textit{N} 
+cores is used  or the process is submitted to \textit{N} networked computers. So
+we also set up a proving environment consisting of networked computers to take
+advantage of the distribution facilities provided in the B development
 environment.
-
-
+% Resumo de como aconteceu o processo de verificação,
+A second interesting strategy  was to reuse the user pass. Usually, an used
+user pass to aid the verification of one proof obligation can solve several
+similar proof obligations. Thus few generic user pass are needed to prove many
+proof obligations. As there are many similar assembly instructions, some
+human-directed proofs, when replayed, could discharge other proof obligations. A
+good example is a set of 17 user pass that quickly aided the verification of
+approximately 2533 of WD proofs.
 
 
 \subsection{Considerations about the Z80 model}
@@ -1380,8 +1387,6 @@ example of model could replace or improve the used documentation for users and
 assembly programmers. Z80 model is also useful to develop verified software 
 up to the assembly level.
 
-
-
 A case study using the first version of Z80 model was also created and verified
 since the first abstract B model up to B assembly model. This case study is an
 object from the pilot project developed to analyse a petroleum production test
@@ -1390,13 +1395,8 @@ and its B assembly model can be executed manually in ProB. The modeling of
 instruction set and the B assembly model allow to simulate the execution of microcontroller
 and analyse several important properties.
 
-
-
-
-
- 
-
-
+%\section{Case study}
+%\include{Petroleumproductiontestsystem}
 
 \section{Related work}
 \label{sec:relatedworks}
@@ -1437,6 +1437,7 @@ and implemented using the B method.
 %modeled in our work such as the execution time of the instructions.
 %Also we did not consider the micro architecture of the hardware as the scope of
 %our work does not include hardware verification. 
+
 
  
 \section{Conclusions}
@@ -1483,6 +1484,13 @@ platform is also envisioned. Finally, another important activity is to
 develop a formal model of a platform used in LLVM
 Compiler~\cite{DBLP:conf/cgo/LattnerA04}, which would enable us to
 integrate different compilation techniques into our B-based framework.
+
+
+
+% Conclusão: toque final
+%Several iterations were needed to provide the good library definitions as well as
+%to fine-tune the model of the microcontroller instructions by factoring common
+%functionalities into auxiliary definitions.  
 
 \subsubsection{Acknowledgements:} The animation of the model would not
 have been possible without the help of Michael Leuschel who kindly
