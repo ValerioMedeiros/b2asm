@@ -100,9 +100,8 @@ partial, Z80 model presented in \cite{Valerio_SBMF09} was fully
 verified, but it used constructs that made it impossible to animate.
 
 The new model supports animation in ProB~\cite{proB}.  Essentially, the
-new model\footnote{The interested reader in more details is invited to
-  visit our repository at: http://code.google.com/p/b2asm/.}  no
-longer contains definitions derived from infinite sets. Using B
+new model \footnote{The interested reader in more details is invited to visit our repository at: http://code.google.com/p/b2asm/.}
+no longer contains definitions derived from infinite sets. Using B
 constructs for modularity, auxiliary libraries of basic modules were
 developed as part of the construction of the microcontroller model. Such
 a library has many definitions of concepts common to microcontrollers.
@@ -493,7 +492,9 @@ design. We provide the following definitions:
 
 \hspace*{0.0in}\it BYTE\_WIDTH \rm = 8 $\land$ \it BYTE\_INDEX \rm = 1 $\upto$ \rm  BYTE\_WIDTH\rm  \hspace*{0.03in} $\land$
 
-\hspace*{0.0in}\it PHYS\_BYTE\_INDEX \rm = \rm 0 $\upto$ \rm (\it BYTE\_WIDTH\rm -\rm 1\rm )\hspace*{0.03in} $\land$ \hspace*{0.0in}\it BYTE \rm =\rm (\it BYTE\_INDEX  $\fun$  \it BIT\rm )\hspace*{0.0in} $\land$  
+\hspace*{0.0in}\it PHYS\_BYTE\_INDEX \rm = \rm 0 $\upto$ \rm (\it BYTE\_WIDTH\rm -\rm 1\rm )\hspace*{0.03in} $\land$
+
+\hspace*{0.0in}\it BYTE \rm =\rm (\it BYTE\_INDEX  $\fun$  \it BIT\rm )\hspace*{0.0in} $\land$  
 
 
 \hspace*{0.0in}$\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BYTE  $\implies$  \bf size\rm (\it b1\rm )\rm =\it BYTE\_WIDTH  $\land$  \it b1  $\in$  \bf seq1\rm (\it BIT\rm )\rm ) 
@@ -701,11 +702,10 @@ one example each:
 \begin{enumerate}
 
 \item For the proof obligation (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$
-\textit{UCHAR}), the proof rule is:\\
-$\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm $\in$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )  $\bij$  \rm 0 $\upto$ \rm 2\rm 5\rm 5 \\
+\textit{UCHAR}), the proof rule is: $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm $\in$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )  $\bij$  \rm 0 $\upto$ \rm 2\rm 5\rm 5 \\
 
 \item For the proof obligation (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$
-\textit{BYTE}), the proof rule is:\\ $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$  \rm 8)$\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$  \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm ) \rm   $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5   $\bij$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )\\
+\textit{BYTE}), the proof rule is: $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$  \rm 8)$\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$  \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm ) \rm   $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5   $\bij$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )\\
 
 
 \item For the proof obligation (\it byte\_uchar\rm  =  \it
@@ -765,11 +765,7 @@ register and its main effect.
 % Several functions were created to Z80.
 General functions that can be used in other microcontroller models are defined
 in the modules of data types. Specific functions of the microcontroller are
-defined in the ALU (arithmetic logic unit) module.
-
-
-
-The main module includes an instance of the memory module and accesses the
+defined in the ALU (arithmetic logic unit) module.The main module includes an instance of the memory module and accesses the
 definitions from basic data types modules and the \textit{ALU} module.
 
 	\begin{center}
@@ -811,11 +807,11 @@ output ports ($\textit{i\_o\_ports}$). These definitions are represented by
 \begin{sloppypar}
 \bf INVARIANT
 
-\hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ \it pc  $\in$  \it INSTRUCTION  $\land$  \it sp  $\in$  \it BV16 $\land$  \it ix  $\in$  \it BV16  $\land$
+\hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ \it pc  $\in$  \it INSTRUCTION  $\land$  \it sp  $\in$  \it BV16 $\land$
 
-\hspace*{0.10in}\it iy  $\in$  \it BV16  $\land$ \it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$ \it iff1  $\in$  \it BIT  $\land$ \it iff2  $\in$  \it BIT  $\land$ 
+\hspace*{0.10in}\it ix  $\in$  \it BV16  $\land$ \it iy  $\in$  \it BV16  $\land$ \it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$ \it iff1  $\in$  \it BIT  $\land$ 
 
-\hspace*{0.10in}\it im $\in$ (\it BIT $\times$ \it BIT\rm )  $\land$  \it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE
+\hspace*{0.10in}\it iff2  $\in$  \it BIT  $\land$ \it im $\in$ (\it BIT $\times$ \it BIT\rm )  $\land$  \it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE
 \end{sloppypar}
 
 
@@ -836,11 +832,11 @@ are represented below.
 
 \begin{sloppypar}
 
-	\bf SETS\\
-\hspace*{0.10in}\it id\_reg\_8 \rm = \rm \{ \it a0\rm, \it f0\rm, \it b0\rm, \it
+\bf SETS\\
+\hspace*{0.10in}\it id\_reg\_8\rm =\rm \{\it a0\rm, \it f0\rm, \it b0\rm, \it
 c0\rm, \it d0\rm, \it e0\rm, \it h0\rm, \it l0\rm, \it a\_0\rm,  \it f\_0\rm,
 \it b\_0\rm, \it c\_0\rm, \it d\_0\rm, \it e\_0\rm, \it h\_0\rm, \it l\_0 \rm
-\};\\ \hspace*{0.10in}\it id\_reg\_16 \rm = \rm \{  \it AF \rm, \it BC\rm, \it
+\};\\ \hspace*{0.10in}\it id\_reg\_16\rm =\rm \{\it AF \rm, \it BC\rm, \it
 DE\rm, \it HL\rm, \it SP\rm\}
 	
 
@@ -860,21 +856,21 @@ DE\rm, \it HL\rm, \it SP\rm\}
 The main working register of Z80 is the accumulator ($\textit{rgs8(a0)}$) used for arithmetic/logic, input/output and loading/storing operations.
 Another important element is the ``f'' register ($\textit{rgs8(f0)}$),  that is
 used as a \textbf{flag register}. This register uses only six bits to represent the execution result status of each instruction.
-According to the official manual the bits 3 and 5 are not used and the others bits have the follow meaning: %$\textit{bv\_get(rgs8(f0),0)}$ - the carry bit; $\textit{bv\_get(rgs8(f0),1)}$ - the add/subtract bit; $\textit{bv\_get(rgs8(f0),2)}$ - the parity or overflow bit; $\textit{bv\_get(rgs8(f0),4)}$ - the half carry bit; $\textit{bv\_get(rgs8(f0),6)}$ - the zero bit; and $\textit{bv\_get(rgs8(f0),7)}$ - the sign bit.
-\begin{description}
-  \item[$\textit{bv\_get(rgs8(f0),0)}$] - The Carry bit.
-  \item[$\textit{bv\_get(rgs8(f0),1)}$] - The Add/Subtract bit.
-  \item[$\textit{bv\_get(rgs8(f0),2)}$] - The Parity or Overflow bit.
-  \item[$\textit{bv\_get(rgs8(f0),4)}$] - The Half Carry bit.
-  \item[$\textit{bv\_get(rgs8(f0),6)}$] - The Zero bit.
-  \item[$\textit{bv\_get(rgs8(f0),7)}$] - The Sign bit.
-\end{description}
+According to the official manual the bits 3 and 5 are not used and the others bits have the follow meaning: $\textit{bv\_get(rgs8(f0),0)}$ - the carry bit; $\textit{bv\_get(rgs8(f0),1)}$ - the add/subtract bit; $\textit{bv\_get(rgs8(f0),2)}$ - the parity or overflow bit; $\textit{bv\_get(rgs8(f0),4)}$ - the half carry bit; $\textit{bv\_get(rgs8(f0),6)}$ - the zero bit; and $\textit{bv\_get(rgs8(f0),7)}$ - the sign bit.
+%\begin{description}
+%  \item[$\textit{bv\_get(rgs8(f0),0)}$] - The Carry bit.
+%  \item[$\textit{bv\_get(rgs8(f0),1)}$] - The Add/Subtract bit.
+%  \item[$\textit{bv\_get(rgs8(f0),2)}$] - The Parity or Overflow bit.
+%  \item[$\textit{bv\_get(rgs8(f0),4)}$] - The Half Carry bit.
+%  \item[$\textit{bv\_get(rgs8(f0),6)}$] - The Zero bit.
+%  \item[$\textit{bv\_get(rgs8(f0),7)}$] - The Sign bit.
+%\end{description}
 These bits can also be used to specify security properties for microcontroller programs.   
 
 \textbf{Assuring the absence of overflow:}
- \emph{To assure that an overflow does not happen, the developer can add this
- expression (\textit{bv\_get(rgs8(f0),0)} $\neq$ 1 $\land$
- \textit{bv\_get(rgs8(f0),2) $\neq$ 1}) in the invariant.
+ \emph{To assure that an overflow does not happen, the developer can add in the invariant this 
+ expression:\\(\textit{bv\_get(rgs8(f0),0)} $\neq$ 1 $\land$
+ \textit{bv\_get(rgs8(f0),2) $\neq$ 1}).
 % When a overflow happen,it can be dangerous. So the developer may restrict its use. However, this restriction can also
 % become more difficult to verify the model.
 }
@@ -999,23 +995,22 @@ module are included in the \textit{ALU} module, they can be seen and used
 directly in the \textit{ALU} and \textit{Z80} modules.
 
 \subsection{Modeling the actions and instructions}
-
+%TODO: Fiz uma breve alteração
 Each instruction is represented by a B operation in Z80 module. The main
-module (\textit{Z80}) has three categories of operations: a category represents the 
-instructions of microcontrollers, a second category represents the input and output of data 
-(shown in ~\ref{sec:modelingIO}) and the last category represents the external
-actions (shown in~\ref{sec:externalactions}). A simple example of instruction is
-$\textit{LD\_(nn)\_A}$\footnoteremember{myfootnote}{The B tools does not allow
-to use parentheses in identifiers, and the characters \{``('',``)''\} are
+module (\textit{Z80}) has two categories of operations: a category represents the 
+instructions of microcontrollers and a category represents the external actions, e.g.
+interruptions actions. All 158 instructions and interruptions were modeled, but only
+two important examples are presented below.
+
+A simple example of instruction is $\textit{LD\_(nn)\_A}$\footnote{The B tools does not allow o use parentheses in identifiers, and the characters \{``('',``)''\} are
 replaced respectively by \{``9'',``0''\} in the actual specification.} shown below. The
 pre-defined functions are necessary many times to model the instructions, these
 functions facilitate the construction of instruction set model. By default, all
 parameters in operations are either predefined elements in the model or
 integers values in decimal representation. This instruction use the
-$\textit{updateAddressMem}$ operation from \textit{Memory} module and it receives
-a address memory and its new memory value. It also increments the program
-counter ($\textit{pc}$) and update the refresh register ($\textit{r\_}$).
-The other instructions have a similar structure.
+$\textit{updateAddressMem}$ operation from \textit{Memory} module, it receives
+an address memory and its new memory value. $\textit{LD\_(nn)\_A}$ also increments the program
+counter ($\textit{pc}$) and updates the refresh register ($\textit{r\_}$). The other instructions have a similar structure.
 
 \hspace*{0.00in}\bf LD\_9nn0\_A \rm ( \it nn \rm ) \rm =
 
@@ -1030,78 +1025,77 @@ The other instructions have a similar structure.
 
 
 
-\subsection{Modeling the input/output instructions}
-\label{sec:modelingIO}
-The Z80 has an extensive set of input and output (I/O) instructions and 256 ports for
-devices. This model can transfer data blocks between the I/O devices and any
-of the internal registers or memory address.
-
-The $\textit{IN\_r(C)}$\footnoterecall{myfootnote} instruction is represented
-by the following B operation. It receives a register identifier ``$\textit{rr}$'' and, it stores the value from ``rr'' in the $\textit{C}$ port address. Besides, it increments the program counter and updates the flag registers.
-
-\hspace*{0.0in}\bf IN\_r\_9C0 \rm ( \it rr \rm ) \rm =
-
-\hspace*{0.0in}\bf PRE \it rr  $\in$  \it id\_reg\_8  $\land$  \it rr  $\not =$  \it f0\hspace*{0.15in}\bf THEN
-
-\hspace*{0.20in}\bf ANY \hspace*{0.10in}\it negative \rm , \it zero \rm , \it half\_carry \rm , \it pv \rm , \it add\_sub \rm , \it carry
-
-\hspace*{0.20in}\bf WHERE 
-
-\hspace*{0.40in}\it negative $\in$ \it BIT $\land$ \it zero $\in$ \it BIT $\land$ \it half\_carry $\in$ \it BIT 
-$\land$ \it pv $\in$ \it BIT $\land$
-
- \hspace*{0.40in}\it add\_sub $\in$ \it BIT $\land$ \it carry $\in$ \it BIT  $\land$
-
-\hspace*{0.40in}\it negative \rm = \it is\_negative \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm )  $\land$ 
-
-\hspace*{0.40in}\it zero \rm = \it is\_zero \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm )  $\land$ \it half\_carry \rm = \rm 0  $\land$ 
-
-\hspace*{0.40in}\it pv \rm = \it parity\_even \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm ) $\land$
-\it add\_sub \rm =\hspace*{0.10in}\rm 0  $\land$ 
-\it carry \rm = \it z\_c
-
-\hspace*{0.20in}\bf THEN
-
-\hspace*{0.40in}\it rgs8 \rm := \it rgs8  $\lover$  \rm \{ \rm ( \it rr  $\mapsto$  \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm ) \rm ,
-
-\hspace*{0.40in}\it update\_flag\_reg\rm (\it negative\rm,\it zero\rm,\it half\_carry\rm,\it pv\rm,\it add\_sub\rm,\it carry)\rm\}$\para$
-
-\hspace*{0.40in}\it pc \rm := \it instruction\_next \rm ( \it pc \rm )  $\para$  \it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
-
-\hspace*{0.20in}\bf END
-
-\hspace*{0.0in}\bf END \rm
-
-%The main I/O instructions work similarly, for example: $\textit{OUT(n),A}$  or $\textit{OUT (C ), r}$. 
-
-% $
-% \begin{array}{l} 
-% \textit{IN\_r\_9C0} ( rr ) = \\
-% \quad   \PRE rr \in id\_reg\_8    \THEN\\
-% \quad\quad \ANY data\_in, negative , zero , half\_carry , pv , add\_sub , carry\\ 
-% \quad\quad \WHERE data\_in \in \textit{BYTE} \land negative \in \textit{BIT}\land\\
-% \quad\quad\quad carry \in \textit{BIT} \land half\_carry \in \textit{BIT} \land zero \in \textit{BIT} \land \\
-% \quad\quad\quad negative = is\_negative (data\_in) \land zero = is\_zero(data\_in ) \land\\
-% \quad\quad\quad half\_carry = 0 \land pv =parity\_even\_BYTE ( data\_in )    \land\\
-% \quad\quad\quad add\_sub =  0 \land carry = z\_c \\
-% \quad\quad  \THEN \\
-% \quad\quad\quad i\_o\_ports ( rgs8 ( c0 ) ) := data\_in ||\\
-% \quad\quad\quad rgs8 := rgs8 <+ \{ ( rr |-> data\_in ) ,\\
-% \quad\quad\quad get\_new\_flag\_register\_SZ\_H\_PvNC ( rgs8 , negative , zero, half\_carry , pv , add\_sub , carry ) \} ||\\
-% \quad\quad\quad pc := instruction\_next( pc )\\
-% \quad\quad \END\\
-% \quad \END\\
-% \end{array}
-% $
-
-
-
-
-\subsection{Modeling the external actions}
-\label{sec:externalactions}
-
+%\subsection{Modeling the input/output instructions}
+%\label{sec:modelingIO}
+%%The Z80 has an extensive set of input and output (I/O) instructions and 256 ports for
+%%devices. This model can transfer data blocks between the I/O devices and any
+%%of the internal registers or memory address. The $\textit{IN\_r(C)}$ instruction is
+%%represented by the following B operation. It receives a register identifier ``$\textit{rr}$''
+%%and, it stores the value from ``rr'' in the $\textit{C}$ port address. Besides,
+%%it increments the program counter and updates the flag registers.
+%%
+%%\hspace*{0.0in}\bf IN\_r\_9C0 \rm ( \it rr \rm ) \rm =
+%%
+%%\hspace*{0.0in}\bf PRE \it rr  $\in$  \it id\_reg\_8  $\land$  \it rr  $\not =$  \it f0\hspace*{0.15in}\bf THEN
+%%
+%%\hspace*{0.20in}\bf ANY \hspace*{0.10in}\it negative \rm , \it zero \rm , \it half\_carry \rm , \it pv \rm , \it add\_sub \rm , \it carry
+%%
+%%\hspace*{0.20in}\bf WHERE 
+%%
+%%\hspace*{0.40in}\it negative $\in$ \it BIT $\land$ \it zero $\in$ \it BIT $\land$ \it half\_carry $\in$ \it BIT 
+%%$\land$ \it pv $\in$ \it BIT $\land$
+%%
+%% \hspace*{0.40in}\it add\_sub $\in$ \it BIT $\land$ \it carry $\in$ \it BIT  $\land$
+%%
+%%\hspace*{0.40in}\it negative \rm = \it is\_negative \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm )  $\land$ 
+%%
+%%\hspace*{0.40in}\it zero \rm = \it is\_zero \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm )  $\land$ \it half\_carry \rm = \rm 0  $\land$ 
+%%
+%%\hspace*{0.40in}\it pv \rm = \it parity\_even \rm ( \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm ) $\land$
+%%\it add\_sub \rm =\hspace*{0.10in}\rm 0 % $\land$ \it carry \rm = \it z\_c
+%%
+%%\hspace*{0.20in}\bf THEN
+%%
+%%\hspace*{0.40in}\it rgs8 \rm := \it rgs8  $\lover$  \rm \{ \rm ( \it rr  $\mapsto$  \it io\_ports \rm ( \it rgs8 \rm ( \it c0 \rm ) \rm ) \rm ) \rm ,
+%%
+%%\hspace*{0.40in}\it update\_flag\_reg\rm (\it negative\rm,\it zero\rm,\it half\_carry\rm,\it pv\rm,\it add\_sub\rm,\it carry)\rm\}$\para$
+%%
+%%\hspace*{0.40in}\it pc \rm := \it instruction\_next \rm ( \it pc \rm )  $\para$  \it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
+%%
+%%\hspace*{0.20in}\bf END
+%%
+%%\hspace*{0.0in}\bf END \rm
+%%
+%%%The main input and output instructions work similarly, for example: $\textit{OUT(n),A}$  or $\textit{OUT (C ), r}$. 
+%%
+%% $
+%% \begin{array}{l} 
+%% \textit{IN\_r\_9C0} ( rr ) = \\
+%% \quad   \PRE rr \in id\_reg\_8    \THEN\\
+%% \quad\quad \ANY data\_in, negative , zero , half\_carry , pv , add\_sub , carry\\ 
+%% \quad\quad \WHERE data\_in \in \textit{BYTE} \land negative \in \textit{BIT}\land\\
+%% \quad\quad\quad carry \in \textit{BIT} \land half\_carry \in \textit{BIT} \land zero \in \textit{BIT} \land \\
+%% \quad\quad\quad negative = is\_negative (data\_in) \land zero = is\_zero(data\_in ) \land\\
+%% \quad\quad\quad half\_carry = 0 \land pv =parity\_even\_BYTE ( data\_in )    \land\\
+%% \quad\quad\quad add\_sub =  0 \land carry = z\_c \\
+%% \quad\quad  \THEN \\
+%% \quad\quad\quad i\_o\_ports ( rgs8 ( c0 ) ) := data\_in ||\\
+%% \quad\quad\quad rgs8 := rgs8 <+ \{ ( rr |-> data\_in ) ,\\
+%% \quad\quad\quad get\_new\_flag\_register\_SZ\_H\_PvNC ( rgs8 , negative , zero, half\_carry , pv , add\_sub , carry ) \} ||\\
+%% \quad\quad\quad pc := instruction\_next( pc )\\
+%% \quad\quad \END\\
+%% \quad \END\\
+%% \end{array}
+%% $
+%
+%
+%
+%
+%%\subsection{Modeling the external actions}
+%%\label{sec:externalactions}
+%
 The external actions change the state of the microcontroller, for example,
-refreshing the I/O ports and interruption request. The external actions are also
+refreshing the I/O ports and requesting interruptions. The external actions are also
 modeled by operations and they are named with the prefix ``$ext\_$'' and
 followed by the name of action. There are four external actions:
 $ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The
@@ -1120,150 +1114,152 @@ The other external actions are related to interruptions. Interruptions allow
 devices to suspend a routine from CPU and start another service routine.
 This service routine can exchange data or signals between CPU and external
 devices. When a routine is finished, then the CPU comes back to the last routine
-that was interrupted.
+that was interrupted. Modeling details about interrupts can be consulted in
+public project's repository.
 
-For the interrupts, the following elements are important:  the interrupt flip-flops
-($\textit{iff1}$ and $\textit{iff2}$), the types of interrupts (maskable and
-non-maskable), the interrupt mode (set with the $\textit{IM 0}$, $\textit{IM 1}$,
-$\textit{IM 2}$ instructions) and the $\textit{i\_}$ register.
-
-Flip-flops $\textit{iff1}$ and $\textit{iff2}$ control the maskable interrupts
-($\textit{INT}$). When $\textit{iff1}$ is set, the interrupt is enabled,
-otherwise it is disabled; $\textit{iff2}$ is used only as backup for $\textit{iff1}$. The
-instructions $\textit{EI}$ and $\textit{DI}$ respectively enable and disable the
-maskable interruptions, setting  $\textit{iff1}$ to 1 and 0.
-
-
-The interruptions and the \textit{reset} action can change the state of program
-counter. Theses actions are modeled by B operations and its main effects are
-presented here\footnote{Some definitions of constants: $\textit{sp\_minus\_two}$
-holds the value of stack pointer minus 2,
-% =$\textit{dec\_BV16(dec\_BV16(sp))}$
- $\textit{sp\_minus\_one}$ is the value of stack pointer minus 1,
-% =$\textit{dec\_BV16(sp)}$
-$\textit{pc\_high}$ holds the most significant 8 bits and $\textit{pc\_low}$
-holds the least significant 8 bits.}.
-
-
- \textbf{NMI} - Non-maskable interrupts cannot be disabled
- by the programmer. Then, when a device makes a request, $sp$ is pushed,
- $pc$ receives $66H$ (102 in decimal), $\textit{iff1}$ is reset, $\textit{iff2}$ stores
- $\textit{iff1}$ and the refresh register is updated.
-  
-\begin{sloppypar}
-\bf updateStack\rm (\rm \{ \rm (\it sp\_minus\_two  $\mapsto$  \it pc\_low\rm )\rm ,\rm (\it sp\_minus\_one  $\mapsto$ \it pc\_high \rm ) \rm \}\rm )$\para$
-
-\it sp \rm := \it sp\_minus\_two  $\para$ \it pc \rm := \rm 1\rm 0\rm 2 $\para$ \it iff1\rm :=\rm 0  $\para$  \it iff2\rm := \it iff1 $\para$
-
-\it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )\\
-\end{sloppypar}
-
-  \textbf{INT} - Maskable Interrupt is usually reserved for important functions
-  that can be enabled and disabled by the programmer. When a maskable interrupt
-  action happens, both $\textit{iff1}$ and $\textit{iff2}$ are cleared,
-  disabling the interrupts, $sp$ is pushed, the refresh register is updated and
-  the other effects depend on the interrupt mode register (\it im\rm).
- 
-
- \begin{itemize}
-   
-  \item The mode 0 is compatible with 8080 and this mode is selected when \it im
-  \rm = \rm ( \rm 0 $\mapsto$  \rm 0 \rm ). When a  non-maskable interrupt
-  happens, the CPU fetches an instruction of one byte from an external device,
-  usually an RST instruction, and the CPU executes it.
-  The instruction code is received from an external device by data bus and it is
-  represented by integer parameter called $\textit{byte\_bus}$.
-
- 
-  \item The mode 1 is the simplest and this mode is selected when \it im \rm =
-  \rm ( \rm 0  $\mapsto$  \rm 1 \rm ). Simply, when a non-maskable interruption
-  happens, the program counter receives $38H$ (56 in decimal).
-  
-  \item The mode 2 is the most flexible and this mode is selected when \it im
-  \rm = \rm ( \rm 1  $\mapsto$ \rm 1 \rm ). When a non-maskable interruption
-  happens, an indirect call can be made to any address memory. The program
-  counter receives a bit vector of size 16 composed with two parts: the most
-  significant part of the $\textit{i\_}$ register and the least significant part
-  of the $\textit{byte\_bus}$ with the last bit cleared.
-  
- \end{itemize}
-
-The essential part of maskable interrupt is shown below, where
-$\textit{byte\_bus}$ is a parameter of the $\textit{INT}$ operation:
- 
-
-
-\begin{sloppypar}
-
-\hspace*{0.00in}\bf IF \it im \rm = \rm ( \rm 0  $\mapsto$  \rm 0 \rm ) \bf THEN  
-
-\hspace*{0.10in}\bf IF\hspace*{0.10in}\it byte\_bus \rm $\in$  \it opcodes\_RST\_instruction
-
-\hspace*{0.10in}\bf THEN\hspace*{1.05in}
-
-\hspace*{0.40in}\it pc \rm := \it byte\_bus \rm - \rm 1\rm 9\rm
-9\hspace*{0.10in} $\para$
-
-\hspace*{0.40in}\bf updateStack\rm ( \rm \{ \it stack\rm ( \it
-sp\_minus\_one\rm )  $\mapsto$  \it pc\_low\rm ,
-
-\hspace*{0.40in}\it stack\rm (\it sp\_minus\_two\rm )  $\mapsto$  \it pc\_high
-\rm \} \rm )  $\para$
-
-\hspace*{0.40in}\it sp \rm := \it sp\_minus\_two  $\para$ \hspace*{0.10in}\it
-r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
-
-\hspace*{0.10in}\bf ELSIF \it byte\_bus \rm = \it opcode\_\ldots\_instruction
-
-\hspace*{0.40in}\bf \ldots 
-
-\hspace*{0.10in}\bf END
-
-\hspace*{0.00in}\bf ELSIF\hspace*{0.10in}\it im \rm =\hspace*{0.10in}\rm ( \rm
-0  $\mapsto$  \rm 1 \rm ) \bf THEN
-
-\hspace*{0.10in}\it pc \rm :=\hspace*{0.10in}\rm 5\rm 6  \hspace*{0.80in}
-$\para$
-
-\hspace*{0.10in}\bf updateStack\rm ( \rm \{ \it stack\rm (\it
-sp\_minus\_one\rm )  $\mapsto$  \it pc\_low\rm ,
-
-\hspace*{0.10in}\it stack\rm (\it sp\_minus\_two\rm )  $\mapsto$  \it pc\_high
-\rm \} \rm )  $\para$
-
-\hspace*{0.10in}\it sp \rm := \it sp\_minus\_two  $\para$ \hspace*{0.10in}\it
-r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )\hspace*{0.85in}
-
-\hspace*{0.00in}\bf ELSIF\hspace*{0.10in}\it im \rm = \rm ( \rm 1  $\mapsto$ 
-\rm 1 \rm ) \bf THEN  \hspace*{0.70in}
-
-\hspace*{0.10in}\it pc \rm := \it bv16\_ushort\rm (\it byte\_bv16\rm ( \it i\_
-\rm ,\it bv\_clear\rm (\it rotateleft\rm (\it uchar\_byte\rm (\it byte\_bus\rm )\rm )\rm ,\rm 0\rm )\rm )\rm )$\para$
-
-\hspace*{0.10in}\bf updateStack\rm ( \rm \{ \it stack\rm ( \it
-sp\_minus\_one\rm )  $\mapsto$  \it pc\_low\rm ,
-
-\hspace*{0.10in}\it stack\rm (\it sp\_minus\_two\rm )  $\mapsto$  \it pc\_high
-\rm \} \rm )  $\para$
-
-\hspace*{0.10in}\it sp \rm := \it sp\_minus\_two  $\para$ \hspace*{0.10in}\it
-r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
-
-\hspace*{0.00in}\bf END\hspace*{0.10in}\\
-\end{sloppypar}
-
-
-\textbf{RESET}  - This just resets the registers related to the interruptions.
-
-\begin{sloppypar}
-\it iff1 \rm :=\rm 0 $\para$ \it iff2\rm :=\rm 0 $\para$  \it  im\rm := \rm (\rm 0 $\mapsto$ \rm 0\rm )  $\para$ 
-\it pc\rm :=\rm 0 $\para$ \it i\_ \rm := [0,0,0,0,0,0,0,0] $\para$
-
-\it rgs8 \rm := \it rgs8  $\lover$  \rm \{ \rm (\it a0  $\mapsto$ \rm [0,0,0,0,0,0,0,0] , \rm (\it
-f0 $\mapsto$ \rm [0,0,0,0,0,0,0,0] \rm \} $\para$
-
-\it r\_  \rm := [0,0,0,0,0,0,0,0] $\para$ \it sp \rm := [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\\
-\end{sloppypar}
+%
+%For the interrupts, the following elements are important:  the interrupt flip-flops
+%($\textit{iff1}$ and $\textit{iff2}$), the types of interrupts (maskable and
+%non-maskable), the interrupt mode (set with the $\textit{IM 0}$, $\textit{IM 1}$,
+%$\textit{IM 2}$ instructions) and the $\textit{i\_}$ register.
+%
+%Flip-flops $\textit{iff1}$ and $\textit{iff2}$ control the maskable interrupts
+%($\textit{INT}$). When $\textit{iff1}$ is set, the interrupt is enabled,
+%otherwise it is disabled; $\textit{iff2}$ is used only as backup for $\textit{iff1}$. The
+%instructions $\textit{EI}$ and $\textit{DI}$ respectively enable and disable the
+%maskable interruptions, setting  $\textit{iff1}$ to 1 and 0.
+%
+%
+%The interruptions and the \textit{reset} action can change the state of program
+%counter. Theses actions are modeled by B operations and its main effects are
+%presented here\footnote{Some definitions of constants: $\textit{sp\_minus\_two}$
+%holds the value of stack pointer minus 2,
+%% =$\textit{dec\_BV16(dec\_BV16(sp))}$
+% $\textit{sp\_minus\_one}$ is the value of stack pointer minus 1,
+%% =$\textit{dec\_BV16(sp)}$
+%$\textit{pc\_high}$ holds the most significant 8 bits and $\textit{pc\_low}$
+%holds the least significant 8 bits.}.
+%
+%
+% \textbf{NMI} - Non-maskable interrupts cannot be disabled
+% by the programmer. Then, when a device makes a request, $sp$ is pushed,
+% $pc$ receives $66H$ (102 in decimal), $\textit{iff1}$ is reset, $\textit{iff2}$ stores
+% $\textit{iff1}$ and the refresh register is updated.
+%  
+%\begin{sloppypar}
+%\bf updateStack\rm (\rm \{ \rm (\it sp\_minus\_two  $\mapsto$  \it pc\_low\rm )\rm ,\rm (\it sp\_minus\_one  $\mapsto$ \it pc\_high \rm ) \rm \}\rm )$\para$
+%
+%\it sp \rm := \it sp\_minus\_two  $\para$ \it pc \rm := \rm 1\rm 0\rm 2 $\para$ \it iff1\rm :=\rm 0  $\para$  \it iff2\rm := \it iff1 $\para$
+%
+%\it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )\\
+%\end{sloppypar}
+%
+%  \textbf{INT} - Maskable Interrupt is usually reserved for important functions
+%  that can be enabled and disabled by the programmer. When a maskable interrupt
+%  action happens, both $\textit{iff1}$ and $\textit{iff2}$ are cleared,
+%  disabling the interrupts, $sp$ is pushed, the refresh register is updated and
+%  the other effects depend on the interrupt mode register (\it im\rm).
+% 
+%
+% \begin{itemize}
+%   
+%  \item The mode 0 is compatible with 8080 and this mode is selected when \it im
+%  \rm = \rm ( \rm 0 $\mapsto$  \rm 0 \rm ). When a  non-maskable interrupt
+%  happens, the CPU fetches an instruction of one byte from an external device,
+%  usually an RST instruction, and the CPU executes it.
+%  The instruction code is received from an external device by data bus and it is
+%  represented by integer parameter called $\textit{byte\_bus}$.
+%
+% 
+%  \item The mode 1 is the simplest and this mode is selected when \it im \rm =
+%  \rm ( \rm 0  $\mapsto$  \rm 1 \rm ). Simply, when a non-maskable interruption
+%  happens, the program counter receives $38H$ (56 in decimal).
+%  
+%  \item The mode 2 is the most flexible and this mode is selected when \it im
+%  \rm = \rm ( \rm 1  $\mapsto$ \rm 1 \rm ). When a non-maskable interruption
+%  happens, an indirect call can be made to any address memory. The program
+%  counter receives a bit vector of size 16 composed with two parts: the most
+%  significant part of the $\textit{i\_}$ register and the least significant part
+%  of the $\textit{byte\_bus}$ with the last bit cleared.
+%  
+% \end{itemize}
+%
+%The essential part of maskable interrupt is shown below, where
+%$\textit{byte\_bus}$ is a parameter of the $\textit{INT}$ operation:
+% 
+%
+%
+%\begin{sloppypar}
+%
+%\hspace*{0.00in}\bf IF \it im \rm = \rm ( \rm 0  $\mapsto$  \rm 0 \rm ) \bf THEN  
+%
+%\hspace*{0.10in}\bf IF\hspace*{0.10in}\it byte\_bus \rm $\in$  \it opcodes\_RST\_instruction
+%
+%\hspace*{0.10in}\bf THEN\hspace*{1.05in}
+%
+%\hspace*{0.40in}\it pc \rm := \it byte\_bus \rm - \rm 1\rm 9\rm
+%9\hspace*{0.10in} $\para$
+%
+%\hspace*{0.40in}\bf updateStack\rm ( \rm \{ \it stack\rm ( \it
+%sp\_minus\_one\rm )  $\mapsto$  \it pc\_low\rm ,
+%
+%\hspace*{0.40in}\it stack\rm (\it sp\_minus\_two\rm )  $\mapsto$  \it pc\_high
+%\rm \} \rm )  $\para$
+%
+%\hspace*{0.40in}\it sp \rm := \it sp\_minus\_two  $\para$ \hspace*{0.10in}\it
+%r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
+%
+%\hspace*{0.10in}\bf ELSIF \it byte\_bus \rm = \it opcode\_\ldots\_instruction
+%
+%\hspace*{0.40in}\bf \ldots 
+%
+%\hspace*{0.10in}\bf END
+%
+%\hspace*{0.00in}\bf ELSIF\hspace*{0.10in}\it im \rm =\hspace*{0.10in}\rm ( \rm
+%0  $\mapsto$  \rm 1 \rm ) \bf THEN
+%
+%\hspace*{0.10in}\it pc \rm :=\hspace*{0.10in}\rm 5\rm 6  \hspace*{0.80in}
+%$\para$
+%
+%\hspace*{0.10in}\bf updateStack\rm ( \rm \{ \it stack\rm (\it
+%sp\_minus\_one\rm )  $\mapsto$  \it pc\_low\rm ,
+%
+%\hspace*{0.10in}\it stack\rm (\it sp\_minus\_two\rm )  $\mapsto$  \it pc\_high
+%\rm \} \rm )  $\para$
+%
+%\hspace*{0.10in}\it sp \rm := \it sp\_minus\_two  $\para$ \hspace*{0.10in}\it
+%r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )\hspace*{0.85in}
+%
+%\hspace*{0.00in}\bf ELSIF\hspace*{0.10in}\it im \rm = \rm ( \rm 1  $\mapsto$ 
+%\rm 1 \rm ) \bf THEN  \hspace*{0.70in}
+%
+%\hspace*{0.10in}\it pc \rm := \it bv16\_ushort\rm (\it byte\_bv16\rm ( \it i\_
+%\rm ,\it bv\_clear\rm (\it rotateleft\rm (\it uchar\_byte\rm (\it byte\_bus\rm )\rm )\rm ,\rm 0\rm )\rm )\rm )$\para$
+%
+%\hspace*{0.10in}\bf updateStack\rm ( \rm \{ \it stack\rm ( \it
+%sp\_minus\_one\rm )  $\mapsto$  \it pc\_low\rm ,
+%
+%\hspace*{0.10in}\it stack\rm (\it sp\_minus\_two\rm )  $\mapsto$  \it pc\_high
+%\rm \} \rm )  $\para$
+%
+%\hspace*{0.10in}\it sp \rm := \it sp\_minus\_two  $\para$ \hspace*{0.10in}\it
+%r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
+%
+%\hspace*{0.00in}\bf END\hspace*{0.10in}\\
+%\end{sloppypar}
+%
+%
+%\textbf{RESET}  - This just resets the registers related to the interruptions.
+%
+%\begin{sloppypar}
+%\it iff1 \rm :=\rm 0 $\para$ \it iff2\rm :=\rm 0 $\para$  \it  im\rm := \rm (\rm 0 $\mapsto$ \rm 0\rm )  $\para$ 
+%\it pc\rm :=\rm 0 $\para$ \it i\_ \rm := [0,0,0,0,0,0,0,0] $\para$
+%
+%\it rgs8 \rm := \it rgs8  $\lover$  \rm \{ \rm (\it a0  $\mapsto$ \rm [0,0,0,0,0,0,0,0] , \rm (\it
+%f0 $\mapsto$ \rm [0,0,0,0,0,0,0,0] \rm \} $\para$
+%
+%\it r\_  \rm := [0,0,0,0,0,0,0,0] $\para$ \it sp \rm := [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\\
+%\end{sloppypar}
 
 % The animation
 
@@ -1314,7 +1310,7 @@ definition lemmas.
 \begin{center} 
 \begin{tabular}{|p{3.1cm}|c|c||c|c||c|c|c|}
 \hline 
-{\small \textbf{Component}}&{\small \textbf{PO}}&{\small \textbf{UPO}}&{\small \textbf{WD PO}}&{\small \textbf{UWD PO }}&{\small \textbf{Total PO}}&{\small \textbf{Total UPO}}& {\small \textbf{Total Percentage}}  \\\hline
+{\scriptsize \textbf{Component}}&{\scriptsize \textbf{PO}}&{\scriptsize \textbf{UPO}}&{\scriptsize \textbf{WD PO}}&{\scriptsize \textbf{UWD PO }}&{\scriptsize \textbf{Total PO}}&{\scriptsize \textbf{Total UPO}}& {\scriptsize \textbf{Total \%}}  \\\hline
 BIT&49&0&69&0&118&0&100\%\\\hline
 BV16&6&0&69&0&75&0&100\%\\\hline
 BYTE&18&0&136&0&154&0&100\%\\\hline
@@ -1361,9 +1357,8 @@ case that the same proof script discharges several proof obligations.
 We had a previous experience with a similar effot, where we were able
 to discharge all the proof obligations: that of the model of the Z80
 instruction set designed without restricting ourselves to constructs
-that may be animated with ProB, and without modeling external actions
-(as described in section~\ref{sec:externalactions}). In that first
-experience, the verification took us about two months. In that second
+that may be animated with ProB, and without modeling external actions.
+In that first experience, the verification took us about two months. In that second
 project, we have been able to verify 3062 (e.g. roughly 80 \%) of 3631
 proof obligations in one week.
 
@@ -1511,10 +1506,10 @@ integrate different compilation techniques into our B-based framework.
 %to fine-tune the model of the microcontroller instructions by factoring common
 %functionalities into auxiliary definitions.  
 
-\subsubsection{Acknowledgements:} The animation of the model would not
-have been possible without the help of Michael Leuschel who kindly
-provided feedback and developed several improvements to ProB to meet our
-needs.
+%\subsubsection{Acknowledgements:} The animation of the model would not
+%have been possible without the help of Michael Leuschel who kindly
+%provided feedback and developed several improvements to ProB to meet our
+%needs.
 
 % This work was partially supported by INES (www.ines.org.br),
 %funded by CNPq grant 573964/2008-4 and by CNPq grants 553597/2008-6, 550946/2007-
