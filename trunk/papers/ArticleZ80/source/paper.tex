@@ -338,6 +338,7 @@ We model bits as a set of integers: $\textit{BIT} =
 \textit{0..1}$. The negation is an unary function on bits and it is
 defined below. The module also provides lemmas on negation that may be useful for the
 users of the library to develop proofs.
+
 $$
 \begin{array}{l}
 \textit{bit\_not}  \in  \textit{BIT}  \fun  \textit{BIT}  \land 
@@ -412,36 +413,43 @@ $\textit{bv\_clear}$ that, given a bit vector, and a position in a
 bit vector, returns the bit vector resulting from setting the
 corresponding position to 1 and 0, and a function $\textit{bv\_get}$
 that, given a bit vector and a valid position, returns the value of
-the bit at that position. Only the first definition is shown here:
+the bit at that position. Only the first definition is shown here:\newline
+%
+%\vspace*{4mm}
+%\hspace*{-0.2in}\textit{bv\_set} $\in$ \textit{BIT\_VECTOR} $\times \nat \fun$ \textit{BIT\_VECTOR} $\land$\\
+%\it bv\_set \rm =  $\lambda$ \rm \it v\rm ,\it n\rm \rm .\rm (\it v $\in$  \it BIT\_VECTOR  $\land$  \it n  $\in$  \rm 0$\upto$\rm (\it size\rm (\it v\rm )\rm -\rm 1\rm )  $\mid$  \it v  $\lover$  \rm \{ \rm (\it n\rm +\rm 1\rm )  $\mapsto$  \rm 1 \rm \}\rm ) 
+%\vspace*{4mm}
+%
+%
+% \nat \land n <\textit{size}(v)
 $$
-\begin{array}{l}
-\textit{bv\_set} \in \textit{BIT\_VECTOR} \times \nat \fun \textit{BIT\_VECTOR} \land \\ \textit{bv\_set} =
-\lambda v, n . (v \in \textit{BIT\_VECTOR} \land n \in \nat \land n <\textit{size}(v)
-\mid v \lover \{ n+1 \mapsto 1 \})
+\hspace*{0.1in}\begin{array}{l}
+\textit{bv\_set} \in \textit{BIT\_VECTOR} \times \nat \fun \textit{BIT\_VECTOR} \land \\
+ \textit{bv\_set} = \lambda v, n . (v \in \textit{BIT\_VECTOR} \land n \in   0..\textit{size}(v)-1
+  \mid v \lover \{n+1 \mapsto 1\})
 \end{array}
 $$
 
 Function $bv\_catenate$ takes as parameters two bit vectors $v$ and
 $w$, and returns the concatenation of $v$ and $w$, such
-that $v$ constitutes the most significant part of the result.
+that $v$ constitutes the most significant part of the result. \newline
 
-%
-% $
-% \begin{array}{l}
+%$$
+%\hspace*{-0.2in}\begin{array}{l}
 % \textit{bv\_catenate} \in \textit{BIT\_VECTOR} \times \textit{BIT\_VECTOR} \fun \textit{BIT\_VECTOR} \land \\
 % \textit{bv\_catenate} = \lambda v, w \bullet (v \in \textit{ BIT\_VECTOR} \land w \in \textit{ BIT\_VECTOR}  \mid v 
 % %\conc
 %   w)
-% \end{array}
-% $
-\begin{flushleft}
-\hspace*{0.0in}\it bv\_catenate  $\in$  \it BIT\_VECTOR  $\times$  \it BIT\_VECTOR  $\fun$ \it
-BIT\_VECTOR $\land$\\
-\it bv\_catenate \rm =  $\lambda$  v\rm ,\it w \rm . \rm (\it v 
-$\in$  \it BIT\_VECTOR $\land$ \it w $\in$  \it BIT\_VECTOR  $\mid$  \it v\^ \it w\rm ) %$\cat$
-\\
+%\end{array}
+%$$
 
-\end{flushleft}
+\hspace*{-0.0in}\it bv\_catenate  $\in$  \it BIT\_VECTOR  $\times$  \it BIT\_VECTOR  $\fun$ \it
+BIT\_VECTOR $\land$\\
+\hspace*{0.2in}\it bv\_catenate \rm =  $\lambda$  v\rm ,\it w \rm . \rm (\it v 
+$\in$  \it BIT\_VECTOR $\land$ \it w $\in$  \it BIT\_VECTOR  $\mid$  \it v\^ \it w\rm ) %$\cat$
+\newline
+
+
 
 
 %COMMENT TO REDUCE SPACE
@@ -463,11 +471,9 @@ Additionally, the module provides definitions for the classical
 logical combinations of bit vectors: $\textit{bit\_not}$,
 $\textit{bit\_and}$, $\textit{bit\_or}$ and $\textit{bit\_xor}$. Only
 the first two are presented here. The domain of the binary operators
-is restricted to pairs of bit vectors of the same length:
-
-\begin{flushleft}
+is restricted to pairs of bit vectors of the same length:\newline
 $$
-\begin{array}{l}
+\hspace*{-0.2in}\begin{array}{l}
 \textit{bv\_not} \in \textit{BIT\_VECTOR} \fun \textit{BIT\_VECTOR} \land \\
 \textit{bv\_not} = \lambda v . (v \in \textit{BIT\_VECTOR} \mid \quad \lambda i . (1 .. \textit{size}(v)) \mid \textit{bit\_not}(v(i))) \land \\
 \textit{bv\_and} \in \textit{BIT\_VECTOR} \times \textit{BIT\_VECTOR} \fun \textit{BIT\_VECTOR} \land \\
@@ -476,7 +482,7 @@ $$
 \textit{bit\_and}(v_1(i), v_2(i)))
 \end{array}
 $$
-\end{flushleft}
+
 
 We provide several lemmas on bit vector operations. These lemmas
 express properties on the size of the result of the operations
@@ -999,7 +1005,7 @@ Each instruction is represented by a B operation in Z80 module. The main
 module (\textit{Z80}) has two categories of operations: a category represents the 
 instructions of microcontrollers and a category represents the external actions, e.g.
 interruptions actions. All 158 instructions and interruptions were modeled, but only
-two important examples are presented below.
+two important examples are presented here.
 
 A simple example of instruction is $\textit{LD\_(nn)\_A}$\footnote{The B tools does not allow o use parentheses in identifiers, and the characters \{``('',``)''\} are
 replaced respectively by \{``9'',``0''\} in the actual specification.} shown below. The
@@ -1100,14 +1106,14 @@ followed by the name of action. There are four external actions:
 $ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The
 instruction $ext\_update\_io\_ports$ just changes the state of I/O port, see.
 
-\hspace*{0.20in}\bf ext\_update\_io\_ports\rm (\it address\rm ,\it value\rm )\rm =
+\hspace*{0.00in}\bf ext\_update\_io\_ports\rm (\it address\rm ,\it value\rm )\rm =
 
 \hspace*{0.20in}\bf PRE \it address  $\in$  \it UCHAR  $\land$ \hspace*{0.10in}\it value  $\in$  \it SCHAR \bf THEN
 
-\hspace*{0.40in}\it io\_ports \rm ( \it uchar\_byte \rm ( \it address \rm ) \rm ) \rm := \it schar\_byte \rm ( \it
+\hspace*{0.20in}\it io\_ports \rm ( \it uchar\_byte \rm ( \it address \rm ) \rm ) \rm := \it schar\_byte \rm ( \it
 value \rm )
 
-\hspace*{0.20in}\bf END\rm 
+\hspace*{0.00in}\bf END\rm 
 
 The other external actions are related to interruptions. Interruptions allow
 devices to suspend a routine from CPU and start another service routine.
