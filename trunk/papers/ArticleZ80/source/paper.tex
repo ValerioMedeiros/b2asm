@@ -15,7 +15,7 @@
 \usepackage{epsfig}
 \usepackage{float}
 %\usepackage{supertabular} % used in B Symbols
-%\geometry{a4paper} % or letterpaper (US) or a5paper or....
+
 
 \usepackage[english]{babel} %\usepackage{supertabular} % used in B Symbols
 %\usepackage{hyperref} % add URL in bibliography
@@ -100,7 +100,7 @@ partial, Z80 model presented in \cite{Valerio_SBMF09} was fully
 verified, but it used constructs that made it impossible to animate.
 
 The new model supports animation in ProB~\cite{proB}.  Essentially, the
-new model \footnote{The interested reader in more details is invited to visit our repository at: http://code.google.com/p/b2asm/.}
+new model\footnote{The interested reader in more details is invited to visit our repository at: http://code.google.com/p/b2asm/.}
 no longer contains definitions derived from infinite sets. Using B
 constructs for modularity, auxiliary libraries of basic modules were
 developed as part of the construction of the microcontroller model. Such
@@ -321,7 +321,7 @@ Figure~\ref{fig:hardware-definition-graph}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.77\textwidth]{diagramaEstrutural_vertical_ProB.png}
+\includegraphics[width=.85\textwidth]{diagramaEstrutural_vertical_ProB2.png}
  \caption{Dependency diagram of the Z80 model.}
 \label{fig:hardware-definition-graph}
 \end{figure}
@@ -336,20 +336,12 @@ Booleans to bits.
 
 We model bits as a set of integers: $\textit{BIT} =
 \textit{0..1}$. The negation is an unary function on bits and it is
-defined as:
+defined below. The module also provides lemmas on negation that may be useful for the
+users of the library to develop proofs.
 $$
 \begin{array}{l}
 \textit{bit\_not}  \in  \textit{BIT}  \fun  \textit{BIT}  \land 
-\textit{bit\_not} \rm = \rm \{ \rm 0  \mapsto  \rm 1 , \rm 1  \mapsto  \rm 0 \rm \}
-\end{array}
-$$
-%\forall ( \textit{bb}). (\textit{bb} \in \textit{BIT} \implies {bit\_not}(\textit{bb}) =1-\textit{bb})\\
-
-The module also provides lemmas on negation that may be useful for the
-users of the library to develop proofs:
-$$
-\begin{array}{l}
-%  \textit{bit\_not}(0) = 1;  \textit{bit\_not}(1) = 0; \\
+\textit{bit\_not} \rm = \rm \{ \rm 0  \mapsto  \rm 1 , \rm 1  \mapsto  \rm 0 \rm \} \land \\
 \forall (\textit{bb}).(\textit{bb} \in \textit{BIT} \implies \textit{bit\_not}(\textit{bit\_not}(\textit{bb})) = \textit{bb})
 \end{array}
 $$
@@ -361,20 +353,20 @@ $$
 \quad ((\textit{bit\_and}(\textit{b1}, \textit{b2}) = 1) \iff (\textit{b1} = 1)  \land  (\textit{b2} = 1)))
 \end{array}
 $$
-The module provides the following lemmas for commutativity and associativity:
-$$
-\begin{array}{l}
-%  \textit{bit\_and}(0,0) = 0;  \textit{bit\_and}(0,1) = 0; \\
-%  \textit{bit\_and}(1,0) = 0;  \textit{bit\_and}(1,1) = 1; \\
-\forall (\textit{b1},\textit{b2}).(\textit{b1} \in \textit{BIT} \land \textit{b2} \in \textit{BIT} \implies \\
-\quad (\textit{bit\_and}(\textit{b1}, \textit{b2}) = \textit{bit\_and}(\textit{b2},\textit{b1})))\land \\
-\forall (\textit{b1},\textit{b2},\textit{b3}).(\textit{b1} \in \textit{BIT} \land  \textit{b2} \in \textit{BIT} \land \textit{b3} \in \textit{BIT} \implies \\
-\quad (\textit{bit\_and}(\textit{b1}, \textit{bit\_and}(\textit{b2},\textit{b3})) = \textit{bit\_and}(\textit{bit\_and}(\textit{b1},\textit{b2}),\textit{b3})))\\
-% \forall (\textit{b1}).(\textit{b1} \in \textit{BIT} \implies (\textit{bit\_and}(\textit{b1}, 1) = \textit{b1})); \\
-% \forall (\textit{b1}).(\textit{b1} \in \textit{BIT} \implies (\textit{bit\_and}(\textit{b1}, 0) = 0));
-\end{array}
-$$
-The module provides definitions of $\textit{bit\_or}$ (disjunction)
+%The module provides the following lemmas for commutativity and associativity:
+%$$
+%\begin{array}{l}
+%%  \textit{bit\_and}(0,0) = 0;  \textit{bit\_and}(0,1) = 0; \\
+%%  \textit{bit\_and}(1,0) = 0;  \textit{bit\_and}(1,1) = 1; \\
+%\forall (\textit{b1},\textit{b2}).(\textit{b1} \in \textit{BIT} \land \textit{b2} \in \textit{BIT} \implies \\
+%\quad (\textit{bit\_and}(\textit{b1}, \textit{b2}) = \textit{bit\_and}(\textit{b2},\textit{b1})))\land \\
+%\forall (\textit{b1},\textit{b2},\textit{b3}).(\textit{b1} \in \textit{BIT} \land  \textit{b2} \in \textit{BIT} \land \textit{b3} \in \textit{BIT} \implies \\
+%\quad (\textit{bit\_and}(\textit{b1}, \textit{bit\_and}(\textit{b2},\textit{b3})) = \textit{bit\_and}(\textit{bit\_and}(\textit{b1},\textit{b2}),\textit{b3})))\\
+%% \forall (\textit{b1}).(\textit{b1} \in \textit{BIT} \implies (\textit{bit\_and}(\textit{b1}, 1) = \textit{b1})); \\
+%% \forall (\textit{b1}).(\textit{b1} \in \textit{BIT} \implies (\textit{bit\_and}(\textit{b1}, 0) = 0));
+%\end{array}
+%$$
+The module provides lemmas for commutativity and associativity, definitions of $\textit{bit\_or}$ (disjunction)
 and $\textit{bit\_xor}$ (exclusive disjunction), as well as lemmas on
 those operators. These are standard and their expression in B is
 similar to $\textit{bit\_and}$.
@@ -433,7 +425,7 @@ Function $bv\_catenate$ takes as parameters two bit vectors $v$ and
 $w$, and returns the concatenation of $v$ and $w$, such
 that $v$ constitutes the most significant part of the result.
 
-
+%
 % $
 % \begin{array}{l}
 % \textit{bv\_catenate} \in \textit{BIT\_VECTOR} \times \textit{BIT\_VECTOR} \fun \textit{BIT\_VECTOR} \land \\
@@ -442,12 +434,15 @@ that $v$ constitutes the most significant part of the result.
 %   w)
 % \end{array}
 % $
-
-
-\hspace*{0.00in} \it bv\_catenate  $\in$  \it BIT\_VECTOR  $\times$  \it BIT\_VECTOR  $\fun$ \it
+\begin{flushleft}
+\hspace*{0.0in}\it bv\_catenate  $\in$  \it BIT\_VECTOR  $\times$  \it BIT\_VECTOR  $\fun$ \it
 BIT\_VECTOR $\land$\\
-\hspace*{0.21in} \it bv\_catenate \rm =  $\lambda$  v\rm ,\it w \rm . \rm (\it v 
+\it bv\_catenate \rm =  $\lambda$  v\rm ,\it w \rm . \rm (\it v 
 $\in$  \it BIT\_VECTOR $\land$ \it w $\in$  \it BIT\_VECTOR  $\mid$  \it v\^ \it w\rm ) %$\cat$
+\\
+
+\end{flushleft}
+
 
 %COMMENT TO REDUCE SPACE
 %We also define a function $\textit{bv\_zero}$ that, given a positive
@@ -469,6 +464,8 @@ logical combinations of bit vectors: $\textit{bit\_not}$,
 $\textit{bit\_and}$, $\textit{bit\_or}$ and $\textit{bit\_xor}$. Only
 the first two are presented here. The domain of the binary operators
 is restricted to pairs of bit vectors of the same length:
+
+\begin{flushleft}
 $$
 \begin{array}{l}
 \textit{bv\_not} \in \textit{BIT\_VECTOR} \fun \textit{BIT\_VECTOR} \land \\
@@ -479,6 +476,8 @@ $$
 \textit{bit\_and}(v_1(i), v_2(i)))
 \end{array}
 $$
+\end{flushleft}
+
 We provide several lemmas on bit vector operations. These lemmas
 express properties on the size of the result of the operations
 as well as classical algebraic properties such as associativity
@@ -736,7 +735,7 @@ elements and a simplified internal organization is shown in the Figure
 Z80 CPU: ALU, registers of 8 and 16 bits and input/output ports.
 
 \begin{figure}[h] \centering
-\includegraphics[width=0.70\textwidth]{images/Architecture_compact.png}
+\includegraphics[width=0.67\textwidth]{images/Architecture_compact.png}
 \caption{Simplified internal organization of Z80 CPU.}
 \label{fig:DiagramBlock}
 \end{figure}
@@ -1114,7 +1113,7 @@ The other external actions are related to interruptions. Interruptions allow
 devices to suspend a routine from CPU and start another service routine.
 This service routine can exchange data or signals between CPU and external
 devices. When a routine is finished, then the CPU comes back to the last routine
-that was interrupted. Modeling details about interrupts can be consulted in
+that was interrupted. Modeling details about interruptions can be consulted in
 public project's repository.
 
 %
@@ -1419,7 +1418,7 @@ There exists several approaches to model hardware and instruction set
 using B a.  The paper \cite{springerlink:Yuan2011} reports a method to
 specify, design and construct sound and complete instruction set model
 by stepwise refinement and formal proof using Event-B. It also
-discusses desirable properties of the instruction set model. However,
+discusses desirable properties of an instruction set model. However,
 our work \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B
 method, that seems quite appropriated to software development, because
 it has an implementable language defined, called B0, a model-driven
@@ -1532,36 +1531,4 @@ integrate different compilation techniques into our B-based framework.
 
 
 \end{document}
-
-%
-% \bibitem {clar:eke}
-% Clarke, F., Ekeland, I.:
-% Nonlinear oscillations and
-% boundary-value problems for Hamiltonian systems.
-% Arch. Rat. Mech. Anal. {\bf 78} (1982) 315--333
-% %
-% \bibitem {clar:eke:2}
-% Clarke, F., Ekeland, I.:
-% Solutions p\'{e}riodiques, du
-% p\'{e}riode donn\'{e}e, des \'{e}quations hamiltoniennes.
-% Note CRAS Paris {\bf 287} (1978) 1013--1015
-% %
-% \bibitem {mich:tar}
-% Michalek, R., Tarantello, G.:
-% Subharmonic solutions with prescribed minimal
-% period for nonautonomous Hamiltonian systems.
-% J. Diff. Eq. {\bf 72} (1988) 28--55
-% %
-% \bibitem {tar}
-% Tarantello, G.:
-% Subharmonic solutions for Hamiltonian
-% systems via a $\bbbz_{p}$ pseudoindex theory.
-% Annali di Matematica Pura (to appear)
-% %
-% \bibitem {rab}
-% Rabinowitz, P.:
-% On subharmonic solutions of a Hamiltonian system.
-% Comm. Pure Appl. Math. {\bf 33} (1980) 609--633
-% \end{thebibliography}
-%
 
