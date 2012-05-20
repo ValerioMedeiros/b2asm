@@ -47,6 +47,7 @@
 \hyphenation{in-struc-tion}
 \hyphenation{re-gis-ter}
 \hyphenation{re-gis-ters}
+%\hyphenation{ge-ne-ra-ted}
 
 %
 %
@@ -70,11 +71,11 @@
   purposes, but also to simulate and test the assembly code. It is also
   a fundamental component to extend the reach of the B method from the
   specification of the functional requirements of a system to an assembly-level
-  implementation thereof.
+  implementation thereof.\newline %\keywords{Embedded Software, Simulation, B method and Verification}
 % Using this model-driven approach and the instruction set model, a small case
 % study to analyse a petroleum production test system in oil field was developed.
-%  \paragraph[Keywords]{ \textbf{Keywords}: Embedded Software, Simulation, B
-% method and Verification%}
+ { \textbf{Key words:} B method, Simulation, Verification and Z80}
+
 \end{abstract}
 
 
@@ -99,15 +100,15 @@ available documentation; and it has been widely used.  A first,
 partial, Z80 model presented in \cite{Valerio_SBMF09} was fully
 verified, but it used constructs that made it impossible to animate.
 
-The new model supports animation in ProB~\cite{proB}.  Essentially, the
-new model\footnote{The interested reader in more details is invited to visit our repository at: http://code.google.com/p/b2asm/.}
-no longer contains definitions derived from infinite sets. Using B
-constructs for modularity, auxiliary libraries of basic modules were
-developed as part of the construction of the microcontroller model. Such
-a library has many definitions of concepts common to microcontrollers.
-Besides the new Z80 model, a petroleum production test system was
-developed using the Z80 assembly language to analyse the code simulation
-and the verification process.
+The new Z80 model supports animation in ProB~\cite{proB}.  Essentially, the
+new model\footnote{The interested reader in more details is invited to visit
+our repository at: http://code.google.com/p/b2asm/.} no longer contains
+definitions derived from infinite sets. Using B constructs for modularity,
+auxiliary libraries of basic modules were developed as part of the construction
+of the microcontroller model. Such a library has many definitions of 
+concepts common to microcontrollers. Besides the new Z80 model, a petroleum
+production test system was developed using the Z80 assembly language to
+analyse the code simulation and the verification process.
 
 The formal model of an instruction set has several
 applications. Animation allows to simulate the execution of assembly
@@ -600,19 +601,12 @@ $$
  \end{array}
 $$
 
-%TODO:[NEW PARAGRAPH-TO-REVIEW]
+
 Similarly, several other general functions and lemmas were created for all other data types.
-Some times, we need  create arithmetic and logic functions that are more specific for a
+Some times, we need to create arithmetic and logic functions that are more specific for a
 determined microprocessor, like Z80 that is presented in the section \ref{sec:z80}. 
 
-%TODO:[NEW PARAGRAPH-TO-REVIEW]
-The definitions, functions and properties from hardware library and types library are difficult to verify,
-on the other hand  these libraries can be reused in several others  microprocessors without to verify again.
-Nearly 50\% of all these proof obligations shown in the Table~\ref{tab:types} are verified automatically 
-or with few user pass\footnote{The user pass are steps that aid the prover to find the proof.} .
-But many others proof obligations are difficult to verify, because they involve functions
-that contain arithmetic expressions that are complex to manipulate with the interactive
-prover of AtelierB.  However, all theses 531 proof obligations were verified completely.
+The definitions, functions and properties from hardware library and types library are difficult to verify, otherwise these libraries can be reused in several others microprocessors without to verify again. Nearly 50\% of all these proof obligations shown in the Table~\ref{tab:types} are verified automatically or with few user pass\footnote{The user pass allows to filter proof tactics that aid the prover to find the proof, this is a feature provided by Atelier B.}. But many others proof obligations are difficult to verify because they involve functions that contain complex arithmetic expressions to manipulate with the interactive prover of AtelierB. However, all these 531 proof obligations were verified completely.
 
 
 \subsection{Verification of hardware library and types library} 
@@ -644,7 +638,7 @@ rectangles in Figure \ref{DiagramTypesRules}.
 
 \begin{figure}[he]
 \centering
-\includegraphics[width=3.in]{images/Diagram_Types_and_Rules.pdf}
+\includegraphics[width=2.8in]{images/Diagram_Types_and_Rules.pdf}
 \caption{Conversion functions}
 \label{DiagramTypesRules}
 \end{figure}
@@ -898,7 +892,7 @@ used as a base to point to a region in memory from which data is to be stored or
 Another derived function is  $\textit{bv\_(ireg\_plus\_d)}$, which returns the value in the memory  address
 returned by the $\textit{bv\_ireg\_plus\_d}$ function and its definition is similar.
 
-There is a specific function to refresh the flag register, it is named $\textit{update\_reg\_flag}$. It is typed and defined as follow:\it update\_flag\_reg \rm $\in$ \rm (\it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it
+There is a specific function to refresh the flag register, it is named $\textit{update\_reg}$ $\textit{\_flag}$. It is typed and defined as follow:\it update\_flag\_reg \rm $\in$ \rm (\it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it
 BIT $\times$  \it BIT  $\times$  \it BIT\rm) $\fun$  \rm (\rm \{\it f0\rm \}  $\times$  \it BYTE\rm ).  This function is defined as:\\
 
  \it update\_flag\_reg \rm =  $\lambda$  \rm (\it s7 \rm, \it z6 \rm,\it h4 \rm,\it pv2 \rm ,\it n1
@@ -1005,10 +999,10 @@ Each instruction is represented by a B operation in Z80 module. The main
 module (\textit{Z80}) has two categories of operations: a category represents the 
 instructions of microcontrollers and a category represents the external actions, e.g.
 interruptions actions. All 158 instructions and interruptions were modeled, but only
-two important examples are presented here.
+two important operations are presented here.
 
 A simple example of instruction is $\textit{LD\_(nn)\_A}$\footnote{The B tools does not allow o use parentheses in identifiers, and the characters \{``('',``)''\} are
-replaced respectively by \{``9'',``0''\} in the actual specification.} shown below. The
+replaced respectively by \{``9'',``0''\} in the actual specification.} shown in this section. The
 pre-defined functions are necessary many times to model the instructions, these
 functions facilitate the construction of instruction set model. By default, all
 parameters in operations are either predefined elements in the model or
@@ -1484,12 +1478,12 @@ The approach to develop verified software down to the assembly level
 using B was described in~\cite{DantasSemish2008}. A first case study
 for this approach was reported in~\cite{Dantas_SBMF08}, presenting
 more details as well as a small software that developed up to assembly
-level in three different platforms. A general view of a previous used
-in verification process were presented in~\cite{Valerio_SBMF09}. The
-model presented in the current paper added support for animation in
-ProB and the representation of external actions (interruptions).
+level in three different platforms. A short general view of a previous work
+were presented in~\cite{Valerio_SBMF09}. The model presented in the 
+current paper added support for animation in ProB and the representation
+of external actions (interruptions).
 %Link com o parágrafo anterior 
-This set of papers present an important step to software verification
+This set of papers present an alternative step to software verification
 up to assembly language, showing the current difficulties and
 suggesting improvements in tools supporting the B method.
 
