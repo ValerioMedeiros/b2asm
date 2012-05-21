@@ -98,7 +98,8 @@ because of several factors: it contains essential and common concepts
 of microcontrollers and even microprocessors; it has extensive
 available documentation; and it has been widely used.  A first,
 partial, Z80 model presented in \cite{Valerio_SBMF09} was fully
-verified, but it used constructs that made it impossible to animate.
+verified, but it used constructs that made it impossible to animate 
+with existing technology. %%DD
 
 The new Z80 model supports animation in ProB~\cite{proB}.  Essentially, the
 new model\footnote{The interested reader in more details is invited to visit
@@ -296,15 +297,15 @@ Thus the workspace is composed of the following:
 \begin{description}
 
 \item[Power] contains the standard definition of exponentiation, as
-  well as some basic properties, e.g. values of different powers of
-  two. Given this definition, these properties have been proved
-  interactively with the Atelier-B prover.
+  well as some basic lemmas, e.g. values of different powers of
+  two, allproved interactively with the Atelier-B prover.
+  This module is essential to establish the relationship between
+  bit vectors and integer arithmetics. %%DD
 
 \item[Hardware Library] defines bit vectors with size 8 and 16, basic
-  functions to manipulate bit vectors and important
-  assertions. Details are given in sections
-  \ref{subsec:HardwareLibrary1}, \ref{subsec:HardwareLibrary2} and
-  \ref{subsec:HardwareLibrary3}.
+  functions to manipulate bit vectors and important lemmas. Details
+  are given in sections \ref{subsec:HardwareLibrary1},
+  \ref{subsec:HardwareLibrary2} and \ref{subsec:HardwareLibrary3}.
  
 \item[Types Library] defines sets of naturals and integers represented
   with 8 bits and 16 bits, basic conversion functions between those
@@ -336,9 +337,9 @@ disjunction, exclusive disjunction), and a conversion function from
 Booleans to bits.
 
 We model bits as a set of integers: $\textit{BIT} =
-\textit{0..1}$. The negation is an unary function on bits and it is
-defined below. The module also provides lemmas on negation that may be useful for the
-users of the library to develop proofs.
+\textit{0..1}$. The negation is an unary function on bits; its definition
+follows. The module also provides lemmas on negation that may be
+useful for the users of the library to develop proofs.
 
 $$
 \begin{array}{l}
@@ -467,7 +468,6 @@ $\in$  \it BIT\_VECTOR $\land$ \it w $\in$  \it BIT\_VECTOR  $\mid$  \it v\^ \it
 %$
 %
 
-
 Additionally, the module provides definitions for the classical
 logical combinations of bit vectors: $\textit{bit\_not}$,
 $\textit{bit\_and}$, $\textit{bit\_or}$ and $\textit{bit\_xor}$. Only
@@ -483,7 +483,6 @@ $$
 \textit{bit\_and}(v_1(i), v_2(i)))
 \end{array}
 $$
-
 
 We provide several lemmas on bit vector operations. These lemmas
 express properties on the size of the result of the operations
@@ -538,8 +537,6 @@ $$
 An important lemma associated to this definition is: 
 $$\forall n . (n \in \nat_1 \implies \textit{bv\_to\_nat}(\textit{nat\_to\_bv}(n)) = n).$$
 
-
-
 \subsection{Basic data types}
 
 The definition of instruction sets usually have bit vector and integer
@@ -581,7 +578,6 @@ the hardware library. This provides greater confidence and facilitates
 the proof process, because the prover can reuse the previously defined
 lemmas.
 
-
 %The inverse function $\textit{uchar\_byte}$ is easily defined:
 %
 %$
@@ -601,13 +597,23 @@ $$
  \end{array}
 $$
 
+Similarly, several other general functions and lemmas were created for
+all other data types.  We sometimes need to create arithmetic and
+logic functions that are more specific for a determined
+architecture, as the Z80 presented in section \ref{sec:z80}.
 
-Similarly, several other general functions and lemmas were created for all other data types.
-Some times, we need to create arithmetic and logic functions that are more specific for a
-determined microprocessor, like Z80 that is presented in the section \ref{sec:z80}. 
-
-The definitions, functions and properties from hardware library and types library are difficult to verify, otherwise these libraries can be reused in several others microprocessors without to verify again. Nearly 50\% of all these proof obligations shown in the Table~\ref{tab:types} are verified automatically or with few user pass\footnote{The user pass allows to filter proof tactics that aid the prover to find the proof, this is a feature provided by Atelier B.}. But many others proof obligations are difficult to verify because they involve functions that contain complex arithmetic expressions to manipulate with the interactive prover of AtelierB. However, all these 531 proof obligations were verified completely.
-
+%%DD As primeiras frases do parágrafo abaixo não faziam sentido!
+The definitions, functions and properties from hardware library and
+types library may be reused to model different instruction set
+architectures. Nearly 50\% of all these proof obligations shown in
+Table~\ref{tab:types} are verified automatically or with few user
+pass\footnote{The user pass allows to filter proof tactics that aid
+  the prover to find the proof, this is a feature provided by Atelier
+  B.}. A large part of the proof obligations require long sessions
+with the interactive provers, mostly because they contain complex
+arithmetic expressions that the automatic provers in AtelierB have
+difficulty handling. However, all these 531 proof obligations were
+eventually verified.
 
 \subsection{Verification of hardware library and types library} 
 \label{sec:VerificationHardwareLibrary}
@@ -621,13 +627,16 @@ the $PROPERTIES$ clause of a machine. For example, the definition $inc
 the definition. However, this definition is inconsistent since
 $inc(1)=2$ and $ 2 \not\in \{0,1\}$.
 
+%DD forneci mais detalhes no paragrafo seguinte
 To avoid such inconsistencies, we state separately the required
-properties in the \textit{ASSERTIONS\/} clause: this causes
-corresponding proof obligations to be generated and verified. However,
-we have not been able to build the corresponding proofs using the 
-rule base included in the free distribution of AtelierB. So we
-formalized new proof rules to check these properties in AtelierB and
-used them in the interactive prover of AtelierB.
+properties in the \textit{ASSERTIONS\/} clause: this changes the
+status of these properties from axioms to lemmas and causes
+corresponding proof obligations to be generated. However, we have not
+been able to build the corresponding proofs using the rule base
+included in the free distribution of AtelierB. In that situation, the
+used to common approach to define new proof rules to check these
+properties in AtelierB and to use them in the interactive prover of
+AtelierB.
 
 The hardware library has many conversion functions with
 arithmetic,  for example, Bit\_vector to Natural, Natural to
@@ -642,7 +651,6 @@ rectangles in Figure \ref{DiagramTypesRules}.
 \caption{Conversion functions}
 \label{DiagramTypesRules}
 \end{figure}
-
 
 The conversion functions need to satisfy two properties: bijectivity
 and equality to the reverse of the dual conversion function. Three
@@ -696,8 +704,6 @@ one example each:
 %\paragraph{B Rules:}
 %These rules represent that  $byte\_uchar$  and $uchar\_byte$  are bijective functions and  $byte\_uchar = uchar\_byte^{-1}$. These rules are used on interactive prover of Atelierb.
 
-
-
 \begin{enumerate}
 
 \item For the proof obligation (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$
@@ -723,8 +729,6 @@ Finally, we have included rules related to binary arithmetic as developed
 in~\cite{Leibnizens}. These rules are used in the interactive theorem prover with
 binary arithmetic to prove important properties~\cite{James2010,Dasgupta2006}.
 
-
-
 \section{A B model of the Z80 instruction set}
 \label{sec:z80}
 
@@ -741,31 +745,32 @@ Z80 CPU: ALU, registers of 8 and 16 bits and input/output ports.
 \end{figure}
 
 
-The Z80 has 158 different instructions, including all the 78 from the Intel 8080
-microprocessor, and all of them were formally specified in B. These instructions are classified
-into these categories: load and exchange; block transfer and search; arithmetic
-and logical; rotate and shift; bit manipulation; jump, call and return;
-input/output; and basic cpu control. Each category of instruction has different
-elements of specification.
-
+The Z80 has 158 different instructions, including all the 78 from the
+Intel 8080 microprocessor, and all of them were formally specified in
+B. These instructions are classified into these categories: load and
+exchange; block transfer and search; arithmetic and logical; rotate
+and shift; bit manipulation; jump, call and return; input/output; and
+basic cpu control. Each category of instruction has different elements
+of specification.
 
 This section shows the elements that make up the different types of
-instructions. The main elements are specified in the microcontroller module Z80
-and parts of it are presented below.  Basically, the state of microcontroller is
-formed by data from program counter, ports, registers, etc. The transitions
-between the states are actioned by execution of instruction or an external
-action. Groups of registers are represented by the variables of the
-specification states that appear in clause \textit{VARIABLES}. The declaration
-of valid states of variables is in the \textit{INVARIANT} clause and the initial
-state is defined in the \textit{INITIALISATION} clause. The assembly
-instructions are defined by the clause \textit{OPERATIONS} and, in general, each
-instruction has three actions: update the program counter, update the flag
+instructions. The main elements are specified in the microcontroller
+module Z80 and parts of it are presented below.  Basically, the
+microcontroller state is formed by the program counter, ports,
+registers, etc. The stae transition occurs either as an instruction
+execution or an external action. Groups of registers are represented
+by the variables of the specification states that appear in clause
+\textit{VARIABLES}. The declaration of valid states of variables is in
+the \textit{INVARIANT} clause and the initial state is defined in the
+\textit{INITIALISATION} clause. The assembly instructions are defined
+by the clause \textit{OPERATIONS} and, in general, each instruction
+has three actions: update the program counter, update the flag
 register and its main effect.
 % Several functions were created to Z80.
-General functions that can be used in other microcontroller models are defined
-in the modules of data types. Specific functions of the microcontroller are
-defined in the ALU (arithmetic logic unit) module.The main module includes an instance of the memory module and accesses the
-definitions from basic data types modules and the \textit{ALU} module.
+The functions specific to the microcontroller are defined in the ALU
+(arithmetic logic unit) module. The main module includes an instance of
+the memory module and accesses the definitions from basic data types
+modules and the \textit{ALU} module.
 
 	\begin{center}
 	\begin{sloppypar}
@@ -793,13 +798,14 @@ definitions from basic data types modules and the \textit{ALU} module.
 
 \subsection{Modeling registers}
 
-The Z80 CPU includes alternative set of accumulator, flag and general registers.
-The CPU contains a stack pointer ($\textit{sp}$), program counter
-($\textit{pc}$), two index registers ($\textit{ix}$ and $\textit{iy}$), an
-interrupt register ($\textit{i\_}$), a refresh register ($\textit{r\_}$), two
-bits ($\textit{iff1}$, $\textit{iff2}$) used to control the interruptions, a
-pair of bits to define the interruption mode ($\textit{im}$) and the input and
-output ports ($\textit{i\_o\_ports}$). These definitions are represented by
+%%DD removi uma frase que não fazia sentido gramaticalmente.
+The Z80 CPU contains a stack pointer ($\textit{sp}$), program counter
+($\textit{pc}$), two index registers ($\textit{ix}$ and
+$\textit{iy}$), an interrupt register ($\textit{i\_}$), a refresh
+register ($\textit{r\_}$), two bits ($\textit{iff1}$, $\textit{iff2}$)
+used to control the interruptions, a pair of bits to define the
+interruption mode ($\textit{im}$) and the input and output ports
+($\textit{i\_o\_ports}$). These definitions are represented by
 \textit{INVARIANT}.
   
 
@@ -813,21 +819,19 @@ output ports ($\textit{i\_o\_ports}$). These definitions are represented by
 \hspace*{0.10in}\it iff2  $\in$  \it BIT  $\land$ \it im $\in$ (\it BIT $\times$ \it BIT\rm )  $\land$  \it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE
 \end{sloppypar}
 
-
- 
-
 % Features of microcontroller
 The internal registers contains 176 bits of read/write memory that are
-represented by identifiers used as parameters in the instructions . It includes
-two sets of six general purpose registers which may be used individually as
-8-bit registers or as 16-bit register pairs.  The working registers are
-represented by variable $\textit{rgs8}$. The domain of $\textit{rgs8}$
-($\textit{id\_reg8}$) is a set formed by identifiers of registers of 8 bits.
-These registers are called main register set (\textit{a0,b0,c0,d0,e0,f0,h0,l0})
-and alternate register set (\textit{a\_0,b\_0,c\_0,d\_0,e\_0,f\_0,h\_0,l\_0}).
-These registers can be accessed in pairs, forming 16-bits, resulting in another
-set of identifiers of 16-bits registers, named $\textit{id\_reg16}$. These sets
-are represented below.
+represented by identifiers used as parameters in the instructions. It
+includes two sets of six general purpose registers which may be used
+individually as 8-bit registers or as 16-bit register pairs.  The
+working registers are represented by variable $\textit{rgs8}$. The
+domain of $\textit{rgs8}$ ($\textit{id\_reg8}$) is a set formed by
+identifiers of registers of 8 bits.  These registers are called main
+register set (\textit{a0,b0,c0,d0,e0,f0,h0,l0}) and alternate register
+set (\textit{a\_0,b\_0,c\_0,d\_0,e\_0,f\_0,h\_0,l\_0}).  These
+registers can be accessed in pairs, forming 16-bits, resulting in
+another set of identifiers of 16-bits registers, named
+$\textit{id\_reg16}$. These sets are represented below.
 
 \begin{sloppypar}
 
@@ -852,10 +856,19 @@ DE\rm, \it HL\rm, \it SP\rm\}
 %\end{sloppypar}
 
 
-The main working register of Z80 is the accumulator ($\textit{rgs8(a0)}$) used for arithmetic/logic, input/output and loading/storing operations.
-Another important element is the ``f'' register ($\textit{rgs8(f0)}$),  that is
-used as a \textbf{flag register}. This register uses only six bits to represent the execution result status of each instruction.
-According to the official manual the bits 3 and 5 are not used and the others bits have the follow meaning: $\textit{bv\_get(rgs8(f0),0)}$ - the carry bit; $\textit{bv\_get(rgs8(f0),1)}$ - the add/subtract bit; $\textit{bv\_get(rgs8(f0),2)}$ - the parity or overflow bit; $\textit{bv\_get(rgs8(f0),4)}$ - the half carry bit; $\textit{bv\_get(rgs8(f0),6)}$ - the zero bit; and $\textit{bv\_get(rgs8(f0),7)}$ - the sign bit.
+The main working register of Z80 is the accumulator
+($\textit{rgs8(a0)}$) used for arithmetic/logic, input/output and
+loading/storing operations.  Another important element is the ``f''
+register ($\textit{rgs8(f0)}$), that is used as a \textbf{flag
+  register}. This register uses only six bits to represent the
+execution result status of each instruction.  According to the
+official manual the bits 3 and 5 are not used and the others bits have
+the follow meaning: $\textit{bv\_get(rgs8(f0),0)}$ - the carry bit;
+$\textit{bv\_get(rgs8(f0),1)}$ - the add/subtract bit;
+$\textit{bv\_get(rgs8(f0),2)}$ - the parity or overflow bit;
+$\textit{bv\_get(rgs8(f0),4)}$ - the half carry bit;
+$\textit{bv\_get(rgs8(f0),6)}$ - the zero bit; and
+$\textit{bv\_get(rgs8(f0),7)}$ - the sign bit.
 %\begin{description}
 %  \item[$\textit{bv\_get(rgs8(f0),0)}$] - The Carry bit.
 %  \item[$\textit{bv\_get(rgs8(f0),1)}$] - The Add/Subtract bit.
@@ -864,23 +877,23 @@ According to the official manual the bits 3 and 5 are not used and the others bi
 %  \item[$\textit{bv\_get(rgs8(f0),6)}$] - The Zero bit.
 %  \item[$\textit{bv\_get(rgs8(f0),7)}$] - The Sign bit.
 %\end{description}
-These bits can also be used to specify security properties for microcontroller programs.   
+These bits can also be used to specify security properties for
+microcontroller programs.
 
-\textbf{Assuring the absence of overflow:}
- \emph{To assure that an overflow does not happen, the developer can add in the invariant this 
- expression:\\(\textit{bv\_get(rgs8(f0),0)} $\neq$ 1 $\land$
- \textit{bv\_get(rgs8(f0),2) $\neq$ 1}).
-% When a overflow happen,it can be dangerous. So the developer may restrict its use. However, this restriction can also
-% become more difficult to verify the model.
-}
+\textbf{Checking overflows:} \emph{To assure that an overflow does not
+  happen, the developer can add in the invariant this
+  expression:\\(\textit{bv\_get(rgs8(f0),0)} $\neq$ 1 $\land$
+  \textit{bv\_get(rgs8(f0),2) $\neq$ 1}).  }
 
 \subsection{Manipulation data functions from Z80}
 
- There are some specific functions from Z80 to manipulate the data. In addressing mode, the function
-$\textit{bv\_ireg\_plus\_d}$ receives the value of a register ($\textit{ix}$ or $\textit{iy}$) 
-used as a base to point to a region in memory from which data is to be stored or retrieved.
+There are some specific functions from Z80 to manipulate the data. In
+addressing mode, the function $\textit{bv\_ireg\_plus\_d}$ receives
+the value of a register ($\textit{ix}$ or $\textit{iy}$) used as a
+base to point to a region in memory from which data is to be stored or
+retrieved.
 %and the displacement to return the sum, the result is the dislocated address memory, 
- An additional byte is included in indexed instructions to specify an offset from this base. This displacement is specified as a two's complement signed integer. This function is defined as:\\
+An additional byte is included in indexed instructions to specify an offset from this base. This displacement is specified as a two's complement signed integer. This function is defined as:\\
 
 \hspace*{0.0in}\it bv\_ireg\_plus\_d \rm : \rm(\it BV16  $\times$  \it SCHAR  $\fun$  \it BV16\rm )  $\land$ 
 
@@ -889,10 +902,14 @@ used as a base to point to a region in memory from which data is to be stored or
 \hspace*{0.20in}$\mid$ \it ushort\_bv16 \rm ( \rm (\it bv16\_ushort \rm ( \it ix\_iy \rm ) \rm + \it offset \rm ) 
 \textbf{\textit{mod}} $2^{16}$ ) \rm )\\
 
-Another derived function is  $\textit{bv\_(ireg\_plus\_d)}$, which returns the value in the memory  address
-returned by the $\textit{bv\_ireg\_plus\_d}$ function and its definition is similar.
+Another derived function is $\textit{bv\_(ireg\_plus\_d)}$, which
+returns the value in the memory address returned by the
+$\textit{bv\_ireg\_plus\_d}$ function and its definition is similar.
 
-There is a specific function to refresh the flag register, it is named $\textit{update\_reg}$ $\textit{\_flag}$. It is typed and defined as follow:\it update\_flag\_reg \rm $\in$ \rm (\it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it
+There is a specific function to refresh the flag register, it is named
+$\textit{update\_reg}$ $\textit{\_flag}$. It is defined as follow:\it
+update\_flag\_reg \rm $\in$ \rm (\it BIT $\times$ \it BIT $\times$ \it
+BIT $\times$ \it
 BIT $\times$  \it BIT  $\times$  \it BIT\rm) $\fun$  \rm (\rm \{\it f0\rm \}  $\times$  \it BYTE\rm ).  This function is defined as:\\
 
  \it update\_flag\_reg \rm =  $\lambda$  \rm (\it s7 \rm, \it z6 \rm,\it h4 \rm,\it pv2 \rm ,\it n1
@@ -902,16 +919,20 @@ BIT $\times$  \it BIT  $\times$  \it BIT\rm) $\fun$  \rm (\rm \{\it f0\rm \}  $\
 
 \subsection{Program, stack and data memory}
 
-The Z80 uses a unique memory for storing program instructions, data stack and
-general-purpose data. The memory has 16-bit addresses and each address holds a byte.
-Thus, the memory is very simple: \it mem  $\in$  \it BV16  $\fun$  \it BYTE\rm.
+The Z80 uses a unique memory for storing program instructions, data
+stack and general-purpose data. The memory has 16-bit addresses and
+each address holds a byte.  Thus, the memory is very simple: \it mem
+$\in$ \it BV16 $\fun$ \it BYTE\rm.
  
-In general, the instructions can access all memory addresses, but it is dangerous. The user may mistakenly
-access and change data in memory. For added  security, it is important that the program instructions has
-limited access by region. Thus the designer can specify address regions in a refinement model to restrict the access from
-instructions. The address regions can be specified using constants
-($\textit{PROGRAM\_R\_ADR,DATA\_R\_ADR,STACK\_R\_ADR}$), these define respectively a range of restricted
-address for: programs instructions, general purpose data and data stack.
+Instructions can access all the memory addresses and open the door to
+the programmer mistakenly access and change data in memory. For added
+security, it is desirable that the program instructions has limited
+access by region. Thus the designer can specify address regions in a
+refinement model to restrict the access from instructions. The address
+regions can be specified using constants
+($\textit{PROGRAM\_R\_ADR,DATA\_R\_ADR,STACK\_R\_ADR}$), these define
+respectively a range of restricted address for: programs instructions,
+general purpose data and data stack.
 %
 %$
 %\begin{array}{l}
@@ -928,19 +949,18 @@ address for: programs instructions, general purpose data and data stack.
 \it PROGRAM\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ STACK\_R\_ADR $\cap$ DATA\_R\_ADR $\cap$ $=$ \{\} $\land$ PROGRAM\_R\_ADR $\cap$  STACK\_R\_ADR  $=$ \{\} \rm
 %\end{sloppypar}
  
-\textbf{Preserving the memory consistency:} \emph{In general, the access to
-some address regions is dangerous. Then, each instruction has a specific pre-condition that verifies
-if the new address memory, that will be updated, is a member of its region. For example, the $\textit{PUSH}$
-program instruction permits write only in the region of stack ($\textit{STACK\_R\_ADR}$\rm).}
-
-
+\textbf{Controlling memory access:} \emph{Each instruction has a
+  specific pre-condition that verifies if the memory address that will
+  be updated belongs. For example, the $\textit{PUSH}$ instruction
+  permits write only in the stack area: $\textit{STACK\_R\_ADR}$.}
 
 \subsection{Arithmetic logic unit}
  
-There are many functions in the module \textit{ALU}. In general, the definition of these 
-functions use basic definitions or previously defined functions. For example, the function
-$\textit{half8UCHAR}$ is used to get the half part of $\textit{UCHAR}$ value.
-It is important to know the half carry and it is used in the function $\textit{add8UCHAR}$. \\
+There are many functions in the module \textit{ALU}. In general, the
+definition of these functions use basic definitions or previously
+defined functions. For example, the function $\textit{half8UCHAR}$ is
+used to get the half part of $\textit{UCHAR}$ value. The value of the
+half carry is important as it is used in the function $\textit{add8UCHAR}$. \\
 
 \hspace*{0.0in}\it half8UCHAR  $\in$  \it UCHAR  $\fun$  \it UCHAR  $\land$ 
 
@@ -948,68 +968,84 @@ It is important to know the half carry and it is used in the function $\textit{a
 
 
  
-The function $\textit{add8UCHAR}$ receives a bit carry and two $\textit{UCHAR}$ values and returns respectively the 
-sum, the sign bit, the carry bit, the half carry bit and the zero bit. It is typed as follows: \it add8UCHAR \rm :
+The function $\textit{add8UCHAR}$ receives a bit carry and two
+$\textit{UCHAR}$ values and returns respectively the sum, the sign
+bit, the carry bit, the half carry bit and the zero bit. It is typed
+as follows: \it add8UCHAR \rm :
 \rm (\it BIT $\times$ \it UCHAR $\times$ \it UCHAR\rm ) $\fun$ \rm (\it UCHAR $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT  $\times$  \it BIT\rm ) and its definition is:\\
 
-\hspace*{0.0in}\it add8UCHAR\rm = $\lambda$ \rm(\it carry\rm,\it w1\rm, \it w2\rm)\rm.\rm
+\hspace*{0.0in}\it add8UCHAR\rm = $\lambda$ \rm(\it carry\rm,\it
+w1\rm, \it w2\rm)\rm.\rm
 
-\hspace*{0.0in}(\it carry $\in$  \it BIT  $\land$  \it w1  $\in$  \it UCHAR  $\land$  \it w2  $\in$  \it UCHAR
-$\mid$
+\hspace*{0.0in}(\it carry $\in$ \it BIT $\land$ \it w1 $\in$ \it UCHAR
+$\land$ \it w2 $\in$ \it UCHAR $\mid$
 
-\hspace*{0.40in}\rm(\rm(\rm(\it carry \rm + \it w1 \rm + \it w2 \rm )  $\mod$  \it $2^{8}$ \rm ),
+\hspace*{0.40in}\rm(\rm(\rm(\it carry \rm + \it w1 \rm + \it w2 \rm )
+$\mod$ \it $2^{8}$ \rm ),
 
-\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it uchar\_schar\rm (\it w1\rm ) \rm + \it uchar\_schar \rm (\it
-w2\rm ) $<$ \rm 0\rm ),
+\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it uchar\_schar\rm
+(\it w1\rm ) \rm + \it uchar\_schar \rm (\it w2\rm ) $<$ \rm 0\rm ),
 
-\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it w1 \rm + \it w2 $>$ \it UCHAR\_MAX\rm )\rm ,
+\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it w1 \rm + \it w2
+$>$ \it UCHAR\_MAX\rm )\rm ,
 
-\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it half8UCHAR\rm (\it w1\rm) \rm + \it half8UCHAR\rm (\it w2\rm)  $\geq$  \it $2^{4}$\rm )\rm,
+\hspace*{0.40in}\it bool\_bit\rm ( \it carry \rm + \it half8UCHAR\rm
+(\it w1\rm) \rm + \it half8UCHAR\rm (\it w2\rm) $\geq$ \it $2^{4}$\rm
+)\rm,
 
-\hspace*{0.40in}\it bool\_bit\rm ( \rm ( \rm (\it carry \rm + \it w1 \rm + \it w2 \rm )  $\mod$  \it $2^{8}$ \rm
+\hspace*{0.40in}\it bool\_bit\rm ( \rm ( \rm (\it carry \rm + \it w1
+\rm + \it w2 \rm ) $\mod$ \it $2^{8}$ \rm
 )\rm = \rm 0\rm )\rm )\hspace*{0.10in}\rm )\\
 
 
-
-A related function to subtract operation is $\textit{subtract8UCHAR}$. There are the same functions for the
-$\textit{SCHAR}$ type, they are respectively $\textit{add8SCHAR}$ and $\textit{subtract8SCHAR}$, all these
-functions are of 8 bits ($\textit{BYTE}$) and defined similarly. In the same way, the arithmetic functions for 16
-bits ($\textit{BV16}$) are defined.
-The module ALU has several others functions, for example:%but only some simplest functions also are explained below:
+A related function is subtraction: $\textit{subtract8UCHAR}$. There
+are also similar functions for the $\textit{SCHAR}$ type, they are
+respectively $\textit{add8SCHAR}$ and $\textit{subtract8SCHAR}$, all
+these functions are of 8 bits ($\textit{BYTE}$). In the same way, the
+arithmetic functions for 16 bits ($\textit{BV16}$) are defined.  The
+module ALU has several others functions, for
+example:%but only some simplest functions also are explained below:
 %\begin{itemize}
   %\item \it inc  $\in$ \it BYTE $\fun$  \it BYTE \rm - It receives a byte and
   %returns its increment. There is a similar function named $\textit{dec}$.
 %  \item 
-\it instruction\_next  $\in$  USHORT  $\fun$  USHORT \rm - It receives the  
-  actual value from program counter register (\textit{pc}) and returns its increment;
+\it instruction\_next $\in$ USHORT $\fun$ USHORT \rm - It receives the
+current value from program counter register (\textit{pc}) and returns
+its increment;
 % \item 
-and \it is\_negative  $\in$  \it BYTE  $\fun$  \it BIT \rm - It returns the most significant bit,
- in other words, the signal bit.
+and \it is\_negative $\in$ \it BYTE $\fun$ \it BIT \rm - It returns
+the most significant bit, in other words, the signal bit.
   % \item \it is\_zero  $\in$  \it BYTE  $\fun$  \it BIT \rm - It returns 1 if the received
  % byte is zero, otherwise returns 0.
   %\item \it update\_refresh\_reg \rm - It receives a byte and returns its increment until the seventh bit.
 %\end{itemize}
-As the logic functions that are defined in the \textit{BYTE} and \textit{BV16}
-module are included in the \textit{ALU} module, they can be seen and used
-directly in the \textit{ALU} and \textit{Z80} modules.
+As the logic functions that are defined in the \textit{BYTE} and
+\textit{BV16} module are included in the \textit{ALU} module, they can
+be seen and used directly in the \textit{ALU} and \textit{Z80}
+modules.
 
 \subsection{Modeling the actions and instructions}
 %TODO: Fiz uma breve alteração
-Each instruction is represented by a B operation in Z80 module. The main
-module (\textit{Z80}) has two categories of operations: a category represents the 
-instructions of microcontrollers and a category represents the external actions, e.g.
-interruptions actions. All 158 instructions and interruptions were modeled, but only
+Each instruction is represented by a B operation in Z80 module. The
+main module (\textit{Z80}) has two categories of operations: a
+category represents the instructions of microcontrollers and a
+category represents the external actions, e.g.  interruptions
+actions. All 158 instructions and interruptions were modeled, but only
 two important operations are presented here.
 
-A simple example of instruction is $\textit{LD\_(nn)\_A}$\footnote{The B tools does not allow o use parentheses in identifiers, and the characters \{``('',``)''\} are
-replaced respectively by \{``9'',``0''\} in the actual specification.} shown in this section. The
-pre-defined functions are necessary many times to model the instructions, these
-functions facilitate the construction of instruction set model. By default, all
-parameters in operations are either predefined elements in the model or
-integers values in decimal representation. This instruction use the
-$\textit{updateAddressMem}$ operation from \textit{Memory} module, it receives
-an address memory and its new memory value. $\textit{LD\_(nn)\_A}$ also increments the program
-counter ($\textit{pc}$) and updates the refresh register ($\textit{r\_}$). The other instructions have a similar structure.
+A simple example of instruction is $\textit{LD\_(nn)\_A}$\footnote{The
+  B tools does not allow o use parentheses in identifiers, and the
+  characters \{``('',``)''\} are replaced respectively by
+  \{``9'',``0''\} in the actual specification.} shown in this
+section. The pre-defined functions are necessary many times to model
+the instructions, these functions facilitate the construction of
+instruction set model. By default, all parameters in operations are
+either predefined elements in the model or integers values in decimal
+representation. This instruction use the $\textit{updateAddressMem}$
+operation from \textit{Memory} module, it receives an address memory
+and its new memory value. $\textit{LD\_(nn)\_A}$ also increments the
+program counter ($\textit{pc}$) and updates the refresh register
+($\textit{r\_}$). The other instructions have a similar structure.
 
 \hspace*{0.00in}\bf LD\_9nn0\_A \rm ( \it nn \rm ) \rm =
 
@@ -1093,12 +1129,13 @@ counter ($\textit{pc}$) and updates the refresh register ($\textit{r\_}$). The o
 %%\subsection{Modeling the external actions}
 %%\label{sec:externalactions}
 %
-The external actions change the state of the microcontroller, for example,
-refreshing the I/O ports and requesting interruptions. The external actions are also
-modeled by operations and they are named with the prefix ``$ext\_$'' and
-followed by the name of action. There are four external actions:
-$ext\_update\_io\_ports$, $ext\_NMI$ and $ext\_INT$, $ext\_Reset$. The
-instruction $ext\_update\_io\_ports$ just changes the state of I/O port, see.
+The external actions change the state of the microcontroller, for
+example, refreshing the I/O ports and requesting interruptions. The
+external actions are also modeled by operations and they are named
+with the prefix ``$ext\_$'' and followed by the name of action. There
+are four external actions: $ext\_update\_io\_ports$, $ext\_NMI$ and
+$ext\_INT$, $ext\_Reset$. The instruction $ext\_update\_io\_ports$
+just changes the state of I/O port, see.
 
 \hspace*{0.00in}\bf ext\_update\_io\_ports\rm (\it address\rm ,\it value\rm )\rm =
 
@@ -1109,11 +1146,11 @@ value \rm )
 
 \hspace*{0.00in}\bf END\rm 
 
-The other external actions are related to interruptions. Interruptions allow
-devices to suspend a routine from CPU and start another service routine.
-This service routine can exchange data or signals between CPU and external
-devices. When a routine is finished, then the CPU comes back to the last routine
-that was interrupted. Modeling details about interruptions can be consulted in
+The other external actions are related to interrupts. Interrupts allow
+devices to suspend a routine from CPU and start a service routine.
+This routine can exchange data or signals between CPU and external
+devices. When it finishes, then the CPU comes back to the interrupted
+routine. Modeling details about interruptions can be consulted in
 public project's repository.
 
 %
@@ -1268,29 +1305,29 @@ public project's repository.
 
 The model presented in this paper is suitable both for validation
 through animation with ProB, and for verification through the standard
-proof obligations generated by the application of the B method. 
+proof obligations generated by the application of the B method.
 
 The animation in ProB is not as fast and practical as a simulation
 with a dedicated tool (e.g. \cite{Simulator_z80}). ProB is a
 general-purpose animator of formal specification, and addresses
-computationally more difficult problems. Anyway, it is capable of
-animating, and also possibly model checking, a formal model of the
-instruction set of the Z80, which was our initial motivation in
+computationally more difficult problems than a simulator. It is anyway
+capable of animating, and also possibly model checking, a formal model
+of the instruction set of the Z80, which was our initial motivation in
 constructing that model. One may simulate step-by-step sequences of
 Z80 instructions and visualize the visited states of ports, memory and
 registers. It is a useful tool to debug by creating a trace of the
 visited states, offering to analyse constants, functions and
 expressions, and search possible violations.
 
-
 The construction of the model with B generates a large number of proof
 obligations and the verification is a time-consuming task. We describe
 here some details on this effort and some solutions we have devised to
-reduce the effort.  In B, the generated proof obligations allow to
-verify the data satisfy invariant properties, check important system
-properties and that the expressions are well-defined (WD)\footnote{An
-  expression is called ``well-defined'' (or unambiguous) if its
-  definition assigns it a unique interpretation or value.}. 
+reduce the effort.  Recall that, in B, the generated proof obligations
+allow to verify the data satisfy invariant properties, check important
+system properties and that the expressions are well-defined
+(WD)\footnote{An expression is called ``well-defined'' (or
+  unambiguous) if its definition assigns it a unique interpretation or
+  value.}.
 
 Table~\ref{tab:completestatistcs} displays statistics of the
 verification process. Note that the figures in it include only the
@@ -1345,21 +1382,21 @@ Z80 - {\scriptsize General 2}&26&10&139&14&165&24&86\%\\\hline
 There is still a large number of open proof obligations, i.e. we have
 not yet found their proof, or they are not valid and our model is not
 correct. Each such proof obligation requires interaction with a proof
-assistant. We see that for a project of that size, a large effort
-needs to be dedicated to find those proofs. One interesting feature of
-the proof assistant is, once a proof has been found, it can
-automatically apply it to other proof obligations, as it is often the
-case that the same proof script discharges several proof obligations.
+assistant. For a project of that size, a large effort needs to be
+dedicated to find those proofs. Note that, once a new proof has been
+found, the interactive prover can automatically apply it to other
+proof obligations. It is often the case that the same proof script
+discharges several proof obligations.
 
 % ->Quanto tempo foi gasto nessa verificação ?  Aproximadamente quanto tempo de
 % processamento elas reduziram ?
-We had a previous experience with a similar effot, where we were able
+We had a previous experience with a similar effort, where we were able
 to discharge all the proof obligations: that of the model of the Z80
 instruction set designed without restricting ourselves to constructs
 that may be animated with ProB, and without modeling external actions.
-In that first experience, the verification took us about two months. In that second
-project, we have been able to verify 3062 (e.g. roughly 80 \%) of 3631
-proof obligations in one week.
+In that first experience, the verification took us about two
+months. In that second project, we have been able to verify 3062
+(e.g. roughly 80 \%) of 3631 proof obligations in one week.
 
 In order to be able to verify such a large number of proof obligations
 in such a short term, we employed two strategies: parallelism and
@@ -1368,8 +1405,8 @@ in parallel and also to send proof obligations to other, possibly
 remote, processes running AtelierB. With those options we had the
 possibility to have eight concurrent instances of the prover. We thus
 split the instruction set of the Z80 in eight sub-modules and checked
-them concurrently (each instance of AtelierB may only verify one module
-at a time).  
+them concurrently (each instance of AtelierB may only verify one
+operation at a time).
 
 The second strategy, called \emph{user pass}, takes advantage of
 another feature of the AtelierB prover. We defined a number of proof
@@ -1380,23 +1417,20 @@ interactive mode may similarly be replayed and discharge other proof
 obligations. We have defined a set of 17 user passes that are able
 to discharge more than 2500 WD proof obliagations.
 
-
 \subsection{Considerations about the Z80 model}
 
 
 The Z80 formal model provides many benefits, because of the
 verification of generated proof obligations guarantees: the correct
 use of data types, the developed security properties and the
-well-defined of all the expressions.  Furthermore, the designer has a
-big flexibility to create new and specific security properties, this
-is very
-useful %TODO: COLOCAR APÓS TODOS OS BENEFICIOS PROPORCIONADOS COM A SIMULAÇÃO e COMPATIBILIDADE COM O PROB. (OBTER DO PARAGRAFO ANTERIOR DA SEÇAO VERIFICATION PROCESS).
-to adjust the verification in accordance with the
-requirements. Moreover, this example of model could complement the
-existing documentation for users and assembly programmers. 
+well-defined of all the expressions.  Furthermore, the designer may
+create new and specific security properties to adjust the verification
+in accordance with the requirements of a specific
+application. Moreover, this model complements the existing
+documentation for users and assembly programmers.
 
-But our goal is to use the model of the Z80 instruction set to extend
-the scope of the B method up to the assembly
+But our fundamental goal is to use the model of the Z80 instruction
+set to extend the scope of the B method up to the assembly
 level~\cite{Dantas_SBMF08}. Indeed, we realized a case study where an
 abstract B model had been refined up to the algorithmic model using
 the classic development strategy. The algorithmic model was manually
@@ -1415,14 +1449,15 @@ with ProB.
 \label{sec:relatedworks}
 
 There exists several approaches to model hardware and instruction set
-using B a.  The paper \cite{springerlink:Yuan2011} reports a method to
-specify, design and construct sound and complete instruction set model
-by stepwise refinement and formal proof using Event-B. It also
-discusses desirable properties of an instruction set model. However,
-our work \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B
-method, that seems quite appropriated to software development, because
-it has an implementable language defined, called B0, a model-driven
-approach \cite{Dantas_SBMF08} to develop software from the functional
+using B, not to mention other formal modelling approaches.  The paper
+\cite{springerlink:Yuan2011} reports a method to specify, design and
+construct sound and complete instruction set model by stepwise
+refinement and formal proof using Event-B. It also discusses desirable
+properties of an instruction set model. However, our work
+\cite{Valerio_SBMF09} and \cite{Subotic2010} use the B method, that
+seems quite appropriated to software development, because it has an
+implementable language defined, called B0, a model-driven approach
+\cite{Dantas_SBMF08} to develop software from the functional
 specification level down to assembly, and tools to convert the models
 to a programming language.
 
@@ -1487,18 +1522,14 @@ This set of papers present an alternative step to software verification
 up to assembly language, showing the current difficulties and
 suggesting improvements in tools supporting the B method.
 
-
-% [Trabalhos futuros ] LLVM:Existe também a pretensão de especificar as
 In the future, we plan to improve the support for the development of
 software with the B method from functional specification to assembly
 level, using the Z80 model presented in this work. For instance, the
 mechanic compilation from B algorithmic constructs to assembly
 platform is also envisioned. Finally, another important activity is to
-develop a formal model of a platform used in LLVM
+develop a formal model of the internal representation used in LLVM
 Compiler~\cite{DBLP:conf/cgo/LattnerA04}, which would enable us to
 integrate different compilation techniques into our B-based framework.
-
-
 
 % Conclusão: toque final
 %Several iterations were needed to provide the good library definitions as well as
