@@ -71,10 +71,10 @@
   purposes, but also to simulate and test the assembly code. It is also
   a fundamental component to extend the reach of the B method from the
   specification of the functional requirements of a system to an assembly-level
-  implementation thereof.\newline %\keywords{Embedded Software, Simulation, B method and Verification}
+  implementation thereof.
 % Using this model-driven approach and the instruction set model, a small case
 % study to analyse a petroleum production test system in oil field was developed.
- { \textbf{Key words:} B method, Simulation, Verification and Z80}
+% { \textbf{Key words:} B method, Simulation, Verification and Z80}
 
 \end{abstract}
 
@@ -298,7 +298,7 @@ Thus the workspace is composed of the following:
 
 \item[Power] contains the standard definition of exponentiation, as
   well as some basic lemmas, e.g. values of different powers of
-  two, allproved interactively with the Atelier-B prover.
+  two, all proved interactively with the Atelier-B prover.
   This module is essential to establish the relationship between
   bit vectors and integer arithmetics. %%DD
 
@@ -342,7 +342,7 @@ follows. The module also provides lemmas on negation that may be
 useful for the users of the library to develop proofs.
 
 $$
-\begin{array}{l}
+\hspace*{-1.2in}\begin{array}{l}
 \textit{bit\_not}  \in  \textit{BIT}  \fun  \textit{BIT}  \land 
 \textit{bit\_not} \rm = \rm \{ \rm 0  \mapsto  \rm 1 , \rm 1  \mapsto  \rm 0 \rm \} \land \\
 \forall (\textit{bb}).(\textit{bb} \in \textit{BIT} \implies \textit{bit\_not}(\textit{bit\_not}(\textit{bb})) = \textit{bb})
@@ -350,7 +350,7 @@ $$
 $$
 Conjunction is a binary function on bits and it is defined as:
 $$
-\begin{array}{l}
+\hspace*{-1.4in}\begin{array}{l}
 \textit{bit\_and} \in \textit{BIT} \times \textit{BIT} \fun \textit{BIT} \land \\
 \forall (\textit{b1}, \textit{b2}).(\textit{b1}  \in \textit{BIT}  \land \textit{b2} \in \textit{BIT} \implies \\
 \quad ((\textit{bit\_and}(\textit{b1}, \textit{b2}) = 1) \iff (\textit{b1} = 1)  \land  (\textit{b2} = 1)))
@@ -371,7 +371,7 @@ $$
 %$$
 The module provides lemmas for commutativity and associativity, definitions of $\textit{bit\_or}$ (disjunction)
 and $\textit{bit\_xor}$ (exclusive disjunction), as well as lemmas on
-those operators. These are standard and their expression in B is
+those operators. These are standard and their representations in B are
 similar to $\textit{bit\_and}$.
 
 Finally, the conversion from Boolean to bit is simply defined as:
@@ -449,7 +449,7 @@ that $v$ constitutes the most significant part of the result. \newline
 BIT\_VECTOR $\land$\\
 \hspace*{0.2in}\it bv\_catenate \rm =  $\lambda$  v\rm ,\it w \rm . \rm (\it v 
 $\in$  \it BIT\_VECTOR $\land$ \it w $\in$  \it BIT\_VECTOR  $\mid$  \it v\^ \it w\rm ) %$\cat$
-\newline
+\vspace*{0.05in}
 
 
 
@@ -493,7 +493,7 @@ and commutativity.
 \label{subsec:HardwareLibrary3}
 
 Bytes, i.e. bit vectors of length 8, are a common entity in hardware
-design. We provide the following definitions:
+design. We provide the following definitions:\\
 
 \hspace*{0.0in}\it BYTE\_WIDTH \rm = 8 $\land$ \it BYTE\_INDEX \rm = 1 $\upto$ \rm  BYTE\_WIDTH\rm  \hspace*{0.03in} $\land$
 
@@ -503,7 +503,7 @@ design. We provide the following definitions:
 
 
 \hspace*{0.0in}$\forall$ \rm (\it b1\rm )\rm .\rm (\it b1  $\in$  \it BYTE  $\implies$  \bf size\rm (\it b1\rm )\rm =\it BYTE\_WIDTH  $\land$  \it b1  $\in$  \bf seq1\rm (\it BIT\rm )\rm ) 
-
+\\
 %\hspace*{0.0in}\it BYTE \rm = \rm \{ \it bt  $\mid$  \it bt $\in$ \it BIT\_VECTOR  $\land$  \it size\rm (\it bt\rm )\rm =\it BYTE\_WIDTH\rm \} $\land$
 
 %\hspace*{0.0in}\it BYTE\_ZERO  $\in$  \it BYTE  $\land$ \it BYTE\_ZERO \rm = \it BYTE\_INDEX  $\times$  \rm \{\rm 0\rm \}
@@ -527,7 +527,7 @@ Bit vectors are used to represent and combine numbers: integer ranges
 manipulate such data, for example, the function $\textit{bv\_to\_nat}$
 maps bit vectors to natural numbers:
 $$
-\begin{array}{l}
+\hspace*{-0.3in}\begin{array}{l}
 \textit{bv\_to\_nat} \in \textit{BIT\_VECTOR} \fun \nat  \land \\
 \textit{bv\_to\_nat} = \lambda v .  (v \in \textit{BIT\_VECTOR} \mid  \sum i . (i \in \dom(v) . v(i)
 \times 2^{i-1}))
@@ -535,7 +535,7 @@ $$
 $$
 
 An important lemma associated to this definition is: 
-$$\forall n . (n \in \nat_1 \implies \textit{bv\_to\_nat}(\textit{nat\_to\_bv}(n)) = n).$$
+$$\hspace*{-1.59in}\forall n . (n \in \nat_1 \implies \textit{bv\_to\_nat}(\textit{nat\_to\_bv}(n)) = n).$$
 
 \subsection{Basic data types}
 
@@ -568,7 +568,7 @@ $\textit{byte\_uchar}$. As the set $\textit{BYTE}$ is a subset of the
 $\textit{BIT\_VECTOR}$, this function can be defined as follows:
 $$
 \begin{array}{l}
-\textit{byte\_uchar} \in \textit{BYTE} \fun \nat \land \\
+\textit{byte\_uchar} \in \textit{BYTE} \fun \nat \land 
 \textit{byte\_uchar} = \lambda (v) . ( v \in BYTE | bv\_to\_nat(v) )
 \end{array}
 $$
@@ -589,7 +589,7 @@ lemmas.
 
 We also created lemmas on pairs of dual conversion functions, such as:
 $$
- \begin{array}{l}
+\hspace*{-0.7in} \begin{array}{l}
   \forall (val) . (val \in \textit{UCHAR} |
   \textit{byte\_uchar}(\textit{uchar\_byte}(val)) = val) \land\\
   \forall (by) . (by \in \textit{BYTE} |
@@ -707,7 +707,7 @@ one example each:
 \begin{enumerate}
 
 \item For the proof obligation (\it byte\_uchar\rm \ $\in$ \textit{BYTE} $\bij$
-\textit{UCHAR}), the proof rule is: $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm $\in$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )  $\bij$  \rm 0 $\upto$ \rm 2\rm 5\rm 5 \\
+\textit{UCHAR}), the proof rule is: $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm ) \rm $\in$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )  $\bij$  \rm (0 $\upto$ \rm 2\rm 5\rm 5) \\
 
 \item For the proof obligation (\it uchar\_byte\rm \ $\in$ \textit{UCHAR} $\bij$
 \textit{BYTE}), the proof rule is: $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$  \rm 8)$\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$  \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm ) \rm   $\in$  \rm 0 $\upto$ \rm 2\rm 5\rm 5   $\bij$ \rm (\rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}\rm )\\
@@ -757,7 +757,7 @@ This section shows the elements that make up the different types of
 instructions. The main elements are specified in the microcontroller
 module Z80 and parts of it are presented below.  Basically, the
 microcontroller state is formed by the program counter, ports,
-registers, etc. The stae transition occurs either as an instruction
+registers, etc. The state transition occurs either as an instruction
 execution or an external action. Groups of registers are represented
 by the variables of the specification states that appear in clause
 \textit{VARIABLES}. The declaration of valid states of variables is in
@@ -806,18 +806,19 @@ register ($\textit{r\_}$), two bits ($\textit{iff1}$, $\textit{iff2}$)
 used to control the interruptions, a pair of bits to define the
 interruption mode ($\textit{im}$) and the input and output ports
 ($\textit{i\_o\_ports}$). These definitions are represented by
-\textit{INVARIANT}.
+\textit{INVARIANT}.\\
   
 
 \begin{sloppypar}
-\bf INVARIANT
+%\bf INVARIANT
 
 \hspace*{0.10in}\it rgs8  $\in$  \it id\_reg\_8  $\fun$  \it BYTE  $\land$ \it pc  $\in$  \it INSTRUCTION  $\land$  \it sp  $\in$  \it BV16 $\land$
 
 \hspace*{0.10in}\it ix  $\in$  \it BV16  $\land$ \it iy  $\in$  \it BV16  $\land$ \it i\_  $\in$  \it BYTE  $\land$  \it r\_ $\in$  \it BYTE  $\land$ \it iff1  $\in$  \it BIT  $\land$ 
 
-\hspace*{0.10in}\it iff2  $\in$  \it BIT  $\land$ \it im $\in$ (\it BIT $\times$ \it BIT\rm )  $\land$  \it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE
+\hspace*{0.10in}\it iff2  $\in$  \it BIT  $\land$ \it im $\in$ (\it BIT $\times$ \it BIT\rm )  $\land$  \it i\_o\_ports  $\in$  \it BYTE  $\fun$  \it BYTE\\
 \end{sloppypar}
+
 
 % Features of microcontroller
 The internal registers contains 176 bits of read/write memory that are
@@ -831,16 +832,14 @@ register set (\textit{a0,b0,c0,d0,e0,f0,h0,l0}) and alternate register
 set (\textit{a\_0,b\_0,c\_0,d\_0,e\_0,f\_0,h\_0,l\_0}).  These
 registers can be accessed in pairs, forming 16-bits, resulting in
 another set of identifiers of 16-bits registers, named
-$\textit{id\_reg16}$. These sets are represented below.
+$\textit{id\_reg16}$. These sets are represented by  \textit{SETS}.\\
 
 \begin{sloppypar}
 
-\bf SETS\\
-\hspace*{0.10in}\it id\_reg\_8\rm =\rm \{\it a0\rm, \it f0\rm, \it b0\rm, \it
-c0\rm, \it d0\rm, \it e0\rm, \it h0\rm, \it l0\rm, \it a\_0\rm,  \it f\_0\rm,
-\it b\_0\rm, \it c\_0\rm, \it d\_0\rm, \it e\_0\rm, \it h\_0\rm, \it l\_0 \rm
-\};\\ \hspace*{0.10in}\it id\_reg\_16\rm =\rm \{\it AF \rm, \it BC\rm, \it
-DE\rm, \it HL\rm, \it SP\rm\}
+%\bf SETS\\
+\hspace*{0.0in}\it id\_reg\_8\rm =\rm \{\it a0\rm,\it f0\rm,\it b0\rm,\it c0\rm,\it d0\rm,\it e0\rm,\it h0\rm,\it l0\rm,\it a\_0\rm,  \it f\_0\rm,\it b\_0\rm,\it c\_0\rm,\it d\_0\rm,\it e\_0\rm,\it h\_0\rm,\it l\_0 \rm\};\\ 
+\hspace*{0.2in}\it id\_reg\_16\rm =\rm \{\it AF\rm,\it BC\rm,\it
+DE\rm,\it HL\rm,\it SP\rm\}\\
 	
 
 \end{sloppypar}
@@ -997,14 +996,14 @@ $>$ \it UCHAR\_MAX\rm )\rm ,
 \rm + \it w2 \rm ) $\mod$ \it $2^{8}$ \rm
 )\rm = \rm 0\rm )\rm )\hspace*{0.10in}\rm )\\
 
-
+%There is a related function $\textit{subtract8UCHAR}$ and others
 A related function is subtraction: $\textit{subtract8UCHAR}$. There
-are also similar functions for the $\textit{SCHAR}$ type, they are
-respectively $\textit{add8SCHAR}$ and $\textit{subtract8SCHAR}$, all
+are also similar functions for the $\textit{SCHAR}$ type, for example,
+$\textit{add8SCHAR}$ and  $\textit{subtract8SCHAR}$. All
 these functions are of 8 bits ($\textit{BYTE}$). In the same way, the
 arithmetic functions for 16 bits ($\textit{BV16}$) are defined.  The
 module ALU has several others functions, for
-example:%but only some simplest functions also are explained below:
+example: %but only some simplest functions also are explained below:
 %\begin{itemize}
   %\item \it inc  $\in$ \it BYTE $\fun$  \it BYTE \rm - It receives a byte and
   %returns its increment. There is a similar function named $\textit{dec}$.
@@ -1046,8 +1045,8 @@ operation from \textit{Memory} module, it receives an address memory
 and its new memory value. $\textit{LD\_(nn)\_A}$ also increments the
 program counter ($\textit{pc}$) and updates the refresh register
 ($\textit{r\_}$). The other instructions have a similar structure.
-
-\hspace*{0.00in}\bf LD\_9nn0\_A \rm ( \it nn \rm ) \rm =
+\\ \\
+\hspace*{0.20in}\bf LD\_9nn0\_A \rm ( \it nn \rm ) \rm =
 
 \hspace*{0.20in}\bf PRE \it nn $\in$ \it USHORT\hspace*{0.15in} $\land$ \hspace*{0.10in}\it nn\hspace*{0.10in} $\in$  \it DATA\_R\_ADR \hspace*{0.10in}\bf THEN
 
@@ -1057,7 +1056,7 @@ program counter ($\textit{pc}$) and updates the refresh register
 \hspace*{0.20in}\it pc \rm := \it instruction\_next \rm ( \it pc \rm )  $\para$  \it r\_ \rm := \it update\_refresh\_reg\rm (\it r\_\rm )
 
 \hspace*{0.00in}\bf END\rm 
-
+\\
 
 
 %\subsection{Modeling the input/output instructions}
@@ -1135,7 +1134,7 @@ external actions are also modeled by operations and they are named
 with the prefix ``$ext\_$'' and followed by the name of action. There
 are four external actions: $ext\_update\_io\_ports$, $ext\_NMI$ and
 $ext\_INT$, $ext\_Reset$. The instruction $ext\_update\_io\_ports$
-just changes the state of I/O port, see.
+just changes the state of I/O port, see.\\
 
 \hspace*{0.00in}\bf ext\_update\_io\_ports\rm (\it address\rm ,\it value\rm )\rm =
 
@@ -1144,7 +1143,7 @@ just changes the state of I/O port, see.
 \hspace*{0.20in}\it io\_ports \rm ( \it uchar\_byte \rm ( \it address \rm ) \rm ) \rm := \it schar\_byte \rm ( \it
 value \rm )
 
-\hspace*{0.00in}\bf END\rm 
+\hspace*{0.00in}\bf END\rm \\
 
 The other external actions are related to interrupts. Interrupts allow
 devices to suspend a routine from CPU and start a service routine.
@@ -1402,11 +1401,11 @@ In order to be able to verify such a large number of proof obligations
 in such a short term, we employed two strategies: parallelism and
 \emph{user pass}. AtelierB has an option to run any number of threads
 in parallel and also to send proof obligations to other, possibly
-remote, processes running AtelierB. With those options we had the
+remote, processes AtelierB. With those options we had the
 possibility to have eight concurrent instances of the prover. We thus
 split the instruction set of the Z80 in eight sub-modules and checked
 them concurrently (each instance of AtelierB may only verify one
-operation at a time).
+module at a time).
 
 The second strategy, called \emph{user pass}, takes advantage of
 another feature of the AtelierB prover. We defined a number of proof
@@ -1536,10 +1535,10 @@ integrate different compilation techniques into our B-based framework.
 %to fine-tune the model of the microcontroller instructions by factoring common
 %functionalities into auxiliary definitions.  
 
-%\subsubsection{Acknowledgements:} The animation of the model would not
-%have been possible without the help of Michael Leuschel who kindly
-%provided feedback and developed several improvements to ProB to meet our
-%needs.
+\textbf{Acknowledgements:} The animation of the model would not
+have been possible without the help of Michael Leuschel who kindly
+provided feedback and developed several improvements to ProB to meet our
+needs.
 
 % This work was partially supported by INES (www.ines.org.br),
 %funded by CNPq grant 573964/2008-4 and by CNPq grants 553597/2008-6, 550946/2007-
