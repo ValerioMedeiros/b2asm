@@ -1,1 +1,0 @@
-paper.dvi paper.d : paper.tex comandos.tex SymbolsB_AtelierB.tex VerificationLibraryHardware.tex  paper.bib document.bib  diagramaEstrutural_vertical.png.eps images/Architecture.png.eps images/FasesEstudoDeCaso.png.eps images/Simulator_Full.png.eps images/Diagram_Types_and_Rules.pdf.eps  

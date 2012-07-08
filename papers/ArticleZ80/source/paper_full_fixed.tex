@@ -25,7 +25,7 @@
 \include{comandos}
 \include{SymbolsB_AtelierB} 
 
-%TODO: Verificar possíveis diferenças do FORMATO LNCS
+%TODO: Verificar poss√≠veis diferen√ßas do FORMATO LNCS
 
 % Allow use multiples footnote references 
 \newcommand{\footnoteremember}[2]{
@@ -98,13 +98,14 @@ because of several factors: it contains essential and common concepts
 of microcontrollers and even microprocessors; it has extensive
 available documentation; and it has been widely used.  A first,
 partial, Z80 model presented in \cite{Valerio_SBMF09} was fully
-verified, but it used constructs that made it impossible to animate 
+verified, but it used constructs that made it incapable to animate 
 with existing technology. %%DD
 
 The new Z80 model supports animation in ProB~\cite{proB}.  Essentially, the
 new model\footnote{The interested reader in more details is invited to visit
 our repository at: http://code.google.com/p/b2asm/.} no longer contains
-definitions derived from infinite sets. Using B constructs for modularity,
+definitions derived from infinite sets and added support to complex
+interruptions.Using B constructs for modularity,
 auxiliary libraries of basic modules were developed as part of the construction
 of the microcontroller model. Such a library has many definitions of 
 concepts common to microcontrollers. Besides the new Z80 model, a petroleum
@@ -602,12 +603,12 @@ all other data types.  We sometimes need to create arithmetic and
 logic functions that are more specific for a determined
 architecture, as the Z80 presented in section \ref{sec:z80}.
 
-%%DD As primeiras frases do parágrafo abaixo não faziam sentido!
+%%DD As primeiras frases do par√°grafo abaixo n√£o faziam sentido!
 The definitions, functions and properties from hardware library and
 types library may be reused to model different instruction set
 architectures. Nearly 50\% of all these proof obligations shown in
 Table~\ref{tab:types} are verified automatically or with few user
-pass\footnote{The user pass allows to filter proof tactics that aid
+pass\footnote{The user passes allows to filter proof tactics that aid
   the prover to find the proof, this is a feature provided by Atelier
   B.}. A large part of the proof obligations require long sessions
 with the interactive provers, mostly because they contain complex
@@ -617,7 +618,9 @@ eventually verified.
 
 \subsection{Verification of hardware library and types library} 
 \label{sec:VerificationHardwareLibrary}
-
+%candidato para simplificar/cortar: baixa depend√™ncia 
+% Coment√°rio do revisor:
+%Section 2.6, par 1: it on the edge of what can be understood without previous knowledge of B, which was not described here.  If the problem raised % specific to Atelier B?  If so, why not use another tool?
 This section presents the verification of the aforementioned modules
 using AtelierB provers.  By default, AtelierB~\cite{atelierB} does not
 generate proof obligations to check the type of functions defined in
@@ -665,7 +668,7 @@ byte\_bv16\rm \ $=$ \it bv16\_byte\rm $^{-1}$).
 %\item (\it byte\_bv16\rm \ $=$ \it bv16\_byte\rm $^{-1}$) 
 %
 %\end{enumerate}
-For the remaining proof obligations, we again had to create new proof
+For the remaining proof obligations, we had to create new proof
 rules. There are three kinds of proof rules, that we illustrate by giving
 one example each:
 
@@ -717,24 +720,33 @@ one example each:
 uchar\_byte\rm$^{-1}$), the proof rule is:\\ $\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 1 $\upto$ \rm 8  $\fun$  \rm \{\rm 0\rm ,\rm 1\rm \}  $\mid$  \rm 1\rm 2\rm 8 $\times$ \it v0\rm (\rm 8\rm )\rm +\rm 6\rm 4 $\times$ \it v0\rm (\rm 7\rm )\rm +\rm 3\rm 2 $\times$ \it v0\rm (\rm 6\rm )\rm +\rm 1\rm 6 $\times$ \it v0\rm (\rm 5\rm )\rm +\rm 8 $\times$ \it v0\rm (\rm 4\rm )\rm +\rm 4 $\times$ \it v0\rm (\rm 3\rm )\rm +\rm 2 $\times$ \it v0\rm (\rm 2\rm )\rm +\rm 1 $\times$ \it v0\rm (\rm 1\rm )\rm )=($\lambda$ \it v0\rm .\rm (\it v0 $\in$  \rm 0$\upto$255  $\mid$  \rm \rm  [(\it v0  $\mod$  \rm 2)$\div$1,(\it v0  $\mod$  \rm 4)$\div$\rm 2\rm,(\it v0  $\mod$ \rm 8) $\div$\rm 4\rm,(\it v0  $\mod$  \rm 16)$\div$\rm 8\rm,(\it v0  $\mod$  \rm 32)$\div$\rm 1\rm 6\rm,(\it v0  $\mod$ \rm 6\rm 4)$\div$\rm 3\rm 2\rm,(\it v0  $\mod$  \rm 1\rm 2\rm 8)$\div$\rm 6\rm 4\rm,(\it v0  $\mod$  \rm 2\rm 5\rm 6)$\div$\rm 1\rm 2\rm 8\rm \rm ]\rm )\rm)$^{-1}$
 \end{enumerate}
 
-Eight proof obligations require that conversion functions are finite. %: \it
-% byte\_uchar $\in$ $\finset$\rm (\it byte\_uchar\rm ); \it uchar\_byte  $\in$
-% $\finset$\rm (\it uchar\_byte\rm ); \it ushort\_bv16 $ \in \finset$\rm (\it
-% ushort\_bv16\rm ); \it bv16\_ushort $ \in \finset$\rm (\it bv16\_ushort\rm ); \it
-% byte\_schar $ \in \finset$\rm (\it byte\_schar\rm ); \it schar\_byte $ \in
-% \finset$\rm (\it schar\_byte\rm ); \it sshort\_bv16 $ \in \finset$\rm (\it
-% sshort\_bv16\rm ); and \it bv16\_sshort $ \in \finset$\rm (\it bv16\_sshort\rm).
- These proof obligations were verified using the expression evaluator of ProB.
-Finally, we have included rules related to binary arithmetic as developed
-in~\cite{Leibnizens}. These rules are used in the interactive theorem prover with
-binary arithmetic to prove important properties~\cite{James2010,Dasgupta2006}.
+%Eight proof obligations require that conversion functions are finite. 
+% \it byte\_uchar $\in$ $\finset$\rm (\it byte\_uchar\rm );
+% \it uchar\_byte  $\in$ $\finset$\rm (\it uchar\_byte\rm ); 
+%\it ushort\_bv16 $ \in \finset$\rm (\it  ushort\_bv16\rm ); 
+%\it bv16\_ushort $ \in \finset$\rm (\it bv16\_ushort\rm );
+% \it byte\_schar $ \in \finset$\rm (\it byte\_schar\rm ); 
+% \it schar\_byte $ \in \finset$\rm (\it schar\_byte\rm );
+% \it sshort\_bv16 $ \in \finset$\rm (\it  sshort\_bv16\rm ); 
+% and \it bv16\_sshort $ \in \finset$\rm (\it bv16\_sshort\rm).
+
+%%VM: Realizei ajustes p/ responder perguntas do revisor
+For the eight remaining proof obligations, we  had to create new proof
+rules. The expression evaluator of ProB verified all rules related to functions with 8-bit data,
+the rules to functions with 16-bit data were not verified in ProB, because these rules have
+extensive space of verification. However, these rules were built according 
+to binary system arithmetic developed by~\cite{Leibnizens} and in similar way as functions with 8-bit data.
+% These rules were verified using the expression evaluator of ProB.
+%Finally, we have included rules related to binary arithmetic as developed
+%in~\cite{Leibnizens}. 
+These rules are used in the interactive theorem prover with
+binary arithmetic to prove basic properties~\cite{James2010,Dasgupta2006}.
 
 \section{A B model of the Z80 instruction set}
 \label{sec:z80}
 
-The \textit{Z80} is a CISC microcontroller developed by
-\textit{Zilog}~\cite{Z80_manual}. The Z80 is composed by different
-elements and a simplified internal organization is shown in the Figure
+The Z80 is a CISC microcontroller developed by \textit{Zilog}~\cite{Z80_manual}. 
+The Z80 is composed by different elements and a simplified internal organization is shown in the Figure
 \ref{fig:DiagramBlock}.  This figure has some important elements of
 Z80 CPU: ALU, registers of 8 and 16 bits and input/output ports.
 
@@ -922,16 +934,14 @@ The Z80 uses a unique memory for storing program instructions, data
 stack and general-purpose data. The memory has 16-bit addresses and
 each address holds a byte.  Thus, the memory is very simple: \it mem
 $\in$ \it BV16 $\fun$ \it BYTE\rm.
- 
-Instructions can access all the memory addresses and open the door to
-the programmer mistakenly access and change data in memory. For added
-security, it is desirable that the program instructions has limited
-access by region. Thus the designer can specify address regions in a
-refinement model to restrict the access from instructions. The address
-regions can be specified using constants
-($\textit{PROGRAM\_R\_ADR,DATA\_R\_ADR,STACK\_R\_ADR}$), these define
+ %
+By default, the Z80 no limits the access memory. Instructions can access 
+all the memory addresses and open the door to the programmer mistakenly access and change data in memory. For added
+security, Z80 model supports to limit access by region. Thus the designer can
+specify address regions in an instance of Z80 model to restrict the access from instructions. The address
+regions can be specified using constants ($\textit{PROGRAM\_R\_ADR,DATA\_R\_ADR,STACK\_R\_ADR}$), these define
 respectively a range of restricted address for: programs instructions,
-general purpose data and data stack.
+general purpose data and data stack. 
 %
 %$
 %\begin{array}{l}
@@ -1024,7 +1034,7 @@ be seen and used directly in the \textit{ALU} and \textit{Z80}
 modules.
 
 \subsection{Modeling the actions and instructions}
-%TODO: Fiz uma breve alteração
+%TODO: Fiz uma breve altera√ß√£o
 Each instruction is represented by a B operation in Z80 module. The
 main module (\textit{Z80}) has two categories of operations: a
 category represents the instructions of microcontrollers and a
@@ -1298,9 +1308,9 @@ public project's repository.
 
 % The animation
 
-\subsection{Verification and validation}% ESTOU TRABALHANDO AQUI
-% OK -> como as regras foram utilizadas ?  Respondido na seção das regras
-% TODO:ENGLISH REVIEW parágrafo inicial: VISÃO GERAL
+\subsection{Verification and validation}
+% OK -> como as regras foram utilizadas ? 
+
 
 The model presented in this paper is suitable both for validation
 through animation with ProB, and for verification through the standard
@@ -1374,7 +1384,7 @@ Z80 - {\scriptsize General 2}&26&10&139&14&165&24&86\%\\\hline
 \end{table}
 
 
-%->Explicaçao de mais detalhes da tabela. 
+%->Explicação de mais detalhes da tabela. 
 
 
 % Porque o modelo não foi verificado completamente ?
@@ -1411,7 +1421,7 @@ The second strategy, called \emph{user pass}, takes advantage of
 another feature of the AtelierB prover. We defined a number of proof
 scripts which are then applied to all remaining proof obligations. Few
 generic user passes are enough to prove many proof obligations. Also,
-as the models of many instructionsa are similar, proofs found in
+as the models of many instructions are similar, proofs found in
 interactive mode may similarly be replayed and discharge other proof
 obligations. We have defined a set of 17 user passes that are able
 to discharge more than 2500 WD proof obliagations.
@@ -1447,10 +1457,10 @@ with ProB.
 \section{Related work}
 \label{sec:relatedworks}
 
-There exists several approaches to model hardware and instruction set
+There exists several approaches to model hardware and instruction sets
 using B, not to mention other formal modelling approaches.  The paper
 \cite{springerlink:Yuan2011} reports a method to specify, design and
-construct sound and complete instruction set model by stepwise
+construct sound and complete instruction set models by stepwise
 refinement and formal proof using Event-B. It also discusses desirable
 properties of an instruction set model. However, our work
 \cite{Valerio_SBMF09} and \cite{Subotic2010} use the B method, that
@@ -1497,16 +1507,16 @@ construction of this model, some problems were found in the official
 reference for Z80 microcontroller~\cite{Z80_manual}. We have consulted
 different sources \cite{Simulator_z80,UndocumentedZ80,Z80_manual} to
 avoid such problems in modeling and have developed a case study: a
-verified embedded software.  This case study was interesting to as a
+verified embedded software.  This case study was interesting too as a
 feasibility analysis of the approach to derive formally assembly code
 from a specification of functional requirements in the B method.
 
-%TODO: COLOCAR AQUI OS PRINCIPAIS BENEFÍCIOS PROPORCIONADOS PELO TRABALHO
+%TODO: COLOCAR AQUI OS PRINCIPAIS BENEF√çCIOS PROPORCIONADOS PELO TRABALHO
 
 
 
-% fundamenta melhor o trabalho já desenvolvido. Citar o artigo SBMF e a dissertação. 
-% Os meus trabalhos já desenvolvidos/ resultados atuais.
+% fundamenta melhor o trabalho j√° desenvolvido. Citar o artigo SBMF e a disserta√ß√£o. 
+% Os meus trabalhos j√° desenvolvidos/ resultados atuais.
 The following works are directly related to the objective this paper.
 The approach to develop verified software down to the assembly level
 using B was described in~\cite{DantasSemish2008}. A first case study
@@ -1516,8 +1526,8 @@ level in three different platforms. A short general view of a previous work
 were presented in~\cite{Valerio_SBMF09}. The model presented in the 
 current paper added support for animation in ProB and the representation
 of external actions (interruptions).
-%Link com o parágrafo anterior 
-This set of papers present an alternative step to software verification
+%Link com o par√°grafo anterior 
+This set of papers presents an alternative step to software verification
 up to assembly language, showing the current difficulties and
 suggesting improvements in tools supporting the B method.
 
@@ -1530,7 +1540,7 @@ develop a formal model of the internal representation used in LLVM
 Compiler~\cite{DBLP:conf/cgo/LattnerA04}, which would enable us to
 integrate different compilation techniques into our B-based framework.
 
-% Conclusão: toque final
+% Conclus√£o: toque final
 %Several iterations were needed to provide the good library definitions as well as
 %to fine-tune the model of the microcontroller instructions by factoring common
 %functionalities into auxiliary definitions.  
