@@ -1065,24 +1065,20 @@ The other external actions are related to interrupts. Interrupts allow
 devices to suspend a routine from CPU and start a service routine.
 These external actions allow to exchange data or signals between CPU and external
 devices. When it finishes, then the CPU comes back to the interrupted
-routine. The interruptions  $ext\_NMI$, $ext\_INT$ and $ext\_Reset$
-were specified in Z80 model, see a short description. 
+routine. 
 
-\textbf{NMI} - Non-maskable interrupts cannot be disabled
- by the programmer. Then, when a device makes a request, $sp$ is pushed,
- $pc$ receives $66H$ (102 in decimal), $\textit{iff1}$ is reset, $\textit{iff2}$ stores
- $\textit{iff1}$ and the refresh register is updated.
-  
+The interruptions  $ext\_NMI$, $ext\_INT$ and $ext\_Reset$
+were specified in Z80 model, see a short description. \textbf{NMI} - Non-maskable interrupts cannot be disabled
+ by the programmer. Then, when a device makes a request, the stack pointer is pushed,
+the program counter receives $66H$ (102 in decimal), the register $\textit{iff1}$ is reset, the register $\textit{iff2}$ stores
+ $\textit{iff1}$ and the refresh register is updated. \textbf{INT} - Maskable Interrupt is usually reserved for important functions
+  that can be enabled and disabled by the programmer. When a maskable interrupt
+  action happens, both register $\textit{iff1}$ and $\textit{iff2}$ are cleared,
+  disabling the interrupts, the stack pointer is pushed, the refresh register is updated and
+  the other effects depend on the interrupt mode register (\it im\rm). \textbf{RESET}  - This just resets the registers related to the interruptions.
 
- \textbf{NMI} - Non-maskable interrupts cannot be disabled
- by the programmer. Then, when a device makes a request, $sp$ is pushed,
- $pc$ receives $66H$ (102 in decimal), $\textit{iff1}$ is reset, $\textit{iff2}$ stores
- $\textit{iff1}$ and the refresh register is updated.
+Modeling details can be consulted in public project's repository.
 
-\textbf{RESET}  - This just resets the registers related to the interruptions.
-
-Modeling details about interruptions can be consulted in
-public project's repository.
 %[TENTAR COLOCAR ALGO MAIS DA INTERRUPÇÕES (MAIS COMPLEXA)]
 
 %For the interrupts, the following elements are important:  the interrupt flip-flops
