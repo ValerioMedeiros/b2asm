@@ -83,10 +83,10 @@
 The B method~\cite{Abrial} supports the formal development of software
 from a specification of functional requirements down to an imperative
 implementation of those requirements, amenable to synthesis to a
-programming language such as C or Ada. However, the synthesis step is
+programming language such as C or Ada. However, such synthesis is
 not amenable to proof of correctness, and~\cite{Dantas_SBMF08} proposed
-an approach to extend the scope of the B method up to the assembly
-level language. One key component of this approach is to build, within
+an approach to extend the scope of the B method  to the assembly
+level. One key component of this approach is to build, within
 the framework of the B method, formal models of the instruction set of
 such assembly languages.
 
@@ -97,14 +97,15 @@ of microcontrollers and even microprocessors; it has extensive
 available documentation; and it has been widely used.  A first,
 partial, Z80 model presented in \cite{Valerio_SBMF09} was fully
 verified, but it used constructs that made it incapable to animate 
-with existing technology. 
+with existing technology. It also lacked modeling external actions,
+which motivated the creation of the model presented in this paper. 
 
-The new Z80 model supports animation in ProB~\cite{proB}.  Essentially, the
-new model\footnote{The interested reader in more details is invited to visit
-our repository at: http://code.google.com/p/b2asm/.} no longer contains
-definitions derived from infinite sets and added support to external actions, 
-for example, complex interruptions. These changes required a new validation
-and verification process.
+Another goal was to change the modeling style so that it is compatible 
+with ProB animator~\cite{proB}.  Essentially, the new model\footnote{The
+interested reader in more details is invited to visit our repository at: 
+http://code.google.com/p/b2asm/.} no longer contains definitions derived
+from infinite sets and added support to external actions, for example, complex
+interruptions. These changes required a new validation and verification process.
 
 The formal model of an instruction set has several
 applications. Animation allows to simulate the execution of assembly
@@ -167,9 +168,8 @@ Figure~\ref{fig:hardware-definition-graph}.
 
 
 %[[Colocar uma breve ligação e SINTESE SOBRE A VERIFICAÇÃO DAS BIBLIOTECAS]]
-The hardware library and types library have many lemmas and conversion functions with arithmetic that may be reused to model different instruction set architectures. Each finite basic data typed defined from Hardware Library has a number of proof obligation associated: 
-\textsc{bit} - 118 {\small \textsc{POs}}; \textsc{byte} - 154 {\small \textsc{POs}}; \textsc{bv16} - 75 {\small \textsc{POs}}. 
-The Types Library has also a number of proof obligation associated: \textsc{uchar} -  30 {POs}; \textsc{schar} - 30 {\small \textsc{POs}}; \textsc{ushort} - 62 {\small \textsc{POs}}; \textsc{sshort}  - 62 {\small \textsc{POs}}.
+The Hardware and Types libraries have many lemmas and conversion functions with arithmetic that may be reused to model different instruction set architectures. Each finite basic data typed defined in the Hardware and Types libraries has associate proof obligations: 
+\textsc{bit} - 118 {\small \textsc{POs}}; \textsc{byte} - 154 {\small \textsc{POs}}; \textsc{bv16} - 75 {\small \textsc{POs}}; \textsc{uchar} -  30 {POs}; \textsc{schar} - 30 {\small \textsc{POs}}; \textsc{ushort} - 62 {\small \textsc{POs}}; \textsc{sshort}  - 62 {\small \textsc{POs}}.
 
 Nearly 50\% of all these proof obligations are verified automatically or with few user pass\footnote{The user passes allows to filter proof tactics that aid the prover to find the proof, this is a feature provided by Atelier B.}. A large part of the proof obligations require long sessions with the interactive provers, mostly because they contain complex arithmetic expressions that the automatic provers in AtelierB have difficulty handling. 
 All these 531 proof obligations were eventually verified. 
@@ -181,10 +181,10 @@ All these 531 proof obligations were eventually verified.
 \label{sec:z80}
 
 The Z80 is a CISC microcontroller developed by \textit{Zilog}~\cite{Z80_manual}. 
-The Z80 is composed by different elements: ALU, data bus, registers of 8 and 16
+The Z80 is composed of different elements: ALU, data bus, registers of 8 and 16
 bits, input/output ports and interruptions. Z80 has 158 different instructions, 
 including all the 78 from the Intel 8080 microprocessor, and all of them were
-formally specified in B. These instructions are classified into these categories: load and
+formally specified in B. These instructions are classified into: load and
 exchange; block transfer and search; arithmetic and logical; rotate
 and shift; bit manipulation; jump, call and return; input/output; and
 basic cpu control. Each category of instruction has different elements
@@ -255,7 +255,7 @@ devices. When it finishes, then the CPU comes back to the interrupted
 routine. 
 
 The interruptions  $ext\_NMI$, $ext\_INT$ and $ext\_Reset$
-were specified in Z80 model, see a short description.  $ext\_NMI$ - Non-maskable interrupts cannot be disabled
+were specified in Z80 model.  $ext\_NMI$ - Non-maskable interrupts cannot be disabled
 by the programmer. Then, when a device makes a request, the stack pointer is pushed,
 the program counter receives $66H$ (102 in decimal), the register $\textit{iff2}$ stores
 $\textit{iff1}$, the register $\textit{iff1}$ resets and the refresh register is updated.
@@ -264,8 +264,8 @@ that can be enabled and disabled by the programmer. When a maskable interrupt
 action happens, both register $\textit{iff1}$ and $\textit{iff2}$ are cleared,
 disabling the interrupts, the stack pointer is pushed, the refresh register is updated and
 the other effects depend on the interrupt mode register (\it im\rm).
-$ext\_Reset$  - This just resets the registers related to the interruptions. Modeling details can be consulted in public project's repository.
-
+$ext\_Reset$  - This just resets the registers related to the interruptions. Modeling details
+can be consulted in the project's public repository. 
 
 \subsection{Verification and validation}
 % OK -> como as regras foram utilizadas ? 
@@ -286,13 +286,13 @@ registers. It is a useful tool to debug by creating a trace of the
 visited states, offering to analyse constants, functions and
 expressions, and search possible violations. Furthermore, the expression
 evaluator of ProB is very useful to analyse quickly properties related to binary arithmetic.
+Unfortunately, adapting our model to fit ProB's restrictions was a lot of effort.
 
 We had a previous experience verification in \cite{Valerio_SBMF09} with
-a similar effort, where we were able to discharge all the proof obligations: 
-that of the model of the Z80 instruction set designed without restricting
-ourselves to constructs that may be animated with ProB, and without
+a similar model, where we were able to discharge all the proof obligations 
+without restricting ourselves to constructs that may be animated with ProB, and without
 modeling external actions. In that first experience, the verification took us about two
-months. In the actual project, we have been able to verify 3062
+months. In the current project, we have been able to verify 3062
 (e.g. roughly 80 \%) of 3631 proof obligations in one week.
 
 
@@ -332,8 +332,8 @@ This work has shown an approach to the formal modeling of the
 instruction set of microcontroller using the B method.  During the
 construction of this model, some problems were found in the official
 reference for Z80 microcontroller~\cite{Z80_manual}. We have consulted
-different sources \cite{Simulator_z80,Z80_manual} to
-avoid such problems in modeling and have developed a case study: a
+different sources \cite{Simulator_z80,UndocumentedZ80,Z80_manual} to
+solve such problems in modeling and have developed a case study: a
 verified embedded software.  This case study was interesting too as a
 feasibility analysis of the approach to derive formally assembly code
 from a specification of functional requirements in the B method.
@@ -346,7 +346,7 @@ The following works are directly related to the objective this paper.
 A first case study for this approach was reported in~\cite{Dantas_SBMF08}, presenting
 more details as well as a small software that developed up to assembly
 level in three different platforms. A short general view of a previous work
-were presented in~\cite{Valerio_SBMF09}. The model presented in the 
+was presented in~\cite{Valerio_SBMF09}. The model presented in the 
 current paper added support for animation in ProB and the representation
 of external actions.
 %Link com o par√°grafo anterior 
@@ -366,7 +366,7 @@ integrate different compilation techniques into our B-based framework.
 
 \textbf{Acknowledgements:} The animation of the model would not
 have been possible without the help of Michael Leuschel who kindly
-provided feedback.% and developed improvements to ProB to meet our
+provided feedback on ProB.% and developed improvements to ProB to meet our
 %needs.
 
 \bibliographystyle{plain}
