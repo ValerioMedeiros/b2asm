@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<db_xml>
+    <atelierb version="3_7_ubuntu-cvs" />
+    <project decomp_dir="/media/B_Resources/Test/expand_src" old_decomp_dir="/media/B_Resources/Test/src">
+        <!-- Definition directory list -->
+        <!-- Component file list -->
+        <component_file path="/media/B_Resources/Test/src" name="Test" suffix="mch" user="atelierb">
+            <component name="Test" type="specification" />
+        </component_file>
+    </project>
+</db_xml>

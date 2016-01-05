@@ -1,0 +1,107 @@
+﻿THEORY BalanceX IS
+  BV16_DEFINITION,28,0,0,22,0,3,0;
+  AssertionLemmas,5,0,0,1,0,2,0;
+  WellDefinednessAssertions,1,0,0,0,0,1,0;
+  WellDefinednessProperties,22,0,0,21,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(2);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Unproved;
+  Unproved;
+  Proved(2);
+  Proved(0);
+  Proved(2)
+END
+&
+THEORY MethodList IS
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  ?;
+  ?;
+  ?;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(2),(?;0;1);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(2),(?;0;1);
+  Force(0),?;
+  Force(2),(?;0;1)
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  PRVersion("svn")(CLT == "V4.0-31779");
+  PRVersion("svn")(CLT == "V4.0-53996")
+END

@@ -1,0 +1,4 @@
+digraph g {
+rankdir=RL;
+    Noderoot [label="(TRUE:BOOL)\n true", shape="ellipse", fillcolor="olivedrab2", style="filled"]
+}

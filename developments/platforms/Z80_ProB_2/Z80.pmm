@@ -1,0 +1,833 @@
+THEORY User_Pass IS
+Operation(Initialisation) & mp(Tac(RulesProBInitialisation_1)); 
+Operation(RLC_9IX_d0) & mp(Tac(RulesProBRLC_9IX_d0_1)); 
+Operation(RLC_9IY_d0) & mp(Tac(RulesProBRLC_9IY_d0_1)); 
+Operation(RRC_9IX_d0) & mp(Tac(RulesProBRRC_9IX_d0_1)); 
+Operation(RRC_9IY_d0) & mp(Tac(RulesProBRRC_9IY_d0_1)); 
+Operation(SRA_9IX_d0) & mp(Tac(RulesProBSRA_9IX_d0_1)); 
+Operation(SRA_9IY_d0) & mp(Tac(RulesProBSRA_9IY_d0_1)); 
+Operation(SRL_9IX_d0) & mp(Tac(RulesProBSRL_9IX_d0_1)); 
+Operation(SRL_9IY_d0) & mp(Tac(RulesProBSRL_9IY_d0_1)); 
+Operation(SET_b_9IX_d0) & mp(Tac(RulesProBSET_b_9IX_d0_1)); 
+Operation(SET_b_9IX_d0) & mp(Tac(RulesProBSET_b_9IX_d0_2)); 
+Operation(SET_b_9IY_d0) & mp(Tac(RulesProBSET_b_9IY_d0_1)); 
+Operation(SET_b_9IY_d0) & mp(Tac(RulesProBSET_b_9IY_d0_2)); 
+Operation(RES_b_9IX_d0) & mp(Tac(RulesProBRES_b_9IX_d0_1)); 
+Operation(RES_b_9IX_d0) & mp(Tac(RulesProBRES_b_9IX_d0_2)); 
+Operation(RES_b_9IY_d0) & mp(Tac(RulesProBRES_b_9IY_d0_1)); 
+Operation(RES_b_9IY_d0) & mp(Tac(RulesProBRES_b_9IY_d0_2)); 
+Operation(RET_cc) & mp(Tac(RulesProBRET_cc_1)); 
+Operation(RST_p) & mp(Tac(RulesProBRST_p_1)); 
+Operation(INC_ss) & mp(Tac(RulesProBINC_ss_1)); 
+Operation(DEC_ss) & mp(Tac(RulesProBDEC_ss_1)); 
+Operation(set_pc) & mp(Tac(RulesProBset_pc_1)); 
+Operation(LD_9IX_d0_r) & mp(Tac(RulesProBLD_9IX_d0_r_1)); 
+Operation(LD_9IY_d0_r) & mp(Tac(RulesProBLD_9IY_d0_r_1)); 
+Operation(LD_9IX_d0_n) & mp(Tac(RulesProBLD_9IX_d0_n_1)); 
+Operation(LD_9IX_d0_n) & mp(Tac(RulesProBLD_9IX_d0_n_2)); 
+Operation(LD_9IY_d0_n) & mp(Tac(RulesProBLD_9IY_d0_n_1)); 
+Operation(LD_9IY_d0_n) & mp(Tac(RulesProBLD_9IY_d0_n_2)); 
+Operation(LD_9nn0_A) & mp(Tac(RulesProBLD_9nn0_A_1)); 
+Operation(LD_dd_nn) & mp(Tac(RulesProBLD_dd_nn_1)); 
+Operation(LD_IX_nn) & mp(Tac(RulesProBLD_IX_nn_1)); 
+Operation(LD_IY_nn) & mp(Tac(RulesProBLD_IY_nn_1)); 
+Operation(LD_dd_9nn0) & mp(Tac(RulesProBLD_dd_9nn0_1)); 
+Operation(LD_IX_9nn0) & mp(Tac(RulesProBLD_IX_9nn0_1)); 
+Operation(LD_IY_9nn0) & mp(Tac(RulesProBLD_IY_9nn0_1)); 
+Operation(EX_9SP0_IX) & mp(Tac(RulesProBEX_9SP0_IX_1)); 
+Operation(EX_9SP0_IX) & mp(Tac(RulesProBEX_9SP0_IX_2)); 
+Operation(EX_9SP0_IY) & mp(Tac(RulesProBEX_9SP0_IY_1)); 
+Operation(EX_9SP0_IY) & mp(Tac(RulesProBEX_9SP0_IY_2)); 
+Operation(ext_NMI) & mp(Tac(RulesProBext_NMI_1)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_1)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_3)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_5)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_7)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_9)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_11)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_13)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_15)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_17)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_18)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_19)); 
+Operation(ext_INT) & mp(Tac(RulesProBext_INT_20))
+END
+  &
+THEORY RulesProBInitialisation_1 IS 
+
+
+	 /* Expression from (Initialisation_1), it was added  in Mon Sep 09 13:56:27 BRT 2013
+	  evaluated with ProB in 27066 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & io_ports$0: BYTE +-> {[0,0,0,0,0,0,0,0]} & dom(io_ports$0) = BYTE & %xx.(xx: BV16 | [0,0,0,0,0,0,0,0]): BV16 +-> BYTE & dom(%xx.(xx: BV16 | [0,0,0,0,0,0,0,0])) = BV16 & ran(%xx.(xx: BV16 | [0,0,0,0,0,0,0,0])): POW(BYTE) & !(address,value).(address: BV16 & value: BYTE => %xx.(xx: BV16 | [0,0,0,0,0,0,0,0])<+{address|->value}: BV16 +-> BYTE & dom(%xx.(xx: BV16 | [0,0,0,0,0,0,0,0])<+{address|->value}) = BV16)) & 
+  "`Check that the invariant (rgs8: id_reg_8 --> BYTE) is established by the initialisation - ref 3.3'"
+ => 
+  ({1|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{2|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{3|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{4|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{5|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{6|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{7|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{8|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{9|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{10|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{11|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{12|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{13|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{14|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{15|->id_reg_8|->[1,1,1,1,1,1,1,1]}\/{16|->id_reg_8|->[1,1,1,1,1,1,1,1]}: (1..16)*{id_reg_8} +-> BYTE)
+END
+
+&
+THEORY RulesProBRLC_9IX_d0_1 IS 
+
+
+	 /* Expression from (RLC_9IX_d0_1), it was added  in Mon Sep 09 14:33:50 BRT 2013
+	  evaluated with ProB in 11627 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & res: BYTE & res = rotateleft(mem(ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536)))) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBRLC_9IY_d0_1 IS 
+
+
+	 /* Expression from (RLC_9IY_d0_1), it was added  in Mon Sep 09 14:34:28 BRT 2013
+	  evaluated with ProB in 11637 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & res: BYTE & res = rotateleft(mem(ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536)))) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBRRC_9IX_d0_1 IS 
+
+
+	 /* Expression from (RRC_9IX_d0_1), it was added  in Mon Sep 09 14:38:04 BRT 2013
+	  evaluated with ProB in 11609 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & res: BYTE & res = rotateright(mem(ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536)))) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBRRC_9IY_d0_1 IS 
+
+
+	 /* Expression from (RRC_9IY_d0_1), it was added  in Mon Sep 09 14:38:42 BRT 2013
+	  evaluated with ProB in 11845 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & res: BYTE & res = rotateright(mem(ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536)))) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBSRA_9IX_d0_1 IS 
+
+
+	 /* Expression from (SRA_9IX_d0_1), it was added  in Mon Sep 09 14:42:43 BRT 2013
+	  evaluated with ProB in 11607 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & res: BYTE & res = rotateright(mem(ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536)))<+{7|->bv8get(mem(ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536)),7)}) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBSRA_9IY_d0_1 IS 
+
+
+	 /* Expression from (SRA_9IY_d0_1), it was added  in Mon Sep 09 14:43:21 BRT 2013
+	  evaluated with ProB in 11576 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & res: BYTE & res = rotateright(mem(ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536)))<+{7|->bv8get(mem(ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536)),7)}) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBSRL_9IX_d0_1 IS 
+
+
+	 /* Expression from (SRL_9IX_d0_1), it was added  in Mon Sep 09 14:44:49 BRT 2013
+	  evaluated with ProB in 11591 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & res: BYTE & res = bitclear(rotateright(mem(ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536))),7)) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBSRL_9IY_d0_1 IS 
+
+
+	 /* Expression from (SRL_9IY_d0_1), it was added  in Mon Sep 09 14:45:27 BRT 2013
+	  evaluated with ProB in 11632 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & res: BYTE & res = bitclear(rotateright(mem(ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536))),7)) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBSET_b_9IX_d0_1 IS 
+
+
+	 /* Expression from (SET_b_9IX_d0_1), it was added  in Mon Sep 09 14:49:15 BRT 2013
+	  evaluated with ProB in 11642 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`SET_b_9IX_d0 preconditions in this component'" & bb: 0..7 & desloc: SCHAR & (bv16_ushort(ix)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBSET_b_9IX_d0_2 IS 
+
+
+	 /* Expression from (SET_b_9IX_d0_2), it was added  in Mon Sep 09 14:50:13 BRT 2013
+	  evaluated with ProB in 57188 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`SET_b_9IX_d0 preconditions in this component'" & bb: 0..7 & desloc: SCHAR & (bv16_ushort(ix)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (bitset(mem(ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536)),bb): BYTE)
+END
+
+&
+THEORY RulesProBSET_b_9IY_d0_1 IS 
+
+
+	 /* Expression from (SET_b_9IY_d0_1), it was added  in Mon Sep 09 14:50:26 BRT 2013
+	  evaluated with ProB in 11639 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`SET_b_9IY_d0 preconditions in this component'" & bb: 0..7 & desloc: SCHAR & (bv16_ushort(iy)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBSET_b_9IY_d0_2 IS 
+
+
+	 /* Expression from (SET_b_9IY_d0_2), it was added  in Mon Sep 09 14:51:24 BRT 2013
+	  evaluated with ProB in 57491 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`SET_b_9IY_d0 preconditions in this component'" & bb: 0..7 & desloc: SCHAR & (bv16_ushort(iy)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (bitset(mem(ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536)),bb): BYTE)
+END
+
+&
+THEORY RulesProBRES_b_9IX_d0_1 IS 
+
+
+	 /* Expression from (RES_b_9IX_d0_1), it was added  in Mon Sep 09 14:52:15 BRT 2013
+	  evaluated with ProB in 11822 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`RES_b_9IX_d0 preconditions in this component'" & bb: 0..7 & desloc: SCHAR & (bv16_ushort(ix)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBRES_b_9IX_d0_2 IS 
+
+
+	 /* Expression from (RES_b_9IX_d0_2), it was added  in Mon Sep 09 14:53:14 BRT 2013
+	  evaluated with ProB in 58307 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`RES_b_9IX_d0 preconditions in this component'" & bb: 0..7 & desloc: SCHAR & (bv16_ushort(ix)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (bitclear(mem(ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536)),bb): BYTE)
+END
+
+&
+THEORY RulesProBRES_b_9IY_d0_1 IS 
+
+
+	 /* Expression from (RES_b_9IY_d0_1), it was added  in Mon Sep 09 14:53:27 BRT 2013
+	  evaluated with ProB in 11584 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`RES_b_9IY_d0 preconditions in this component'" & bb: 0..7 & desloc: SCHAR & (bv16_ushort(iy)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBRES_b_9IY_d0_2 IS 
+
+
+	 /* Expression from (RES_b_9IY_d0_2), it was added  in Mon Sep 09 14:54:27 BRT 2013
+	  evaluated with ProB in 58542 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`RES_b_9IY_d0 preconditions in this component'" & bb: 0..7 & desloc: SCHAR & (bv16_ushort(iy)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (bitclear(mem(ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536)),bb): BYTE)
+END
+
+&
+THEORY RulesProBRET_cc_1 IS 
+
+
+	 /* Expression from (RET_cc_1), it was added  in Mon Sep 09 14:56:46 BRT 2013
+	  evaluated with ProB in 11872 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & cc_get(rgs8,cc) = 1) & 
+  "`Check that the invariant (pc: USHORT) is preserved by the operation - ref 3.4'"
+ => 
+  (bv16_ushort(byte_bv16(mem(ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))),mem(sp))): USHORT)
+END
+
+&
+THEORY RulesProBRST_p_1 IS 
+
+
+	 /* Expression from (RST_p_1), it was added  in Mon Sep 09 14:57:24 BRT 2013
+	  evaluated with ProB in 11613 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_l: BYTE & pc_h: BYTE & bv16_byte(ushort_bv16(pc)) = pc_l|->pc_h) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_h}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_l}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBINC_ss_1 IS 
+
+
+	 /* Expression from (INC_ss_1), it was added  in Mon Sep 09 15:16:55 BRT 2013
+	  evaluated with ProB in 11632 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & ss = 4|->id_reg_16) & 
+  "`Check that the invariant (sp: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (inc_BV16(sp): BV16)
+END
+
+&
+THEORY RulesProBDEC_ss_1 IS 
+
+
+	 /* Expression from (DEC_ss_1), it was added  in Mon Sep 09 15:17:59 BRT 2013
+	  evaluated with ProB in 11565 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & ss = 4|->id_reg_16) & 
+  "`Check that the invariant (sp: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (inc_BV16(sp): BV16)
+END
+
+&
+THEORY RulesProBset_pc_1 IS 
+
+
+	 /* Expression from (set_pc_1), it was added  in Mon Sep 09 15:33:00 BRT 2013
+	  evaluated with ProB in 11602 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`set_pc preconditions in this component'" & value: USHORT) & 
+  "`Check that the invariant (pc: USHORT) is preserved by the operation - ref 3.4'"
+ => 
+  (0: USHORT)
+END
+
+&
+THEORY RulesProBLD_9IX_d0_r_1 IS 
+
+
+	 /* Expression from (LD_9IX_d0_r_1), it was added  in Mon Sep 09 15:35:32 BRT 2013
+	  evaluated with ProB in 11719 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_9IX_d0_r preconditions in this component'" & desloc: SCHAR & rr: (1..16)*{id_reg_8} & (bv16_ushort(ix)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBLD_9IY_d0_r_1 IS 
+
+
+	 /* Expression from (LD_9IY_d0_r_1), it was added  in Mon Sep 09 15:35:58 BRT 2013
+	  evaluated with ProB in 11628 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_9IY_d0_r preconditions in this component'" & desloc: SCHAR & rr: (1..16)*{id_reg_8} & (bv16_ushort(iy)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBLD_9IX_d0_n_1 IS 
+
+
+	 /* Expression from (LD_9IX_d0_n_1), it was added  in Mon Sep 09 15:36:36 BRT 2013
+	  evaluated with ProB in 11617 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_9IX_d0_n preconditions in this component'" & desloc: SCHAR & n0: SCHAR & (bv16_ushort(ix)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(ix)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBLD_9IX_d0_n_2 IS 
+
+
+	 /* Expression from (LD_9IX_d0_n_2), it was added  in Mon Sep 09 15:36:48 BRT 2013
+	  evaluated with ProB in 11809 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_9IX_d0_n preconditions in this component'" & desloc: SCHAR & n0: SCHAR & (bv16_ushort(ix)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (schar_byte(n0): BYTE)
+END
+
+&
+THEORY RulesProBLD_9IY_d0_n_1 IS 
+
+
+	 /* Expression from (LD_9IY_d0_n_1), it was added  in Mon Sep 09 15:37:01 BRT 2013
+	  evaluated with ProB in 11476 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_9IY_d0_n preconditions in this component'" & desloc: SCHAR & n0: SCHAR & (bv16_ushort(iy)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16((bv16_ushort(iy)+desloc+65536) mod 65536): BV16)
+END
+
+&
+THEORY RulesProBLD_9IY_d0_n_2 IS 
+
+
+	 /* Expression from (LD_9IY_d0_n_2), it was added  in Mon Sep 09 15:37:14 BRT 2013
+	  evaluated with ProB in 11722 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_9IY_d0_n preconditions in this component'" & desloc: SCHAR & n0: SCHAR & (bv16_ushort(iy)+desloc+65536) mod 65536: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (schar_byte(n0): BYTE)
+END
+
+&
+THEORY RulesProBLD_9nn0_A_1 IS 
+
+
+	 /* Expression from (LD_9nn0_A_1), it was added  in Mon Sep 09 15:39:08 BRT 2013
+	  evaluated with ProB in 11626 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_9nn0_A preconditions in this component'" & nn: USHORT & nn: DATA_R_ADR) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  (ushort_bv16(nn): BV16)
+END
+
+&
+THEORY RulesProBLD_dd_nn_1 IS 
+
+
+	 /* Expression from (LD_dd_nn_1), it was added  in Mon Sep 09 15:40:51 BRT 2013
+	  evaluated with ProB in 11649 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & dd = 4|->id_reg_16) & 
+  "`Check that the invariant (sp: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (ushort_bv16(nn): BV16)
+END
+
+&
+THEORY RulesProBLD_IX_nn_1 IS 
+
+
+	 /* Expression from (LD_IX_nn_1), it was added  in Mon Sep 09 15:41:29 BRT 2013
+	  evaluated with ProB in 11590 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_IX_nn preconditions in this component'" & nn: USHORT) & 
+  "`Check that the invariant (ix: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (ushort_bv16(nn): BV16)
+END
+
+&
+THEORY RulesProBLD_IY_nn_1 IS 
+
+
+	 /* Expression from (LD_IY_nn_1), it was added  in Mon Sep 09 15:41:42 BRT 2013
+	  evaluated with ProB in 11721 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_IY_nn preconditions in this component'" & nn: USHORT) & 
+  "`Check that the invariant (iy: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (ushort_bv16(nn): BV16)
+END
+
+&
+THEORY RulesProBLD_dd_9nn0_1 IS 
+
+
+	 /* Expression from (LD_dd_9nn0_1), it was added  in Mon Sep 09 15:42:20 BRT 2013
+	  evaluated with ProB in 11510 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & dd = 4|->id_reg_16) & 
+  "`Check that the invariant (sp: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (byte_bv16(mem(ushort_bv16(add16USHORT(0,nn,1))),mem(ushort_bv16(nn))): BV16)
+END
+
+&
+THEORY RulesProBLD_IX_9nn0_1 IS 
+
+
+	 /* Expression from (LD_IX_9nn0_1), it was added  in Mon Sep 09 15:42:58 BRT 2013
+	  evaluated with ProB in 11629 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_IX_9nn0 preconditions in this component'" & nn: USHORT) & 
+  "`Check that the invariant (ix: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (byte_bv16(mem(ushort_bv16(add16USHORT(0,nn,1))),mem(ushort_bv16(nn))): BV16)
+END
+
+&
+THEORY RulesProBLD_IY_9nn0_1 IS 
+
+
+	 /* Expression from (LD_IY_9nn0_1), it was added  in Mon Sep 09 15:43:11 BRT 2013
+	  evaluated with ProB in 11645 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`LD_IY_9nn0 preconditions in this component'" & nn: USHORT) & 
+  "`Check that the invariant (iy: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (byte_bv16(mem(ushort_bv16(add16USHORT(0,nn,1))),mem(ushort_bv16(nn))): BV16)
+END
+
+&
+THEORY RulesProBEX_9SP0_IX_1 IS 
+
+
+	 /* Expression from (EX_9SP0_IX_1), it was added  in Mon Sep 09 15:51:15 BRT 2013
+	  evaluated with ProB in 11643 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & wh: BYTE & wl: BYTE & bv16_byte(ix) = wh|->wl) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  ({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBEX_9SP0_IX_2 IS 
+
+
+	 /* Expression from (EX_9SP0_IX_2), it was added  in Mon Sep 09 15:52:01 BRT 2013
+	  evaluated with ProB in 44971 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & wh: BYTE & wl: BYTE & bv16_byte(ix) = wh|->wl & mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl}): BV16 +-> BYTE & dom(mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl})) = BV16 & ran(mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl})): POW(BYTE) & !(address,value).(address: BV16 & value: BYTE => mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl})<+{address|->value}: BV16 +-> BYTE & dom(mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl})<+{address|->value}) = BV16)) & 
+  "`Check that the invariant (ix: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (byte_bv16(mem(ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))),mem(sp)): BV16)
+END
+
+&
+THEORY RulesProBEX_9SP0_IY_1 IS 
+
+
+	 /* Expression from (EX_9SP0_IY_1), it was added  in Mon Sep 09 15:52:14 BRT 2013
+	  evaluated with ProB in 11655 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & wh: BYTE & wl: BYTE & bv16_byte(iy) = wh|->wl) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  ({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBEX_9SP0_IY_2 IS 
+
+
+	 /* Expression from (EX_9SP0_IY_2), it was added  in Mon Sep 09 15:53:01 BRT 2013
+	  evaluated with ProB in 45882 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & wh: BYTE & wl: BYTE & bv16_byte(iy) = wh|->wl & mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl}): BV16 +-> BYTE & dom(mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl})) = BV16 & ran(mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl})): POW(BYTE) & !(address,value).(address: BV16 & value: BYTE => mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl})<+{address|->value}: BV16 +-> BYTE & dom(mem<+({ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))|->wh}\/{sp|->wl})<+{address|->value}) = BV16)) & 
+  "`Check that the invariant (iy: BV16) is preserved by the operation - ref 3.4'"
+ => 
+  (byte_bv16(mem(ushort_bv16(add16USHORT(0,bv16_ushort(sp),1))),mem(sp)): BV16)
+END
+
+&
+THEORY RulesProBext_NMI_1 IS 
+
+
+	 /* Expression from (ext_NMI_1), it was added  in Mon Sep 09 15:55:45 BRT 2013
+	  evaluated with ProB in 11612 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_1 IS 
+
+
+	 /* Expression from (ext_INT_1), it was added  in Mon Sep 09 16:01:33 BRT 2013
+	  evaluated with ProB in 11648 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & im = 0|->0 & byte_bus = 199) & 
+  "`Check preconditions of called operation, or While loop construction, or Assert predicates'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_3 IS 
+
+
+	 /* Expression from (ext_INT_3), it was added  in Mon Sep 09 16:04:34 BRT 2013
+	  evaluated with ProB in 11671 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & im = 0|->0 & byte_bus = 207) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_5 IS 
+
+
+	 /* Expression from (ext_INT_5), it was added  in Mon Sep 09 16:07:34 BRT 2013
+	  evaluated with ProB in 11661 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & im = 0|->0 & byte_bus = 215) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_7 IS 
+
+
+	 /* Expression from (ext_INT_7), it was added  in Mon Sep 09 16:10:30 BRT 2013
+	  evaluated with ProB in 11604 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & im = 0|->0 & byte_bus = 223) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_9 IS 
+
+
+	 /* Expression from (ext_INT_9), it was added  in Mon Sep 09 16:13:27 BRT 2013
+	  evaluated with ProB in 11650 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & im = 0|->0 & byte_bus = 231) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_11 IS 
+
+
+	 /* Expression from (ext_INT_11), it was added  in Mon Sep 09 16:16:26 BRT 2013
+	  evaluated with ProB in 11643 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & im = 0|->0 & byte_bus = 239) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_13 IS 
+
+
+	 /* Expression from (ext_INT_13), it was added  in Mon Sep 09 16:19:26 BRT 2013
+	  evaluated with ProB in 11632 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & im = 0|->0 & byte_bus = 247) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_15 IS 
+
+
+	 /* Expression from (ext_INT_15), it was added  in Mon Sep 09 16:22:27 BRT 2013
+	  evaluated with ProB in 11521 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & im = 0|->0 & byte_bus = 255) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_17 IS 
+
+
+	 /* Expression from (ext_INT_17), it was added  in Mon Sep 09 16:25:27 BRT 2013
+	  evaluated with ProB in 11550 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & not(im = 0|->0) & im = 0|->1) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_18 IS 
+
+
+	 /* Expression from (ext_INT_18), it was added  in Mon Sep 09 16:26:12 BRT 2013
+	  evaluated with ProB in 44632 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & not(im = 0|->0) & im = 0|->1 & mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}): BV16 +-> BYTE & dom(mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high})) = BV16 & ran(mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high})): POW(BYTE) & !(address,value).(address: BV16 & value: BYTE => mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high})<+{address|->value}: BV16 +-> BYTE & dom(mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high})<+{address|->value}) = BV16)) & 
+  "`Check that the invariant (pc: USHORT) is preserved by the operation - ref 3.4'"
+ => 
+  (56: USHORT)
+END
+
+&
+THEORY RulesProBext_INT_19 IS 
+
+
+	 /* Expression from (ext_INT_19), it was added  in Mon Sep 09 16:26:25 BRT 2013
+	  evaluated with ProB in 11655 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & not(im = 0|->0) & not(im = 0|->1) & im = 1|->1) & 
+  "`Check that the invariant (io_ports: BYTE --> BYTE) is preserved by the operation - ref 3.4'"
+ => 
+  ({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}: BV16 +-> BYTE)
+END
+
+&
+THEORY RulesProBext_INT_20 IS 
+
+
+	 /* Expression from (ext_INT_20), it was added  in Mon Sep 09 16:27:12 BRT 2013
+	  evaluated with ProB in 45911 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/Z80.mch */
+
+	 
+  ("`Local hypotheses'" & pc_low: BYTE & pc_high: BYTE & bv16_byte(ushort_bv16(pc)) = pc_low|->pc_high & not(im = 0|->0) & not(im = 0|->1) & im = 1|->1 & mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high}): BV16 +-> BYTE & dom(mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high})) = BV16 & ran(mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high})): POW(BYTE) & !(address,value).(address: BV16 & value: BYTE => mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high})<+{address|->value}: BV16 +-> BYTE & dom(mem<+({ushort_bv16(sub16USHORT(0,bv16_ushort(sp),1))|->pc_low}\/{ushort_bv16(sub16USHORT(0,bv16_ushort(sp),2))|->pc_high})<+{address|->value}) = BV16)) & 
+  "`Check that the invariant (pc: USHORT) is preserved by the operation - ref 3.4'"
+ => 
+  (bv16_ushort(byte_bv16(i_,bitclear(rotateleft(uchar_byte(byte_bus)),0))): USHORT)
+END

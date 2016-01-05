@@ -1,0 +1,358 @@
+<Machine name='MEMORY' type='abstraction'>
+<Sees>
+<Referenced_Machine>
+<Name>ALU</Name>
+</Referenced_Machine>
+<Referenced_Machine>
+<Name>BIT_DEFINITION</Name>
+</Referenced_Machine>
+<Referenced_Machine>
+<Name>BYTE_DEFINITION</Name>
+</Referenced_Machine>
+<Referenced_Machine>
+<Name>BV16_DEFINITION</Name>
+</Referenced_Machine>
+<Referenced_Machine>
+<Name>UCHAR_DEFINITION</Name>
+</Referenced_Machine>
+<Referenced_Machine>
+<Name>SCHAR_DEFINITION</Name>
+</Referenced_Machine>
+<Referenced_Machine>
+<Name>SSHORT_DEFINITION</Name>
+</Referenced_Machine>
+<Referenced_Machine>
+<Name>USHORT_DEFINITION</Name>
+</Referenced_Machine>
+<Referenced_Machine>
+<Name>POWER2</Name>
+</Referenced_Machine>
+</Sees>
+<Concrete_Constants>
+<Id value='PROGRAM_R_ADR' typref='3603043417'/>
+<Id value='DATA_R_ADR' typref='3603043417'/>
+<Id value='STACK_R_ADR' typref='3603043417'/>
+</Concrete_Constants>
+<Abstract_Variables>
+<Id value='mem' typref='592502148'/>
+</Abstract_Variables>
+<Properties>
+<Nary_Pred op='&amp;'>
+<Exp_Comparison op='='>
+<Id value='PROGRAM_R_ADR' typref='3603043417'/>
+<Id value='USHORT' typref='3603043417'/>
+</Exp_Comparison>
+<Exp_Comparison op='='>
+<Id value='DATA_R_ADR' typref='3603043417'/>
+<Id value='USHORT' typref='3603043417'/>
+</Exp_Comparison>
+<Exp_Comparison op='='>
+<Id value='STACK_R_ADR' typref='3603043417'/>
+<Id value='USHORT' typref='3603043417'/>
+</Exp_Comparison>
+</Nary_Pred>
+</Properties>
+<Invariant>
+<Exp_Comparison op=':'>
+<Id value='mem' typref='592502148'/>
+<Binary_Exp op='--&gt;' typref='3395400063'>
+<Id value='BV16' typref='3083833907'/>
+<Id value='BYTE' typref='3083833907'/>
+</Binary_Exp>
+</Exp_Comparison>
+</Invariant>
+<Initialisation>
+<Assignement_Sub>
+<Variables>
+<Id value='mem' typref='592502148'/>
+</Variables>
+<Values>
+<Quantified_Exp type='%' typref='592502148'>
+<Variables>
+<Id value='xx' typref='103245008'/>
+</Variables>
+<Pred>
+<Exp_Comparison op=':'>
+<Id value='xx' typref='103245008'/>
+<Id value='BV16' typref='3083833907'/>
+</Exp_Comparison>
+</Pred>
+<Body>
+<Nary_Exp op='[' typref='103245008'>
+<Integer_Literal value='0' typref='2701647786'/>
+<Integer_Literal value='0' typref='2701647786'/>
+<Integer_Literal value='0' typref='2701647786'/>
+<Integer_Literal value='0' typref='2701647786'/>
+<Integer_Literal value='0' typref='2701647786'/>
+<Integer_Literal value='0' typref='2701647786'/>
+<Integer_Literal value='0' typref='2701647786'/>
+<Integer_Literal value='0' typref='2701647786'/>
+</Nary_Exp>
+</Body>
+</Quantified_Exp>
+</Values>
+</Assignement_Sub>
+</Initialisation>
+<Assertions>
+<Nary_Pred op='&amp;'>
+<Exp_Comparison op='&lt;:'>
+<Unary_Exp op='ran' typref='3083833907'>
+<Id value='mem' typref='592502148'/>
+</Unary_Exp>
+<Id value='BYTE' typref='3083833907'/>
+</Exp_Comparison>
+<Exp_Comparison op='='>
+<Unary_Exp op='dom' typref='3083833907'>
+<Id value='mem' typref='592502148'/>
+</Unary_Exp>
+<Id value='BV16' typref='3083833907'/>
+</Exp_Comparison>
+<Quantified_Pred type='!'>
+<Variables>
+<Id value='address' typref='103245008'/>
+<Id value='value' typref='103245008'/>
+</Variables>
+<Body>
+<Binary_Pred op='=&gt;'>
+<Nary_Pred op='&amp;'>
+<Exp_Comparison op=':'>
+<Id value='address' typref='103245008'/>
+<Id value='BV16' typref='3083833907'/>
+</Exp_Comparison>
+<Exp_Comparison op=':'>
+<Id value='value' typref='103245008'/>
+<Id value='BYTE' typref='3083833907'/>
+</Exp_Comparison>
+</Nary_Pred>
+<Exp_Comparison op=':'>
+<Binary_Exp op='&lt;+' typref='592502148'>
+<Id value='mem' typref='592502148'/>
+<Nary_Exp op='{' typref='592502148'>
+<Binary_Exp op='|-&gt;' typref='646128575'>
+<Id value='address' typref='103245008'/>
+<Id value='value' typref='103245008'/>
+</Binary_Exp>
+</Nary_Exp>
+</Binary_Exp>
+<Binary_Exp op='--&gt;' typref='3395400063'>
+<Id value='BV16' typref='3083833907'/>
+<Id value='BYTE' typref='3083833907'/>
+</Binary_Exp>
+</Exp_Comparison>
+</Binary_Pred>
+</Body>
+</Quantified_Pred>
+</Nary_Pred>
+</Assertions>
+<Operations>
+<Operation name='updateMem'>
+<Input_Parameters>
+<Id value='NewValues' typref='592502148'/>
+</Input_Parameters>
+<Precondition>
+<Exp_Comparison op=':'>
+<Id value='NewValues' typref='592502148'/>
+<Binary_Exp op='+-&gt;' typref='3395400063'>
+<Id value='BV16' typref='3083833907'/>
+<Id value='BYTE' typref='3083833907'/>
+</Binary_Exp>
+</Exp_Comparison>
+</Precondition>
+<Body>
+<Assignement_Sub>
+<Variables>
+<Id value='mem' typref='592502148'/>
+</Variables>
+<Values>
+<Binary_Exp op='&lt;+' typref='592502148'>
+<Id value='mem' typref='592502148'/>
+<Id value='NewValues' typref='592502148'/>
+</Binary_Exp>
+</Values>
+</Assignement_Sub>
+</Body>
+</Operation>
+<Operation name='updateAddressMem'>
+<Input_Parameters>
+<Id value='address' typref='103245008'/>
+<Id value='value' typref='103245008'/>
+</Input_Parameters>
+<Precondition>
+<Nary_Pred op='&amp;'>
+<Exp_Comparison op=':'>
+<Id value='address' typref='103245008'/>
+<Id value='BV16' typref='3083833907'/>
+</Exp_Comparison>
+<Exp_Comparison op=':'>
+<Id value='value' typref='103245008'/>
+<Id value='BYTE' typref='3083833907'/>
+</Exp_Comparison>
+</Nary_Pred>
+</Precondition>
+<Body>
+<Assignement_Sub>
+<Variables>
+<Id value='mem' typref='592502148'/>
+</Variables>
+<Values>
+<Binary_Exp op='&lt;+' typref='592502148'>
+<Id value='mem' typref='592502148'/>
+<Nary_Exp op='{' typref='592502148'>
+<Binary_Exp op='|-&gt;' typref='646128575'>
+<Id value='address' typref='103245008'/>
+<Id value='value' typref='103245008'/>
+</Binary_Exp>
+</Nary_Exp>
+</Binary_Exp>
+</Values>
+</Assignement_Sub>
+</Body>
+</Operation>
+<Operation name='updateStack'>
+<Input_Parameters>
+<Id value='NewValues' typref='592502148'/>
+</Input_Parameters>
+<Precondition>
+<Exp_Comparison op=':'>
+<Id value='NewValues' typref='592502148'/>
+<Binary_Exp op='+-&gt;' typref='3395400063'>
+<Id value='BV16' typref='3083833907'/>
+<Id value='BYTE' typref='3083833907'/>
+</Binary_Exp>
+</Exp_Comparison>
+</Precondition>
+<Body>
+<Assignement_Sub>
+<Variables>
+<Id value='mem' typref='592502148'/>
+</Variables>
+<Values>
+<Binary_Exp op='&lt;+' typref='592502148'>
+<Id value='mem' typref='592502148'/>
+<Id value='NewValues' typref='592502148'/>
+</Binary_Exp>
+</Values>
+</Assignement_Sub>
+</Body>
+</Operation>
+<Operation name='updateAddressStack'>
+<Input_Parameters>
+<Id value='address' typref='103245008'/>
+<Id value='value' typref='103245008'/>
+</Input_Parameters>
+<Precondition>
+<Nary_Pred op='&amp;'>
+<Exp_Comparison op=':'>
+<Id value='address' typref='103245008'/>
+<Id value='BV16' typref='3083833907'/>
+</Exp_Comparison>
+<Exp_Comparison op=':'>
+<Id value='value' typref='103245008'/>
+<Id value='BYTE' typref='3083833907'/>
+</Exp_Comparison>
+</Nary_Pred>
+</Precondition>
+<Body>
+<Assignement_Sub>
+<Variables>
+<Id value='mem' typref='592502148'/>
+</Variables>
+<Values>
+<Binary_Exp op='&lt;+' typref='592502148'>
+<Id value='mem' typref='592502148'/>
+<Nary_Exp op='{' typref='592502148'>
+<Binary_Exp op='|-&gt;' typref='646128575'>
+<Id value='address' typref='103245008'/>
+<Id value='value' typref='103245008'/>
+</Binary_Exp>
+</Nary_Exp>
+</Binary_Exp>
+</Values>
+</Assignement_Sub>
+</Body>
+</Operation>
+</Operations>
+<TypeInfos>
+<Type id='3603043417'>
+<Unary_Exp op='POW'>
+<Id value='INTEGER'/>
+</Unary_Exp>
+</Type>
+<Type id='592502148'>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Id value='INTEGER'/>
+<Id value='INTEGER'/>
+</Binary_Exp>
+</Unary_Exp>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Id value='INTEGER'/>
+<Id value='INTEGER'/>
+</Binary_Exp>
+</Unary_Exp>
+</Binary_Exp>
+</Unary_Exp>
+</Type>
+<Type id='3395400063'>
+<Unary_Exp op='POW'>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Id value='INTEGER'/>
+<Id value='INTEGER'/>
+</Binary_Exp>
+</Unary_Exp>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Id value='INTEGER'/>
+<Id value='INTEGER'/>
+</Binary_Exp>
+</Unary_Exp>
+</Binary_Exp>
+</Unary_Exp>
+</Unary_Exp>
+</Type>
+<Type id='3083833907'>
+<Unary_Exp op='POW'>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Id value='INTEGER'/>
+<Id value='INTEGER'/>
+</Binary_Exp>
+</Unary_Exp>
+</Unary_Exp>
+</Type>
+<Type id='103245008'>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Id value='INTEGER'/>
+<Id value='INTEGER'/>
+</Binary_Exp>
+</Unary_Exp>
+</Type>
+<Type id='2701647786'>
+<Id value='INTEGER'/>
+</Type>
+<Type id='646128575'>
+<Binary_Exp op='*'>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Id value='INTEGER'/>
+<Id value='INTEGER'/>
+</Binary_Exp>
+</Unary_Exp>
+<Unary_Exp op='POW'>
+<Binary_Exp op='*'>
+<Id value='INTEGER'/>
+<Id value='INTEGER'/>
+</Binary_Exp>
+</Unary_Exp>
+</Binary_Exp>
+</Type>
+</TypeInfos>
+
+</Machine>

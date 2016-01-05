@@ -1,0 +1,97 @@
+THEORY User_Pass IS
+Pattern(USHORT_MIN: INTEGER) & ff(0) & pr;
+Pattern(USHORT_MAX: INTEGER) & ff(0) & pr;
+Pattern(card(ushort_bv16) = 65536) & ff(0) & pr;
+Pattern(card(bv16_ushort) = 65536) & ff(0) & pr
+; 
+Operation(WellDefinednessProperties) & mp(Tac(RulesProBWellDefinednessProperties_19)); 
+Operation(WellDefinednessProperties) & mp(Tac(RulesProBWellDefinednessProperties_21)); 
+Operation(WellDefinednessProperties) & mp(Tac(RulesProBWellDefinednessProperties_22)); 
+Operation(WellDefinednessProperties) & mp(Tac(RulesProBWellDefinednessProperties_23)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_2))
+END
+  &
+THEORY RulesProBWellDefinednessProperties_19 IS 
+
+
+	 /* Expression from (WellDefinednessProperties_19), it was added  in Tue Oct 07 10:56:09 BRT 2014
+	  evaluated with ProB in 11276 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/USHORT_DEFINITION.mch */
+
+	 
+(w2 : UCHAR) & 
+"Well definedness"
+ => 
+(uchar_byte : (dom(uchar_byte) +-> ran(uchar_byte)))
+END
+
+&
+THEORY RulesProBWellDefinednessProperties_21 IS 
+
+
+	 /* Expression from (WellDefinednessProperties_21), it was added  in Tue Oct 07 10:56:27 BRT 2014
+	  evaluated with ProB in 16465 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/USHORT_DEFINITION.mch */
+
+	 
+(w2 : UCHAR) & 
+"Well definedness"
+ => 
+(((uchar_byte )(w1) , (uchar_byte )(w2)) : dom(byte_bv16))
+END
+
+&
+THEORY RulesProBWellDefinednessProperties_22 IS 
+
+
+	 /* Expression from (WellDefinednessProperties_22), it was added  in Tue Oct 07 10:57:15 BRT 2014
+	  evaluated with ProB in 47224 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/USHORT_DEFINITION.mch */
+
+	 
+(w2 : UCHAR) & 
+"Well definedness"
+ => 
+(byte_bv16 : (dom(byte_bv16) +-> ran(byte_bv16)))
+END
+
+&
+THEORY RulesProBWellDefinednessProperties_23 IS 
+
+
+	 /* Expression from (WellDefinednessProperties_23), it was added  in Tue Oct 07 10:57:25 BRT 2014
+	  evaluated with ProB in 8924 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/USHORT_DEFINITION.mch */
+
+	 
+(w2 : UCHAR) & 
+"Well definedness"
+ => 
+((byte_bv16 )(((uchar_byte )(w1) , (uchar_byte )(w2))) : dom(bv16_ushort))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_2 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_2), it was added  in Tue Oct 07 10:58:59 BRT 2014
+	  evaluated with ProB in 8850 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/USHORT_DEFINITION.mch */
+
+	 
+(card(bv16_ushort) = 65536) & 
+"Well definedness"
+ => 
+(ushort_bv16 : FIN(ushort_bv16))
+END
+&
+THEORY RulesProBWellDefinednessProperties_24 IS 
+
+
+	 /* Expression from WellDefinednessProperties.24, it was added  in Tue Oct 07 11:17:12 BRT 2014
+	  evaluated with ProB in 465329 milliseconds
+	  Module Path:/media/B_Resources/Z80_ProB/USHORT_DEFINITION.pmm */
+
+	  %v0.(v0: 1..16 --> {0,1} | 32768*v0(16)+16384*v0(15)+8192*v0(14)+4096*v0(13)+2048*v0(12)+1024*v0(11)+512*v0(10)+256*v0(9)+128*v0(8)+64*v0(7)+32*v0(6)+16*v0(5)+8*v0(4)+4*v0(3)+2*v0(2)+1*v0(1)): dom(%v0.(v0: 1..16 --> {0,1} | 32768*v0(16)+16384*v0(15)+8192*v0(14)+4096*v0(13)+2048*v0(12)+1024*v0(11)+512*v0(10)+256*v0(9)+128*v0(8)+64*v0(7)+32*v0(6)+16*v0(5)+8*v0(4)+4*v0(3)+2*v0(2)+1*v0(1))) +-> ran(%v0.(v0: 1..16 --> {0,1} | 32768*v0(16)+16384*v0(15)+8192*v0(14)+4096*v0(13)+2048*v0(12)+1024*v0(11)+512*v0(10)+256*v0(9)+128*v0(8)+64*v0(7)+32*v0(6)+16*v0(5)+8*v0(4)+4*v0(3)+2*v0(2)+1*v0(1)))==btrue
+
+END

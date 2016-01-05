@@ -1,0 +1,9 @@
+digraph prob_graph {
+ graph [page="8.5, 11",ratio=fill,size="7.5,10"];
+ 1 [shape=box, color="blue", fontsize=12, label="[root]"];
+
+
+
+
+
+}

@@ -1,0 +1,15 @@
+ATB*ATB*Encoding:UTF-8
+ATB*POG*Generate_Obvious_PO:FALSE
+ATB*POG*Generate_WD_PO:TRUE
+ATB*ATB*Proof_Obligations_Generator_NG:TRUE
+ATB*PR*Pr_3_7_compatibility:FALSE
+ATB*PR*Pr_3_6_compatibility:FALSE
+ATB*PR*Enable_TC_Command:FALSE
+ATB*PR*Trace_User_Rules:FALSE
+ATB*ATB*Show_Status_Project_NbPri_NbPra:FALSE
+ATB*POG*Generate_B0_Conditions_NG:TRUE
+ATB*TC*Generate_B0_Conditions:TRUE
+ATB*TC*Check_B0_Array:TRUE
+ATB*POG*Why3:FALSE
+ATB*ATB*Logic_Solver_Command:krt -a c70000d3000e100g10000h10000m10000000n130000o110400s60000t2100x5000y5500
+ATB*TC*Enable_Extended_Sees:FALSE

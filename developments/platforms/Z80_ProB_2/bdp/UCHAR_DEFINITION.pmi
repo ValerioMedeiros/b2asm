@@ -1,0 +1,70 @@
+﻿THEORY BalanceX IS
+  UCHAR_DEFINITION,16,1,0,14,0,0,0;
+  AssertionLemmas,4,0,0,4,0,0,0;
+  WellDefinednessAssertions,2,1,0,0,0,0,0;
+  WellDefinednessProperties,10,0,0,10,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  mp(Tac(RulesProBWellDefinednessAssertions_2));
+  ?;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),(?;0);
+  Force(0),(?;0);
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  PRVersion("svn")(CLT == "V4.0-53996")
+END

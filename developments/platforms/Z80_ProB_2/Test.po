@@ -1,0 +1,71 @@
+THEORY ProofList IS
+  _f(3) & _f(25) & b3_code.9,(_f(34) & _f(36) => _f(24));
+  _f(3) & _f(25) & b3_code.8,(_f(34) & _f(9) => _f(35));
+  _f(3) & _f(25) & b3_code.7,(_f(26) & _f(11) => _f(33));
+  _f(3) & _f(25) & b3_code.6,(_f(26) & _f(11) => _f(32));
+  _f(3) & _f(25) & b3_code.5,(_f(26) & _f(11) => _f(31));
+  _f(3) & _f(25) & b3_code.4,(_f(26) & _f(9) => _f(10));
+  _f(3) & _f(25) & b3_code.3,(_f(26) & _f(27) => _f(30));
+  _f(3) & _f(25) & b3_code.2,(_f(26) & _f(27) => _f(29));
+  _f(3) & _f(25) & b3_code.1,(_f(26) & _f(27) => _f(28));
+  _f(3) & _f(14) & b2_code.7,(_f(23) & _f(20) => _f(24));
+  _f(3) & _f(14) & b2_code.6,(_f(20) => _f(22));
+  _f(3) & _f(14) & b2_code.5,(_f(20) => _f(21));
+  _f(3) & _f(14) & b2_code.4,(_f(9) => _f(19));
+  _f(3) & _f(14) & b2_code.3,(_f(15) => _f(18));
+  _f(3) & _f(14) & b2_code.2,(_f(15) => _f(17));
+  _f(3) & _f(14) & b2_code.1,(_f(15) => _f(16));
+  _f(3) & _f(4) & b1_code.6,(_f(11) => _f(13));
+  _f(3) & _f(4) & b1_code.5,(_f(11) => _f(12));
+  _f(3) & _f(4) & b1_code.4,(_f(9) => _f(10));
+  _f(3) & _f(4) & b1_code.3,(_f(5) => _f(8));
+  _f(3) & _f(4) & b1_code.2,(_f(5) => _f(7));
+  _f(3) & _f(4) & b1_code.1,(_f(5) => _f(6));
+  Initialisation.1,(_f(1) => _f(2))
+END
+&
+THEORY Formulas IS
+  "`Check that the invariant (block_code: 1..4) is established by the initialisation - ref 3.3'";
+  (1: 1..4);
+  ("`Component invariant'" & number: INTEGER & number<=2147483647 & -2147483647<=number & divisor: INTEGER & divisor<=2147483647 & -2147483647<=divisor & rest: INTEGER & rest<=2147483647 & -2147483647<=rest & result: INTEGER & result<=2147483647 & -2147483647<=result & block_code: 1..4 & (block_code = 2 => result = 0 & 0<=rest & rest<=number) & (block_code = 3 => result<=number & 0<=result & (0<=rest => rest = number-result*divisor) & (rest+1<=0 => result = number/divisor)) & (block_code = 4 => result = number/divisor));
+  ("`b1_code preconditions in this component'" & p_number: 0..255 & p_divisor: INTEGER & p_divisor<=2147483647 & -2147483647<=p_divisor & block_code = 1);
+  "`Check that the invariant (number: INT) is preserved by the operation - ref 3.4'";
+  (p_number: INTEGER);
+  (p_number<=2147483647);
+  (-2147483647<=p_number);
+  "`Check that the invariant (block_code: 1..4) is preserved by the operation - ref 3.4'";
+  (2: 1..4);
+  "`Check that the invariant (block_code = 2 => result = 0 & rest>=0 & rest<=number) is preserved by the operation - ref 3.4'";
+  (0<=p_number);
+  (p_number<=p_number);
+  ("`b2_code preconditions in this component'" & number: 0..255 & divisor: 0..255 & block_code = 2);
+  "`Check that the invariant (rest: INT) is preserved by the operation - ref 3.4'";
+  (number-result*divisor: INTEGER);
+  (number-result*divisor<=2147483647);
+  (-2147483647<=number-result*divisor);
+  (3: 1..4);
+  "`Check that the invariant (block_code = 3 => result<=number & result>=0 & (rest>=0 => rest = number-result*divisor) & (rest<0 => result = number/divisor)) is preserved by the operation - ref 3.4'";
+  (result<=number);
+  (0<=result);
+  ("`Local hypotheses'" & number-result*divisor+1<=0);
+  (result = number/divisor);
+  ("`b3_code preconditions in this component'" & number: INTEGER & number<=2147483647 & -2147483647<=number & divisor: INTEGER & divisor<=2147483647 & -2147483647<=divisor & block_code = 3);
+  ("`Local hypotheses'" & 1<=rest);
+  "`Check that the invariant (result: INT) is preserved by the operation - ref 3.4'";
+  (result+1: INTEGER);
+  (result+1<=2147483647);
+  (-2147483647<=result+1);
+  (result+1 = 0);
+  (0<=rest);
+  (rest<=number);
+  ("`Local hypotheses'" & not(1<=rest));
+  (4: 1..4);
+  "`Check that the invariant (block_code = 4 => result = number/divisor) is preserved by the operation - ref 3.4'"
+END
+&
+THEORY EnumerateX 
+END
+&
+THEORY Version IS
+  POVersion(V3.8.3)(CLT == "V3.7.6")(genOPO == KO, genDivergencePO == KO, local_op == OK)
+END

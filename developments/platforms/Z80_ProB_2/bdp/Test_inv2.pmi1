@@ -1,0 +1,19 @@
+THEORY BalanceX IS
+Test_inv2,2,0,0,0,0,0,0;
+AssertionLemmas,2,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+Unproved;
+Unproved
+END
+&
+THEORY MethodList IS
+?;
+?
+END
+&
+THEORY PassList IS
+Force(0),?;
+Force(0),?
+END

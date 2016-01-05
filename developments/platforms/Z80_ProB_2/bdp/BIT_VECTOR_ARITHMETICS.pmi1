@@ -1,0 +1,58 @@
+﻿THEORY BalanceX IS
+  BIT_VECTOR_ARITHMETICS,12,0,0,5,0,0,0;
+  AssertionLemmas,1,0,0,0,0,0,0;
+  WellDefinednessAssertions,4,0,0,3,0,0,0;
+  WellDefinednessProperties,7,0,0,2,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Unproved;
+  Proved(0);
+  Proved(0);
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved;
+  Unproved
+END
+&
+THEORY MethodList IS
+  pr;
+  pr;
+  pr;
+  ?;
+  ?;
+  pr;
+  pr;
+  ?;
+  ?;
+  ?;
+  ?;
+  ?
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1;2);
+  Force(0),(?;0;1;2);
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1;2);
+  Force(0),(?;0;1;2);
+  Force(0),(?;0;1;2);
+  Force(0),(?;0;1;2);
+  Force(0),(?;0;1;2)
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  PRVersion("svn")(CLT == "V4.0-53996")
+END

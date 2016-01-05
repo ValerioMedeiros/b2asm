@@ -1,0 +1,88 @@
+<Machine name='POWER' type='abstraction'>
+<Initialisation>
+<Skip/>
+</Initialisation>
+<Assertions>
+<Quantified_Pred type='!'>
+<Variables>
+<Id value='nn' typref='2701647786'/>
+<Id value='pp' typref='2701647786'/>
+</Variables>
+<Body>
+<Binary_Pred op='=&gt;'>
+<Nary_Pred op='&amp;'>
+<Exp_Comparison op=':'>
+<Id value='nn' typref='2701647786'/>
+<Id value='NATURAL1' typref='3603043417'/>
+</Exp_Comparison>
+<Exp_Comparison op=':'>
+<Id value='pp' typref='2701647786'/>
+<Id value='NAT' typref='3603043417'/>
+</Exp_Comparison>
+</Nary_Pred>
+<Nary_Pred op='&amp;'>
+<Binary_Pred op='=&gt;'>
+<Exp_Comparison op='='>
+<Id value='pp' typref='2701647786'/>
+<Integer_Literal value='0' typref='2701647786'/>
+</Exp_Comparison>
+<Exp_Comparison op='='>
+<Binary_Exp op='**' typref='2701647786'>
+<Id value='nn' typref='2701647786'/>
+<Id value='pp' typref='2701647786'/>
+</Binary_Exp>
+<Integer_Literal value='1' typref='2701647786'/>
+</Exp_Comparison>
+</Binary_Pred>
+<Binary_Pred op='=&gt;'>
+<Exp_Comparison op='='>
+<Id value='pp' typref='2701647786'/>
+<Integer_Literal value='1' typref='2701647786'/>
+</Exp_Comparison>
+<Exp_Comparison op='='>
+<Binary_Exp op='**' typref='2701647786'>
+<Id value='nn' typref='2701647786'/>
+<Id value='pp' typref='2701647786'/>
+</Binary_Exp>
+<Id value='nn' typref='2701647786'/>
+</Exp_Comparison>
+</Binary_Pred>
+<Binary_Pred op='=&gt;'>
+<Exp_Comparison op='&gt;'>
+<Id value='pp' typref='2701647786'/>
+<Integer_Literal value='1' typref='2701647786'/>
+</Exp_Comparison>
+<Exp_Comparison op='='>
+<Binary_Exp op='**' typref='2701647786'>
+<Id value='nn' typref='2701647786'/>
+<Id value='pp' typref='2701647786'/>
+</Binary_Exp>
+<Binary_Exp op='*' typref='2701647786'>
+<Id value='nn' typref='2701647786'/>
+<Binary_Exp op='**' typref='2701647786'>
+<Id value='nn' typref='2701647786'/>
+<Binary_Exp op='-' typref='2701647786'>
+<Id value='pp' typref='2701647786'/>
+<Integer_Literal value='1' typref='2701647786'/>
+</Binary_Exp>
+</Binary_Exp>
+</Binary_Exp>
+</Exp_Comparison>
+</Binary_Pred>
+</Nary_Pred>
+</Binary_Pred>
+</Body>
+</Quantified_Pred>
+</Assertions>
+<TypeInfos>
+<Type id='2701647786'>
+<Id value='INTEGER'/>
+</Type>
+<Type id='3603043417'>
+<Unary_Exp op='POW'>
+<Id value='INTEGER'/>
+</Unary_Exp>
+</Type>
+</TypeInfos>
+
+</Machine>

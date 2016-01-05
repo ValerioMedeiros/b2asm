@@ -1,0 +1,176 @@
+THEORY BalanceX IS
+  ALU,51,36,0,15,0,0,0;
+  AssertionLemmas,51,36,0,15,0,0,0;
+  Initialisation,0,0,0,0,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util)
+END
+&
+THEORY MethodList IS
+  dd & eh(is_zero16USHORT,_h,Goal) & eh(USHORT,_h,Goal) & eh(BIT,_h,Goal) & pr(Tac(ALU));
+  pr;
+  eh(half8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & dd & pr & ar(b1.59,Once) & ah(ww mod 16+1<=16) & ar(b1.60,Once) & mp;
+  pr;
+  pr;
+  eh(simple_add8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & pr(Tac(ALU));
+  eh(add16USHORT,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(ALU));
+  dd & eh(substract8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & eh(BIT,_h,Goal) & eh(uchar_schar,_h,Goal) & eh(UCHAR,_h,Goal) & eh(half8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & pr(Tac(ALU));
+  eh(add_carryUSHORT,_h,Goal) & eh(USHORT,_h,Goal) & eh(BIT,_h,Goal) & pr(Tac(ALU));
+  eh(sub16USHORT,_h,Goal) & eh(USHORT,_h,Goal) & eh(BIT,_h,Goal) & pr(Tac(ALU));
+  dd & eh(sub_carryUSHORT,_h,Goal) & eh(USHORT,_h,Goal) & eh(BIT,_h,Goal) & pr(Tac(ALU));
+  pr;
+  pr;
+  pr;
+  dd & eh(instruction_next,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(SimplifySeqEnuXY)) & ah(w1: 0..65535) & pp(rt.0) & ah(w1: 0..65535) & pp(rt.0);
+  dd & eh(USHORT,_h,Goal) & eh(instruction_jump,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(SimplifySeqEnuXY)) & ah(e0: -126..129) & ah(p0: 0..65535) & pp(rt.0) & ah(p0: 0..65535) & ah(e0: -126..129) & pp(rt.0);
+  pr;
+  dd & eh(is_zero16USHORT,_h,Goal) & eh(USHORT,_h,Goal) & eh(BIT,_h,Goal) & pr(Tac(ALU));
+  pr;
+  dd & eh(is_negative,_h,Goal) & eh(BIT,_h,Goal) & eh(BYTE,_h,Goal) & pr(Tac(ALU));
+  pr;
+  eh(half8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & pr(Tac(ALU));
+  pr;
+  eh(inc,_h,Goal) & eh(uchar_byte,_h,Goal) & eh(UCHAR,_h,Goal) & eh(byte_uchar,%v0.(v0: BYTE | 128*v0(8)+64*v0(7)+32*v0(6)+16*v0(5)+8*v0(4)+4*v0(3)+2*v0(2)+1*v0(1)),Goal) & eh(BYTE,_h,Goal) & pr(Tac(ALU));
+  pr;
+  dd & eh(dec,_h,Goal) & eh(BYTE,_h,Goal) & eh(uchar_byte,_h,Goal) & eh(byte_uchar,%v0.(v0: BYTE | 128*v0(8)+64*v0(7)+32*v0(6)+16*v0(5)+8*v0(4)+4*v0(3)+2*v0(2)+1*v0(1)),Goal) & eh(UCHAR,_h,Goal) & eh(BYTE,_h,Goal) & pr(Tac(ALU));
+  dd & pr(Tac(SimplifyRelDomXY)) & pp(rt.1);
+  dd & eh(simple_add8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & pr(Tac(ALU));
+  dd & pr(Tac(SimplifyRelDomXY)) & pp(rt.1);
+  eh(add8UCHAR,_h,Goal) & dd & eh(uchar_schar,_h,Goal) & eh(half8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & eh(BIT,_h,Goal) & pr(Tac(ALU));
+  dd & pr(Tac(SimplifyRelDomXY)) & pp(rt.1);
+  dd & eh(substract8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & eh(half8UCHAR,_h,Goal) & eh(UCHAR,_h,Goal) & eh(BIT,_h,Goal) & eh(uchar_schar,_h,Goal) & eh(UCHAR,_h,Goal) & pr(Tac(ALU));
+  dd & pr(Tac(SimplifyRelDomXY)) & pp(rt.1);
+  eh(add16USHORT,_h,Goal) & eh(USHORT,_h,Goal) & dd & pr(Tac(ALU));
+  dd & pr(Tac(SimplifyRelDomXY)) & pp(rt.1);
+  dd & eh(add_carryUSHORT,_h,Goal) & eh(BIT,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(ALU));
+  dd & pr(Tac(SimplifyRelDomXY)) & pp(rt.1);
+  dd & eh(sub16USHORT,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(ALU));
+  dd & eh(sub_carryUSHORT,_h,Goal) & pr(Tac(SimplifyRelDomXY)) & pp(rt.1);
+  dd & eh(sub_carryUSHORT,_h,Goal) & eh(USHORT,_h,Goal) & eh(BIT,_h,Goal) & pr(Tac(SimplifyX)) & pr(Tac(ALU));
+  pr;
+  eh(inc_BV16,_h,Goal) & eh(ushort_bv16,_h,Goal) & eh(bv16_ushort,%v0.(v0: BV16 | 32768*v0(16)+16384*v0(15)+8192*v0(14)+4096*v0(13)+2048*v0(12)+1024*v0(11)+512*v0(10)+256*v0(9)+128*v0(8)+64*v0(7)+32*v0(6)+16*v0(5)+8*v0(4)+4*v0(3)+2*v0(2)+1*v0(1)),Goal) & eh(BV16,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(ALU));
+  pr;
+  eh(dec_BV16,_h,Goal) & eh(ushort_bv16,_h,Goal) & eh(bv16_ushort,%v0.(v0: BV16 | 32768*v0(16)+16384*v0(15)+8192*v0(14)+4096*v0(13)+2048*v0(12)+1024*v0(11)+512*v0(10)+256*v0(9)+128*v0(8)+64*v0(7)+32*v0(6)+16*v0(5)+8*v0(4)+4*v0(3)+2*v0(2)+1*v0(1)),Goal) & eh(BV16,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(ALU));
+  pr;
+  eh(update_refresh_reg,_h,Goal) & eh(BYTE,_h,Goal) & eh(uchar_byte,_h,Goal) & eh(UCHAR,_h,Goal) & pr(Tac(ALU));
+  pr;
+  eh(instruction_next,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(ALU));
+  eh(instruction_jump,_h,Goal) & ss & eh(USHORT,_h,Goal) & dd & pr & pp(rp.1);
+  eh(instruction_jump,_h,Goal) & eh(USHORT,_h,Goal) & pr(Tac(ALU));
+  eh(schar_sshort,_h,Goal) & eh(byte_bv16,%(bv1,bv2).(bv1: BYTE & bv2: BYTE | {16|->bv1(8),15|->bv1(7),14|->bv1(6),13|->bv1(5),12|->bv1(4),11|->bv1(3),10|->bv1(2),9|->bv1(1),8|->bv2(8),7|->bv2(7),6|->bv2(6),5|->bv2(5),4|->bv2(4),3|->bv2(3),2|->bv2(2),1|->bv2(1)}),Goal) & eh(bv16_sshort,%v0.(v0: BV16 | (-32768)*v0(16)+16384*v0(15)+8192*v0(14)+4096*v0(13)+2048*v0(12)+1024*v0(11)+512*v0(10)+256*v0(9)+128*v0(8)+64*v0(7)+32*v0(6)+16*v0(5)+8*v0(4)+4*v0(3)+2*v0(2)+v0(1)),Goal) & eh(schar_byte,%v0.(v0: SCHAR & 0<=v0 | [v0 mod 2/1,v0 mod 4/2,v0 mod 8/4,v0 mod 16/8,v0 mod 32/16,v0 mod 64/32,v0 mod 128/64,v0 mod 256/128])\/%v0.(v0: SCHAR & not(0<=v0) | [(v0+256) mod 2/1,(v0+256) mod 4/2,(v0+256) mod 8/4,(v0+256) mod 16/8,(v0+256) mod 32/16,(v0+256) mod 64/32,(v0+256) mod 128/64,(v0+256) mod 256/128]),Goal) & eh(SCHAR,_h,Goal) & dd & eh(BYTE,_h,Goal) & pr(Tac(ALU))
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(1),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  POVersion("V4.0-7792")(CLT == "V4.0-9385")(genOPO == KO,genDivergencePO == KO,local_op == OK);
+  PRVersion("V3.3.3.p39")(CLT == "V3.7.6");
+  PRVersion("svn")(CLT == "V4.0-9385")
+END

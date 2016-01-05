@@ -1,0 +1,126 @@
+﻿THEORY BalanceX IS
+  POWER2,35,16,0,19,0,0,0;
+  AssertionLemmas,18,16,0,2,0,0,0;
+  WellDefinednessAssertions,17,0,0,17,0,0,0
+END
+&
+THEORY ProofState IS
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(0);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(Util);
+  Proved(0);
+  Proved(0)
+END
+&
+THEORY MethodList IS
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr;
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr(Tac(SimplifyIntPower));
+  pr;
+  pr
+END
+&
+THEORY PassList IS
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),?;
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),(?;0;1;2;3);
+  Force(0),?;
+  Force(0),?
+END
+&
+THEORY ManForms 
+END
+&
+THEORY Version IS
+  PRVersion("svn")(CLT == "V4.0-31779")
+END

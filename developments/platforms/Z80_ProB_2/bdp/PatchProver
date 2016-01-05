@@ -1,0 +1,8 @@
+/* PatchProver
+ * Author: 
+ * Creation date: 9/21/15
+ */
+
+THEORY todoT IS
+     btrue
+END

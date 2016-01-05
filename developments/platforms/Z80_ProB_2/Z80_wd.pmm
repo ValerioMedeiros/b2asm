@@ -1,0 +1,20 @@
+/* Z80_wd
+ * Author: 
+ * Creation date: 9/30/15
+ */
+
+THEORY User_Pass IS
+
+/* prova para 1 - Funcionou */
+Pattern(l<+{t(d,f,g,h,i,j)}: u +-> c) &
+ ff(1) & dd & eh(update_flag_reg,_h,Goal) & ss &
+
+ph(f0,[j,i,h,1,g,1,f,d],!(xx,xxr).(xx: id_reg_8 & xxr: BYTE => rgs8<+{xx|->xxr}: id_reg_8 +-> BYTE & (dom(rgs8<+{xx|->xxr}) = id_reg_8 & dom(rgs8<+{xx|->xxr}) = id_reg_8)) ) &
+
+ ss & pr & pr & ss & pr & ar(BIT_VECTOR.1,Once) & ss & pr & ss & pr & ss & pr & ss & pr & ss & pr & ss & pr & ss & pr & ss & pr & ss & pr
+
+
+
+
+
+END

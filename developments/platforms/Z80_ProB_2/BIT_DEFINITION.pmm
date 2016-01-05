@@ -1,0 +1,1298 @@
+THEORY User_Pass IS
+Pattern(bb = 0) & ff(0) & pr; 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_12)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_13)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_14)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_15)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_16)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_17)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_24)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_25)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_26)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_27)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_28)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_29)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_30)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_31)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_32)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_33)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_34)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_35)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_42)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_43)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_44)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_45)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_46)); 
+Operation(AssertionLemmas) & mp(Tac(RulesProBAssertionLemmas_47)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_11)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_13)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_15)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_17)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_19)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_22)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_23)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_24)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_26)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_27)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_28)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_30)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_33)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_35)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_37)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_39)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_41)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_43)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_45)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_47)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_50)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_51)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_52)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_54)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_55)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_56)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_58)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_60)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_62)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_65)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_67)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_69)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_70)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_72)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_74)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_75)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_78)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_80)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_82)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_84)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_86)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_88)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_90)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_92)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_94)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_97)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_98)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_99)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_101)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_102)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_103)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_105)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_108)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_110)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_112)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_113)); 
+Operation(WellDefinednessAssertions) & mp(Tac(RulesProBWellDefinednessAssertions_116))
+END
+  &
+THEORY RulesProBAssertionLemmas_12 IS 
+
+
+	 /* Expression from (AssertionLemmas_12), it was added  in Tue Sep 15 16:11:52 BRT 2015
+	  evaluated with ProB in 3128 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_and )(((b1) |-> (b2)))) = ((bit_and )(((b2) |-> (b1)))))
+END
+
+&
+THEORY RulesProBAssertionLemmas_13 IS 
+
+
+	 /* Expression from (AssertionLemmas_13), it was added  in Tue Sep 15 16:11:55 BRT 2015
+	  evaluated with ProB in 2639 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((b1) |-> (b2)))) = (1)) & 
+"Assertion is verified"
+ => 
+(((bit_and )(((b2) |-> (b1)))) = (1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_14 IS 
+
+
+	 /* Expression from (AssertionLemmas_14), it was added  in Tue Sep 15 16:11:59 BRT 2015
+	  evaluated with ProB in 2505 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((b1) |-> (b2)))) = (0)) & 
+"Assertion is verified"
+ => 
+(((bit_and )(((b2) |-> (b1)))) = (0))
+END
+
+&
+THEORY RulesProBAssertionLemmas_15 IS 
+
+
+	 /* Expression from (AssertionLemmas_15), it was added  in Tue Sep 15 16:12:03 BRT 2015
+	  evaluated with ProB in 2646 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_and )(((b1) |-> ((bit_and )(((b2) |-> (b3))))))) = ((bit_and )((((bit_and )(((b1) |-> (b2)))) |-> (b3)))))
+END
+
+&
+THEORY RulesProBAssertionLemmas_16 IS 
+
+
+	 /* Expression from (AssertionLemmas_16), it was added  in Tue Sep 15 16:12:06 BRT 2015
+	  evaluated with ProB in 2581 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_and )(((b1) |-> (1)))) = (b1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_17 IS 
+
+
+	 /* Expression from (AssertionLemmas_17), it was added  in Tue Sep 15 16:12:10 BRT 2015
+	  evaluated with ProB in 2502 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_and )(((b1) |-> (0)))) = (0))
+END
+
+&
+THEORY RulesProBAssertionLemmas_24 IS 
+
+
+	 /* Expression from (AssertionLemmas_24), it was added  in Tue Sep 15 16:12:13 BRT 2015
+	  evaluated with ProB in 2576 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((b1) |-> (b2)))) = ((bit_or )(((b2) |-> (b1)))))
+END
+
+&
+THEORY RulesProBAssertionLemmas_25 IS 
+
+
+	 /* Expression from (AssertionLemmas_25), it was added  in Tue Sep 15 16:12:17 BRT 2015
+	  evaluated with ProB in 2590 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((b2) |-> (b1)))) = (1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_26 IS 
+
+
+	 /* Expression from (AssertionLemmas_26), it was added  in Tue Sep 15 16:12:21 BRT 2015
+	  evaluated with ProB in 2542 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (0)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((b2) |-> (b1)))) = (0))
+END
+
+&
+THEORY RulesProBAssertionLemmas_27 IS 
+
+
+	 /* Expression from (AssertionLemmas_27), it was added  in Tue Sep 15 16:12:24 BRT 2015
+	  evaluated with ProB in 2503 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (0)))) = (1)) & 
+"Assertion is verified"
+ => 
+((b1) = (1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_28 IS 
+
+
+	 /* Expression from (AssertionLemmas_28), it was added  in Tue Sep 15 16:12:28 BRT 2015
+	  evaluated with ProB in 2511 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (0)))) = (0)) & 
+"Assertion is verified"
+ => 
+((b1) = (0))
+END
+
+&
+THEORY RulesProBAssertionLemmas_29 IS 
+
+
+	 /* Expression from (AssertionLemmas_29), it was added  in Tue Sep 15 16:12:31 BRT 2015
+	  evaluated with ProB in 2608 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((b1) |-> ((bit_or )(((b2) |-> (b3))))))) = ((bit_or )((((bit_or )(((b1) |-> (b2)))) |-> (b3)))))
+END
+
+&
+THEORY RulesProBAssertionLemmas_30 IS 
+
+
+	 /* Expression from (AssertionLemmas_30), it was added  in Tue Sep 15 16:12:35 BRT 2015
+	  evaluated with ProB in 2532 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((b1) |-> ((bit_or )(((b2) |-> (b3))))))) = (1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_31 IS 
+
+
+	 /* Expression from (AssertionLemmas_31), it was added  in Tue Sep 15 16:12:39 BRT 2015
+	  evaluated with ProB in 2585 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((b1) |-> ((bit_or )(((b2) |-> (b3))))))) = ((bit_or )(((1) |-> (b3)))))
+END
+
+&
+THEORY RulesProBAssertionLemmas_32 IS 
+
+
+	 /* Expression from (AssertionLemmas_32), it was added  in Tue Sep 15 16:12:42 BRT 2015
+	  evaluated with ProB in 2499 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((b1) |-> (1)))) = (1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_33 IS 
+
+
+	 /* Expression from (AssertionLemmas_33), it was added  in Tue Sep 15 16:12:46 BRT 2015
+	  evaluated with ProB in 2503 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((b1) |-> (0)))) = (b1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_34 IS 
+
+
+	 /* Expression from (AssertionLemmas_34), it was added  in Tue Sep 15 16:12:49 BRT 2015
+	  evaluated with ProB in 2510 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((1) |-> (b1)))) = (1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_35 IS 
+
+
+	 /* Expression from (AssertionLemmas_35), it was added  in Tue Sep 15 16:12:53 BRT 2015
+	  evaluated with ProB in 2526 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_or )(((0) |-> (b1)))) = (b1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_42 IS 
+
+
+	 /* Expression from (AssertionLemmas_42), it was added  in Tue Sep 15 16:12:56 BRT 2015
+	  evaluated with ProB in 2540 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_xor )(((b1) |-> (b2)))) = ((bit_xor )(((b2) |-> (b1)))))
+END
+
+&
+THEORY RulesProBAssertionLemmas_43 IS 
+
+
+	 /* Expression from (AssertionLemmas_43), it was added  in Tue Sep 15 16:13:00 BRT 2015
+	  evaluated with ProB in 2455 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (1)) & 
+"Assertion is verified"
+ => 
+(((bit_xor )(((b2) |-> (b1)))) = (1))
+END
+
+&
+THEORY RulesProBAssertionLemmas_44 IS 
+
+
+	 /* Expression from (AssertionLemmas_44), it was added  in Tue Sep 15 16:13:03 BRT 2015
+	  evaluated with ProB in 2507 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (0)) & 
+"Assertion is verified"
+ => 
+(((bit_xor )(((b2) |-> (b1)))) = (0))
+END
+
+&
+THEORY RulesProBAssertionLemmas_45 IS 
+
+
+	 /* Expression from (AssertionLemmas_45), it was added  in Tue Sep 15 16:13:07 BRT 2015
+	  evaluated with ProB in 2593 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_xor )(((b1) |-> ((bit_xor )(((b2) |-> (b3))))))) = ((bit_xor )((((bit_xor )(((b1) |-> (b2)))) |-> (b3)))))
+END
+
+&
+THEORY RulesProBAssertionLemmas_46 IS 
+
+
+	 /* Expression from (AssertionLemmas_46), it was added  in Tue Sep 15 16:13:11 BRT 2015
+	  evaluated with ProB in 2549 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (1)) & 
+"Assertion is verified"
+ => 
+(((bit_xor )(((b1) |-> ((bit_xor )(((b2) |-> (b3))))))) = ((bit_xor )(((1) |-> (b3)))))
+END
+
+&
+THEORY RulesProBAssertionLemmas_47 IS 
+
+
+	 /* Expression from (AssertionLemmas_47), it was added  in Tue Sep 15 16:13:14 BRT 2015
+	  evaluated with ProB in 2499 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((bb) : (BIT)) & 
+"Assertion is verified"
+ => 
+(((bit_xor )(((bb) |-> (bb)))) = (0))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_11 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_11), it was added  in Tue Sep 15 16:13:18 BRT 2015
+	  evaluated with ProB in 2488 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((ran(bit_and)) = (BIT)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_13 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_13), it was added  in Tue Sep 15 16:13:21 BRT 2015
+	  evaluated with ProB in 2491 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((0) |-> (0)))) = (0)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_15 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_15), it was added  in Tue Sep 15 16:13:25 BRT 2015
+	  evaluated with ProB in 2488 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((0) |-> (1)))) = (0)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_17 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_17), it was added  in Tue Sep 15 16:13:28 BRT 2015
+	  evaluated with ProB in 2494 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((1) |-> (0)))) = (0)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_19 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_19), it was added  in Tue Sep 15 16:13:35 BRT 2015
+	  evaluated with ProB in 2498 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_22 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_22), it was added  in Tue Sep 15 16:13:46 BRT 2015
+	  evaluated with ProB in 2507 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_23 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_23), it was added  in Tue Sep 15 16:13:50 BRT 2015
+	  evaluated with ProB in 2510 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((((b2) |-> (b1))) : (dom(bit_and)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_24 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_24), it was added  in Tue Sep 15 16:13:53 BRT 2015
+	  evaluated with ProB in 2521 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_26 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_26), it was added  in Tue Sep 15 16:14:00 BRT 2015
+	  evaluated with ProB in 2509 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_27 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_27), it was added  in Tue Sep 15 16:14:04 BRT 2015
+	  evaluated with ProB in 2506 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((b1) |-> (b2)))) = (0)) & 
+"Well definedness"
+ => 
+((((b2) |-> (b1))) : (dom(bit_and)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_28 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_28), it was added  in Tue Sep 15 16:14:07 BRT 2015
+	  evaluated with ProB in 2524 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_and )(((b1) |-> (b2)))) = (0)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_30 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_30), it was added  in Tue Sep 15 16:14:15 BRT 2015
+	  evaluated with ProB in 2513 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_33 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_33), it was added  in Tue Sep 15 16:14:26 BRT 2015
+	  evaluated with ProB in 2594 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+(((((bit_and )(((b1) |-> (b2)))) |-> (b3))) : (dom(bit_and)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_35 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_35), it was added  in Tue Sep 15 16:14:29 BRT 2015
+	  evaluated with ProB in 2535 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_37 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_37), it was added  in Tue Sep 15 16:14:33 BRT 2015
+	  evaluated with ProB in 2547 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_and) : (((dom(bit_and)) +-> (ran(bit_and)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_39 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_39), it was added  in Tue Sep 15 16:14:36 BRT 2015
+	  evaluated with ProB in 2489 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((ran(bit_or)) = (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_41 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_41), it was added  in Tue Sep 15 16:14:40 BRT 2015
+	  evaluated with ProB in 2473 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((0) |-> (0)))) = (0)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_43 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_43), it was added  in Tue Sep 15 16:14:43 BRT 2015
+	  evaluated with ProB in 2467 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((0) |-> (1)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_45 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_45), it was added  in Tue Sep 15 16:14:47 BRT 2015
+	  evaluated with ProB in 2484 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((1) |-> (0)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_47 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_47), it was added  in Tue Sep 15 16:14:54 BRT 2015
+	  evaluated with ProB in 2509 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_50 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_50), it was added  in Tue Sep 15 16:15:05 BRT 2015
+	  evaluated with ProB in 2509 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_51 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_51), it was added  in Tue Sep 15 16:15:08 BRT 2015
+	  evaluated with ProB in 2501 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((((b2) |-> (b1))) : (dom(bit_or)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_52 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_52), it was added  in Tue Sep 15 16:15:12 BRT 2015
+	  evaluated with ProB in 2497 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_54 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_54), it was added  in Tue Sep 15 16:15:19 BRT 2015
+	  evaluated with ProB in 2503 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_55 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_55), it was added  in Tue Sep 15 16:15:22 BRT 2015
+	  evaluated with ProB in 2498 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (0)) & 
+"Well definedness"
+ => 
+((((b2) |-> (b1))) : (dom(bit_or)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_56 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_56), it was added  in Tue Sep 15 16:15:26 BRT 2015
+	  evaluated with ProB in 2498 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (0)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_58 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_58), it was added  in Tue Sep 15 16:15:30 BRT 2015
+	  evaluated with ProB in 2490 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_60 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_60), it was added  in Tue Sep 15 16:15:33 BRT 2015
+	  evaluated with ProB in 2508 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_62 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_62), it was added  in Tue Sep 15 16:15:40 BRT 2015
+	  evaluated with ProB in 2503 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_65 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_65), it was added  in Tue Sep 15 16:15:51 BRT 2015
+	  evaluated with ProB in 2599 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+(((((bit_or )(((b1) |-> (b2)))) |-> (b3))) : (dom(bit_or)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_67 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_67), it was added  in Tue Sep 15 16:15:58 BRT 2015
+	  evaluated with ProB in 2527 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_69 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_69), it was added  in Tue Sep 15 16:16:05 BRT 2015
+	  evaluated with ProB in 2557 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_70 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_70), it was added  in Tue Sep 15 16:16:09 BRT 2015
+	  evaluated with ProB in 2559 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((((b1) |-> ((bit_or )(((b2) |-> (b3)))))) : (dom(bit_or)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_72 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_72), it was added  in Tue Sep 15 16:16:16 BRT 2015
+	  evaluated with ProB in 2510 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_74 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_74), it was added  in Tue Sep 15 16:16:23 BRT 2015
+	  evaluated with ProB in 2520 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_75 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_75), it was added  in Tue Sep 15 16:16:27 BRT 2015
+	  evaluated with ProB in 2560 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_or )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((((b1) |-> ((bit_or )(((b2) |-> (b3)))))) : (dom(bit_or)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_78 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_78), it was added  in Tue Sep 15 16:16:31 BRT 2015
+	  evaluated with ProB in 2507 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_80 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_80), it was added  in Tue Sep 15 16:16:34 BRT 2015
+	  evaluated with ProB in 2512 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_82 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_82), it was added  in Tue Sep 15 16:16:38 BRT 2015
+	  evaluated with ProB in 2524 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_84 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_84), it was added  in Tue Sep 15 16:16:41 BRT 2015
+	  evaluated with ProB in 2506 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b1) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_or) : (((dom(bit_or)) +-> (ran(bit_or)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_86 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_86), it was added  in Tue Sep 15 16:16:45 BRT 2015
+	  evaluated with ProB in 2489 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((ran(bit_xor)) = (BIT)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_88 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_88), it was added  in Tue Sep 15 16:16:48 BRT 2015
+	  evaluated with ProB in 2509 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((0) |-> (0)))) = (0)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_90 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_90), it was added  in Tue Sep 15 16:16:52 BRT 2015
+	  evaluated with ProB in 2477 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((0) |-> (1)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_92 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_92), it was added  in Tue Sep 15 16:16:55 BRT 2015
+	  evaluated with ProB in 2479 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((1) |-> (0)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_94 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_94), it was added  in Tue Sep 15 16:17:03 BRT 2015
+	  evaluated with ProB in 2530 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_97 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_97), it was added  in Tue Sep 15 16:17:13 BRT 2015
+	  evaluated with ProB in 2498 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_98 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_98), it was added  in Tue Sep 15 16:17:17 BRT 2015
+	  evaluated with ProB in 2528 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((((b2) |-> (b1))) : (dom(bit_xor)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_99 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_99), it was added  in Tue Sep 15 16:17:20 BRT 2015
+	  evaluated with ProB in 2470 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_101 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_101), it was added  in Tue Sep 15 16:17:27 BRT 2015
+	  evaluated with ProB in 2517 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b2) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_102 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_102), it was added  in Tue Sep 15 16:17:31 BRT 2015
+	  evaluated with ProB in 2547 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (0)) & 
+"Well definedness"
+ => 
+((((b2) |-> (b1))) : (dom(bit_xor)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_103 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_103), it was added  in Tue Sep 15 16:17:35 BRT 2015
+	  evaluated with ProB in 2518 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (0)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_105 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_105), it was added  in Tue Sep 15 16:17:42 BRT 2015
+	  evaluated with ProB in 2458 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_108 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_108), it was added  in Tue Sep 15 16:17:52 BRT 2015
+	  evaluated with ProB in 2540 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+(((((bit_xor )(((b1) |-> (b2)))) |-> (b3))) : (dom(bit_xor)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_110 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_110), it was added  in Tue Sep 15 16:18:00 BRT 2015
+	  evaluated with ProB in 2459 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((b3) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_112 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_112), it was added  in Tue Sep 15 16:18:07 BRT 2015
+	  evaluated with ProB in 2478 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_113 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_113), it was added  in Tue Sep 15 16:18:10 BRT 2015
+	  evaluated with ProB in 2561 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+(((bit_xor )(((b1) |-> (b2)))) = (1)) & 
+"Well definedness"
+ => 
+((((b1) |-> ((bit_xor )(((b2) |-> (b3)))))) : (dom(bit_xor)))
+END
+
+&
+THEORY RulesProBWellDefinednessAssertions_116 IS 
+
+
+	 /* Expression from (WellDefinednessAssertions_116), it was added  in Tue Sep 15 16:18:14 BRT 2015
+	  evaluated with ProB in 2450 milliseconds
+	  Module Path:/Users/valerio/Dropbox/B_Resources/Z80_ProBTese/BIT_DEFINITION.mch */
+
+	 
+((bb) : (BIT)) & 
+"Well definedness"
+ => 
+((bit_xor) : (((dom(bit_xor)) +-> (ran(bit_xor)))))
+END

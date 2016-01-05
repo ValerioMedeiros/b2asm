@@ -1,0 +1,742 @@
+<Proof_Obligations><Define name="B definitions"><Nary_Predicate operator="&amp;"><Expression_Comparison operator="="><Identifier value="NAT"/><Binary_Expression operator=".."><Integer_Literal value="0"/><Identifier value="MAXINT"/></Binary_Expression></Expression_Comparison><Expression_Comparison operator="="><Identifier value="INT"/><Binary_Expression operator=".."><Identifier value="MININT"/><Identifier value="MAXINT"/></Binary_Expression></Expression_Comparison></Nary_Predicate></Define><Define name="cst Contraintes des parametres du composant"/><Define name="lprp Proprietes des constantes du composant"><Nary_Predicate operator="&amp;">
+   <Expression_Comparison operator="=">
+    <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:1" value="func">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+    </Identifier>
+    <Quantified_Expression type="%">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+     <Variables>
+      <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:1:1" value="elem">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Identifier>
+     </Variables>
+     <Predicate>
+      <Expression_Comparison operator=":">
+       <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:1" value="elem">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Identifier>
+       <Binary_Expression operator="..">
+        <Attributes>
+         <TypeInfo>
+          <Unary_Expression operator="POW">
+           <Identifier value="INTEGER"/>
+          </Unary_Expression>
+         </TypeInfo>
+        </Attributes>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:2:1" value="0">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:2:2" value="1">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+       </Binary_Expression>
+      </Expression_Comparison>
+     </Predicate>
+     <Body>
+      <Binary_Expression operator="+">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+       <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:3:1:1" value="elem">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Identifier>
+       <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:3:1:2" value="1">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Integer_Literal>
+      </Binary_Expression>
+     </Body>
+    </Quantified_Expression>
+   </Expression_Comparison>
+   <Expression_Comparison operator="=">
+    <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:1" value="func_inv">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+    </Identifier>
+    <Quantified_Expression type="%">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+     <Variables>
+      <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:1:1" value="elem">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Identifier>
+     </Variables>
+     <Predicate>
+      <Expression_Comparison operator=":">
+       <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:2:1:1" value="elem">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Identifier>
+       <Binary_Expression operator="..">
+        <Attributes>
+         <TypeInfo>
+          <Unary_Expression operator="POW">
+           <Identifier value="INTEGER"/>
+          </Unary_Expression>
+         </TypeInfo>
+        </Attributes>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:2:1:2:1" value="0">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:2:1:2:2" value="1">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+       </Binary_Expression>
+      </Expression_Comparison>
+     </Predicate>
+     <Body>
+      <Binary_Expression operator="-">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+       <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:3:1:1" value="elem">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Identifier>
+       <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:3:1:2" value="1">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Integer_Literal>
+      </Binary_Expression>
+     </Body>
+    </Quantified_Expression>
+   </Expression_Comparison>
+  </Nary_Predicate></Define><Define name="ctx Proprietes des constantes des composants vus"/><Define name="iprp Proprietes des constantes des composants inclus"/><Define name="ext Invariants et assertions des composants inclus"/><Define name="ext Invariants et assertions des composants vus"/><Define name="inv Invariant de la machine"/><Define name="ass Assertion de la machine"><Nary_Predicate operator="&amp;">
+   <Expression_Comparison operator=":">
+    <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:1" value="func">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+    </Identifier>
+    <Binary_Expression operator="--&gt;">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Unary_Expression operator="POW">
+         <Binary_Expression operator="*">
+          <Identifier value="INTEGER"/>
+          <Identifier value="INTEGER"/>
+         </Binary_Expression>
+        </Unary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:1:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:1:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:2:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:2:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+    </Binary_Expression>
+   </Expression_Comparison>
+   <Expression_Comparison operator=":">
+    <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:1" value="func_inv">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+    </Identifier>
+    <Binary_Expression operator="--&gt;">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Unary_Expression operator="POW">
+         <Binary_Expression operator="*">
+          <Identifier value="INTEGER"/>
+          <Identifier value="INTEGER"/>
+         </Binary_Expression>
+        </Unary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:2:1:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:2:1:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:2:2:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:2:2:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+    </Binary_Expression>
+   </Expression_Comparison>
+  </Nary_Predicate></Define><Proof_Obligation><Comment>Assertion dans une machine abstraite</Comment><Tag>AssertionLemmas</Tag><Definition name="B definitions"/><Definition name="ctx Proprietes des constantes des composants vus"/><Definition name="cst Contraintes des parametres du composant"/><Definition name="lprp Proprietes des constantes du composant"/><Definition name="iprp Proprietes des constantes des composants inclus"/><Definition name="ext Invariants et assertions des composants inclus"/><Definition name="ext Invariants et assertions des composants vus"/><Definition name="inv Invariant de la machine"/><Goal><Tag goalTag="Assertion is verified"><Nary_Predicate operator="&amp;">
+   <Expression_Comparison operator=":">
+    <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:1" value="func">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+    </Identifier>
+    <Binary_Expression operator="--&gt;">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Unary_Expression operator="POW">
+         <Binary_Expression operator="*">
+          <Identifier value="INTEGER"/>
+          <Identifier value="INTEGER"/>
+         </Binary_Expression>
+        </Unary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:1:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:1:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:2:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:2:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+    </Binary_Expression>
+   </Expression_Comparison>
+   <Expression_Comparison operator=":">
+    <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:1" value="func_inv">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+    </Identifier>
+    <Binary_Expression operator="--&gt;">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Unary_Expression operator="POW">
+         <Binary_Expression operator="*">
+          <Identifier value="INTEGER"/>
+          <Identifier value="INTEGER"/>
+         </Binary_Expression>
+        </Unary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:2:1:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:2:1:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:2:2:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:2:2:2:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+    </Binary_Expression>
+   </Expression_Comparison>
+  </Nary_Predicate></Tag></Goal></Proof_Obligation><Proof_Obligation><Comment>Initialisation dans une machine abstraite</Comment><Tag>Initialisation</Tag><Tag>Invariant</Tag><Definition name="B definitions"/><Definition name="ctx Proprietes des constantes des composants vus"/><Definition name="cst Contraintes des parametres du composant"/><Definition name="lprp Proprietes des constantes du composant"/><Definition name="iprp Proprietes des constantes des composants inclus"/><Definition name="ext Invariants et assertions des composants inclus"/><Definition name="ext Invariants et assertions des composants vus"/><Goal><Substitution_Calculus><Nary_Substitution operator=";"><Skip tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:3:1"/></Nary_Substitution><Binary_Predicate operator="=&gt;"><Nary_Predicate operator="&amp;"/><Tag goalTag="Invariant is preserved"><Nary_Predicate operator="&amp;"/></Tag></Binary_Predicate></Substitution_Calculus></Goal></Proof_Obligation><Proof_Obligation><Tag>WellDefinednessConstraints</Tag><Goal><Tag goalTag="Well definedness"><Nary_Predicate operator="&amp;"/></Tag></Goal></Proof_Obligation><Proof_Obligation><Tag>WellDefinednessProperties</Tag><Definition name="B definitions"/><Definition name="ctx Proprietes des constantes des composants vus"/><Definition name="cst Contraintes des parametres du composant"/><Hypothesis/><Goal><Tag goalTag="Well definedness"><Nary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Binary_Predicate operator="&amp;"><Quantified_Predicate type="!"><Variables>
+      <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:1:1" value="elem">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Identifier>
+     </Variables><Body><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Nary_Predicate operator="&amp;"/></Binary_Predicate></Binary_Predicate></Body></Quantified_Predicate><Quantified_Predicate type="!"><Variables>
+      <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:1:1" value="elem">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Identifier>
+     </Variables><Body><Binary_Predicate operator="=&gt;"><Expression_Comparison operator=":">
+       <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:1" value="elem">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Identifier>
+       <Binary_Expression operator="..">
+        <Attributes>
+         <TypeInfo>
+          <Unary_Expression operator="POW">
+           <Identifier value="INTEGER"/>
+          </Unary_Expression>
+         </TypeInfo>
+        </Attributes>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:2:1" value="0">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:2:2" value="1">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+       </Binary_Expression>
+      </Expression_Comparison><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Nary_Predicate operator="&amp;"/></Binary_Predicate></Binary_Predicate></Body></Quantified_Predicate></Binary_Predicate></Binary_Predicate><Binary_Predicate operator="=&gt;"><Expression_Comparison operator="=">
+    <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:1" value="func">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+    </Identifier>
+    <Quantified_Expression type="%">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+     <Variables>
+      <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:1:1" value="elem">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Identifier>
+     </Variables>
+     <Predicate>
+      <Expression_Comparison operator=":">
+       <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:1" value="elem">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Identifier>
+       <Binary_Expression operator="..">
+        <Attributes>
+         <TypeInfo>
+          <Unary_Expression operator="POW">
+           <Identifier value="INTEGER"/>
+          </Unary_Expression>
+         </TypeInfo>
+        </Attributes>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:2:1" value="0">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:2:1:2:2" value="1">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+       </Binary_Expression>
+      </Expression_Comparison>
+     </Predicate>
+     <Body>
+      <Binary_Expression operator="+">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+       <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:3:1:1" value="elem">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Identifier>
+       <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:1:2:3:1:2" value="1">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Integer_Literal>
+      </Binary_Expression>
+     </Body>
+    </Quantified_Expression>
+   </Expression_Comparison><Nary_Predicate operator="&amp;"><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Binary_Predicate operator="&amp;"><Quantified_Predicate type="!"><Variables>
+      <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:1:1" value="elem">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Identifier>
+     </Variables><Body><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Nary_Predicate operator="&amp;"/></Binary_Predicate></Binary_Predicate></Body></Quantified_Predicate><Quantified_Predicate type="!"><Variables>
+      <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:1:1" value="elem">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Identifier>
+     </Variables><Body><Binary_Predicate operator="=&gt;"><Expression_Comparison operator=":">
+       <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:2:1:1" value="elem">
+        <Attributes>
+         <TypeInfo>
+          <Identifier value="INTEGER"/>
+         </TypeInfo>
+        </Attributes>
+       </Identifier>
+       <Binary_Expression operator="..">
+        <Attributes>
+         <TypeInfo>
+          <Unary_Expression operator="POW">
+           <Identifier value="INTEGER"/>
+          </Unary_Expression>
+         </TypeInfo>
+        </Attributes>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:2:1:2:1" value="0">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+        <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:2:1:2:2:2:1:2:2" value="1">
+         <Attributes>
+          <TypeInfo>
+           <Identifier value="INTEGER"/>
+          </TypeInfo>
+         </Attributes>
+        </Integer_Literal>
+       </Binary_Expression>
+      </Expression_Comparison><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Nary_Predicate operator="&amp;"/></Binary_Predicate></Binary_Predicate></Body></Quantified_Predicate></Binary_Predicate></Binary_Predicate></Nary_Predicate></Binary_Predicate></Nary_Predicate></Nary_Predicate></Tag></Goal></Proof_Obligation><Proof_Obligation><Tag>WellDefinednessInvariant</Tag><Definition name="B definitions"/><Definition name="ctx Proprietes des constantes des composants vus"/><Definition name="cst Contraintes des parametres du composant"/><Definition name="lprp Proprietes des constantes du composant"/><Definition name="iprp Proprietes des constantes des composants inclus"/><Definition name="ext Invariants et assertions des composants inclus"/><Definition name="ext Invariants et assertions des composants vus"/><Goal><Tag goalTag="Well definedness"><Nary_Predicate operator="&amp;"/></Tag></Goal></Proof_Obligation><Proof_Obligation><Tag>WellDefinednessAssertions</Tag><Definition name="B definitions"/><Definition name="ctx Proprietes des constantes des composants vus"/><Definition name="cst Contraintes des parametres du composant"/><Definition name="lprp Proprietes des constantes du composant"/><Definition name="iprp Proprietes des constantes des composants inclus"/><Definition name="ext Invariants et assertions des composants inclus"/><Definition name="ext Invariants et assertions des composants vus"/><Definition name="inv Invariant de la machine"/><Goal><Tag goalTag="Well definedness"><Nary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Binary_Predicate operator="&amp;"><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Nary_Predicate operator="&amp;"/></Binary_Predicate><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Nary_Predicate operator="&amp;"/></Binary_Predicate></Binary_Predicate></Binary_Predicate><Binary_Predicate operator="=&gt;"><Expression_Comparison operator=":">
+    <Identifier tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:1" value="func">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Binary_Expression operator="*">
+         <Identifier value="INTEGER"/>
+         <Identifier value="INTEGER"/>
+        </Binary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+    </Identifier>
+    <Binary_Expression operator="--&gt;">
+     <Attributes>
+      <TypeInfo>
+       <Unary_Expression operator="POW">
+        <Unary_Expression operator="POW">
+         <Binary_Expression operator="*">
+          <Identifier value="INTEGER"/>
+          <Identifier value="INTEGER"/>
+         </Binary_Expression>
+        </Unary_Expression>
+       </Unary_Expression>
+      </TypeInfo>
+     </Attributes>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:1:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:1:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+     <Binary_Expression operator="..">
+      <Attributes>
+       <TypeInfo>
+        <Unary_Expression operator="POW">
+         <Identifier value="INTEGER"/>
+        </Unary_Expression>
+       </TypeInfo>
+      </Attributes>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:2:1" value="0">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+      <Integer_Literal tag="/media/B_Resources/Z80_ProB/bdp/Test_inv2.bxml:1:4:1:1:2:2:2" value="1">
+       <Attributes>
+        <TypeInfo>
+         <Identifier value="INTEGER"/>
+        </TypeInfo>
+       </Attributes>
+      </Integer_Literal>
+     </Binary_Expression>
+    </Binary_Expression>
+   </Expression_Comparison><Nary_Predicate operator="&amp;"><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Binary_Predicate operator="&amp;"><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Nary_Predicate operator="&amp;"/></Binary_Predicate><Binary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/><Nary_Predicate operator="&amp;"/></Binary_Predicate></Binary_Predicate></Binary_Predicate></Nary_Predicate></Binary_Predicate></Nary_Predicate></Nary_Predicate></Tag></Goal></Proof_Obligation><Proof_Obligation><Tag>WellDefinednessInitialisation</Tag><Definition name="B definitions"/><Definition name="ctx Proprietes des constantes des composants vus"/><Definition name="cst Contraintes des parametres du composant"/><Definition name="lprp Proprietes des constantes du composant"/><Definition name="iprp Proprietes des constantes des composants inclus"/><Definition name="ext Invariants et assertions des composants inclus"/><Definition name="ext Invariants et assertions des composants vus"/><Goal><Tag goalTag="Well definedness"><Nary_Predicate operator="&amp;"><Nary_Predicate operator="&amp;"/></Nary_Predicate></Tag></Goal></Proof_Obligation></Proof_Obligations>

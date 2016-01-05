@@ -1,0 +1,8 @@
+/* BIT_VECTOR_DEFINITION
+ * Author: 
+ * Creation date: 15/09/15
+ */
+
+THEORY todoT IS
+     btrue
+END
